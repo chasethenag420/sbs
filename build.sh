@@ -8,6 +8,7 @@ ant -version
 java -version
 
 export SBSHOME=${SBSHOME:-`pwd`}
+sdasdas
 cd $SBSHOME || exit
 
 if [ "$1" = "clean" ]; then
