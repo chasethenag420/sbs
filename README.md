@@ -17,6 +17,7 @@ Secure Banking System
 * Install jdk7
 * Install tomcat8
 * Install mysql5.5
+* Make sure to install Eclipse Java EE IDE for Web Developers.
 * Install maven  you can follow steps here MAVEN http://www.mkyong.com/maven/how-to-install-maven-in-windows/
 * Import the clone project into eclipse as maven project. auto deploy using http://www.beingjavaguys.com/2013/08/spring-maven-web-application-in-eclipse.html
 * Test using the url http:/localhost/index.jsp
