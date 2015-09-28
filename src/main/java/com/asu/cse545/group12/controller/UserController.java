@@ -1,9 +1,14 @@
 package com.asu.cse545.group12.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +22,7 @@ public class UserController {
 
  @Autowired
  UserService userService;
-
+ 
  @RequestMapping("form")
  public ModelAndView getForm(@ModelAttribute User user) {
   return new ModelAndView("form");
@@ -25,7 +30,7 @@ public class UserController {
 
  @RequestMapping("register")
  public ModelAndView registerUser(@ModelAttribute User user) {
-	 userService.insertRow(user);
+	// userService.insertRow(user);
   return new ModelAndView("form");
  }
 
