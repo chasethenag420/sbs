@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.type.CalendarDateType;
@@ -14,8 +15,9 @@ import org.hibernate.type.CalendarDateType;
 public class User {
 
 	@Id
-	@GeneratedValue
-	private int userid;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="USERID")
+	private int id;
 
 	@Column(name = "FIRSTNAME")
 	private String firstName;
@@ -59,29 +61,29 @@ public class User {
 		this.emailid = emailid;
 	}
 
-	public void setPhonenum(String phonenum) {
+	public void setPhonenum(int phonenum) {
 		this.phonenum = phonenum;
 	}
 
 	@Column(name = "PHONENUM")
-	private String phonenum;
+	private int phonenum;
 
-	public String getPhonenum() {
+	public int getPhonenum() {
 		return phonenum;
 	}
 
 
 
-	public int getUserid() {
-		return userid;
+	public int getId() {
+		return this.id;
 	}
 
-	public void setUserid(int userid) {
-		this.userid = userid;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return this.firstName;
 	}
 
 	public void setFirstName(String firstName) {

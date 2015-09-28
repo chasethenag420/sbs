@@ -16,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.asu.cse545.group12.domain.User;
 
 public class UserDaoImpl implements UserDao {
-
+	
+	@Autowired
 	SessionFactory sessionfactory;
+	
 	@Override
 	@Transactional
 	public int insertRow(User user) {

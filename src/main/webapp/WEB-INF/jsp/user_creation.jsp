@@ -16,10 +16,28 @@
   <form:form id="registerForm" modelAttribute="user" method="post"
    action="register">
    <table width="400px" height="150px">
+   <tr>
+     <td><form:label path="username">User Name</form:label>
+     </td>
+     <td><form:input path="username" />
+     </td>
+    </tr>
+    <tr>
+     <td><form:label path="password">Password</form:label>
+     </td>
+     <td><form:input type="password" path="password" />
+     </td>
+    </tr>
     <tr>
      <td><form:label path="firstName">First Name</form:label>
      </td>
      <td><form:input path="firstName" />
+     </td>
+    </tr>
+    <tr>
+     <td><form:label path="middleName">Middle Name</form:label>
+     </td>
+     <td><form:input path="middleName" />
      </td>
     </tr>
     <tr>
@@ -40,6 +58,25 @@
      <td><form:input path="phonenum" />
      </td>
     </tr> 
+    <tr>
+     <td><form:label path="gender">Gender</form:label>
+     </td>
+     <td><form:select path = "gender">
+   	     <form:option value="NONE" label="--- Select ---" />
+   	     <form:option value="Male" label="Male" />
+   	     <form:option value="Female" label="Female" />
+   	     </form:select> 
+     </td>
+    </tr>
+    <tr> 
+<%--     <tr>
+     <td><form:label path="roleid">Role</form:label>
+     </td>
+     <td><form:select path = "roleid">
+   	     <form:options items="${rolesList}"/>
+   	     </form:select> 
+     </td>
+    </tr> --%>
     <tr> 
      <td><input type="submit" value="Submit" /></td>
      <td><input type="button" value="Cancel" /></td>
