@@ -13,7 +13,7 @@
   <div style="color: teal; font-size: 30px">Secure Bank System | User
    Details</div>
 
-  <c:if test="${!empty employeeList}">
+  <c:if test="${!empty userList}">
    <table border="1" bgcolor="black" width="600px">
     <tr
      style="background-color: teal; color: white; text-align: center;"
@@ -26,7 +26,7 @@
      <td>Edit</td>
      <td>Delete</td>
     </tr>
-    <c:forEach items="${employeeList}" var="user">
+    <c:forEach items="${userList}" var="user">
      <tr
       style="background-color: white; color: black; text-align: center;"
       height="30px">

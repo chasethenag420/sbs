@@ -13,11 +13,8 @@
 
   <div style="color: teal; font-size: 30px">Secure Bank System |
    Registration Form</div>
-
-
-
   <c:url var="userRegistration" value="saveUser.html" />
-  <form:form id="registerForm" modelAttribute="employee" method="post"
+  <form:form id="registerForm" modelAttribute="user" method="post"
    action="register">
    <table width="400px" height="150px">
     <tr>
@@ -50,9 +47,6 @@
     </tr>
    </table>
   </form:form>
-
-
-  <a href="list">Click Here to see User List</a>
  </center>
 </body>
 </html>

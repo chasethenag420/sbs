@@ -9,49 +9,49 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.asu.cse545.group12.domain.Employee;
+import com.asu.cse545.group12.domain.User;
 
-public class DataDaoImpl implements DataDao {
+public class UserDaoImpl implements UserDao {
 
 	@Autowired
 	SessionFactory sessionFactory;
 
 	@Override
 	@Transactional
-	public int insertRow(Employee employee) {
+	public int insertRow(User user) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.saveOrUpdate(employee);
+		session.saveOrUpdate(user);
 		tx.commit();
-		Serializable id = session.getIdentifier(employee);
+		Serializable id = session.getIdentifier(user);
 		session.close();
 		return (Integer) id;
 	}
 
 	@Override
-	public List<Employee> getList() {
+	public List<User> getList() {
 		Session session = sessionFactory.openSession();
 		@SuppressWarnings("unchecked")
-		List<Employee> employeeList = session.createQuery("from Employee")
+		List<User> employeeList = session.createQuery("from User")
 		.list();
 		session.close();
 		return employeeList;
 	}
 
 	@Override
-	public Employee getRowById(int id) {
+	public User getRowById(int id) {
 		Session session = sessionFactory.openSession();
-		Employee employee = (Employee) session.load(Employee.class, id);
-		return employee;
+		User user = (User) session.load(User.class, id);
+		return user;
 	}
 
 	@Override
-	public int updateRow(Employee employee) {
+	public int updateRow(User user) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.saveOrUpdate(employee);
+		session.saveOrUpdate(user);
 		tx.commit();
-		Serializable id = session.getIdentifier(employee);
+		Serializable id = session.getIdentifier(user);
 		session.close();
 		return (Integer) id;
 	}
@@ -60,10 +60,10 @@ public class DataDaoImpl implements DataDao {
 	public int deleteRow(int id) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		Employee employee = (Employee) session.load(Employee.class, id);
-		session.delete(employee);
+		User user = (User) session.load(User.class, id);
+		session.delete(user);
 		tx.commit();
-		Serializable ids = session.getIdentifier(employee);
+		Serializable ids = session.getIdentifier(user);
 		session.close();
 		return (Integer) ids;
 	}
