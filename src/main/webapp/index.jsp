@@ -1,1 +1,1 @@
-<%response.sendRedirect("form");%>
+<%response.sendRedirect("user_creation");%>
