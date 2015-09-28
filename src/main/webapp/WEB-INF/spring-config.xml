@@ -24,7 +24,7 @@
   <property name="dataSource" ref="dataSource" />
   <property name="annotatedClasses">  
             <list>  
-                <value>com.asu.cse545.group12.domain.Employee</value>  
+                <value>com.asu.cse545.group12.domain.User</value>  
             </list>  
         </property> 
   <property name="hibernateProperties">
@@ -54,7 +54,7 @@
  </bean>
 
 
- <bean id="dataDaoImpl" class="com.asu.cse545.group12.dao.DataDaoImpl" />
- <bean id="dataServiceImpl" class="com.asu.cse545.group12.services.DataServiceImpl" />
+ <bean id="userDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
+ <bean id="userServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
 
 </beans>
