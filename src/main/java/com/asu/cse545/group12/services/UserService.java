@@ -7,12 +7,12 @@ import com.asu.cse545.group12.domain.User;
 public interface UserService {
 	public int insertRow(User user);
 
-	public List<User> getList();
+/*	public List<User> getList();
 
 	public User getRowById(int id);
 
 	public int updateRow(User user);
 
-	public int deleteRow(int id);
+	public int deleteRow(int id);*/
 
 }

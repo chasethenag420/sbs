@@ -13,7 +13,6 @@
 
   <div style="color: teal; font-size: 30px">Secure Bank System |
    Registration Form</div>
-  <c:url var="userRegistration" value="saveUser.html" />
   <form:form id="registerForm" modelAttribute="user" method="post"
    action="register">
    <table width="400px" height="150px">
@@ -30,20 +29,20 @@
      </td>
     </tr>
     <tr>
-     <td><form:label path="email">Email</form:label>
+     <td><form:label path="emailid">Email ID</form:label>
      </td>
-     <td><form:input path="email" />
-     </td>
-    </tr>
-    <tr>
-     <td><form:label path="phone">Phone</form:label>
-     </td>
-     <td><form:input path="phone" />
+     <td><form:input path="emailid" />
      </td>
     </tr>
     <tr>
-     <td></td>
-     <td><input type="submit" value="Register" /></td>
+     <td><form:label path="phonenum">Phone Number</form:label>
+     </td>
+     <td><form:input path="phonenum" />
+     </td>
+    </tr> 
+    <tr> 
+     <td><input type="submit" value="Submit" /></td>
+     <td><input type="button" value="Cancel" /></td>
     </tr>
    </table>
   </form:form>

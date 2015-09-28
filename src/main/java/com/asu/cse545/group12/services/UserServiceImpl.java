@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
   return userDao.insertRow(user);
  }
 
- @Override
+/* @Override
  public List<User> getList() {
   return userDao.getList();
  }
@@ -37,6 +37,6 @@ public class UserServiceImpl implements UserService {
  public int deleteRow(int id) {
   return userDao.deleteRow(id);
  }
-
+*/
 }
 
