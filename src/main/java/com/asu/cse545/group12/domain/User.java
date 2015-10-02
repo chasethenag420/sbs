@@ -61,14 +61,14 @@ public class User {
 		this.emailid = emailid;
 	}
 
-	public void setPhonenum(int phonenum) {
+	public void setPhonenum(String phonenum) {
 		this.phonenum = phonenum;
 	}
 
 	@Column(name = "PHONENUM")
-	private int phonenum;
+	private String phonenum;
 
-	public int getPhonenum() {
+	public String getPhonenum() {
 		return phonenum;
 	}
 
