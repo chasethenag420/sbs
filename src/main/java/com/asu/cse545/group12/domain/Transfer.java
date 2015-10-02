@@ -11,49 +11,54 @@ public class Transfer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="TRANSFERID")
-	private int transferid;
+	private int transferId;
 
 	@Column(name = "TRANSACTION_STATUS")
-	private String transaction_status;
+	private String transactionStatus;
 	
 	@Column(name = "USER_TO_TRANSACTIONID")
-	private int user_to_transactionid;
+	private int userToTransactionid;
 	
 	@Column(name = "USER_FROM_TRANSACTIONID")
-	private int user_from_transactionid;
+	private int userFromTransactionid;
 
 	public int getTransferid() {
-		return transferid;
+		return transferId;
 	}
 
-	public void setTransferid(int transferid) {
-		this.transferid = transferid;
+	public int getTransferId() {
+		return transferId;
 	}
 
-	public String getTransaction_status() {
-		return transaction_status;
+	public void setTransferId(int transferId) {
+		this.transferId = transferId;
 	}
 
-	public void setTransaction_status(String transaction_status) {
-		this.transaction_status = transaction_status;
+	public String getTransactionStatus() {
+		return transactionStatus;
 	}
 
-	public int getUser_to_transactionid() {
-		return user_to_transactionid;
+	public void setTransactionStatus(String transactionStatus) {
+		this.transactionStatus = transactionStatus;
 	}
 
-	public void setUser_to_transactionid(int user_to_transactionid) {
-		this.user_to_transactionid = user_to_transactionid;
+	public int getUserToTransactionid() {
+		return userToTransactionid;
 	}
 
-	public int getUser_from_transactionid() {
-		return user_from_transactionid;
+	public void setUserToTransactionid(int userToTransactionid) {
+		this.userToTransactionid = userToTransactionid;
 	}
 
-	public void setUser_from_transactionid(int user_from_transactionid) {
-		this.user_from_transactionid = user_from_transactionid;
+	public int getUserFromTransactionid() {
+		return userFromTransactionid;
 	}
 
+	public void setUserFromTransactionid(int userFromTransactionid) {
+		this.userFromTransactionid = userFromTransactionid;
+	}
+
+	
 }
 
 

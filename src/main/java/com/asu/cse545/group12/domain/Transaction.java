@@ -12,127 +12,135 @@ public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="TRANSACTIONID")
-	private int id;
+	private int transactionId;
 
 	@Column(name = "USERID")
-	private int  userid;
+	private int  userId;
 	
 	@Column(name = "TRANSACTION_STATUS")
-	private String transaction_status;
+	private String transactionStatus;
 	
 	
 	@Column(name = "CREATION_TIMESTAMP")
-	private Date creation_timestamp;
+	private Date creationTimestamp;
 	
 	@Column(name = "TRANSACTION_TYPE")
-	private String transaction_type;
+	private String transactionType;
 	
 	@Column(name = "MODIFIED_BY_USERID")
-	private int modified_by_userid;
+	private int modifiedByUserid;
 	
 	
 	@Column(name = "MODIFIED_TIMESTAMP")
-	private Date modified_timestamp;
+	private Date modifiedTimestamp;
 	
 	@Column(name = "AMOUNT")
 	private int amount;
 	
 	@Column(name = "TRANSFER_ID")
-	private int transferid;
+	private int transferId;
 	
 	@Column(name = "TRANSACTION_KIND")
-	private String transaction_kind;
+	private String transactionKind;
 	
 	@Column(name = "ACCOUNTNUM")
-	private int accountnum;
+	private int accountNum;
 
 	public int getId() {
-		return id;
+		return transactionId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.transactionId = id;
 	}
 
-	public int getUserid() {
-		return userid;
+	
+	public int getTransactionId() {
+		return transactionId;
 	}
 
-	public void setUserid(int userid) {
-		this.userid = userid;
+	public void setTransactionId(int transactionId) {
+		this.transactionId = transactionId;
 	}
 
-	public String getTransaction_status() {
-		return transaction_status;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setTransaction_status(String transaction_status) {
-		this.transaction_status = transaction_status;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public Date getCreation_timestamp() {
-		return creation_timestamp;
+	public String getTransactionStatus() {
+		return transactionStatus;
 	}
 
-	public void setCreation_timestamp(Date creation_timestamp) {
-		this.creation_timestamp = creation_timestamp;
+	public void setTransactionStatus(String transactionStatus) {
+		this.transactionStatus = transactionStatus;
 	}
 
-	public String getTransaction_type() {
-		return transaction_type;
+	public Date getCreationTimestamp() {
+		return creationTimestamp;
 	}
 
-	public void setTransaction_type(String transaction_type) {
-		this.transaction_type = transaction_type;
+	public void setCreationTimestamp(Date creationTimestamp) {
+		this.creationTimestamp = creationTimestamp;
 	}
 
-	public int getModified_by_userid() {
-		return modified_by_userid;
+	public String getTransactionType() {
+		return transactionType;
 	}
 
-	public void setModified_by_userid(int modified_by_userid) {
-		this.modified_by_userid = modified_by_userid;
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
 	}
 
-	public Date getModified_timestamp() {
-		return modified_timestamp;
+	public int getModifiedByUserid() {
+		return modifiedByUserid;
 	}
 
-	public void setModified_timestamp(Date modified_timestamp) {
-		this.modified_timestamp = modified_timestamp;
+	public void setModifiedByUserid(int modifiedByUserid) {
+		this.modifiedByUserid = modifiedByUserid;
 	}
 
-	public int getAmount() {
-		return amount;
+	public Date getModifiedTimestamp() {
+		return modifiedTimestamp;
 	}
+
+	public void setModifiedTimestamp(Date modifiedTimestamp) {
+		this.modifiedTimestamp = modifiedTimestamp;
+	}
+
+	public int getTransferId() {
+		return transferId;
+	}
+
+	public void setTransferId(int transferId) {
+		this.transferId = transferId;
+	}
+
+	public String getTransactionKind() {
+		return transactionKind;
+	}
+
+	public void setTransactionKind(String transactionKind) {
+		this.transactionKind = transactionKind;
+	}
+
+	public int getAccountNum() {
+		return accountNum;
+	}
+
+	public void setAccountNum(int accountNum) {
+		this.accountNum = accountNum;
+	}
+
+	
 
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 
-	public int getTransferid() {
-		return transferid;
-	}
-
-	public void setTransferid(int transferid) {
-		this.transferid = transferid;
-	}
-
-	public String getTransaction_kind() {
-		return transaction_kind;
-	}
-
-	public void setTransaction_kind(String transaction_kind) {
-		this.transaction_kind = transaction_kind;
-	}
-
-	public int getAccountnum() {
-		return accountnum;
-	}
-
-	public void setAccountnum(int accountnum) {
-		this.accountnum = accountnum;
-	}
 	
 	
 	
