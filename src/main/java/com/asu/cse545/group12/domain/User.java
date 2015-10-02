@@ -1,6 +1,5 @@
 package com.asu.cse545.group12.domain;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.hibernate.type.CalendarDateType;
 
 @Entity
 public class User {
@@ -17,8 +15,8 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="USERID")
-	private int id;
-
+	private int userId;
+	
 	@Column(name = "FIRSTNAME")
 	private String firstName;
 
@@ -33,57 +31,39 @@ public class User {
 	private String gender;
 
 	@Column(name = "USERNAME")
-	private String username;
+	private String userName;
 
 	@Column(name = "PASSWORD")
 	private String password;
 
 	@Column(name = "ROLEID")
-	private int roleid;
+	private int roleId;
 
 	@Column(name = "USERSTATUS")
-	private String userstatus;
+	private String userStatus;
 
 	@Column(name = "REGISTRATION_DATE")
 
-	private Date registrationdate;
+	private Date registrationDate;
 
 
 	@Column(name = "EMAILID")
-	private String emailid;
+	private String emailId;
 
+	@Column(name = "LAST_MODIFIED_DATE")
+	private Date lastModifiedDate;
+	
 
-	public String getEmailid() {
-		return emailid;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setEmailid(String emailid) {
-		this.emailid = emailid;
-	}
-
-	public void setPhonenum(int phonenum) {
-		this.phonenum = phonenum;
-	}
-
-	@Column(name = "PHONENUM")
-	private int phonenum;
-
-	public int getPhonenum() {
-		return phonenum;
-	}
-
-
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
-		return this.firstName;
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -114,12 +94,12 @@ public class User {
 		this.gender = gender;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -130,41 +110,45 @@ public class User {
 		this.password = password;
 	}
 
-	public Integer getRoleid() {
-		return roleid;
+	public int getRoleId() {
+		return roleId;
 	}
 
-	public void setRoleid(Integer roleid) {
-		this.roleid = roleid;
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 
-	public String getUserstatus() {
-		return userstatus;
+	public String getUserStatus() {
+		return userStatus;
 	}
 
-	public void setUserstatus(String userstatus) {
-		this.userstatus = userstatus;
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
 	}
 
-	public Date getRegistrationdate() {
-		return registrationdate;
+	public Date getRegistrationDate() {
+		return registrationDate;
 	}
 
-	public void setRegistrationdate(Date registrationdate) {
-		this.registrationdate = registrationdate;
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
 	}
 
-	public Date getLastmodifieddate() {
-		return lastmodifieddate;
+	public String getEmailId() {
+		return emailId;
 	}
 
-	public void setLastmodifieddate(Date lastmodifieddate) {
-		this.lastmodifieddate = lastmodifieddate;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 
-	@Column(name = "LAST_MODIFIED_DATE")
-	private Date lastmodifieddate;
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
 
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
 
 }
 
