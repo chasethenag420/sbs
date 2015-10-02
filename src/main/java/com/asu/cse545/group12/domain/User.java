@@ -48,7 +48,32 @@ public class User {
 
 
 	@Column(name = "EMAILID")
+<<<<<<< HEAD
 	private String emailId;
+=======
+	private String emailid;
+
+
+	public String getEmailid() {
+		return emailid;
+	}
+
+	public void setEmailid(String emailid) {
+		this.emailid = emailid;
+	}
+
+	public void setPhonenum(String phonenum) {
+		this.phonenum = phonenum;
+	}
+
+	@Column(name = "PHONENUM")
+	private String phonenum;
+
+	public String getPhonenum() {
+		return phonenum;
+	}
+
+>>>>>>> 723e04102d491b66ecc5ab96e8b210431b9b0711
 
 	@Column(name = "LAST_MODIFIED_DATE")
 	private Date lastModifiedDate;

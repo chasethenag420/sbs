@@ -5,11 +5,11 @@ Secure Banking System
 * Do not add anything to master branch directly.
 * Create your own branch and use that for your tasks any when you feel good to go to master create a pull request
 * To start working with this repo do a clone into the directory you want using `git clone https://github.com/chasethenag420/sbs.git`
-* To Create branch you can do something like `git checkout -b nag-develop`
+* To Create branch you can do something like `git checkout -b YOUR_BRANCH_NAME`
 * To add files to repo `git add --all` to push all the modifed files else specify the file name
 * To commit the files to repo use `git commit` and fill the description about what this commit is for be as clear as possible
-* To Push the code to your branch you can use `git push origin nag-develop`
-* To pull latest code to your branch you can use `git pull origin nag-develop`
+* To Push the code to your branch you can use `git push origin YOUR_BRANCH_NAME`
+* To pull latest code to your branch you can use `git pull origin YOUR_BRANCH_NAME`
 * Do pull request to master branch but do not merge on your own others will review and merge it.
 
 ## Installtion Instructions
