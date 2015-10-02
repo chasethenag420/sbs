@@ -15,17 +15,17 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="USERID")
-	private int userId;
-	
+	private int userId;	
+
 	@Column(name = "FIRSTNAME")
 	private String firstName;
-
-	@Column(name = "LASTNAME")
-	private String lastName;
-
+	
 	@Column(name = "MIDDLENAME")
 	private String middleName;
 
+	@Column(name = "LASTNAME")
+	private String lastName;
+	
 
 	@Column(name = "GENDER")
 	private String gender;
@@ -43,138 +43,145 @@ public class User {
 	private String userStatus;
 
 	@Column(name = "REGISTRATION_DATE")
-
 	private Date registrationDate;
-
-
-	@Column(name = "EMAILID")
-<<<<<<< HEAD
-	private String emailId;
-=======
-	private String emailid;
-
-
-	public String getEmailid() {
-		return emailid;
-	}
-
-	public void setEmailid(String emailid) {
-		this.emailid = emailid;
-	}
-
-	public void setPhonenum(String phonenum) {
-		this.phonenum = phonenum;
-	}
-
-	@Column(name = "PHONENUM")
-	private String phonenum;
-
-	public String getPhonenum() {
-		return phonenum;
-	}
-
->>>>>>> 723e04102d491b66ecc5ab96e8b210431b9b0711
-
 	@Column(name = "LAST_MODIFIED_DATE")
 	private Date lastModifiedDate;
+	
+
+	@Column(name = "EMAILID")
+	private String emailId;
+	
+	@Column(name = "PHONENUM")
+	private String phoneNumber;
 	
 
 	public int getUserId() {
 		return userId;
 	}
 
+
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+
 
 	public String getFirstName() {
 		return firstName;
 	}
 
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 
 	public String getLastName() {
 		return lastName;
 	}
 
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 
 	public String getMiddleName() {
 		return middleName;
 	}
 
+
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
 	}
+
 
 	public String getGender() {
 		return gender;
 	}
 
+
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+
 
 	public String getUserName() {
 		return userName;
 	}
 
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
 
 	public String getPassword() {
 		return password;
 	}
 
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 
 	public int getRoleId() {
 		return roleId;
 	}
 
+
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
 	}
+
 
 	public String getUserStatus() {
 		return userStatus;
 	}
 
+
 	public void setUserStatus(String userStatus) {
 		this.userStatus = userStatus;
 	}
+
 
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}
 
+
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
+
 
 	public String getEmailId() {
 		return emailId;
 	}
 
+
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-
+	
 	public Date getLastModifiedDate() {
 		return lastModifiedDate;
 	}
+
 
 	public void setLastModifiedDate(Date lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 }
 
 
