@@ -5,7 +5,7 @@ import java.util.List;
 import com.asu.cse545.group12.domain.User;
 
 public interface UserDao {
-	public int insertRow(User user);
+	public int insertRow(User  user);
 
 /*	public List<User> getList();
 
