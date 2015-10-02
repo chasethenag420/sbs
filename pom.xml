@@ -7,6 +7,7 @@
  <version>0.0.1-SNAPSHOT</version>
  <name>Secure Bank System</name>
 
+ 
  <properties>
   <spring.version>4.1.7.RELEASE</spring.version>
   <hibernate.version>5.0.1.Final</hibernate.version>
