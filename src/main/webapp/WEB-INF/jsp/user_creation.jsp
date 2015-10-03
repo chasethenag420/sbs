@@ -47,15 +47,15 @@
      </td>
     </tr>
     <tr>
-     <td><form:label path="emailid">Email ID</form:label>
+     <td><form:label path="emailId">Email ID</form:label>
      </td>
-     <td><form:input path="emailid" />
+     <td><form:input path="emailId" />
      </td>
     </tr>
     <tr>
-     <td><form:label path="phonenum">Phone Number</form:label>
+     <td><form:label path="phoneNumber">Phone Number</form:label>
      </td>
-     <td><form:input path="phonenum" />
+     <td><form:input path="phoneNumber" />
      </td>
     </tr> 
     <tr>
