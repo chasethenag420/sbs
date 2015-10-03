@@ -17,9 +17,9 @@
    action="register">
    <table width="400px" height="150px">
    <tr>
-     <td><form:label path="username">User Name</form:label>
+     <td><form:label path="userName">User Name</form:label>
      </td>
-     <td><form:input path="username" />
+     <td><form:input path="userName" />
      </td>
     </tr>
     <tr>
