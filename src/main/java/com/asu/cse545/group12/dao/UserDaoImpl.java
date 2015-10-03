@@ -13,7 +13,7 @@ import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.asu.cse545.group12.domain.User;
+import com.asu.cse545.group12.domain.Users;
 
 public class UserDaoImpl implements UserDao {
 	
@@ -22,7 +22,7 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	@Transactional
-	public int insertRow(User user) {
+	public int insertRow(Users user) {
 		// TODO Auto-generated method stub
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
@@ -32,4 +32,37 @@ public class UserDaoImpl implements UserDao {
 		session.close();  
 		return (Integer) id; 
 	}
+	@Override
+	public Users getRowById(int id) {
+		// TODO Auto-generated method stub
+			Session session = sessionfactory.openSession();
+			Users user= session.load(Users.class, id);
+			return user;
+		
+	}
+
+	@Override
+	@Transactional
+	public int updateRow(Users user) {
+		// TODO Auto-generated method stub
+				Session session = sessionfactory.openSession(); 
+				Transaction tx = session.beginTransaction();
+				session.saveOrUpdate(user);
+				tx.commit();
+		
+		return user.getId();
+	}
+	/*@Override
+	public List<Users> getList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int deleteRow(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}*/
+
+	
+	
 }

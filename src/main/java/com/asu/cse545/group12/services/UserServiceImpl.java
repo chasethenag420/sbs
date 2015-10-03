@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.asu.cse545.group12.dao.UserDao;
-import com.asu.cse545.group12.domain.User;
+import com.asu.cse545.group12.domain.Users;
 
 public class UserServiceImpl implements UserService {
  
@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
  UserDao userDao;
 
  @Override
- public int insertRow(User user) {
+ public int insertRow(Users user) {
   return userDao.insertRow(user);
  }
 
