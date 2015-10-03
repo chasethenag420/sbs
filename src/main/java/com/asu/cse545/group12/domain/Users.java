@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import org.hibernate.type.CalendarDateType;
 
 @Entity
-public class User {
+public class Users {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

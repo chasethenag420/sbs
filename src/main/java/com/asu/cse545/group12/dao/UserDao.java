@@ -2,16 +2,16 @@ package com.asu.cse545.group12.dao;
 
 import java.util.List;
 
-import com.asu.cse545.group12.domain.User;
+import com.asu.cse545.group12.domain.Users;
 
 public interface UserDao {
-	public int insertRow(User user);
+	public int insertRow(Users user);
 
-/*	public List<User> getList();
+	//public List<Users> getList();
 
-	public User getRowById(int id);
+	public Users getRowById(int id);
 
-	public int updateRow(User user);
+	public int updateRow(Users user);
 
-	public int deleteRow(int id);*/
+	//public int deleteRow(int id);
 }

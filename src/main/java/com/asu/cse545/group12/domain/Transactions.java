@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class Transaction {
+public class Transactions {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.asu.cse545.group12.domain.User;
+import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.UserService;
 
 
@@ -47,18 +47,18 @@ public class UserController {
  }*/
 
 	@RequestMapping(value = "/user_creation", method = RequestMethod.GET)
-	public ModelAndView getForm(@ModelAttribute User user) {
+	public ModelAndView getForm(@ModelAttribute Users user) {
 		//logs debug message
 		if(logger.isDebugEnabled()){
 			logger.debug("getWelcome is executed!");
 		}
-		return new ModelAndView("user_creation", "user", new User());
+		return new ModelAndView("user_creation", "user", new Users());
 	}
 
 	@RequestMapping("register")
-	public ModelAndView registerUser(@ModelAttribute User user) {
+	public ModelAndView registerUser(@ModelAttribute Users user) {
 		userService.insertRow(user);
-		return new ModelAndView("user_creation", "user", new User());
+		return new ModelAndView("user_creation", "user", new Users());
 	}
 
 	/* @RequestMapping("list")
