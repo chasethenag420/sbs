@@ -11,10 +11,12 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.internal.SessionFactoryBuilderImpl;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.asu.cse545.group12.domain.Users;
 
+@Component("userDaoImpl")
 public class UserDaoImpl implements UserDao {
 	
 	@Autowired
@@ -26,6 +28,7 @@ public class UserDaoImpl implements UserDao {
 		// TODO Auto-generated method stub
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
+		user.setUserStatus("InActive");
 		session.saveOrUpdate(user);  
 		tx.commit();  
 		Serializable id = session.getIdentifier(user);  

@@ -4,16 +4,26 @@ package com.asu.cse545.group12.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Users;
 
+@Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
  
- @Autowired
+	@Autowired
  UserDao userDao;
+ 
+ 
+ 
+ //public void setUserDao(UserDao userDao) {
+//	this.userDao = userDao;
+//}
 
- @Override
+
+
+@Override
  public int insertRow(Users user) {
   return userDao.insertRow(user);
  }

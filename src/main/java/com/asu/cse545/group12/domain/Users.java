@@ -8,8 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+//import org.hibernate.annotations.Table;
 
-@Entity
+
+@Entity(name="user")
 public class Users {
 
 	@Id
