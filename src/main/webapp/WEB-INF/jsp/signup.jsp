@@ -56,8 +56,8 @@ td {
 					<td><form:label path="user.gender">Gender</form:label></td>
 					<td><form:select path="user.gender">
 							<form:option value="NONE" label="--- Select ---" />
-							<form:option value="Male" label="Male" />
-							<form:option value="Female" label="Female" />
+							<form:option value="M" label="Male" />
+							<form:option value="F" label="Female" />
 						</form:select></td>
 				</tr>
 				<tr>

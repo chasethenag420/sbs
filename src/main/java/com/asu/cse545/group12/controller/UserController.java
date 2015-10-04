@@ -3,6 +3,7 @@ package com.asu.cse545.group12.controller;
 import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -72,6 +73,9 @@ public class UserController {
 	@RequestMapping("signUpExternalUser")
 	public ModelAndView registerUser(@ModelAttribute Users user, @ModelAttribute UserPII userPII) {
 		//Users user=(Users)modelMap.get("user");
+		user.setUserStatus("A");
+		user.setLastModifiedDate(Calendar.getInstance().getTime());
+		user.setRegistrationDate(Calendar.getInstance().getTime());
 		userService.insertRow(user);
 		return new ModelAndView("user_creation", "user", new Users());
 	}

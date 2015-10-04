@@ -31,13 +31,13 @@ CREATE TABLE `user` (
   `USERNAME` varchar(30) NOT NULL,
   `PASSWORD` varchar(15) DEFAULT NULL,
   `ROLEID` int(20) DEFAULT NULL,
-  `USERSTATUS` varchar(5) DEFAULT NULL,
+  `userstatus` varchar(20) DEFAULT NULL,
   `REGISTRATION_DATE` date DEFAULT NULL,
   `LAST_MODIFIED_DATE` date DEFAULT NULL,
   `EMAILID` varchar(30) NOT NULL,
   `PHONENUM` varchar(15) NOT NULL,
   PRIMARY KEY (`USERID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'j','j','k','Male','q','n',0,NULL,NULL,NULL,'j','h');
+INSERT INTO `user` VALUES (2,'ww','ww','w','M','e','ew',0,'InActive','2015-10-04','2015-10-04','ww','ww');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-01 20:38:57
+-- Dump completed on 2015-10-04 15:38:41
