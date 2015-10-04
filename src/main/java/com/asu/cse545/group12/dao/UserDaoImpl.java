@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao {
 				session.saveOrUpdate(user);
 				tx.commit();
 		
-		return user.getId();
+		return user.getUserId();
 	}
 	/*@Override
 	public List<Users> getList() {
