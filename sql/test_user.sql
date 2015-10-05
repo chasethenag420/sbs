@@ -27,11 +27,15 @@ CREATE TABLE `user` (
   `FIRSTNAME` varchar(30) NOT NULL,
   `MIDDLENAME` varchar(30) DEFAULT NULL,
   `LASTNAME` varchar(30) NOT NULL,
-  `GENDER` varchar(5) NOT NULL,
+  `GENDER` varchar(6) NOT NULL,
   `USERNAME` varchar(30) NOT NULL,
   `PASSWORD` varchar(15) DEFAULT NULL,
   `ROLEID` int(20) DEFAULT NULL,
+
   `userstatus` varchar(20) DEFAULT NULL,
+
+  `USERSTATUS` varchar(7) DEFAULT NULL,
+
   `REGISTRATION_DATE` date DEFAULT NULL,
   `LAST_MODIFIED_DATE` date DEFAULT NULL,
   `EMAILID` varchar(30) NOT NULL,

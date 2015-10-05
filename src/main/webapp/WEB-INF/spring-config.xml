@@ -59,7 +59,17 @@
 
 	<bean id="userDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
 	<bean id="userServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
+
 	<bean id="userPiiDaoImpl" class="com.asu.cse545.group12.dao.UserPiiDaoImpl" />
 	<bean id="userPiiServiceImpl" class="com.asu.cse545.group12.services.UserPiiServiceImpl" />
 	
+
+
+	<bean id="messageSource"
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+ 
+        <property name="basename" value="/WEB-INF/messages" />
+ 
+    </bean>
+
 </beans>
