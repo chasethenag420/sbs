@@ -3,9 +3,13 @@ package com.asu.cse545.group12.domain;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity(name="userpii")
 public class UserPII {
-
+	
+	@Id
 	@Column(name = "USERID")
 	private int userId;
 	

@@ -12,7 +12,7 @@ import com.asu.cse545.group12.domain.Users;
 @Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
  
-	@Autowired
+ @Autowired
  UserDao userDao;
  
  

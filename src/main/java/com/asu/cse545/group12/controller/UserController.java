@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.UserService;
+import com.asu.cse545.group12.services.UserPiiService;
 
 
 @Controller
@@ -34,7 +35,8 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	
+	@Autowired
+	UserPiiService userPiiService;
 	//public void setUserService(UserService userService) {
 	//	this.userService = userService;
 	//}
@@ -77,6 +79,11 @@ public class UserController {
 		user.setLastModifiedDate(Calendar.getInstance().getTime());
 		user.setRegistrationDate(Calendar.getInstance().getTime());
 		userService.insertRow(user);
+		
+		userPII.setSsn(12345555);
+		userPII.setUserId(user.getUserId());
+		userPII.setDateOfBirth(Calendar.getInstance().getTime());
+		userPiiService.insertRow(userPII);
 		return new ModelAndView("user_creation", "user", new Users());
 	}
 

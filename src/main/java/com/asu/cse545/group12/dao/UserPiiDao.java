@@ -2,7 +2,7 @@ package com.asu.cse545.group12.dao;
 
 import com.asu.cse545.group12.domain.UserPII;
 
-public interface UserPIIDao {
+public interface UserPiiDao {
 	
 	public int insertRow(UserPII userpii);
 
