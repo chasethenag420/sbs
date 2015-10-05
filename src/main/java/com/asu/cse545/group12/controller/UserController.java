@@ -31,43 +31,8 @@ public class UserController {
 	private static final Logger logger = Logger.getLogger(UserController.class);
 	
 	@Autowired
-	UserService userService;
+	UserService userService;	
 	
-	
-	//public void setUserService(UserService userService) {
-	//	this.userService = userService;
-	//}
-
-	/* @RequestMapping("home")
- public ModelAndView homePage(Model model) {
-	// userService.insertRow(user);
-	 Map <String,String> genderList = new LinkedHashMap<String,String>();
-	 	genderList.put("Male", "Male");
-	 	genderList.put("Female","Female");
-		model.addAttribute("genderList", genderList);
-
-		Map <String,String> roleList = new LinkedHashMap<String,String>();			
-		roleList.put("manager", "manager");
-		roleList.put("employee", "employee");
-		model.addAttribute("roleList", roleList);
-
-  return new ModelAndView("user_creation", "user", new User());
- }*/
-
-	
-	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public ModelAndView getForm() {
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("getWelcome is executed!");
-		}
-		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("user", new Users());
-		modelView.addObject("userPII", new UserPII());
-		modelView.setViewName("signup");
-		
-		return modelView;
-	}
 
 	@RequestMapping("signUpExternalUser")
 	
