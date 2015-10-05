@@ -25,14 +25,8 @@ import com.asu.cse545.group12.domain.Users;
 @Controller
 public class HomePageController {
 	private static final Logger logger = Logger.getLogger(HomePageController.class);
-	 @RequestMapping(value = "/homepage", method = RequestMethod.GET)
+	 @RequestMapping("home")
 	 public ModelAndView homePage(Model model) {
-	  return new ModelAndView("homepage", "user", new Users());
-	 }
-	 
-	 @RequestMapping("login")
-	 public ModelAndView login(Model model) {
-		 //Based on user role redirect to their home screen
-		return new ModelAndView("user_creation", "user", new Users());
+	  return new ModelAndView("signup", "user", new Users());
 	 }
 }
