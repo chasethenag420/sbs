@@ -1,12 +1,17 @@
 package com.asu.cse545.group12.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -17,11 +22,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity(name="user")
-public class Users {
+public class Users implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="USERID")
+
 	private int userId;	
 
 	@NotNull
@@ -62,9 +65,10 @@ public class Users {
 
 	@Column(name = "REGISTRATION_DATE")
 	private Date registrationDate;
-	@Column(name = "LAST_MODIFIED_DATE")
-	private Date lastModifiedDate;
 	
+
+	@Column(name="LAST_MODIFIED_DATE")
+	private Date lastModifieddate;
 	@NotNull
     @NotEmpty(message = "Please enter your Email.")
 	@Column(name = "EMAILID")
@@ -75,7 +79,20 @@ public class Users {
 	@Column(name = "PHONENUM")
 	private String phoneNumber;
 	
-
+	
+	private UserPII userpii;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name="USERID")
+	public UserPII getUserpii() {
+		return this.userpii;
+	}
+	public void setUserpii(UserPII userpii)
+	{
+		this.userpii=userpii;
+	}
+	@Id	
+	@Column(name="USERID")
 	public int getUserId() {
 		return userId;
 	}
@@ -85,7 +102,7 @@ public class Users {
 		this.userId = userId;
 	}
 
-
+	@Column(name = "FIRSTNAME")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -95,7 +112,7 @@ public class Users {
 		this.firstName = firstName;
 	}
 
-
+	@Column(name = "LASTNAME")
 	public String getLastName() {
 		return lastName;
 	}
@@ -105,7 +122,7 @@ public class Users {
 		this.lastName = lastName;
 	}
 
-
+	@Column(name = "MIDDLENAME")
 	public String getMiddleName() {
 		return middleName;
 	}
@@ -115,7 +132,7 @@ public class Users {
 		this.middleName = middleName;
 	}
 
-
+	@Column(name = "GENDER")
 	public String getGender() {
 		return gender;
 	}
@@ -125,7 +142,7 @@ public class Users {
 		this.gender = gender;
 	}
 
-
+	@Column(name = "USERNAME")
 	public String getUserName() {
 		return userName;
 	}
@@ -135,7 +152,7 @@ public class Users {
 		this.userName = userName;
 	}
 
-
+	@Column(name = "PASSWORD")
 	public String getPassword() {
 		return password;
 	}
@@ -145,7 +162,7 @@ public class Users {
 		this.password = password;
 	}
 
-
+	@Column(name = "ROLEID")
 	public int getRoleId() {
 		return roleId;
 	}
@@ -155,7 +172,7 @@ public class Users {
 		this.roleId = roleId;
 	}
 
-
+	@Column(name = "USERSTATUS")
 	public String getUserStatus() {
 		return userStatus;
 	}
@@ -165,7 +182,7 @@ public class Users {
 		this.userStatus = userStatus;
 	}
 
-
+	@Column(name = "REGISTRATION_DATE")
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}
@@ -185,16 +202,18 @@ public class Users {
 		this.emailId = emailId;
 	}
 	
-	public Date getLastModifiedDate() {
-		return lastModifiedDate;
+	
+
+
+	
+	@Column(name="LAST_MODIFIED_DATE")
+	public Date getLastModifieddate() {
+		return lastModifieddate;
 	}
-
-
-	public void setLastModifiedDate(Date lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
+	public void setLastModifieddate(Date lastModifieddate) {
+		this.lastModifieddate = lastModifieddate;
 	}
-
-
+	@Column(name = "PHONENUM")
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}

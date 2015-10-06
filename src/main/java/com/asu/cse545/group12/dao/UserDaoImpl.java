@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.asu.cse545.group12.domain.Users;
 
-@Component("userDaoImpl")
+@Component("UserDaoImpl")
 public class UserDaoImpl implements UserDao {
 	
 	@Autowired
@@ -30,6 +30,7 @@ public class UserDaoImpl implements UserDao {
 		Transaction tx = session.beginTransaction();  
 		user.setUserStatus("InActive");
 		session.saveOrUpdate(user);  
+		//session.saveOrUpdate(user.getuserpii()); 
 		tx.commit();  
 		Serializable id = session.getIdentifier(user);  
 		session.close();  

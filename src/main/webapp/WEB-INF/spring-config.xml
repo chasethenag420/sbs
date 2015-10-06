@@ -57,11 +57,9 @@
 	</bean>
 
 
-	<bean id="userDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
-	<bean id="userServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
+	<bean id="UserDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
+	<bean id="UserServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
 
-	<bean id="userPiiDaoImpl" class="com.asu.cse545.group12.dao.UserPiiDaoImpl" />
-	<bean id="userPiiServiceImpl" class="com.asu.cse545.group12.services.UserPiiServiceImpl" />
 	
 
 

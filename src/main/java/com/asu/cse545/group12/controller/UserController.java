@@ -3,16 +3,19 @@ package com.asu.cse545.group12.controller;
 import org.apache.log4j.Logger;
 
 
+
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 
 
+
 import javax.validation.Valid;
+
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.UserService;
-
 import com.asu.cse545.group12.services.UserPiiService;
-
 import com.asu.cse545.group12.validator.CreateExternalUserValidator;
 
 
@@ -45,8 +46,8 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@Autowired
-	UserPiiService userPiiService;
+	//@Autowired
+	//UserPiiService userPiiService;
 	//public void setUserService(UserService userService) {
 	//	this.userService = userService;
 	//}
@@ -76,25 +77,28 @@ public class UserController {
 		}
 		ModelAndView modelView = new ModelAndView();
 		modelView.addObject("user", new Users());
-		modelView.addObject("userPII", new UserPII());
+		modelView.addObject("userpii", new UserPII());
 		modelView.setViewName("signup");
 		
 		return modelView;
 	}
 
-	@RequestMapping("signUpExternalUser")
+	@RequestMapping( value= "signUpExternalUser")
 
-	public ModelAndView registerUser(@ModelAttribute Users user, @ModelAttribute UserPII userPII) {
+	public ModelAndView registerUser(@ModelAttribute Users user) {
 		//Users user=(Users)modelMap.get("user");
 		user.setUserStatus("A");
-		user.setLastModifiedDate(Calendar.getInstance().getTime());
-		user.setRegistrationDate(Calendar.getInstance().getTime());
+		java.util.Date date = Calendar.getInstance().getTime();
+		user.setLastModifieddate(date);
+		user.setRegistrationDate(date);
+		System.out.println("9999"+user.getUserpii());
+		user.setUserId(user.getUserpii().getUserId());
+		user.getUserpii().setDateOfBirth(date);
+//		userPII.setDateOfBirth(Calendar.getInstance().getTime());
+//		//userPiiService.insertRow(userPII);
+//		userPII.setUserId(user.getUserId());
+//		user.setuserpii(userPII);
 		userService.insertRow(user);
-		
-		userPII.setSsn(12345555);
-		userPII.setUserId(user.getUserId());
-		userPII.setDateOfBirth(Calendar.getInstance().getTime());
-		userPiiService.insertRow(userPII);
 		return new ModelAndView("user_creation", "user", new Users());
 	}
 	

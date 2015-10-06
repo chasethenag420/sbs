@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Users;
 
-@Service("userServiceImpl")
+@Service("UserServiceImpl")
 public class UserServiceImpl implements UserService {
  
  @Autowired

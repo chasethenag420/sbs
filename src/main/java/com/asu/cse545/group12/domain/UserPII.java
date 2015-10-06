@@ -1,21 +1,39 @@
 package com.asu.cse545.group12.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity(name="userpii")
-public class UserPII {
+public class UserPII implements Serializable{
 	
-	@Id
-	@Column(name = "USERID")
-	private int userId;
+	
+	
+			@Id
+			@Column(name="USERID")
+			@GeneratedValue(strategy = GenerationType.IDENTITY) 
+			private int userId;
+	
+	
+	
+    
 	
 
+
 	@Column(name = "SSN")
-	private int ssn;
+	private String ssn;
 
 	public int getUserId() {
 		return userId;
@@ -25,11 +43,11 @@ public class UserPII {
 		this.userId = userId;
 	}
 
-	public int getSsn() {
+	public String getSsn() {
 		return ssn;
 	}
 
-	public void setSsn(int ssn) {
+	public void setSsn(String ssn) {
 		this.ssn = ssn;
 	}
 

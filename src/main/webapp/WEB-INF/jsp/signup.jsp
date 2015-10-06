@@ -88,6 +88,13 @@ td {
 
 				</tr>
 				<tr>
+					<td><form:label path="user.userpii.ssn">SSN</form:label></td>
+					<td><form:input path="user.userpii.ssn" /></td>
+					<td class="error"><form:errors path="userpii.ssn" /></td>
+
+				</tr>
+				
+				<tr>
 					<td><input type="submit" value="Submit" /></td>
 					<td><input type="button" value="Cancel" /></td>
 				</tr>
