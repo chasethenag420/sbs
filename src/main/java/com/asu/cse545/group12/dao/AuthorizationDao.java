@@ -7,13 +7,11 @@ import com.asu.cse545.group12.domain.Authorization;
 
 public interface AuthorizationDao {
 
-	public boolean approve(Account account);
+	public int approve(Account account);
 
-	public boolean reject(int AccountId);
+	public int reject(int AccountId);
 
-	public boolean forward(int AccountId);
-	
-	public boolean view(Account account);
+	public int forward(int AccountId);
 	
 	public List<Authorization> getNotifications(); 
 
