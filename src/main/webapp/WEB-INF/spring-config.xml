@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans 	xmlns="http://www.springframework.org/schema/beans"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns:context="http://www.springframework.org/schema/context"
-		xmlns:util="http://www.springframework.org/schema/util"
-		xmlns:mvc="http://www.springframework.org/schema/mvc"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"	
 		xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
@@ -37,6 +36,24 @@
 			</props>
 		</property>
 	</bean>
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="en" />
+	</bean>
+
+	<bean id="localeChangeInterceptor"
+		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		<property name="paramName" value="language" />
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="localeChangeInterceptor" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="txManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
@@ -56,9 +73,16 @@
 		</property>
 	</bean>
 
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<value>messages</value>
+		</property>
+	</bean>
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 
-	<bean id="UserDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
-	<bean id="UserServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
+	<bean id="userDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
+	<bean id="userServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
 
 	
 

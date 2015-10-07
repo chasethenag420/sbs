@@ -44,8 +44,9 @@ public class UserController {
 	private static final Logger logger = Logger.getLogger(UserController.class);
 	
 	@Autowired
-	UserService userService;
+	UserService userService;	
 	
+
 	//@Autowired
 	//UserPiiService userPiiService;
 	//public void setUserService(UserService userService) {
@@ -83,11 +84,12 @@ public class UserController {
 		return modelView;
 	}
 
+
 	@RequestMapping( value= "signUpExternalUser")
 
 	public ModelAndView registerUser(@ModelAttribute Users user) {
 		//Users user=(Users)modelMap.get("user");
-		user.setUserStatus("A");
+		user.setUserStatus("Inactive");
 		java.util.Date date = Calendar.getInstance().getTime();
 		user.setLastModifieddate(date);
 		user.setRegistrationDate(date);

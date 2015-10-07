@@ -1,1 +1,1 @@
-<%response.sendRedirect("signup");%>
+<%response.sendRedirect("login");%>
