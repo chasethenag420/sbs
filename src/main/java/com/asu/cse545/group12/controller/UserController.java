@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -35,7 +35,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.UserService;
-import com.asu.cse545.group12.services.UserPiiService;
 import com.asu.cse545.group12.validator.CreateExternalUserValidator;
 
 
@@ -69,7 +68,7 @@ public class UserController {
   return new ModelAndView("user_creation", "user", new User());
  }*/
 
-	
+	/*
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public ModelAndView getForm() {
 		//logs debug message
@@ -83,7 +82,7 @@ public class UserController {
 		
 		return modelView;
 	}
-
+*/
 
 	@RequestMapping( value= "signUpExternalUser")
 
@@ -96,10 +95,7 @@ public class UserController {
 		System.out.println("9999"+user.getUserpii());
 		user.setUserId(user.getUserpii().getUserId());
 		user.getUserpii().setDateOfBirth(date);
-//		userPII.setDateOfBirth(Calendar.getInstance().getTime());
-//		//userPiiService.insertRow(userPII);
-//		userPII.setUserId(user.getUserId());
-//		user.setuserpii(userPII);
+
 		userService.insertRow(user);
 		return new ModelAndView("user_creation", "user", new Users());
 	}
