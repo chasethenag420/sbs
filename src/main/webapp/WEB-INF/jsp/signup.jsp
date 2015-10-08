@@ -60,8 +60,8 @@ td {
 					<td><form:label path="user.gender">Gender</form:label></td>
 					<td><form:select path="user.gender">
 							<form:option value="NONE" label="--- Select ---" />
-							<form:option value="Male" label="Male" />
-							<form:option value="Female" label="Female" />
+							<form:option value="M" label="Male" />
+							<form:option value="F" label="Female" />
 						</form:select></td>
 					<td class="error"><form:errors path="user.gender" /></td>
 				</tr>
@@ -87,6 +87,13 @@ td {
 					<td class="error"><form:errors path="user.emailId" /></td>
 
 				</tr>
+				<tr>
+					<td><form:label path="user.userpii.ssn">SSN</form:label></td>
+					<td><form:input path="user.userpii.ssn" /></td>
+					<td class="error"><form:errors path="userpii.ssn" /></td>
+
+				</tr>
+				
 				<tr>
 					<td><input type="submit" value="Submit" /></td>
 					<td><input type="button" value="Cancel" /></td>

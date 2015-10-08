@@ -4,7 +4,19 @@ import org.apache.log4j.Logger;
 
 
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+
+
+
 import javax.validation.Valid;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -34,7 +46,59 @@ public class UserController {
 	UserService userService;	
 	
 
-	@RequestMapping("signUpExternalUser")
+	//@Autowired
+	//UserPiiService userPiiService;
+	//public void setUserService(UserService userService) {
+	//	this.userService = userService;
+	//}
+
+	/* @RequestMapping("home")
+ public ModelAndView homePage(Model model) {
+	// userService.insertRow(user);
+	 Map <String,String> genderList = new LinkedHashMap<String,String>();
+	 	genderList.put("Male", "Male");
+	 	genderList.put("Female","Female");
+		model.addAttribute("genderList", genderList);
+
+		Map <String,String> roleList = new LinkedHashMap<String,String>();			
+		roleList.put("manager", "manager");
+		roleList.put("employee", "employee");
+		model.addAttribute("roleList", roleList);
+
+  return new ModelAndView("user_creation", "user", new User());
+ }*/
+
+	/*
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public ModelAndView getForm() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("getWelcome is executed!");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("user", new Users());
+		modelView.addObject("userpii", new UserPII());
+		modelView.setViewName("signup");
+		
+		return modelView;
+	}
+*/
+
+	@RequestMapping( value= "signUpExternalUser")
+
+	public ModelAndView registerUser(@ModelAttribute Users user) {
+		//Users user=(Users)modelMap.get("user");
+		user.setUserStatus("Inactive");
+		java.util.Date date = Calendar.getInstance().getTime();
+		user.setLastModifieddate(date);
+		user.setRegistrationDate(date);
+		System.out.println("9999"+user.getUserpii());
+		user.setUserId(user.getUserpii().getUserId());
+		user.getUserpii().setDateOfBirth(date);
+
+		userService.insertRow(user);
+		return new ModelAndView("user_creation", "user", new Users());
+	}
 	
 	public String registerUser(@Valid @ModelAttribute("user") Users user,  BindingResult result, Model model) {
 		
@@ -47,7 +111,6 @@ public class UserController {
 		    	userService.insertRow(user);
 		    	return "successfulSignUp";
 		    }
-		
 	}
 
 	/* @RequestMapping("list")

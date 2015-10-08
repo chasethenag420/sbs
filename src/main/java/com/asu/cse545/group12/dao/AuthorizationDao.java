@@ -4,14 +4,17 @@ import java.util.List;
 
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
+import com.asu.cse545.group12.domain.Users;
 
 public interface AuthorizationDao {
+	
+	public int insertRow(Authorization authorization);
+	
+	public int approve(Authorization authorization);
 
-	public int approve(Account account);
+	public int reject(Authorization authorization);
 
-	public int reject(int AccountId);
-
-	public int forward(int AccountId);
+	public int forward(Authorization authorization);
 	
 	public List<Authorization> getNotifications(); 
 

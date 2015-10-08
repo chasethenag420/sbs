@@ -30,6 +30,30 @@ public class AuthorizationDaoImpl {
 	@Autowired
 	SessionFactory sessionfactory;
 	
+	//*************************************************************************************************
+	//              IN all this methods the Authorization ID will be the input , 
+	//										Update the Flags based on the Authorization ID
+	//*************************************************************************************************
+	
+	
+	@Transactional
+	public int insertRow(Authorization authorization) {
+		// TODO Auto-generated method stub
+		Session session = sessionfactory.openSession(); 
+		Transaction tx = session.beginTransaction();  
+		//*************************88**************************************************
+		//      DATA NEEDED TO INSERT THE AUTHORIZATION TABLE ENTRIES
+		//*****************************************************************************
+		//user.setUserStatus("InActive");
+		session.saveOrUpdate(authorization);  
+		//session.saveOrUpdate(user.getuserpii()); 
+		tx.commit();  
+		Serializable authid = session.getIdentifier(authorization);  
+		session.close();  
+		return (Integer) authid; 
+	}
+	
+	
 	public int approve(Authorization authorization)
 	{
 		Session session = sessionfactory.openSession(); 
