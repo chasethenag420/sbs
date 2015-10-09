@@ -88,4 +88,8 @@
 
 	<bean id="UserDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
 	<bean id="UserServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
+	<bean id="AuthorizationDaoImpl" class="com.asu.cse545.group12.dao.AuthorizationDaoImpl" />
+	<bean id="AuthorizationServiceImpl" class="com.asu.cse545.group12.services.AuthorizationServiceImpl" />
+
+
 </beans>

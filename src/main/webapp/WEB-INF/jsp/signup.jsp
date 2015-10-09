@@ -70,8 +70,8 @@ td {
 					<td><form:label path="user.roleId">Role</form:label></td>
 					<td><form:select path="user.roleId">
 							<form:option value="-1" label="--- Select ---" />
-							<form:option value="0" label="Individual" />
-							<form:option value="1" label="Organization/Merchant" />
+							<form:option value="5" label="Individual" />
+							<form:option value="4" label="Organization/Merchant" />
 						</form:select></td>
 					<td class="error"><form:errors path="user.roleId" /></td>
 				</tr>
