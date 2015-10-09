@@ -20,6 +20,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	@Autowired
 	SessionFactory sessionfactory;
 	
+	
 	//*************************************************************************************************
 	//              IN all this methods the Authorization ID will be the input , 
 	//										Update the Flags based on the Authorization ID
@@ -31,7 +32,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		// TODO Auto-generated method stub
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
-		//*************************88**************************************************
+		//*************************++**************************************************
 		//      DATA NEEDED TO INSERT THE AUTHORIZATION TABLE ENTRIES
 		//*****************************************************************************
 		//user.setUserStatus("InActive");
@@ -48,8 +49,8 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	{
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
-		authorization.setApprovalFlag("Yes");
-		authorization.setRequestStatus("Approve");
+		authorization.setApprovalFlag("yes");
+		authorization.setRequestStatus("approve");
 		session.saveOrUpdate(authorization);  
 		tx.commit();  
 		Serializable authid = session.getIdentifier(authorization);  
@@ -63,8 +64,8 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	{
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
-		authorization.setApprovalFlag("No");
-		authorization.setRequestStatus("Reject");
+		authorization.setApprovalFlag("no");
+		authorization.setRequestStatus("reject");
 		session.saveOrUpdate(authorization);  
 		tx.commit();  
 		Serializable authid = session.getIdentifier(authorization);  
@@ -77,8 +78,8 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	{
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
-		authorization.setApprovalFlag("Yes");
-		authorization.setRequestStatus("Forward");
+		authorization.setApprovalFlag("yes");
+		authorization.setRequestStatus("forward");
 		session.saveOrUpdate(authorization);  
 		tx.commit();  
 		Serializable authid = session.getIdentifier(authorization);  
@@ -89,13 +90,13 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	@Override
 	public List<Authorization> getNotifications() 
 	{
-		String fromClause = "FROM Authorization";
-		List<Authorization> unfinishedEntries = new ArrayList<Authorization>();
+		String whereClause = "FROM Authorization WHERE Request_status='pending' or Request_status= 'forward'";
+		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
-		Query query = session.createQuery(fromClause);
-		unfinishedEntries = query.list();
+		Query query = session.createQuery(whereClause);
+		pendingEntries = query.list();
 		
-		return unfinishedEntries;
+		return pendingEntries;
 		
 	}
 	//public int deleteRow(int AccountId);
