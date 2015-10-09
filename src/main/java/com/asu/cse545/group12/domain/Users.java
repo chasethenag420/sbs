@@ -30,7 +30,8 @@ public class Users implements Serializable {
 				+ lastName + ", gender=" + gender + ", userName=" + userName + ", password=" + password + ", roleId="
 				+ roleId + ", userStatus=" + userStatus + ", registrationDate=" + registrationDate
 				+ ", lastModifieddate=" + lastModifieddate + ", emailId=" + emailId + ", phoneNumber=" + phoneNumber
-				+  "]";
+				+ ", address=" + address + ", city=" + city + ", state=" + state + ", country=" + country + ", zipcode="
+				+ zipcode + ", userpii=" + userpii + "]";
 	}
 
 
