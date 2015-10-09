@@ -7,6 +7,7 @@ import com.asu.cse545.group12.domain.Users;
 
 public interface UserService {
 	public int insertRow(Users user);
+	public boolean isUserEnabled(Users user);
 
 /*	public List<User> getList();
 

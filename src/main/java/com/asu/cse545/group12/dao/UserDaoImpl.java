@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.SessionFactory.*;
@@ -14,10 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.asu.cse545.group12.controller.UserController;
 import com.asu.cse545.group12.domain.Users;
 
 @Component("UserDaoImpl")
 public class UserDaoImpl implements UserDao {
+	private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
 	
 	@Autowired
 	SessionFactory sessionfactory;
@@ -28,7 +32,6 @@ public class UserDaoImpl implements UserDao {
 		// TODO Auto-generated method stub
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
-		user.setUserStatus("InActive");
 		session.saveOrUpdate(user);  
 		//session.saveOrUpdate(user.getuserpii()); 
 		tx.commit();  
@@ -65,7 +68,21 @@ public class UserDaoImpl implements UserDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}*/
-
+	
+	public Users getUserByUserName(String username){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where username = :username ");
+		query.setParameter("username", username);
+		List results = query.list();
+		if(logger.isDebugEnabled()){
+			logger.debug("User by username: "+results);
+		}
+		if(results.size()==1){
+			return (Users)results.get(0);
+		} else {
+			return null;
+		}
+	}
 	
 	
 }

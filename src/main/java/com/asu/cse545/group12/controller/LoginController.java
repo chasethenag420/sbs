@@ -32,7 +32,7 @@ public class LoginController {
 		}
 		ModelAndView modelView = new ModelAndView();
 		modelView.addObject("user", new Users());
-		modelView.addObject("userPII", new UserPII());
+		modelView.addObject("userpii", new UserPII());
 		modelView.setViewName("signup");
 		
 		return modelView;

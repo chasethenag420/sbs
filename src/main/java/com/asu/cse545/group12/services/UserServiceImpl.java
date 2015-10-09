@@ -11,24 +11,24 @@ import com.asu.cse545.group12.domain.Users;
 
 @Service("UserServiceImpl")
 public class UserServiceImpl implements UserService {
- 
- @Autowired
- UserDao userDao;
- 
- 
- 
- //public void setUserDao(UserDao userDao) {
-//	this.userDao = userDao;
-//}
 
+	@Autowired
+	UserDao userDao;
 
+	@Override
+	public int insertRow(Users user) {
+		return userDao.insertRow(user);
+	}
+	@Override
+	public boolean isUserEnabled(Users user){
+		if("active".equalsIgnoreCase(user.getUserStatus())){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
-@Override
- public int insertRow(Users user) {
-  return userDao.insertRow(user);
- }
-
-/* @Override
+	/* @Override
  public List<User> getList() {
   return userDao.getList();
  }
@@ -47,6 +47,6 @@ public class UserServiceImpl implements UserService {
  public int deleteRow(int id) {
   return userDao.deleteRow(id);
  }
-*/
+	 */
 }
 

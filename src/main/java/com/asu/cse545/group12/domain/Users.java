@@ -24,8 +24,20 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity(name="user")
 public class Users implements Serializable {
 
+	@Override
+	public String toString() {
+		return "Users [userId=" + userId + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName="
+				+ lastName + ", gender=" + gender + ", userName=" + userName + ", password=" + password + ", roleId="
+				+ roleId + ", userStatus=" + userStatus + ", registrationDate=" + registrationDate
+				+ ", lastModifieddate=" + lastModifieddate + ", emailId=" + emailId + ", phoneNumber=" + phoneNumber
+				+  "]";
+	}
 
-	private int userId;	
+
+	@Id
+	@Column(name="USERID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	private Integer userId;	
 
 	@NotNull
     @NotEmpty(message = "Please enter your Firstname.")
@@ -52,13 +64,13 @@ public class Users implements Serializable {
 	
 	@NotNull
     //@NotEmpty//(message = "Please enter your password.")
-    @Size(min = 6, max = 15, message = "Your password must between 6 and 15 characters")
+   // @Size(min = 6, max = 15, message = "Your password must between 6 and 15 characters")
 	@Column(name = "PASSWORD")
 	private String password;
 
 	@NotNull
 	@Column(name = "ROLEID")
-	private int roleId;
+	private Integer roleId;
 	
 	@Column(name = "USERSTATUS")
 	private String userStatus;
@@ -82,7 +94,7 @@ public class Users implements Serializable {
 	
 	private UserPII userpii;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	@JoinColumn(name="USERID")
 	public UserPII getUserpii() {
 		return this.userpii;
@@ -93,12 +105,13 @@ public class Users implements Serializable {
 	}
 	@Id	
 	@Column(name="USERID")
-	public int getUserId() {
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getUserId() {
 		return userId;
 	}
 
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
@@ -163,12 +176,12 @@ public class Users implements Serializable {
 	}
 
 	@Column(name = "ROLEID")
-	public int getRoleId() {
+	public Integer getRoleId() {
 		return roleId;
 	}
 
 
-	public void setRoleId(int roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 
@@ -202,9 +215,6 @@ public class Users implements Serializable {
 		this.emailId = emailId;
 	}
 	
-	
-
-
 	
 	@Column(name="LAST_MODIFIED_DATE")
 	public Date getLastModifieddate() {

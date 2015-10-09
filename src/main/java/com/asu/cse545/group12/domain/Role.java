@@ -3,10 +3,15 @@ package com.asu.cse545.group12.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Role{
+	@Id
 	@Column(name="ROLEID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private int roleId;
 	
 	@Column(name="ROLEDESCRIPTION")
