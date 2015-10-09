@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
+import com.asu.cse545.group12.domain.Users;
 
 public interface AuthorizationService {
 
@@ -12,6 +13,7 @@ public interface AuthorizationService {
 	//										Update the Flags based on the Authorization ID
 	//*************************************************************************************************
 
+	public int signupInsertRow(Users users);
 	
 	public int approve(Authorization authorization);
 

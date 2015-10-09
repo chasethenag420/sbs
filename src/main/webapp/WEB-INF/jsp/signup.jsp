@@ -27,6 +27,77 @@ label {
 
 </head>
 <body>
+
+	<center>
+		<h3>Welcome, Enter Customer Details</h3>
+		<form id="signUpForm" method="post" action="signUpExternalUser">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<table width="400px" height="150px">
+
+				<tr>
+					<td><form:label path="user.userName">Username</form:label></td>
+					<td><form:input path="user.userName" /></td>
+					<td class="error"><form:errors path="user.userName" /></td>
+
+				</tr>
+				<tr>
+					<td><form:label path="user.password">Password</form:label></td>
+					<td><form:input type="password" path="user.password" /></td>
+					<td class="error"><form:errors path="user.password" /></td>
+				</tr>
+				<tr>
+					<td><form:label path="user.firstName">First Name</form:label></td>
+					<td><form:input path="user.firstName" /></td>
+					<td class="error"><form:errors path="user.firstName" /></td>
+				</tr>
+				<tr>
+					<td><form:label path="user.middleName">Middle(M I)</form:label></td>
+					<td><form:input path="user.middleName" /></td>
+				</tr>
+				<tr>
+					<td><form:label path="user.lastName">Last Name</form:label></td>
+					<td><form:input path="user.lastName" /></td>
+					<td class="error"><form:errors path="user.lastName" /></td>
+				</tr>
+
+				<tr>
+					<td><form:label path="user.gender">Gender</form:label></td>
+					<td><form:select path="user.gender">
+							<form:option value="NONE" label="--- Select ---" />
+							<form:option value="M" label="Male" />
+							<form:option value="F" label="Female" />
+						</form:select></td>
+					<td class="error"><form:errors path="user.gender" /></td>
+				</tr>
+				<tr>
+					<td><form:label path="user.roleId">Role</form:label></td>
+					<td><form:select path="user.roleId">
+							<form:option value="-1" label="--- Select ---" />
+							<form:option value="5" label="Individual" />
+							<form:option value="4" label="Organization/Merchant" />
+						</form:select></td>
+					<td class="error"><form:errors path="user.roleId" /></td>
+				</tr>
+
+				<tr>
+					<td><form:label path="user.phoneNumber">Phone Number</form:label></td>
+					<td><form:input path="user.phoneNumber" /></td>
+					<td class="error"><form:errors path="user.phoneNumber" /></td>
+
+				</tr>
+				<tr>
+					<td><form:label path="user.emailId">Email</form:label></td>
+					<td><form:input path="user.emailId" /></td>
+					<td class="error"><form:errors path="user.emailId" /></td>
+
+				</tr>
+				<tr>
+					<td><form:label path="userpii.ssn">SSN</form:label></td>
+					<td><form:input path="userpii.ssn" /></td>
+					<td class="error"><form:errors path="userpii.ssn" /></td>
+
+				</tr>
+
 	<div class="container">
 
 		<form class="form-horizontal" id="signUpForm" method="post"
@@ -100,6 +171,7 @@ label {
 					<form:input class="controls" path="user.state" />
 					<form:errors class="alert alert-danger" path="user.state" />
 				</div>
+>>>>>>> d69b9501af8197b08f0b1632d8009a5957cf89f5
 				
 				<div class="control-group">
 					<form:label class="control-label" path="user.country">Country</form:label>

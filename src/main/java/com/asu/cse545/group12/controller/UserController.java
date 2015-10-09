@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 
 
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 
 
 
@@ -40,6 +42,7 @@ import org.springframework.stereotype.Service;
 
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
+import com.asu.cse545.group12.services.AuthorizationService;
 import com.asu.cse545.group12.services.UserService;
 import com.asu.cse545.group12.validator.CreateExternalUserValidator;
 
@@ -49,7 +52,10 @@ public class UserController {
 	private static final Logger logger = Logger.getLogger(UserController.class);
 
 	@Autowired
-	UserService userService;	
+	UserService userService;
+	
+	@Autowired
+	AuthorizationService  authorizationService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -79,7 +85,17 @@ public class UserController {
 			 * 0 none
 			 * 
 			 * */
-			user.setRoleId(5);
+			
+			if(user.getRoleId()==5)
+				user.setRoleId(5);
+			if(user.getRoleId()==4)
+				user.setRoleId(4);
+			if(user.getRoleId()==3)
+				user.setRoleId(3);
+			if(user.getRoleId()==2)
+				user.setRoleId(2);
+			if(user.getRoleId()==1)
+				user.setRoleId(1);
 			userpii.setDateOfBirth(date);
 			userpii.setUser(user);
 			user.setUserpii(userpii);
@@ -92,6 +108,7 @@ public class UserController {
 			}
 
 			userService.insertRow(user);
+			authorizationService.signupInsertRow(user);
 			return "successfulSignUp";
 		}
 	}
