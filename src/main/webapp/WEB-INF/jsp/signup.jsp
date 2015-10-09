@@ -28,6 +28,7 @@ td {
 	<center>
 		<h3>Welcome, Enter Customer Details</h3>
 		<form id="signUpForm" method="post" action="signUpExternalUser">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<table width="400px" height="150px">
 
 				<tr>
@@ -88,8 +89,8 @@ td {
 
 				</tr>
 				<tr>
-					<td><form:label path="user.userpii.ssn">SSN</form:label></td>
-					<td><form:input path="user.userpii.ssn" /></td>
+					<td><form:label path="userpii.ssn">SSN</form:label></td>
+					<td><form:input path="userpii.ssn" /></td>
 					<td class="error"><form:errors path="userpii.ssn" /></td>
 
 				</tr>

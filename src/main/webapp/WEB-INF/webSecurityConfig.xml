@@ -9,21 +9,34 @@
 		<intercept-url pattern="/j_spring_security_check"
 			access="isAnonymous()" />
 		<intercept-url pattern="/login*" access="isAnonymous()" />
-<!-- 		<intercept-url pattern="/signup*" access="isAnonymous()" />
-		<intercept-url pattern="/forgetPassword*" access="isAnonymous()" /> -->
-		<intercept-url pattern="/**" access="isAnonymous()" />
-<!-- 		<intercept-url pattern="/**" access="isAuthenticated()" />
- -->		<form-login login-page='/login.html' login-processing-url="/j_spring_security_check"
+		<intercept-url pattern="/index*" access="isAnonymous()" />
+		<intercept-url pattern="/signup*" access="isAnonymous()" /> 
+		<intercept-url pattern="/forgetPassword*" access="isAnonymous()" /> 
+<!-- 		<intercept-url pattern="/**" access="isAnonymous()" />
+ -->		<intercept-url pattern="/**" access="isAuthenticated()" /> 
+ 			<intercept-url pattern="/invalidSession*" access="isAnonymous()" />
+
+		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
+		<form-login login-page='/login.html' login-processing-url="/j_spring_security_check"
 			default-target-url="/home.html" authentication-failure-url="/login.html?error=true"
 			always-use-default-target="true" />
-		<logout logout-url="/j_spring_security_logout"
-			logout-success-url="/login.html" />
+		<logout invalidate-session="false" logout-url="/j_spring_security_logout"
+			logout-success-url="/login.html" delete-cookies="JSESSIONID" />
 	</http>
+	<!-- <beans:bean id="myAuthenticationSuccessHandler" class="org.baeldung.security.MySimpleUrlAuthenticationSuccessHandler" 
+		/> -->
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="user1" password="user1Pass" authorities="ROLE_USER" />
-			</user-service>
-		</authentication-provider>
+		<authentication-provider ref="authProvider" />
 	</authentication-manager>
+	<beans:bean id="authProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="userDetailsService" />
+		<beans:property name="passwordEncoder" ref="encoder" />
+	</beans:bean>
+	<beans:bean id="userDetailsService"
+		class="com.asu.cse545.group12.services.SbsUserDetailsService" />
+	<beans:bean id="encoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<beans:constructor-arg name="strength" value="11" />
+	</beans:bean>
 </beans:beans>

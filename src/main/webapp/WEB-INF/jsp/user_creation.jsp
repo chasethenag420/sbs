@@ -15,6 +15,7 @@
    Registration Form</div>
   <form:form id="registerForm" modelAttribute="user" method="post"
    action="register">
+   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
    <table width="400px" height="150px">
    <tr>
      <td><form:label path="userName">User Name</form:label>

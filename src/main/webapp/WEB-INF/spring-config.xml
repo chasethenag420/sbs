@@ -27,6 +27,11 @@
 			<list>
 				<value>com.asu.cse545.group12.domain.Users</value>
 				<value>com.asu.cse545.group12.domain.UserPII</value>
+				<value>com.asu.cse545.group12.domain.Account</value>
+				<value>com.asu.cse545.group12.domain.Authorization</value>
+				<value>com.asu.cse545.group12.domain.Role</value>
+				<value>com.asu.cse545.group12.domain.Transactions</value>
+				<value>com.asu.cse545.group12.domain.Transfer</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -83,5 +88,4 @@
 
 	<bean id="UserDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
 	<bean id="UserServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
-
 </beans>

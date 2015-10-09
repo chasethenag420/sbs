@@ -12,34 +12,43 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import com.asu.cse545.group12.domain.Users;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity(name="userpii")
 public class UserPII implements Serializable{
-	
-	
-	
-			@Id
-			@Column(name="USERID")
-			@GeneratedValue(strategy = GenerationType.IDENTITY) 
-			private int userId;
-	
-	
-	
-    
-	
 
+	@Override
+	public String toString() {
+		return "UserPII [userId=" + userId + ", ssn=" + ssn + ", DateOfBirth=" + DateOfBirth + "]";
+	}
+
+	@GenericGenerator(name = "generator", strategy = "foreign", 
+			parameters = @Parameter(name = "property", value = "user"))
+	@Id
+	@GeneratedValue(generator = "generator")
+	@Column(name = "USERID", unique = true, nullable = false)
+	private Integer userId;
 
 	@Column(name = "SSN")
 	private String ssn;
 
-	public int getUserId() {
+
+
+	private Users user;
+
+	@GenericGenerator(name = "generator", strategy = "foreign", 
+			parameters = @Parameter(name = "property", value = "user"))
+	@Id
+	@GeneratedValue(generator = "generator")
+	@Column(name = "USERID", unique = true, nullable = false)
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
@@ -59,8 +68,18 @@ public class UserPII implements Serializable{
 		DateOfBirth = dateOfBirth;
 	}
 
+	@OneToOne(fetch = FetchType.EAGER)
+	@PrimaryKeyJoinColumn
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
+
 	@Column(name = "DATEOFBIRTH")
 	private Date DateOfBirth;
-	
+
 
 }
