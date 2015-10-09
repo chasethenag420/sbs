@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: test
+-- Host: localhost    Database: test
 -- ------------------------------------------------------
 -- Server version	5.6.26-log
 
@@ -27,17 +27,22 @@ CREATE TABLE `user` (
   `FIRSTNAME` varchar(30) NOT NULL,
   `MIDDLENAME` varchar(30) DEFAULT NULL,
   `LASTNAME` varchar(30) NOT NULL,
-  `GENDER` varchar(5) NOT NULL,
+  `GENDER` varchar(6) NOT NULL,
   `USERNAME` varchar(30) NOT NULL,
-  `PASSWORD` varchar(15) DEFAULT NULL,
+  `PASSWORD` varchar(256) DEFAULT NULL,
   `ROLEID` int(20) DEFAULT NULL,
-  `userstatus` varchar(20) DEFAULT NULL,
+  `USERSTATUS` varchar(10) DEFAULT NULL,
   `REGISTRATION_DATE` date DEFAULT NULL,
   `LAST_MODIFIED_DATE` date DEFAULT NULL,
   `EMAILID` varchar(30) NOT NULL,
   `PHONENUM` varchar(15) NOT NULL,
+  `ADDRESS` varchar(100) DEFAULT NULL,
+  `CITY` varchar(30) DEFAULT NULL,
+  `STATE` varchar(30) DEFAULT NULL,
+  `COUNTRY` varchar(30) DEFAULT NULL,
+  `ZIPCODE` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`USERID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +51,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'ww','ww','w','M','e','ew',0,'InActive','2015-10-04','2015-10-04','ww','ww'),(3,'f','f','f','F','j','f',0,'InActive','2015-10-04','2015-10-04','ff','ff'),(4,'d','g','f','F','g','ss',0,'InActive','2015-10-04','2015-10-04','ff','ff'),(5,'s','s','s','M','s','s',0,'InActive','2015-10-04','2015-10-04','s','s'),(6,'y','y','y','M','y','y',0,'InActive','2015-10-04','2015-10-04','y','y'),(7,'g','g','g','M','g','g',0,'InActive','2015-10-04','2015-10-04','g','g'),(8,'h','h','h','M','h','h',0,'InActive','2015-10-04','2015-10-04','h','h'),(9,'jaswitha','ejh','vankineni','F','jaswitha','Jaswi123',0,'InActive','2015-10-04','2015-10-04','jvankine@asu.edu','6233631005'),(10,'srikanth','venkata','vemulakonda','M','srikanthvvgs','curdrice',0,'InActive','2015-10-04','2015-10-04','srikanthvvgs@gmail.com','8329658095'),(11,'fbrdb','gvd','fb','F','DGR','DFDDFVF',0,'InActive','2015-10-06','2015-10-06','fghfhr@gmail.com','548968798');
+INSERT INTO `user` VALUES (1,'j','j','k','Male','q','n',0,NULL,NULL,NULL,'j','h',NULL,NULL,NULL,NULL,NULL),(2,'khj','khj','khj','Male','dkjhf','khj',0,'InActive',NULL,NULL,'jhgjh@sbs.com','872837468273',NULL,NULL,NULL,NULL,NULL),(3,'Ganesh','R','Zilpe','Male','ganeshzilpe','ganesh',0,'InActive',NULL,NULL,'ganesh@sbs.com','4802890918',NULL,NULL,NULL,NULL,NULL),(4,'gfhgf','fghfg','fgh','Female','dyfhf','fghgfh',0,'InActive',NULL,NULL,'dfgdf@sbs.com','54646546546',NULL,NULL,NULL,NULL,NULL),(5,'rajesh','r','surana','Male','rajesh','rajesh',0,'InActive',NULL,NULL,'rajesh@sbs.com','4802898922',NULL,NULL,NULL,NULL,NULL),(6,'Garry','R','Zilpe','Male','ganeshzilpe','asdakja',1,'InActive',NULL,NULL,'wfds@','234324234234',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-07  0:59:32
+-- Dump completed on 2015-10-08 20:53:16
