@@ -12,9 +12,9 @@
 		<intercept-url pattern="/index*" access="isAnonymous()" />
 		<intercept-url pattern="/signup*" access="isAnonymous()" /> 
 		<intercept-url pattern="/forgetPassword*" access="isAnonymous()" /> 
-<!-- 		<intercept-url pattern="/**" access="isAnonymous()" />
- -->		<intercept-url pattern="/**" access="isAuthenticated()" /> 
- 			<intercept-url pattern="/invalidSession*" access="isAnonymous()" />
+		<intercept-url pattern="/**" access="isAnonymous()" />
+<!--  		<intercept-url pattern="/**" access="isAuthenticated()" /> 
+ --> 			<intercept-url pattern="/invalidSession*" access="isAnonymous()" />
 
 		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
 		<form-login login-page='/login.html' login-processing-url="/j_spring_security_check"
