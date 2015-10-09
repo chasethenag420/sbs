@@ -87,17 +87,17 @@
           onsubmit="return validate();">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
           <label class="col-sm-4">
-            <spring:message	code="label.form.loginEmail"></spring:message>
+            <spring:message	code="label.form.userName"></spring:message>
           </label>
           <span class="col-sm-8"> 
-          <input class="form-control" type='text' name='j_username' value=''>
+          <input class="form-control" type='text' name='username' value=''>
           </span> 
           <br> <br> 
           <label class="col-sm-4">
             <spring:message	code="label.form.loginPass"> </spring:message>
           </label>
           <span class="col-sm-8"> <input class="form-control"
-            type='password' name='j_password' />
+            type='password' name='password' />
           </span> <br> <br> <input class="btn btn-primary" name="submit"
           type="submit"
           value=<spring:message code="label.form.submit"></spring:message> />
