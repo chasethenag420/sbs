@@ -88,4 +88,8 @@
 
 	<bean id="UserDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
 	<bean id="UserServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
+	
+	<mvc:resources location="/web_resources/"
+		mapping="/web_resources/**">
+	</mvc:resources>
 </beans>
