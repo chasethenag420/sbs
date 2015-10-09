@@ -12,7 +12,7 @@ import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Users;
 
-@Service("AuthorizationServiceImpl")
+@Service
 public class AuthorizationServiceImpl implements AuthorizationService {
 
 	

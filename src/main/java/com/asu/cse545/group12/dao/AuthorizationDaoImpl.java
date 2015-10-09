@@ -1,32 +1,21 @@
 package com.asu.cse545.group12.dao;
 
-import java.util.List;
-
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
-
-import com.asu.cse545.group12.domain.Account;
-import com.asu.cse545.group12.domain.Authorization;
-import com.asu.cse545.group12.domain.Users;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.SessionFactory.*;
 import org.hibernate.Transaction;
-import org.hibernate.boot.internal.SessionFactoryBuilderImpl;
-import org.hibernate.criterion.CriteriaQuery;
-import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component("AuthorizationDaoImpl")
-public class AuthorizationDaoImpl {
+import com.asu.cse545.group12.domain.Authorization;
+
+@Component
+public class AuthorizationDaoImpl implements AuthorizationDao {
 
 	@Autowired
 	SessionFactory sessionfactory;
@@ -36,7 +25,7 @@ public class AuthorizationDaoImpl {
 	//										Update the Flags based on the Authorization ID
 	//*************************************************************************************************
 	
-	
+	@Override
 	@Transactional
 	public int insertRow(Authorization authorization) {
 		// TODO Auto-generated method stub
@@ -54,7 +43,7 @@ public class AuthorizationDaoImpl {
 		return (Integer) authid; 
 	}
 	
-	
+	@Override
 	public int approve(Authorization authorization)
 	{
 		Session session = sessionfactory.openSession(); 
@@ -69,6 +58,7 @@ public class AuthorizationDaoImpl {
 	}
 	//public List<Users> getList();
 
+	@Override
 	public int reject(Authorization authorization)
 	{
 		Session session = sessionfactory.openSession(); 
@@ -82,6 +72,7 @@ public class AuthorizationDaoImpl {
 		return (Integer) authid;		
 	}
 	
+	@Override
 	public int forward(Authorization authorization)
 	{
 		Session session = sessionfactory.openSession(); 
@@ -95,7 +86,7 @@ public class AuthorizationDaoImpl {
 		return (Integer) authid;		
 	}
 
-	
+	@Override
 	public List<Authorization> getNotifications() 
 	{
 		String fromClause = "FROM Authorization";

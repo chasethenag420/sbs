@@ -14,7 +14,7 @@ public class AccountServiceImpl implements AccountService {
 		// TODO Auto-generated method stub
 		// check if the user request for creation got approved
 		Account account = new Account();
-		account.setAccountType("savings");
+		account.setAccountType("checkings");
 		account.setActiveFlag(1);
 		account.setBalance(0);
 		account.setCreationDate(Calendar.getInstance().getTime());
