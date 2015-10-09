@@ -9,8 +9,9 @@
 <body>
 <center>
 
-  <div style="color: teal; font-size: 30px">Secure Bank System | User
-   Details</div>
+  <div style="color: teal; font-size: 30px">Secure Bank System | Notifications </div>
+
+
 
   
 </center>
