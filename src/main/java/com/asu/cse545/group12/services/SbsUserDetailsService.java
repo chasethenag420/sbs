@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("SbsUserDetailsService")
 @Transactional
 public class SbsUserDetailsService implements UserDetailsService {
-
+	
 	@Autowired
 	UserDao userDao;
 	@Autowired
@@ -35,24 +35,18 @@ public class SbsUserDetailsService implements UserDetailsService {
 	RoleDao roleDao;
 	private static final Logger logger = Logger.getLogger(SbsUserDetailsService.class);
 
-	public SbsUserDetailsService() {
-
-	}
-
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		boolean enabled = true;
 		boolean accountNonExpired = true;
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
+		if(logger.isDebugEnabled()){
+			logger.debug("User username: "+username);
+
+		}
 		
 		try {
 			Users user = userDao.getUserByUserName(username);
-			if(logger.isDebugEnabled()){
-				logger.debug("userDao: "+userDao);
-			}
-			if(logger.isDebugEnabled()){
-				logger.debug("User Data: "+user.toString());
-			}
 			if (user == null) {
 				return new org.springframework.security.core.userdetails.User(" ", " ", enabled, true, true, true, getAuthorities("individual"));
 			}

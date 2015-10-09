@@ -75,6 +75,9 @@ public class UserDaoImpl implements UserDao {
 		query.setParameter("username", username);
 		List results = query.list();
 		if(logger.isDebugEnabled()){
+			logger.debug("User by username: "+username);
+		}
+		if(logger.isDebugEnabled()){
 			logger.debug("User by username: "+results);
 		}
 		if(results.size()==1){
