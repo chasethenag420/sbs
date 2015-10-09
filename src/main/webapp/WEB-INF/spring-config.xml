@@ -89,8 +89,14 @@
 
 	<bean id="UserDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
 	<bean id="UserServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
+
 	<bean id="authorizationDao" class="com.asu.cse545.group12.dao.AuthorizationDaoImpl" />
 	<bean id="AuthorizationServiceImpl" class="com.asu.cse545.group12.services.AuthorizationServiceImpl" />
 
+
+	
+	<mvc:resources location="/web_resources/"
+		mapping="/web_resources/**">
+	</mvc:resources>
 
 </beans>

@@ -34,8 +34,11 @@
 </c:if>
 <html>
   <head>
-    <link rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
+      
+<link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
+<link href="web_resources/theme/css/bootstrap-responsive.css" rel="stylesheet">
     <title>
       <spring:message code="label.pages.home.title"></spring:message>
     </title>
