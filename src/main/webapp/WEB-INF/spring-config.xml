@@ -138,4 +138,5 @@ xmlns:security="http://www.springframework.org/schema/security"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<constructor-arg name="strength" value="10" />
 	</bean>
+	<bean id="hashGenerator" class="com.asu.cse545.group12.hashing.HashGenerator"/>
 </beans>

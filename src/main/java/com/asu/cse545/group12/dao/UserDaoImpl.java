@@ -1,22 +1,17 @@
 package com.asu.cse545.group12.dao;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.SessionFactory.*;
 import org.hibernate.Transaction;
-import org.hibernate.boot.internal.SessionFactoryBuilderImpl;
-import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.asu.cse545.group12.controller.UserController;
 import com.asu.cse545.group12.domain.Users;
 
 @Component("UserDaoImpl")
@@ -33,7 +28,6 @@ public class UserDaoImpl implements UserDao {
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
 		session.saveOrUpdate(user);  
-		//session.saveOrUpdate(user.getuserpii()); 
 		tx.commit();  
 		Serializable id = session.getIdentifier(user);  
 		session.close();  
@@ -58,16 +52,6 @@ public class UserDaoImpl implements UserDao {
 				tx.commit();
 				return user.getUserId();
 	}
-	/*@Override
-	public List<Users> getList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public int deleteRow(int id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}*/
 	
 	public Users getUserByUserName(String username){
 		Session session = sessionfactory.openSession();

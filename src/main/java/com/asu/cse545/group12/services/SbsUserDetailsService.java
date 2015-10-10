@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.asu.cse545.group12.dao.UserDao;
-import com.asu.cse545.group12.controller.UserController;
 import com.asu.cse545.group12.dao.RoleDao;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.UserService;

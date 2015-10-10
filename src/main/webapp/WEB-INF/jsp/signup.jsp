@@ -11,7 +11,7 @@
 <link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
 <link href="web_resources/theme/css/bootstrap-responsive.css" rel="stylesheet">
 
-<title>Sign Up Form for new Customer</title>
+<title>Sign Up Form</title>
 
 <style type="text/css">
 .wrapper {
@@ -30,7 +30,7 @@ label {
 
 	<div class="container">
 		
-		<form class="form-horizontal" id="signUpForm" method="post" action="signUpExternalUser">
+		<form class="form-horizontal" id="signUpForm" method="post" action="signUp">
 		<fieldset>
 		<legend>Registration Form</legend>
 				
@@ -121,8 +121,11 @@ label {
 					<form:label class="control-label" path="user.roleId">Role</form:label>
 					<form:select class="controls" path="user.roleId">
 						<form:option value="-1" label="--- Select ---" />
-						<form:option value="0" label="Individual" />
-						<form:option value="1" label="Organization/Merchant" />
+						<form:option value="1" label="Individual" />
+						<form:option value="2" label="Organization/Merchant" />
+						<form:option value="3" label="Regular" />
+						<form:option value="4" label="Merchant" />
+						<form:option value="5" label="Admin" />
 					</form:select>
 					<form:errors class="alert alert-danger" path="user.roleId" />
 				</div>
