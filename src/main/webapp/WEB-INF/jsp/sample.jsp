@@ -35,13 +35,14 @@
 		<div class="row">
 			<div class="col-md-3 column margintop20">
 				<ul class="nav nav-pills nav-stacked">
-					<li class="active"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
-					<li><a href="#"><span
+					<li id="home" class="active"><a 
+						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
+							Home</a></li>
+					<li id="credit"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Credit</a></li>
-					<li><a href="#" class="active2"><span
+					<li id="debit"><a  href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Debit</a></li>
-					<li><a href="#"><span
+					<li id="transfer"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
 					<li><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
@@ -49,8 +50,8 @@
 							class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
 				</ul>
 			</div>
-			<div class="col-md-9 column margintop20">
-			<jsp:include page="credit.jsp"/>
+			<div id="content" class="col-md-9 column margintop20">
+				<%-- <jsp:include page="credit.jsp"/> --%>
 			</div>
 		</div>
 	</div>
@@ -66,7 +67,20 @@
 		$(".nav li").on("click", function() {
 			$(".nav li").removeClass("active");
 			$(this).addClass("active");
+			changeContent();
 		});
+
+		function changeContent() {
+			var menuValue = $(".active").attr('id');
+			if (menuValue == "credit")
+				$('#content').load('credit');
+			else if (menuValue == "debit")
+				$('#content').load('debit');
+			else if (menuValue == "transfer")
+				$('#content').load('transfer');
+			else
+				$('#content').load('signup');
+		}
 	</script>
 </body>
 </html>
