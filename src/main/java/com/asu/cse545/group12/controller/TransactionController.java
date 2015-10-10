@@ -31,6 +31,19 @@ import com.asu.cse545.group12.domain.Form;
 public class TransactionController {
 	private static final Logger logger = Logger.getLogger(TransactionController.class);
 
+	
+	@RequestMapping(value = "/credit", method = RequestMethod.GET)
+	public ModelAndView getCreditForm() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("credit Screen is executed!");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("form", new Form());
+		modelView.setViewName("credit");
+		return modelView;
+	}
+	
 	@RequestMapping("creditAmount")
 	public ModelAndView creditAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
@@ -48,12 +61,38 @@ public class TransactionController {
 		if(logger.isDebugEnabled()){
 			logger.debug("Debit Screen is executed!");
 		}
-		return new ModelAndView("debit");
+		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("form", new Form());
+		modelView.setViewName("debit");
+		return modelView;
 	}
 
 	@RequestMapping("debitAmount")
-	public ModelAndView debitAmount(HttpServletRequest request) {
-		return new ModelAndView("debit");
+	public ModelAndView debitAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		return new ModelAndView("sample", "form", form);
+	}
+	
+	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
+	public ModelAndView getTransferForm() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("transfer Screen is executed!");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("form", new Form());
+		modelView.setViewName("transfer");
+		return modelView;
+	}
+	
+	@RequestMapping("transferAmount")
+	public ModelAndView transferAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		if(logger.isDebugEnabled()){
+			logger.debug("form:"+form.toString());
+		}
+		/*//validate the input data
+		Map<String, String> formMap=form.getMap();
+		Integer toAccountNumber= Integer.parseInt(formMap.get("toAccountNumber"));*/
+		return new ModelAndView("sample", "form", form);
 	}
 
 }
