@@ -21,23 +21,47 @@ public class NotificationController {
 
 	
 	@RequestMapping(value = "/notifications", method = RequestMethod.GET)
-	public ModelAndView getNotificationPage(Model model) {
+	public ModelAndView getNotificationPage() {
 	    //logs debug message
 	    if(logger.isDebugEnabled()){
 	      logger.debug("Notification page is requested");
 	    }
 	    
 	    ModelAndView notificationView = new ModelAndView();
+	    
 	    //********************************************************************************
 	    //    GET THE VALUES FROM THE getNotifications() method from the AuthorizationDao
 	    //********************************************************************************
 	    notificationView.addObject("notificationRows", authorizationService.getNotifications());
+	    notificationView.addObject("authorizationId", new Integer(0));
 	    notificationView.setViewName("notifications");
 		return notificationView;
 	}
 	
-	@RequestMapping(value = "/approve", method = RequestMethod.GET)
+	
+	@RequestMapping(value = "/approvenotification", method = RequestMethod.GET)
 	public ModelAndView approveRequest(Model model) {
+		
+		ModelAndView notificationView = new ModelAndView("notificationapprove");
+		String approver,authorizationid;
+		
+		//logs debug message
+	    if(logger.isDebugEnabled()){
+	      logger.debug("Request Approved");
+	    }
+	    //********************************************************************************
+	    //    Have to get the Internal User Who clicked on the APPROVE button along with authorization Object()
+	    //********************************************************************************
+	    //approver = 
+	    //authorizationid = 
+	    //authorizationService.approve(authorizationid,approver);
+	    //return notificationView;
+		return null;
+	}
+	
+	
+	@RequestMapping(value = "/rejectnotification", method = RequestMethod.GET)
+	public ModelAndView rejectRequest(Model model) {
 	    //logs debug message
 	    if(logger.isDebugEnabled()){
 	      logger.debug("Notification page is requested");
@@ -52,9 +76,8 @@ public class NotificationController {
 		return notificationView;
 	}
 	
-	
-	@RequestMapping(value = "/reject", method = RequestMethod.GET)
-	public ModelAndView rejectRequest(Model model) {
+	@RequestMapping(value = "/forwardnotification", method = RequestMethod.GET)
+	public ModelAndView forwardRequest(Model model) {
 	    //logs debug message
 	    if(logger.isDebugEnabled()){
 	      logger.debug("Notification page is requested");

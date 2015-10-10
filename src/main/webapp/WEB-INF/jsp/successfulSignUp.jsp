@@ -28,6 +28,5 @@ td {
 		In 2-3 business days, bank representative will contact you for next steps.</h3>
 	</center>
 
-
 </body>
 </html>
