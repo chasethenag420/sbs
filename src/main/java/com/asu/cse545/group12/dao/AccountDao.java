@@ -9,6 +9,7 @@ public interface AccountDao {
 	//public List<Users> getList();
 
 	public Account getRowById(int AccountId);
+	public Account getAccountByUserId(int userId);
 
 	public int updateRow(Account account);
 

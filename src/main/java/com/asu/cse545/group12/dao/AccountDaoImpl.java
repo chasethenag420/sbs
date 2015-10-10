@@ -1,19 +1,22 @@
 package com.asu.cse545.group12.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
-
-
-
+import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.asu.cse545.group12.domain.Account;
+import com.asu.cse545.group12.domain.Users;
 
 
 public class AccountDaoImpl implements AccountDao{
+	private static final Logger logger = Logger.getLogger(AccountDaoImpl.class);
 	@Autowired
 	SessionFactory sessionfactory;
 	
@@ -27,6 +30,25 @@ public class AccountDaoImpl implements AccountDao{
 		session.close();  
 		return (Integer) AccountId;
 	}
+	
+	@Override
+	public Account getAccountByUserId(int userId){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from account where userid = :userId ");
+		query.setParameter("userId", userId);
+		List results = query.list();
+		if(logger.isDebugEnabled()){
+			logger.debug("Account by userid: "+userId);
+		}
+		if(logger.isDebugEnabled()){
+			logger.debug("Account by userid: "+results);
+		}
+		if(results.size()==1){
+			return (Account)results.get(0);
+		} else {
+			return null;
+		}
+	}
 
 	@Override
 	public Account getRowById(int AccountId) {
@@ -37,9 +59,14 @@ public class AccountDaoImpl implements AccountDao{
 	}
 
 	@Override
+	@Transactional
 	public int updateRow(Account account) {
 		// TODO Auto-generated method stub
-		return 0;
+		Session session = sessionfactory.openSession(); 
+		Transaction tx = session.beginTransaction();
+		session.saveOrUpdate(account);
+		tx.commit();
+		return account.getAccountNumber();
 	}
 
 }

@@ -49,15 +49,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public int signupInsertRow(Users user) {
 		Authorization authorizationRequest = new Authorization();
 		authorizationRequest.setAuthorizedByUserId(user.getUserId());
-		authorizationRequest.setRequestStatus("pending");
+		authorizationRequest.setRequestStatus("Pending");
 		authorizationRequest.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
-		authorizationRequest.setRequestDescription("approval for account creation");
-		authorizationRequest.setRequestType("signup request");
-		authorizationDao.insertRow(authorizationRequest);
-		
-		
-		// TODO Auto-generated method stub
-		return 0;
+		authorizationRequest.setRequestDescription("Approval for account creation");
+		authorizationRequest.setRequestType("Signup");
+		return authorizationDao.insertRow(authorizationRequest);		
 	}
 	
 	

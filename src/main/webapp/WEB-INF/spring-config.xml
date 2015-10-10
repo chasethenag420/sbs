@@ -123,6 +123,8 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<bean id="UserServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
 	<bean id="AuthorizationDaoImpl" class="com.asu.cse545.group12.dao.AuthorizationDaoImpl" />
 	<bean id="AuthorizationServiceImpl" class="com.asu.cse545.group12.services.AuthorizationServiceImpl" />
+	<bean id="TransactionDao" class="com.asu.cse545.group12.dao.TransactionDaoImpl" />
+	<bean id="TransactionsServiceImpl" class="com.asu.cse545.group12.services.TransactionsServiceImpl" />
 	<bean id="authenticationSuccessRedirecthandler" class="com.asu.cse545.group12.authentication.SbsAuthenticationHandler" ></bean>
 
 

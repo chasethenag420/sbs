@@ -58,6 +58,13 @@ public class Transfer {
 		this.userFromTransactionid = userFromTransactionid;
 	}
 
+	@Override
+	public String toString() {
+		return "Transfer [transferId=" + transferId + ", transactionStatus=" + transactionStatus
+				+ ", userToTransactionid=" + userToTransactionid + ", userFromTransactionid=" + userFromTransactionid
+				+ "]";
+	}
+
 	
 }
 
