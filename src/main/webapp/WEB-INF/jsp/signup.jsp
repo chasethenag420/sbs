@@ -101,7 +101,6 @@ label {
 					<form:input class="controls" path="user.state" />
 					<form:errors class="alert alert-danger" path="user.state" />
 				</div>
-
 				
 				<div class="control-group">
 					<form:label class="control-label" path="user.country">Country</form:label>
