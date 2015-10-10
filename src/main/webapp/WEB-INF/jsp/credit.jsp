@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-Frame-Options" content="allow">
 <title>Secure Bank System | Credit</title>
 </head>
 <body>
@@ -22,18 +23,18 @@
      <td><form:input path="map['toAccountNumber']" />
      </td>
     </tr>
-    <%-- <tr>
-     <td><form:label path="amount">Amount</form:label>
+    <tr>
+     <td><form:label path="map['amount']">Amount</form:label>
      </td>
-     <td><form:input path="amount" />
+     <td><form:input path="map['amount']" />
      </td>
     </tr>
     <tr>
-     <td><form:label path="transferDescription">Transfer Description</form:label>
+     <td><form:label path="map['transferDescription']">Transfer Description</form:label>
      </td>
-     <td><form:input path="transferDescription" />
+     <td><form:input path="map['transferDescription']" />
      </td>
-    </tr> --%>
+    </tr>
     <tr> 
      <td><input type="submit" value="Submit" /></td>
      <td><input type="button" value="Cancel" /></td>

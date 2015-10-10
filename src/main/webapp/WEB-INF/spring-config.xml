@@ -35,6 +35,7 @@ xmlns:security="http://www.springframework.org/schema/security"
 				<value>com.asu.cse545.group12.domain.Role</value>
 				<value>com.asu.cse545.group12.domain.Transactions</value>
 				<value>com.asu.cse545.group12.domain.Transfer</value>
+				<value>com.asu.cse545.group12.domain.Form</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

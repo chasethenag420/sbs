@@ -9,8 +9,8 @@
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="X-Frame-Options" content="allow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="web_resources/theme/css/main.css" rel="stylesheet">
 <!--<link href="web_resources/theme/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -50,9 +50,7 @@
 				</ul>
 			</div>
 			<div class="col-md-9 column margintop20">
-			<%-- <%@ include file="./credit.jsp" %> --%>
-			<%-- <jsp:include page="./credit.jsp"/> --%>
-			<iframe src="./credit.jsp" height="70" width="900" ></iframe>
+			<jsp:include page="credit.jsp"/>
 			</div>
 		</div>
 	</div>

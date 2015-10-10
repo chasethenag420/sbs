@@ -40,6 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.stereotype.Service;
 
+import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.AuthorizationService;
@@ -87,11 +88,10 @@ public class SignUpController {
 	public ModelAndView getSignUpForm() {
 		//logs debug message
 		if(logger.isDebugEnabled()){
-			logger.debug("Sample");
+			logger.debug("Sample page requested");
 		}
 		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("user", new Users());
-		modelView.addObject("userpii", new UserPII());
+		modelView.addObject("form", new Form());
 		modelView.setViewName("sample");
 
 		return modelView;
