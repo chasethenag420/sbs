@@ -31,23 +31,15 @@ import com.asu.cse545.group12.domain.Form;
 public class TransactionController {
 	private static final Logger logger = Logger.getLogger(TransactionController.class);
 
-	@RequestMapping( value= "credit")
-	public ModelAndView getCredit() {
-
-		logger.debug("Individual controller: getCredit");
-		Form form = new Form();
-		Map formMap = form.getMap();
-		formMap.put("toAccountNumber", "67457745");
-		formMap.put("amount", "0");
-		formMap.put("transferDescription", "ffffff");
-		
-		return new ModelAndView("credit", "form", form);
-	}
-	
-
 	@RequestMapping("creditAmount")
-	public ModelAndView creditAmount(HttpServletRequest request) {
-		return new ModelAndView("credit");
+	public ModelAndView creditAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		if(logger.isDebugEnabled()){
+			logger.debug("form:"+form.toString());
+		}
+		//validate the input data
+		Map<String, String> formMap=form.getMap();
+		Integer toAccountNumber= Integer.parseInt(formMap.get("toAccountNumber"));
+		return new ModelAndView("sample", "form", form);
 	}
 	
 	@RequestMapping(value = "/debit", method = RequestMethod.GET)
