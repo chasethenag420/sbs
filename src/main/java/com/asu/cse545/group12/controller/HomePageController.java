@@ -25,8 +25,64 @@ import com.asu.cse545.group12.domain.Users;
 @Controller
 public class HomePageController {
 	private static final Logger logger = Logger.getLogger(HomePageController.class);
-	 @RequestMapping("home")
-	 public ModelAndView homePage(Model model) {
-	  return new ModelAndView("signup", "user", new Users());
-	 }
+	@RequestMapping("home")
+	public ModelAndView homePage(Model model) {
+		return new ModelAndView("home");
+	}
+
+	@RequestMapping(value = "/individual", method = RequestMethod.GET)
+	public ModelAndView getIndividualHomePage() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("Home Page requested");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("individual");
+
+		return modelView;
+	}
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public ModelAndView getAdminHomePage() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("Admin Home Page requested");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("admin");
+
+		return modelView;
+	}
+	@RequestMapping(value = "/manager", method = RequestMethod.GET)
+	public ModelAndView getManagerHomePage() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("Manager Home Page requested");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("manager");
+
+		return modelView;
+	}
+	@RequestMapping(value = "/regular", method = RequestMethod.GET)
+	public ModelAndView getRegularHomePage() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("Regular Home Page requested");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("regular");
+
+		return modelView;
+	}
+	@RequestMapping(value = "/merchant", method = RequestMethod.GET)
+	public ModelAndView getMerchantHomePage() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("Merchant Home Page requested");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("merchant");
+
+		return modelView;
+	}
 }

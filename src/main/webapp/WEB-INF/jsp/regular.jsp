@@ -12,9 +12,9 @@
 <link href="web_resources/theme/css/bootstrap-responsive.css"
 	rel="stylesheet">
 
-<title>Individual User Home Page</title>
+<title>Regular User Home page</title>
 <style>
-div.individualuserdetails {
+div.internaluserdetails {
 	margin-top: 50px;
 	float: left;
 	vertical-align: left;
@@ -32,36 +32,37 @@ div.heading {
 </style>
 </head>
 <body>
+	<form class="form-horizontal" id="regularHomepage">
+		<div class="regularuserdetails">
 
-	<div class="individualuserdetails">
-
-		<input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}" />
-		<table width="400px" height="150px">
-			<tr>
-				<td><a href="notifications.jsp" id="notifications">Profile</a>
-				</td>
-			</tr>
-			<tr>
-				<td><a href="notifications.jsp" id="notifications">Credit</a></td>
-			</tr>
-			<tr>
-				<td><a href="notifications.jsp" id="notifications">Debit</a></td>
-			</tr>
-			<tr>
-				<td><a href="notifications.jsp" id="notifications">Raise Request</a></td>
-			</tr>
-			<tr>
-				<td><a href="notifications.jsp" id="notifications">Transfer</a>
-				</td>
-			</tr>
-			<tr>
-				<td><a href="notifications.jsp" id="notifications">Account Summary</a></td>
-			</tr>
-		</table>
-	</div>
-	<div class="heading">
-		<h1>Individual User Home Page</h1>
-	</div>
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<table width="400px" height="150px">
+				<tr>
+					<td><a href="notifications.html" id="notifications">Notification</a>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="notifications.jsp" id="notifications">Profile</a>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="notifications.jsp" id="notifications">Requests</a>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="notifications.jsp" id="notifications">Search Users</a>
+					</td>
+				</tr>
+				<tr>
+					<td><a href="notifications.jsp" id="notifications">View Transactions</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="heading">
+			<h1>Regular User Home Page</h1>
+		</div>
+	</form>
 </body>
 </html>

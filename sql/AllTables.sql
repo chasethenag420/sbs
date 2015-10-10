@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS `userpii`;
-DROP TABLE IF EXISTS `role`;
-DROP TABLE IF EXISTS `authorization`;
-DROP TABLE IF EXISTS `transfer`;
-DROP TABLE IF EXISTS `transaction`;
-DROP TABLE IF EXISTS `account`;
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `userpii` cascade;
+DROP TABLE IF EXISTS `role` cascade;
+DROP TABLE IF EXISTS `authorization` cascade;
+DROP TABLE IF EXISTS `transfer` cascade;
+DROP TABLE IF EXISTS `transaction` cascade;
+DROP TABLE IF EXISTS `account` cascade;
+DROP TABLE IF EXISTS `user` cascade;
 
 CREATE TABLE `user` (
   `USERID` int(20) NOT NULL AUTO_INCREMENT,
@@ -25,7 +25,9 @@ CREATE TABLE `user` (
   `STATE` varchar(30) DEFAULT NULL,
   `COUNTRY` varchar(30) DEFAULT NULL,
   `ZIPCODE` varchar(10) DEFAULT NULL,
+  UNIQUE KEY `USERNAME` (`USERNAME`),
   PRIMARY KEY (`USERID`)
+  
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 
@@ -97,13 +99,14 @@ CREATE TABLE `role` (
   `VIEWFLAG` int(5) NOT NULL,
   `MODIFYFLAG` int(5) NOT NULL,
   `CREATEFLAG` int(5) NOT NULL,
-  `DELETEFLAG` int(5) NOT NULL
+  `DELETEFLAG` int(5) NOT NULL,
+  PRIMARY KEY (`ROLEID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `userpii` (
   `USERID` int(20) NOT NULL,
-  `SSN` int(25) NOT NULL,
+  `SSN` varchar(255) NOT NULL,
   `DATEOFBIRTH` date NOT NULL,
   UNIQUE KEY `SSN` (`SSN`),
   KEY `FK_USERID` (`USERID`),
@@ -112,8 +115,8 @@ CREATE TABLE `userpii` (
 
 
 
-insert into role values(1,'admin',1,1,1,1);
-insert into role values(2,'manager',1,1,1,1);
+insert into role values(5,'admin',1,1,1,1);
+insert into role values(4,'manager',1,1,1,1);
 insert into role values(3,'regular',1,1,0,0);
-insert into role values(4,'merchant',1,0,0,0);
-insert into role values(5,'individual',1,0,0,0);
+insert into role values(2,'merchant',1,0,0,0);
+insert into role values(1,'individual',1,0,0,0);

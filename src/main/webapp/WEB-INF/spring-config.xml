@@ -89,8 +89,7 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<security:http  pattern="/web_resources/**" security="none"/>
 	<security:http auto-config="true" use-expressions="true" disable-url-rewriting="true" >
-		<security:intercept-url pattern="/j_spring_security_check"
-			access="isAnonymous()" />
+		<security:intercept-url pattern="/j_spring_security_check"	access="permitAll" />
 		<security:intercept-url pattern="/login*" access="permitAll" />
 		<security:intercept-url pattern="/index*" access="permitAll" />
 		<security:intercept-url pattern="/signup*" access="permitAll" /> 
@@ -100,7 +99,7 @@ xmlns:security="http://www.springframework.org/schema/security"
 
 		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
 		<security:form-login login-page='/login.html' login-processing-url="/j_spring_security_check"
-			default-target-url="/signup.html" authentication-failure-url="/login.html?error=true"
+			default-target-url="/home.html" authentication-success-handler-ref="authenticationSuccessRedirecthandler" authentication-failure-url="/login.html?error=true"
 			always-use-default-target="true"
 			username-parameter="username"
             password-parameter="password"
@@ -121,6 +120,7 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<bean id="UserServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
 	<bean id="authorizationDao" class="com.asu.cse545.group12.dao.AuthorizationDaoImpl" />
 	<bean id="AuthorizationServiceImpl" class="com.asu.cse545.group12.services.AuthorizationServiceImpl" />
+	<bean id="authenticationSuccessRedirecthandler" class="com.asu.cse545.group12.authentication.SbsAuthenticationHandler" ></bean>
 
 
 	
@@ -138,4 +138,5 @@ xmlns:security="http://www.springframework.org/schema/security"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<constructor-arg name="strength" value="10" />
 	</bean>
+	<bean id="hashGenerator" class="com.asu.cse545.group12.hashing.HashGenerator"/>
 </beans>
