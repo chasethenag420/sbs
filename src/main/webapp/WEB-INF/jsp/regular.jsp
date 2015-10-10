@@ -39,23 +39,23 @@ div.heading {
 				value="${_csrf.token}" />
 			<table width="400px" height="150px">
 				<tr>
-					<td><a href="notifications.html" id="notifications">Notification</a>
+					<td><a href="notifications" id="notifications">Notification</a>
 					</td>
 				</tr>
 				<tr>
-					<td><a href="notifications.jsp" id="notifications">Profile</a>
+					<td><a href="notifications" id="notifications">Profile</a>
 					</td>
 				</tr>
 				<tr>
-					<td><a href="notifications.jsp" id="notifications">Requests</a>
+					<td><a href="notifications" id="notifications">Requests</a>
 					</td>
 				</tr>
 				<tr>
-					<td><a href="notifications.jsp" id="notifications">Search Users</a>
+					<td><a href="notifications" id="notifications">Search Users</a>
 					</td>
 				</tr>
 				<tr>
-					<td><a href="notifications.jsp" id="notifications">View Transactions</a>
+					<td><a href="notifications" id="notifications">View Transactions</a>
 					</td>
 				</tr>
 			</table>

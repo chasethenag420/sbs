@@ -57,7 +57,6 @@ public class SignUpController {
 	@Autowired
 	AuthorizationService  authorizationService;
 
-
 	@RequestMapping( value= "signUp")
 	public ModelAndView registerUser(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model) {
 

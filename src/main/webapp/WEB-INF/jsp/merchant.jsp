@@ -39,33 +39,33 @@ div.heading
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<table width="400px" height="150px">
 			<tr>
-		<td><a href="notifications.jsp" id="notifications">Profile</a>
+		<td><a href="notifications" id="notifications">Profile</a>
 		</td>
 		</tr>
 		<tr>
-		<td><a href="notifications.jsp" id="notifications">Bulk Transfer</a>
+		<td><a href="notifications" id="notifications">Bulk Transfer</a>
 		</td>
 		</tr>
 		<tr>
 		<tr>
-		<td><a href="notifications.jsp" id="notifications">Credit</a>
+		<td><a href="notifications" id="notifications">Credit</a>
 		</td>
 		</tr>
-		<td><a href="notifications.jsp" id="notifications">Debit</a>
+		<td><a href="notifications" id="notifications">Debit</a>
 		</td>
 		</tr>
 		<tr>
-		<td><a href="notifications.jsp" id="notifications">Transfer</a>
+		<td><a href="notifications" id="notifications">Transfer</a>
 		</td>
 		</tr>
 		<tr>
 		<td>
-		<a href="notifications.jsp" id="notifications">Raise Request</a>
+		<a href="notifications" id="notifications">Raise Request</a>
 		</td>
 		</tr>
 		
 		<tr>
-		<td><a href="notifications.jsp" id="notifications">Account Summary</a>
+		<td><a href="notifications" id="notifications">Account Summary</a>
 		</td>
 		</tr>
 			</table>
