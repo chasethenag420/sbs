@@ -142,7 +142,7 @@ label {
 				<div class="control-group">
 					<div class="controls">
 						<input class="btn  btn-primary " type="submit" value="Submit" />
-						<input class="btn  btn-primary " type="button" value="Cancel" />
+						<a class="btn  btn-primary " href="sample" type="button"  >Cancel</a>
 					</div>
 				</div>
 

@@ -82,6 +82,21 @@ public class SignUpController {
 	                         new CustomDateEditor(new SimpleDateFormat("mm/dd/yyyy"), true, 10));   
 	}
 	
+	
+	@RequestMapping(value = "/sample", method = RequestMethod.GET)
+	public ModelAndView getSignUpForm() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("Sample");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("user", new Users());
+		modelView.addObject("userpii", new UserPII());
+		modelView.setViewName("sample");
+
+		return modelView;
+	} 
+	
 
 }
 

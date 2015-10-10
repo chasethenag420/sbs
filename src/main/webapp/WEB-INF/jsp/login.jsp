@@ -110,9 +110,13 @@
         <a class="btn btn-default"
         href="
         <c:url value="/admin.html" />
-        ">
-        <spring:message
-          code="message.resetPassword"></spring:message>
+        ">Admin</a>
+        
+        <a class="btn btn-default"
+        href="
+        <c:url value="/credit.html" />
+        ">Credit
+        
         </a>
       </div>
     </div>
