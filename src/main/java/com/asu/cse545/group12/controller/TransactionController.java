@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,20 +23,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.asu.cse545.group12.domain.Form;
+
 
 
 @Controller
 public class TransactionController {
 	private static final Logger logger = Logger.getLogger(TransactionController.class);
 
-	@RequestMapping(value = "/credit", method = RequestMethod.GET)
-	public ModelAndView getCreditForm() {
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("Credit Screen is executed!");
-		}
-		return new ModelAndView("credit");
+	@RequestMapping( value= "credit")
+	public ModelAndView getCredit() {
+
+		logger.debug("Individual controller: getCredit");
+		Form form = new Form();
+		Map formMap = form.getMap();
+		formMap.put("toAccountNumber", "67457745");
+		formMap.put("amount", "0");
+		formMap.put("transferDescription", "ffffff");
+		
+		return new ModelAndView("credit", "form", form);
 	}
+	
 
 	@RequestMapping("creditAmount")
 	public ModelAndView creditAmount(HttpServletRequest request) {

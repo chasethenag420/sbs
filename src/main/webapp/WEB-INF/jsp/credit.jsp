@@ -13,16 +13,16 @@
 
   <div style="color: teal; font-size: 30px">Secure Bank System |
    Credit</div>
-  <form:form id="creditForm"  method="post"
+  <form:form id="creditForm"  method="post" modelAttribute="form"
    action="creditAmount">
    <table width="400px" height="150px">
     <tr>
-     <td><form:label path="toAccountNumber">To Account Number</form:label>
+     <td><form:label path="map['toAccountNumber']">To Account Number</form:label>
      </td>
-     <td><form:input path="toAccountNumber" />
+     <td><form:input path="map['toAccountNumber']" />
      </td>
     </tr>
-    <tr>
+    <%-- <tr>
      <td><form:label path="amount">Amount</form:label>
      </td>
      <td><form:input path="amount" />
@@ -33,13 +33,14 @@
      </td>
      <td><form:input path="transferDescription" />
      </td>
-    </tr>
+    </tr> --%>
     <tr> 
      <td><input type="submit" value="Submit" /></td>
      <td><input type="button" value="Cancel" /></td>
     </tr>
    </table>
   </form:form>
+  
  </center>
 </body>
 </html>
