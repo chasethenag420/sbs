@@ -8,40 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.asu.cse545.group12.domain.Users;
+
 
 public class SbsAuthenticationHandler implements AuthenticationSuccessHandler {
-
-/*	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-		String prefix="/../WEB-INF/jsp/"; 
-		String individualTargetUrl = prefix+"individual.jsp";
-		String merchantTargetUrl = prefix+"merchant.jsp";
-		String regularTargetUrl = prefix+"regular.jsp";
-		String managerTargetUrl = prefix+"manager.jsp";
-		String adminTargetUrl = prefix+"admin.jsp";
-		String defaultTargetUrl = prefix+"home.jsp";
-		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-		if (roles.contains("ROLE_ADMIN")) {
-			getRedirectStrategy().sendRedirect(request, response, adminTargetUrl);
-		} else if (roles.contains("ROLE_MANAGER")) {
-			getRedirectStrategy().sendRedirect(request, response, managerTargetUrl);
-		} else if (roles.contains("ROLE_REGULAR")) {
-			getRedirectStrategy().sendRedirect(request, response, regularTargetUrl);
-		}else if (roles.contains("ROLE_MERCHANT")) {
-			getRedirectStrategy().sendRedirect(request, response, merchantTargetUrl);
-		}else if (roles.contains("ROLE_INDIVIDUAL")) {
-			getRedirectStrategy().sendRedirect(request, response, individualTargetUrl);
-		}else {
-			getRedirectStrategy().sendRedirect(request, response, defaultTargetUrl);
-		}
-	}*/
 	private static final Logger logger = Logger.getLogger(SbsAuthenticationHandler.class);
 	 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -61,7 +40,6 @@ public class SbsAuthenticationHandler implements AuthenticationSuccessHandler {
             logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
             return;
         }
- 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
  
@@ -122,6 +100,12 @@ public class SbsAuthenticationHandler implements AuthenticationSuccessHandler {
         if (session == null) {
             return;
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+        if(logger.isDebugEnabled()){
+  	      logger.debug("Logged in as: " + name);
+  	    }
+        session.setAttribute("username", name);
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     }
  

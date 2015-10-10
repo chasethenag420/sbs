@@ -8,7 +8,8 @@ xmlns:security="http://www.springframework.org/schema/security"
   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-  http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+  http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<context:component-scan base-package="com.asu.cse545.group12.controller" />
 	<context:property-placeholder location="classpath:database.properties" />
@@ -112,7 +113,6 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<security:authentication-manager>
 		<security:authentication-provider ref="authProvider" />
 	</security:authentication-manager>
-
 	<bean id="UserDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
 	<bean id="RoleDaoImpl" class="com.asu.cse545.group12.dao.RoleDaoImpl" />
 	<bean id="AccountDaoImpl" class="com.asu.cse545.group12.dao.AccountDaoImpl" />
@@ -141,4 +141,6 @@ xmlns:security="http://www.springframework.org/schema/security"
 		<constructor-arg name="strength" value="10" />
 	</bean>
 	<bean id="hashGenerator" class="com.asu.cse545.group12.hashing.HashGenerator"/>
+	     
+      
 </beans>

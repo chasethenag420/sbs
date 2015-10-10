@@ -56,9 +56,9 @@ table tr td {
     		  <td><c:out value="${eachnotification.requestStatus}" /></td>
     		  <td><c:out value="${eachnotification.authorizedToUserId}" /></td>
     		  
-    		  <td> <a  class="btn btn-success" href="/approvenotification">Approve</a> </td>
-    		  <td> <a  class="btn btn-danger" href="/rejectnotification">Reject</a> </td>
-      		  <td> <a  class="btn btn-info" href="/forwardnotification">Forward</a> </td>
+    		  <td> <a  class="btn btn-success" href="approvenotification">Approve</a> </td>
+    		  <td> <a  class="btn btn-danger" href="rejectnotification">Reject</a> </td>
+      		  <td> <a  class="btn btn-info" href="forwardnotification">Forward</a> </td>
 			</tr>    	   
     	</c:forEach>
     	   
