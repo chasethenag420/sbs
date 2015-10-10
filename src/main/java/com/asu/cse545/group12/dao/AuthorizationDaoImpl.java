@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,11 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.asu.cse545.group12.controller.LoginController;
 import com.asu.cse545.group12.domain.Authorization;
 
 @Component
 public class AuthorizationDaoImpl implements AuthorizationDao {
 
+	private static final Logger logger = Logger.getLogger(AuthorizationDaoImpl.class);
+	
 	@Autowired
 	SessionFactory sessionfactory;
 	
@@ -94,7 +98,10 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
+		
 		pendingEntries = query.list();
+		
+		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		
 		return pendingEntries;
 		

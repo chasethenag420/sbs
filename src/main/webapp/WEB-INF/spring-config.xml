@@ -94,7 +94,9 @@ xmlns:security="http://www.springframework.org/schema/security"
 		<security:intercept-url pattern="/index*" access="permitAll" />
 		<security:intercept-url pattern="/signup*" access="permitAll" /> 
 		<security:intercept-url pattern="/forgetPassword*" access="permitAll" /> 
- 		<security:intercept-url pattern="/**" access="isAuthenticated()" /> 
+		<security:intercept-url pattern="/notifications*" access="permitAll" /> 
+<!--  		<security:intercept-url pattern="/**" access="isAuthenticated()" />  -->
+		<security:intercept-url pattern="/**" access="permitAll" />
  		<security:intercept-url pattern="/invalidSession*" access="permitAll" />
 
 		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
@@ -118,7 +120,7 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<bean id="UserPiiDaoImpl" class="com.asu.cse545.group12.dao.UserPiiDaoImpl" />
 	<bean id="UserPiiServiceImpl" class="com.asu.cse545.group12.services.UserPiiServiceImpl" />
 	<bean id="UserServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
-	<bean id="authorizationDao" class="com.asu.cse545.group12.dao.AuthorizationDaoImpl" />
+	<bean id="AuthorizationDaoImpl" class="com.asu.cse545.group12.dao.AuthorizationDaoImpl" />
 	<bean id="AuthorizationServiceImpl" class="com.asu.cse545.group12.services.AuthorizationServiceImpl" />
 	<bean id="authenticationSuccessRedirecthandler" class="com.asu.cse545.group12.authentication.SbsAuthenticationHandler" ></bean>
 

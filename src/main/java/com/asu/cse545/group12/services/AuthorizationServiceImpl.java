@@ -30,19 +30,19 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public List<Authorization> getNotifications() {
 		// TODO Auto-generated method stub
-		return null;
+		return authorizationDao.getNotifications();
 	}
 
 	@Override
 	public int reject(Authorization authorization) {
 		// TODO Auto-generated method stub
-		return 0;
+		return authorizationDao.reject(authorization);
 	}
 
 	@Override
 	public int forward(Authorization authorization) {
 		// TODO Auto-generated method stub
-		return 0;
+		return authorizationDao.forward(authorization);
 	}
 
 	@Override
