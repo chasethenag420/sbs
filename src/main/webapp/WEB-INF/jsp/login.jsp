@@ -109,7 +109,7 @@
         </a> <br> <br>
         <a class="btn btn-default"
         href="
-        <c:url value="/forgetPassword.html" />
+        <c:url value="/admin.html" />
         ">
         <spring:message
           code="message.resetPassword"></spring:message>

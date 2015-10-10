@@ -12,7 +12,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public int insertRow(int userId) {
 		// TODO Auto-generated method stub
-		// check if the user request for creation got approved
+		
 		Account account = new Account();
 		account.setAccountType("checkings");
 		account.setActiveFlag(1);

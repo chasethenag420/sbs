@@ -37,6 +37,20 @@ public class LoginController {
 		
 		return modelView;
 	}
+  
+  @RequestMapping(value = "/admin", method = RequestMethod.GET)
+ 	public ModelAndView getinternalForm() {
+ 		//logs debug message
+ 		if(logger.isDebugEnabled()){
+ 			logger.debug("Sign up form requested");
+ 		}
+ 		ModelAndView modelView = new ModelAndView();
+ 		//modelView.addObject("user", new Users());
+ 		//modelView.addObject("userpii", new UserPII());
+ 		modelView.setViewName("admin");
+ 		
+ 		return modelView;
+ 	}
 }
 
 
