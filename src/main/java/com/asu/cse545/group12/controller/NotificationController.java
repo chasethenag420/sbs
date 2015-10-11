@@ -29,7 +29,7 @@ public class NotificationController {
 	AuthorizationService  authorizationService;
 
 	@RequestMapping(value = "/notifications", method = RequestMethod.GET)
-	public String getNotificationPage(ModelMap modelMap) {
+	public ModelAndView getNotificationPage() {
 		//logs debug message
 		if(logger.isDebugEnabled()){
 			logger.debug("Notification page is requested");
@@ -41,23 +41,25 @@ public class NotificationController {
 		//    GET THE VALUES FROM THE getNotifications() method from the AuthorizationDao
 		//********************************************************************************
 		//notificationView.addObject("notificationRows", authorizationService.getNotifications());
-		modelMap.addAttribute("authorizationId", "0");
-		modelMap.addAttribute("notificationRows", authorizationService.getNotifications());
-		//notificationView.setViewName("notifications");
-		return "notifications";
+		notificationView.addObject("form", new Form());
+		notificationView.addObject("notificationRows", authorizationService.getNotifications());
+		notificationView.setViewName("notifications");
+		return notificationView;
 	}
 
 
-	@RequestMapping(value = "/approvenotification")
-	public ModelAndView approveRequest(ModelMap modelMap,HttpServletRequest request) {
+	@RequestMapping("approvenotification")
+	public ModelAndView approveRequest(@ModelAttribute("form") Form form,HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username=(String)session.getAttribute("username");
+		Map<String, String> formMap=form.getMap();
+		Integer authorizationId= Integer.parseInt(formMap.get("authorizationId"));
 		if(logger.isDebugEnabled()){
-			logger.debug("username in notifications: "+modelMap.toString());
+			logger.debug("***************************************************username in notifications: "+authorizationId);
 		}
 		ModelAndView notificationView = new ModelAndView();
 		
-		Integer authorizationId= Integer.parseInt((String)modelMap.get("authorizationId"));
+		//Integer authorizationId= Integer.parseInt((String)modelMap.get("authorizationId"));
 		//logs debug message
 		if(logger.isDebugEnabled()){
 			logger.debug("Request Approved by "+authorizationId);

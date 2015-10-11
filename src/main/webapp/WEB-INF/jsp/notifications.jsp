@@ -31,7 +31,7 @@ table tr td {
 			Notifications</div>
 
 		<br> <br> <br>
-		<form:form class="form-horizontal" id="notificationsForm" method="post">
+		<form:form class="form-horizontal" id="notificationsForm" method="post" action="approvenotification" modelAttribute="form">
 			<c:if test="${!empty notificationRows}">
 
 				<table border="1" bgcolor="black" width="auto">
@@ -52,7 +52,7 @@ table tr td {
 						<tr
 							style="background-color: white; color: black; text-align: center;"
 							height="30px">
-							<td><form:radiobutton path="authorizationId" value="${eachnotification.authorizationId}" /></td>
+							<td><form:radiobutton path="map['authorizationId']" value="${eachnotification.authorizationId}" /></td>
 							<td><c:out value="${eachnotification.requestType}" /></td>
 							<td><c:out value="${eachnotification.requestDescription}" /></td>
 							<td><c:out
@@ -61,7 +61,7 @@ table tr td {
 							<td><c:out value="${eachnotification.requestStatus}" /></td>
 							<td><c:out value="${eachnotification.authorizedToUserId}" /></td>
 
-							<td><a class="btn btn-success" href="approvenotification">Approve</a>
+							<td><input type="submit" class="btn btn-success" >Approve</a>
 							</td>
 							<td><a class="btn btn-danger" href="rejectnotification">Reject</a>
 							</td>

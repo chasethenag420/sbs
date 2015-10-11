@@ -65,7 +65,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public int signupInsertRow(Users user) {
 		Authorization authorizationRequest = new Authorization();
-		authorizationRequest.setAuthorizedByUserId(user.getUserId());
+		authorizationRequest.setAuthorizedToUserId(user.getUserId());
 		authorizationRequest.setRequestStatus("Pending");
 		authorizationRequest.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 		authorizationRequest.setRequestDescription("Approval for account creation");
