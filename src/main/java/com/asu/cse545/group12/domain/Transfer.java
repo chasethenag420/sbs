@@ -4,7 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.Entity;
+@Entity(name="transfer")
 public class Transfer {
 	
 
@@ -56,6 +57,13 @@ public class Transfer {
 
 	public void setUserFromTransactionid(int userFromTransactionid) {
 		this.userFromTransactionid = userFromTransactionid;
+	}
+
+	@Override
+	public String toString() {
+		return "Transfer [transferId=" + transferId + ", transactionStatus=" + transactionStatus
+				+ ", userToTransactionid=" + userToTransactionid + ", userFromTransactionid=" + userFromTransactionid
+				+ "]";
 	}
 
 	

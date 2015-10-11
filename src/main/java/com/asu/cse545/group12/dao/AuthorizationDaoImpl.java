@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.asu.cse545.group12.controller.LoginController;
 import com.asu.cse545.group12.domain.Authorization;
+import com.asu.cse545.group12.domain.Users;
 
 @Component
 public class AuthorizationDaoImpl implements AuthorizationDao {
@@ -94,7 +95,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	@Override
 	public List<Authorization> getNotifications() 
 	{
-		String whereClause = "FROM Authorization WHERE Request_status='pending' or Request_status= 'forward'";
+		String whereClause = "from authorization where request_status='pending' or request_status= 'forward'";
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
@@ -105,6 +106,36 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		
 		return pendingEntries;
 		
+	}
+	
+	@Override
+	public Authorization getRowById(int authorizationId) {
+		// TODO Auto-generated method stub
+			Session session = sessionfactory.openSession();
+			Authorization authorization= session.load(Authorization.class, authorizationId);
+			return authorization;
+		
+	}
+	
+	
+	@Override
+	public Authorization getAuthorizationByAuthorizationId(int authorizationId){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from authorization where authorizationid =:authorizationId ");
+		query.setParameter("authorizationId", authorizationId);
+		List results = query.list();
+		if(logger.isDebugEnabled()){
+			logger.debug("Authorization by authorizationId: "+authorizationId);
+		}
+		if(logger.isDebugEnabled()){
+			logger.debug("Authorization by authorizationId: "+results);
+		}
+		session.close();
+		if(results.size()==1){
+			return (Authorization)results.get(0);
+		} else {
+			return null;
+		}
 	}
 	//public int deleteRow(int AccountId);
 }

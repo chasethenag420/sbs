@@ -24,11 +24,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.asu.cse545.group12.domain.Form;
+import com.asu.cse545.group12.services.TransactionsService;
 
 
 
 @Controller
 public class TransactionController {
+	@Autowired 
+	TransactionsService transactionservice;
+
 	private static final Logger logger = Logger.getLogger(TransactionController.class);
 
 	
@@ -47,14 +51,16 @@ public class TransactionController {
 	@RequestMapping("creditAmount")
 	public ModelAndView creditAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
-			logger.debug("form:"+form.toString());
+			logger.debug("Credit Amount:");
 		}
 		//validate the input data
 		Map<String, String> formMap=form.getMap();
 		Integer toAccountNumber= Integer.parseInt(formMap.get("toAccountNumber"));
+		Integer amount= Integer.parseInt(formMap.get("amount"));
+		transactionservice.doCredit(toAccountNumber, amount);
 		return new ModelAndView("sample", "form", form);
 	}
-	
+
 	@RequestMapping(value = "/debit", method = RequestMethod.GET)
 	public ModelAndView getDebitForm() {
 		//logs debug message
@@ -69,6 +75,15 @@ public class TransactionController {
 
 	@RequestMapping("debitAmount")
 	public ModelAndView debitAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		
+		if(logger.isDebugEnabled()){
+			logger.debug("Debit Amount:");
+		}
+		
+		Map<String, String> formMap=form.getMap();
+		Integer toAccountNumber= Integer.parseInt(formMap.get("fromAccountNumber"));
+		Integer amount= Integer.parseInt(formMap.get("amount"));
+		transactionservice.doDebit(toAccountNumber, amount);
 		return new ModelAndView("sample", "form", form);
 	}
 	

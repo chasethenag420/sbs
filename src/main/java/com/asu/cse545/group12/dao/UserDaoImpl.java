@@ -50,9 +50,10 @@ public class UserDaoImpl implements UserDao {
 				Transaction tx = session.beginTransaction();
 				session.saveOrUpdate(user);
 				tx.commit();
+				session.close();
 				return user.getUserId();
 	}
-	
+	@Override
 	public Users getUserByUserName(String username){
 		Session session = sessionfactory.openSession();
 		Query query = session.createQuery("from user where username = :username ");
@@ -64,12 +65,31 @@ public class UserDaoImpl implements UserDao {
 		if(logger.isDebugEnabled()){
 			logger.debug("User by username: "+results);
 		}
+		session.close();
 		if(results.size()==1){
 			return (Users)results.get(0);
 		} else {
 			return null;
 		}
 	}
-	
+	@Override
+	public Users getUserByUserId(int userId){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where userid = :userId ");
+		query.setParameter("userId", userId);
+		List results = query.list();
+		if(logger.isDebugEnabled()){
+			logger.debug("User by userId: "+userId);
+		}
+		if(logger.isDebugEnabled()){
+			logger.debug("User by userId: "+results);
+		}
+		session.close();
+		if(results.size()==1){
+			return (Users)results.get(0);
+		} else {
+			return null;
+		}
+	}
 	
 }

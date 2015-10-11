@@ -3,16 +3,19 @@ package com.asu.cse545.group12.domain;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+@Entity(name="transaction")
 public class Transactions {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="TRANSACTIONID")
 	private int transactionId;
+	
+	
 
 	@Column(name = "USERID")
 	private int  userId;
@@ -20,6 +23,8 @@ public class Transactions {
 	@Column(name = "TRANSACTION_STATUS")
 	private String transactionStatus;
 	
+	@Column(name = "ACCOUNTNUM")
+	private int accountNumber;
 	
 	@Column(name = "CREATION_TIMESTAMP")
 	private Date creationTimestamp;
@@ -41,20 +46,8 @@ public class Transactions {
 	private int transferId;
 	
 	@Column(name = "TRANSACTION_KIND")
-	private String transactionKind;
-	
-	@Column(name = "ACCOUNTNUM")
-	private int accountNum;
+	private String severity;
 
-	public int getId() {
-		return transactionId;
-	}
-
-	public void setId(int id) {
-		this.transactionId = id;
-	}
-
-	
 	public int getTransactionId() {
 		return transactionId;
 	}
@@ -111,6 +104,14 @@ public class Transactions {
 		this.modifiedTimestamp = modifiedTimestamp;
 	}
 
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
 	public int getTransferId() {
 		return transferId;
 	}
@@ -119,31 +120,32 @@ public class Transactions {
 		this.transferId = transferId;
 	}
 
-	public String getTransactionKind() {
-		return transactionKind;
+	public int getAccountNumber() {
+		return accountNumber;
 	}
 
-	public void setTransactionKind(String transactionKind) {
-		this.transactionKind = transactionKind;
-	}
-
-	public int getAccountNum() {
-		return accountNum;
-	}
-
-	public void setAccountNum(int accountNum) {
-		this.accountNum = accountNum;
+	public void setAccountNumber(int accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 
 	
-
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public String getSeverity() {
+		return severity;
 	}
 
-	
-	
-	
+	public void setSeverity(String severity) {
+		this.severity = severity;
+	}
+
+	@Override
+	public String toString() {
+		return "Transactions [transactionId=" + transactionId + ", userId=" + userId + ", transactionStatus="
+				+ transactionStatus + ", accountNumber=" + accountNumber + ", creationTimestamp=" + creationTimestamp
+				+ ", transactionType=" + transactionType + ", modifiedByUserid=" + modifiedByUserid
+				+ ", modifiedTimestamp=" + modifiedTimestamp + ", amount=" + amount + ", transferId=" + transferId
+				+ ", severity=" + severity + "]";
+	}
+
 
 }
 

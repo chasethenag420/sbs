@@ -15,7 +15,7 @@ public interface AuthorizationService {
 
 	public int signupInsertRow(Users users);
 	
-	public int approve(Authorization authorization);
+	public int approve(int authorizationId, String userName);
 
 	public int reject(Authorization authorization);
 

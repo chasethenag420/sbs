@@ -1,17 +1,22 @@
 package com.asu.cse545.group12.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.apache.log4j.Logger;
+import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Transactions;
 
 public class TransactionDaoImpl implements TransactionDao {
 	
+	private static final Logger logger = Logger.getLogger(TransactionDaoImpl.class);
 	@Autowired
 	SessionFactory sessionfactory;
 	
@@ -53,5 +58,24 @@ public class TransactionDaoImpl implements TransactionDao {
 		return 0;
 	}
 
+	@Override
+	public Transactions getTransactionByTransactionId(int transactionId){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from transaction where transactionId =:transactionId ");
+		query.setParameter("transactionId", transactionId);
+		List results = query.list();
+		if(logger.isDebugEnabled()){
+			logger.debug("Transaction by transactionId: "+transactionId);
+		}
+		if(logger.isDebugEnabled()){
+			logger.debug("Transaction by transactionId: "+results);
+		}
+		session.close();
+		if(results.size()==1){
+			return (Transactions)results.get(0);
+		} else {
+			return null;
+		}
+	}
 	
 }

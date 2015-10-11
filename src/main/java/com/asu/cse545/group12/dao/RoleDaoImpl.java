@@ -18,5 +18,8 @@ public class RoleDaoImpl implements RoleDao{
 		Role role = session.load(Role.class, RoleId);
 		return role;
 	}
+	
+	
+	
 
 }

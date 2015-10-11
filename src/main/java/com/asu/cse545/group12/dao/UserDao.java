@@ -15,4 +15,5 @@ public interface UserDao {
 
 	//public int deleteRow(int id);
 	public Users getUserByUserName(String username);
+	public Users getUserByUserId(int userId);
 }
