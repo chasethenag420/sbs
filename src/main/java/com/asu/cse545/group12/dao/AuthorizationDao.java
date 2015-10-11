@@ -20,4 +20,6 @@ public interface AuthorizationDao {
 
 	//public int deleteRow(int AccountId);
 	public Authorization getRowById(int authorizationId);
+	
+	public Authorization getAuthorizationByAuthorizationId(int authorizationId);
 }

@@ -50,6 +50,7 @@ public class UserDaoImpl implements UserDao {
 				Transaction tx = session.beginTransaction();
 				session.saveOrUpdate(user);
 				tx.commit();
+				session.close();
 				return user.getUserId();
 	}
 	@Override
@@ -64,6 +65,7 @@ public class UserDaoImpl implements UserDao {
 		if(logger.isDebugEnabled()){
 			logger.debug("User by username: "+results);
 		}
+		session.close();
 		if(results.size()==1){
 			return (Users)results.get(0);
 		} else {
@@ -82,6 +84,7 @@ public class UserDaoImpl implements UserDao {
 		if(logger.isDebugEnabled()){
 			logger.debug("User by userId: "+results);
 		}
+		session.close();
 		if(results.size()==1){
 			return (Users)results.get(0);
 		} else {

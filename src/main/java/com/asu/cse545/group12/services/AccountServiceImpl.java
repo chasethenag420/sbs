@@ -2,6 +2,7 @@ package com.asu.cse545.group12.services;
 
 import java.util.Calendar;
 
+import org.apache.log4j.Logger;
 import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Account;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class AccountServiceImpl implements AccountService {
 
+	private static final Logger logger = Logger.getLogger(AccountServiceImpl.class);
 	@Autowired
 	AccountDao accountdao;
 
@@ -33,16 +35,20 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Account getAccount(String username){
 		Users user=userDao.getUserByUserName(username);
+		if(logger.isDebugEnabled()){
+			logger.debug("**********************************User inside Accountserviceimpl: "+user.toString());
+		}
 		if (user==null){
 			return null;
 		} else{
+			
 			return accountdao.getAccountByUserId(user.getUserId());
 		}
 	}
 
 	@Override
 	public Account getAccount(int accountNumber){
-		return accountdao.getRowById(accountNumber);
+		return accountdao.getAccountByAccountNumber(accountNumber);
 	}
 
 	@Override
@@ -50,6 +56,7 @@ public class AccountServiceImpl implements AccountService {
 		if(this.isBalanceValid(accountNumber, amount, "credit")){
 			Account account=this.getAccount(accountNumber);
 			account.setBalance(account.getBalance()+ amount);
+			account.setModifiedTimeStamp(Calendar.getInstance().getTime());
 			accountdao.updateRow(account);
 			return true;
 		}
@@ -61,6 +68,7 @@ public class AccountServiceImpl implements AccountService {
 		if(this.isBalanceValid(accountNumber, amount, "debit")){
 			Account account=this.getAccount(accountNumber);
 			account.setBalance(account.getBalance()- amount);
+			account.setModifiedTimeStamp(Calendar.getInstance().getTime());
 			accountdao.updateRow(account);
 			return true;
 		}

@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name="account")
 public class Account{
 	
 	@Column(name="USERID")
@@ -20,6 +20,12 @@ public class Account{
 	@Column(name="ACCOUNTNUM")
 	private int accountNumber;
 	
+	@Override
+	public String toString() {
+		return "Account [userId=" + userId + ", accountNumber=" + accountNumber + ", accountType=" + accountType
+				+ ", activeFlag=" + activeFlag + ", balance=" + balance + ", creationDate=" + creationDate
+				+ ", modifiedTimeStamp=" + modifiedTimeStamp + "]";
+	}
 	@Column(name="ACCOUNT_TYPE")
 	private String accountType;
 	

@@ -44,14 +44,15 @@ public class TransactionsServiceImpl implements TransactionsService {
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setSeverity("critical");
 			transaction.setTransactionType("credit");
-			transactionDao.insertRow(transaction);
+			int transactionId = transactionDao.insertRow(transaction);
 			
 			Authorization authorization = new Authorization();
-			authorization.setAuthorizedByUserId(account.getUserId());
+			authorization.setAuthorizedToUserId(account.getUserId());
 			authorization.setRequestStatus("Pending");
 			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 			authorization.setRequestDescription("Approval for amount credit");
 			authorization.setRequestType("Credit");
+			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
 		}
 		return creditStatus;
@@ -70,14 +71,15 @@ public class TransactionsServiceImpl implements TransactionsService {
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setSeverity("critical");
 			transaction.setTransactionType("debit");
-			transactionDao.insertRow(transaction);
+			int transactionId = transactionDao.insertRow(transaction);
 			
 			Authorization authorization = new Authorization();
-			authorization.setAuthorizedByUserId(account.getUserId());
+			authorization.setAuthorizedToUserId(account.getUserId());
 			authorization.setRequestStatus("Pending");
 			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 			authorization.setRequestDescription("Approval for amount debit");
 			authorization.setRequestType("Debit");
+			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
 		}
 		return debitStatus;

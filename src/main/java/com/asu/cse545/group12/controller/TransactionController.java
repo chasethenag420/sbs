@@ -51,7 +51,7 @@ public class TransactionController {
 	@RequestMapping("creditAmount")
 	public ModelAndView creditAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
-			logger.debug("form:"+form.toString());
+			logger.debug("Credit Amount:");
 		}
 		//validate the input data
 		Map<String, String> formMap=form.getMap();
@@ -75,6 +75,15 @@ public class TransactionController {
 
 	@RequestMapping("debitAmount")
 	public ModelAndView debitAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		
+		if(logger.isDebugEnabled()){
+			logger.debug("Debit Amount:");
+		}
+		
+		Map<String, String> formMap=form.getMap();
+		Integer toAccountNumber= Integer.parseInt(formMap.get("fromAccountNumber"));
+		Integer amount= Integer.parseInt(formMap.get("amount"));
+		transactionservice.doDebit(toAccountNumber, amount);
 		return new ModelAndView("sample", "form", form);
 	}
 	

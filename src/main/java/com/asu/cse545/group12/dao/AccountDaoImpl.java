@@ -43,7 +43,7 @@ public class AccountDaoImpl implements AccountDao{
 		if(logger.isDebugEnabled()){
 			logger.debug("Account by userid: "+results);
 		}
-		if(results.size()==1){
+		if(results.size()>=1){
 			return (Account)results.get(0);
 		} else {
 			return null;
@@ -67,6 +67,27 @@ public class AccountDaoImpl implements AccountDao{
 		session.saveOrUpdate(account);
 		tx.commit();
 		return account.getAccountNumber();
+	}
+	
+	
+	@Override
+	public Account getAccountByAccountNumber(int accountNumber){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from account where accountNum = :accountNumber ");
+		query.setParameter("accountNumber", accountNumber);
+		List results = query.list();
+		if(logger.isDebugEnabled()){
+			logger.debug("Account by AccountNumber: "+accountNumber);
+		}
+		if(logger.isDebugEnabled()){
+			logger.debug("Account by AccountNumberd: "+results);
+		}
+		session.close();
+		if(results.size()==1){
+			return (Account)results.get(0);
+		} else {
+			return null;
+		}
 	}
 
 }

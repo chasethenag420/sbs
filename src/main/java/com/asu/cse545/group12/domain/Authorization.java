@@ -9,9 +9,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-@Entity
+@Entity(name="authorization")
 public class Authorization{
 	
+	@Override
+	public String toString() {
+		return "Authorization [authorizationId=" + authorizationId + ", authorizedByUserId=" + authorizedByUserId
+				+ ", authorizedToUserId=" + authorizedToUserId + ", transactionId=" + transactionId
+				+ ", requestCreationTimeStamp=" + requestCreationTimeStamp + ", requestType=" + requestType
+				+ ", requestStatus=" + requestStatus + ", approvalFlag=" + approvalFlag + ", requestDescription="
+				+ requestDescription + "]";
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="AUTHORIZATIONID")
