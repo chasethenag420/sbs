@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.asu.cse545.group12.controller.LoginController;
 import com.asu.cse545.group12.domain.Authorization;
+import com.asu.cse545.group12.domain.Users;
 
 @Component
 public class AuthorizationDaoImpl implements AuthorizationDao {
@@ -104,6 +105,15 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		
 		return pendingEntries;
+		
+	}
+	
+	@Override
+	public Authorization getRowById(int authorizationId) {
+		// TODO Auto-generated method stub
+			Session session = sessionfactory.openSession();
+			Authorization authorization= session.load(Authorization.class, authorizationId);
+			return authorization;
 		
 	}
 	//public int deleteRow(int AccountId);

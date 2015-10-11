@@ -19,4 +19,5 @@ public interface AuthorizationDao {
 	public List<Authorization> getNotifications(); 
 
 	//public int deleteRow(int AccountId);
+	public Authorization getRowById(int authorizationId);
 }

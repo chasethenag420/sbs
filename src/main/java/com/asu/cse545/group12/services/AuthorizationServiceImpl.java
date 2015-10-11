@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.AuthorizationDao;
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Account;
@@ -18,12 +19,28 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	
 	@Autowired
 	AuthorizationDao authorizationDao;
-	 
 	
+	@Autowired
+	UserDao userDao;
+	
+	@Autowired
+	AccountService accountService;
 	
 	@Override
-	public int approve(Authorization authorization) {
+	public int approve(int authorizationId, String userName) {
 		// TODO Auto-generated method stub
+		Authorization authorization=authorizationDao.getRowById(authorizationId);
+		//based on type of transaction trigger relavent action
+		if("Signup".equals(authorization.getRequestType())){
+			Users approver=userDao.getUserByUserName(userName);
+			authorization.setAuthorizedByUserId(approver.getUserId());
+			authorization.setRequestStatus("Complete");
+			Users requestor=userDao.getUserByUserId(authorization.getAuthorizedToUserId());
+			requestor.setUserStatus("active");
+			userDao.updateRow(requestor);
+			//create an account for this user by default checkings
+			accountService.insertRow(requestor.getUserId());
+		}
 		return authorizationDao.approve(authorization);
 	}
 

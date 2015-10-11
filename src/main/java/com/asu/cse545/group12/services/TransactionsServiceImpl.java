@@ -51,7 +51,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 			authorization.setRequestStatus("Pending");
 			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 			authorization.setRequestDescription("Approval for amount credit");
-			authorization.setRequestType("credit");
+			authorization.setRequestType("Credit");
 			authorizationDao.insertRow(authorization);
 		}
 		return creditStatus;
@@ -77,7 +77,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 			authorization.setRequestStatus("Pending");
 			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 			authorization.setRequestDescription("Approval for amount debit");
-			authorization.setRequestType("debit");
+			authorization.setRequestType("Debit");
 			authorizationDao.insertRow(authorization);
 		}
 		return debitStatus;

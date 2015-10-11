@@ -10,12 +10,13 @@ public interface UserService {
 	public int insertRow(Users user);
 	public boolean isUserEnabled(Users user);
 	public Users getUserByUserName(String username);
+	public int updateRow(Users user);
 
 /*	public List<User> getList();
 
 	public User getRowById(int id);
 
-	public int updateRow(User user);
+	
 
 	public int deleteRow(int id);*/
 
