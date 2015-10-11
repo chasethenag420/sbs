@@ -38,6 +38,17 @@ public class LoginController {
 
 		return modelView;
 	} 
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("User logout");
+		}
+		
+
+		return "logout";
+	} 
 
 }
 

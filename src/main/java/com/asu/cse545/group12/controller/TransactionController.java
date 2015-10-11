@@ -58,7 +58,7 @@ public class TransactionController {
 		Integer toAccountNumber= Integer.parseInt(formMap.get("toAccountNumber"));
 		Integer amount= Integer.parseInt(formMap.get("amount"));
 		transactionservice.doCredit(toAccountNumber, amount);
-		return new ModelAndView("sample", "form", form);
+		return new ModelAndView("individual", "form", form);
 	}
 
 	@RequestMapping(value = "/debit", method = RequestMethod.GET)
@@ -84,7 +84,7 @@ public class TransactionController {
 		Integer toAccountNumber= Integer.parseInt(formMap.get("fromAccountNumber"));
 		Integer amount= Integer.parseInt(formMap.get("amount"));
 		transactionservice.doDebit(toAccountNumber, amount);
-		return new ModelAndView("sample", "form", form);
+		return new ModelAndView("individual", "form", form);
 	}
 	
 	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
@@ -107,7 +107,7 @@ public class TransactionController {
 		/*//validate the input data
 		Map<String, String> formMap=form.getMap();
 		Integer toAccountNumber= Integer.parseInt(formMap.get("toAccountNumber"));*/
-		return new ModelAndView("sample", "form", form);
+		return new ModelAndView("individual", "form", form);
 	}
 
 }
