@@ -18,7 +18,10 @@
 <head>
 <title>Logged Out</title>
 </head>
-<body>    
+<body> 
+<center>   
+	<h2>You have logout successfully.<br/> Do you want to login again? </h2>
     <a href="login.html">Login</a>
+    </center>
 </body>
 </html>
