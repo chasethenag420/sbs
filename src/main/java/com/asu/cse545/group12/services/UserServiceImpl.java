@@ -2,12 +2,15 @@ package com.asu.cse545.group12.services;
 
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.asu.cse545.group12.hashing.HashGenerator;
+import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.UserDao;
+import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
 
@@ -17,6 +20,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	AccountDao accountDao;
 	
 	@Autowired
 	private HashGenerator hashGenerator;
@@ -62,11 +67,46 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
-	public Users getUserByUserName(String username){
-		return userDao.getUserByUserName(username);
+	@Override
+	public Users getUserByUserName(String userName){
+		return userDao.getUserByUserName(userName);
 	}
+	@Override
 	public int updateRow(Users user){
 		return userDao.updateRow(user);
+	}
+	@Override
+	public int deActivateUserByUserName(String userName){
+		Users user = getUserByUserName(userName);
+		user.setUserStatus("inactive");
+		return updateRow(user);
+	}
+	@Override
+	public int deActivateUserByUserId(int userId){
+		Users user = userDao.getUserByUserId(userId);
+		user.setUserStatus("inactive");
+		return updateRow(user);
+	}
+	@Override
+	public List<Users> getUsersByFirstName(String firstName){
+		return userDao.getUsersByFirstName(firstName);
+	}
+	@Override
+	public List<Users> getUsersByLastName(String lastName){
+		return userDao.getUsersByLastName(lastName);
+	}
+	@Override
+	public List<Users> getUsersByPhoneNumber(String phoneNumber){
+		return userDao.getUsersByPhoneNumber(phoneNumber);
+	}
+	@Override
+	public List<Users> getUsersByEmailId(String emailId){
+		return userDao.getUsersByEmailId(emailId);
+	}
+	@Override
+	public Users getUsersByAccountNumber(int accountNumber){
+		Account account=accountDao.getAccountByAccountNumber(accountNumber);
+		return userDao.getUserByUserId(account.getUserId());
 	}
 }
 

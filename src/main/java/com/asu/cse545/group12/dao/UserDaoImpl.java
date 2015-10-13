@@ -91,5 +91,41 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
-	
+	@Override
+	public List<Users> getUsersByFirstName(String firstName){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where firstName = :firstName ");
+		query.setParameter("firstName", firstName);
+		List<Users> results = query.list();
+		session.close();
+		return results;
+	}
+	@Override
+	public List<Users> getUsersByLastName(String lastName){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where lastName = :lastName ");
+		query.setParameter("lastName", lastName);
+		List<Users> results = query.list();
+		session.close();
+		return results;
+	}
+	@Override
+	public List<Users> getUsersByPhoneNumber(String phoneNumber){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where phoneNumber = :phoneNumber ");
+		query.setParameter("phoneNumber", phoneNumber);
+		List<Users> results = query.list();
+		session.close();
+		return results;
+	}
+	@Override
+	public List<Users> getUsersByEmailId(String emailId){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where emailId = :emailId ");
+		query.setParameter("emailId", emailId);
+		List<Users> results = query.list();
+		session.close();
+		return results;
+	}
+		
 }
