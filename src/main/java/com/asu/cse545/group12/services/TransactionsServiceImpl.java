@@ -2,10 +2,12 @@ package com.asu.cse545.group12.services;
 
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.asu.cse545.group12.hashing.HashGenerator;
 import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.AuthorizationDao;
@@ -84,6 +86,14 @@ public class TransactionsServiceImpl implements TransactionsService {
 		}
 		return debitStatus;
 	}
+
+	@Override
+	public List<Transactions> searchTransactionByInternals(int accountNumber) {
+		List<Transactions> searchTransactions=transactionDao.getTransactionsByAccNum(accountNumber);
+		return searchTransactions;
+	}
+
+	
 
 }
 
