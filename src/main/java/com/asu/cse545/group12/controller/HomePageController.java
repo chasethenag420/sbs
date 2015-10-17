@@ -8,6 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -21,10 +24,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.asu.cse545.group12.domain.Users;
+import com.asu.cse545.group12.services.AccountService;
+import com.asu.cse545.group12.services.AuthorizationService;
+import com.asu.cse545.group12.services.UserService;
 
 @Controller
 public class HomePageController {
 	private static final Logger logger = Logger.getLogger(HomePageController.class);
+	
+	@Autowired
+	AccountService accountService;
+	
+	@Autowired
+	UserService userService;
+	
 	@RequestMapping("home")
 	public ModelAndView homePage(Model model) {
 		return new ModelAndView("home");
@@ -41,6 +54,22 @@ public class HomePageController {
 
 		return modelView;
 	}
+	
+	@RequestMapping(value = "/accountDetails", method = RequestMethod.GET)
+	public ModelAndView gotoIndividualHomePage(HttpServletRequest request) {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("Home Page requested");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("accountDetails");
+		HttpSession session = request.getSession(false);
+		String username = (String) session.getAttribute("username");
+		modelView.addObject("accountsRows", accountService.getAccounts(userService.getUserByUserName(username).getUserId()));
+		return modelView;
+	}
+	
+	
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public ModelAndView getAdminHomePage() {
 		//logs debug message

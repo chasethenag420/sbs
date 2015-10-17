@@ -34,20 +34,20 @@
 		<div class="row">
 			<div class="col-md-3 column margintop20">
 				<ul class="nav nav-pills nav-stacked">
-					<li id="home" class="active"><a 
+					<li id="home"><a 
 						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
 							Home</a></li>
-					<li id="credit"><a href="#"><span
+					<li id="credit"><a href="credit"><span
 							class="glyphicon glyphicon-chevron-right"></span> Credit</a></li>
-					<li id="debit"><a  href="#"><span
+					<li id="debit"><a  href="debit"><span
 							class="glyphicon glyphicon-chevron-right"></span> Debit</a></li>
-					<li id="transfer"><a href="#"><span
+					<li id="transfer"><a href="transfer"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
-					<li id="addAccount"><a href="#"><span
+					<li id="addAccount"><a href="regular"><span
 							class="glyphicon glyphicon-chevron-right"></span> Add Account</a></li>
-					<li id="transactions"><a href="#"><span
+					<li id="transactions"><a href="searchTransaction"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
-					<li id="notifications"><a href="#"><span
+					<li id="notifications"><a href="searchTransaction"><span
 							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
 					<li id="createRequest"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
@@ -56,7 +56,7 @@
 				</ul>
 			</div>
 			<div id="content" class="col-md-9 column margintop20">
-				<%-- <jsp:include page="credit.jsp"/> --%>
+				<%-- <jsp:include page="accountDetails.jsp"/> --%>
 			</div>
 		</div>
 	</div>
@@ -77,7 +77,9 @@
 
 		function changeContent() {
 			var menuValue = $(".active").attr('id');
-			if (menuValue == "credit")
+			if (menuValue == "home")
+				$('#content').load('accountDetails');
+			/* if (menuValue == "credit")
 				$('#content').load('credit');
 			else if (menuValue == "debit")
 				$('#content').load('debit');
@@ -90,7 +92,7 @@
 			else if (menuValue == "notifications")
 				$('#content').load('notifications');
 			else if (menuValue == "addRequest")
-				$('#content').load('transfer');
+				$('#content').load('transfer'); */
 		}
 		
 	</script>

@@ -1,6 +1,7 @@
 package com.asu.cse545.group12.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.asu.cse545.group12.domain.Account;
+import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Users;
 
 
@@ -88,6 +90,23 @@ public class AccountDaoImpl implements AccountDao{
 		} else {
 			return null;
 		}
+	}
+	
+	@Override
+	public List<Account> getAccountsByUserId(int userId) 
+	{
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from account where userid = :userId ");
+		query.setParameter("userId", userId);
+		List results = query.list();
+		if(logger.isDebugEnabled()){
+			logger.debug("Account by userid: "+userId);
+		}
+		if(logger.isDebugEnabled()){
+			logger.debug("Account by userid: "+results);
+		}
+		return results;
+		
 	}
 
 }
