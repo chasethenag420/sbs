@@ -109,7 +109,5 @@ public class TransactionController {
 		Integer toAccountNumber= Integer.parseInt(formMap.get("toAccountNumber"));*/
 		return new ModelAndView("individual", "form", form);
 	}
-	
-	
 }
 

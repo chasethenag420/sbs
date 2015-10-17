@@ -38,6 +38,7 @@ table tr td {
 					<tr
 						style="background-color: teal; color: white; text-align: center;"
 						height="40px">
+						<td><b>  </b>
 						<td><b>Request Type</b></td>
 						<td><b>Request Description</b></td>
 						<td><b>Requested Date</b></td>
@@ -61,12 +62,9 @@ table tr td {
 							<td><c:out value="${eachnotification.requestStatus}" /></td>
 							<td><c:out value="${eachnotification.authorizedToUserId}" /></td>
 
-							<td><input type="submit" class="btn btn-success" >Approve</a>
-							</td>
-							<td><a class="btn btn-danger" href="rejectnotification">Reject</a>
-							</td>
-							<td><a class="btn btn-info" href="forwardnotification">Forward</a>
-							</td>
+							<td><input type="submit" value=Approve class="btn btn-success"/td>
+							<td><input type="submit" value=Reject class="btn btn-danger"/td>
+							<td><input type="submit" value=Forward class="btn btn-info"/td>
 						</tr>
 					</c:forEach>
 
