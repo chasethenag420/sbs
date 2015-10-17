@@ -157,7 +157,7 @@ public class TransactionController {
 		} 
 		
 	}
-	
+
 	@RequestMapping(params = "goBack", method = RequestMethod.POST)
 	public ModelAndView goBack(HttpServletRequest request) {
 		
