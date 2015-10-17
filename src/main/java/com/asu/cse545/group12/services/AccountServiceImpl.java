@@ -1,11 +1,13 @@
 package com.asu.cse545.group12.services;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Account;
+import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -115,5 +117,11 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public int updateRow(Account account) {
 		return accountdao.updateRow(account);
+	}
+	
+	@Override
+	public List<Account> getAccounts(int userId) {
+		// TODO Auto-generated method stub
+		return accountdao.getAccountsByUserId(userId);
 	}
 }

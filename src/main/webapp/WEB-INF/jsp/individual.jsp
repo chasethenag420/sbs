@@ -34,7 +34,7 @@
 		<div class="row">
 			<div class="col-md-3 column margintop20">
 				<ul class="nav nav-pills nav-stacked">
-					<li id="home" class="active"><a 
+					<li id="home"><a 
 						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
 							Home</a></li>
 					<li id="credit"><a href="credit"><span
@@ -56,7 +56,7 @@
 				</ul>
 			</div>
 			<div id="content" class="col-md-9 column margintop20">
-				<%-- <jsp:include page="credit.jsp"/> --%>
+				<%-- <jsp:include page="accountDetails.jsp"/> --%>
 			</div>
 		</div>
 	</div>
@@ -72,12 +72,14 @@
 		$(".nav li").on("click", function() {
 			$(".nav li").removeClass("active");
 			$(this).addClass("active");
-			//changeContent();
+			changeContent();
 		});
 
 		function changeContent() {
 			var menuValue = $(".active").attr('id');
-			if (menuValue == "credit")
+			if (menuValue == "home")
+				$('#content').load('accountDetails');
+			/* if (menuValue == "credit")
 				$('#content').load('credit');
 			else if (menuValue == "debit")
 				$('#content').load('debit');
@@ -90,7 +92,7 @@
 			else if (menuValue == "notifications")
 				$('#content').load('notifications');
 			else if (menuValue == "addRequest")
-				$('#content').load('transfer');
+				$('#content').load('transfer'); */
 		}
 		
 	</script>
