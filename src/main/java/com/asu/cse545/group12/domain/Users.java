@@ -58,12 +58,12 @@ public class Users implements Serializable {
 	@Column(name = "GENDER")
 	private String gender;
 	
-	@NotNull
+	//@NotNull
     //@NotEmpty//(message = "Please enter your Username.")
 	@Column(name = "USERNAME")
 	private String userName;
 	
-	@NotNull
+	//@NotNull
     //@NotEmpty//(message = "Please enter your password.")
    // @Size(min = 6, max = 15, message = "Your password must between 6 and 15 characters")
 	@Column(name = "PASSWORD")

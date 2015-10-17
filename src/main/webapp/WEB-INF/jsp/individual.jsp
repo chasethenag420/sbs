@@ -92,6 +92,9 @@
 			else if (menuValue == "addRequest")
 				$('#content').load('transfer');
 		}
+		$(function(){
+			alert($(location).attr('hash'));
+		})
 	</script>
 </body>
 </html>
