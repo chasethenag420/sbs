@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,8 +26,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Form;
+import com.asu.cse545.group12.domain.TransactionForm;
 import com.asu.cse545.group12.services.TransactionsService;
+import com.asu.cse545.group12.validator.TransactionInputValidator;
 
 
 
@@ -33,9 +39,12 @@ public class TransactionController {
 	@Autowired 
 	TransactionsService transactionservice;
 
+	@Autowired
+	UserDao userDao;
+	
 	private static final Logger logger = Logger.getLogger(TransactionController.class);
 
-	
+
 	@RequestMapping(value = "/credit", method = RequestMethod.GET)
 	public ModelAndView getCreditForm() {
 		//logs debug message
@@ -43,22 +52,36 @@ public class TransactionController {
 			logger.debug("credit Screen is executed!");
 		}
 		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("form", new Form());
+		modelView.addObject("form", new TransactionForm());
 		modelView.setViewName("credit");
 		return modelView;
 	}
-	
-	@RequestMapping("creditAmount")
-	public ModelAndView creditAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
+
+	@RequestMapping(params = "creditAmount", method = RequestMethod.POST)
+	public ModelAndView creditAmount(@Valid @ModelAttribute("form") TransactionForm form, BindingResult result, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("Credit Amount:");
 		}
-		//validate the input data
-		Map<String, String> formMap=form.getMap();
-		Integer toAccountNumber= Integer.parseInt(formMap.get("toAccountNumber"));
-		Integer amount= Integer.parseInt(formMap.get("amount"));
-		transactionservice.doCredit(toAccountNumber, amount);
-		return new ModelAndView("individual", "form", form);
+		TransactionInputValidator transactionInputValidator = new TransactionInputValidator();
+		transactionInputValidator.validate(form, result);
+
+		if (result.hasErrors()) {
+			ModelAndView modelView = new ModelAndView();
+			modelView.addObject("form", form);
+			modelView.setViewName("credit");
+			return modelView;
+		} else {
+
+			Integer toAccountNumber= Integer.parseInt(form.getToAccount());
+			Integer amount= Integer.parseInt(form.getAmount());
+			transactionservice.doCredit(toAccountNumber, amount);
+			ModelAndView modelView = new ModelAndView();
+			modelView.addObject("successfulMessage", "Successful! The credit request is sent to bank official. Wait for approval.");
+			modelView.setViewName("credit");
+			modelView.addObject("form", new TransactionForm());
+			return modelView;
+		}
+
 	}
 
 	@RequestMapping(value = "/debit", method = RequestMethod.GET)
@@ -68,25 +91,35 @@ public class TransactionController {
 			logger.debug("Debit Screen is executed!");
 		}
 		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("form", new Form());
+		modelView.addObject("form", new TransactionForm());
 		modelView.setViewName("debit");
 		return modelView;
 	}
 
-	@RequestMapping("debitAmount")
-	public ModelAndView debitAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
-		
+	@RequestMapping(params = "debitAmount", method = RequestMethod.POST)
+	public ModelAndView debitAmount(@Valid @ModelAttribute("form") TransactionForm form, BindingResult result, HttpServletRequest request) {
+
 		if(logger.isDebugEnabled()){
 			logger.debug("Debit Amount:");
 		}
-		
-		Map<String, String> formMap=form.getMap();
-		Integer toAccountNumber= Integer.parseInt(formMap.get("fromAccountNumber"));
-		Integer amount= Integer.parseInt(formMap.get("amount"));
-		transactionservice.doDebit(toAccountNumber, amount);
-		return new ModelAndView("individual", "form", form);
+
+		TransactionInputValidator transactionInputValidator = new TransactionInputValidator();
+		transactionInputValidator.validate(form, result);
+
+		if (result.hasErrors()) {
+			ModelAndView modelView = new ModelAndView();
+			modelView.addObject("form", form);
+			modelView.setViewName("debit");
+			return modelView;
+		} else {
+
+			Integer fromAccountNumber= Integer.parseInt(form.getFromAccount());
+			Integer amount= Integer.parseInt(form.getAmount());
+			transactionservice.doDebit(fromAccountNumber, amount);
+			return new ModelAndView("debit", "form", form);
+		}
 	}
-	
+
 	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
 	public ModelAndView getTransferForm() {
 		//logs debug message
@@ -94,35 +127,69 @@ public class TransactionController {
 			logger.debug("transfer Screen is executed!");
 		}
 		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("form", new Form());
+		modelView.addObject("form", new TransactionForm());
 		modelView.setViewName("transfer");
 		return modelView;
 	}
-	
-	@RequestMapping("transferAmount")
-	public ModelAndView transferAmount(@ModelAttribute("form") Form form, HttpServletRequest request) {
+
+	@RequestMapping(params = "transferAmount", method = RequestMethod.POST)
+	public ModelAndView transferAmount(@Valid @ModelAttribute("form") TransactionForm form, BindingResult result, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("form:"+form.toString());
 		}
 		//validate the input data
+
+		TransactionInputValidator transactionInputValidator = new TransactionInputValidator();
+		transactionInputValidator.validate(form, result);
 		
-		try {
-			Map<String, String> formMap=form.getMap();
-			Integer toAccountNumber= Integer.parseInt(formMap.get("toAccountNumber"));
-			Integer amount= Integer.parseInt(formMap.get("amount"));
-			Integer fromAccountNumber= Integer.parseInt(formMap.get("fromAccountNumber"));
-			transactionservice.doTransfer(fromAccountNumber, toAccountNumber, amount);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			if(logger.isDebugEnabled()){
-				logger.debug("Error in transferAmount method. \n"+ e);
-			}
-			return new ModelAndView("individual", "form", form);
+		if (result.hasErrors()) {
+			ModelAndView modelView = new ModelAndView();
+			modelView.addObject("form", form);
+			modelView.setViewName("transfer");
+			return modelView;
+		} else {
 			
-		}
-		return new ModelAndView("individual", "form", form);
+			Integer toAccountNumber= Integer.parseInt(form.getToAccount());
+			Integer amount= Integer.parseInt(form.getAmount());
+			Integer fromAccountNumber= Integer.parseInt(form.getFromAccount());
+			transactionservice.doTransfer(fromAccountNumber, toAccountNumber, amount);
+			return new ModelAndView("transfer", "form", form);
+		} 
+		
 	}
 	
+	@RequestMapping(params = "goBack", method = RequestMethod.POST)
+	public ModelAndView goBack(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		String username = (String) session.getAttribute("username");
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("moving to back!");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName(getViewName(username));
+		return modelView;
+	}
+
 	
+	private String getViewName(String username){
+		
+		int roleId = userDao.getUserByUserName(username).getRoleId();
+		// for individual user
+		if (roleId == 1) {
+			return "individual";
+		} else if (roleId == 2) {
+			return "merchant";
+		} else if (roleId == 3) {
+			return "regular";
+		} else if (roleId == 4) {
+			return "manager";
+		} else if (roleId == 5) {
+			return "admin";
+		} else
+			return "404";
+	}
+
 }
 

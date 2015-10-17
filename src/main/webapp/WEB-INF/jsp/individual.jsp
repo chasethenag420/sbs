@@ -37,17 +37,17 @@
 					<li id="home" class="active"><a 
 						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
 							Home</a></li>
-					<li id="credit"><a href="#"><span
+					<li id="credit"><a href="credit"><span
 							class="glyphicon glyphicon-chevron-right"></span> Credit</a></li>
-					<li id="debit"><a  href="#"><span
+					<li id="debit"><a  href="debit"><span
 							class="glyphicon glyphicon-chevron-right"></span> Debit</a></li>
-					<li id="transfer"><a href="#"><span
+					<li id="transfer"><a href="transfer"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
-					<li id="addAccount"><a href="#"><span
+					<li id="addAccount"><a href="regular"><span
 							class="glyphicon glyphicon-chevron-right"></span> Add Account</a></li>
-					<li id="transactions"><a href="#"><span
+					<li id="transactions"><a href="searchTransaction"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
-					<li id="notifications"><a href="#"><span
+					<li id="notifications"><a href="searchTransaction"><span
 							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
 					<li id="createRequest"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
@@ -72,7 +72,7 @@
 		$(".nav li").on("click", function() {
 			$(".nav li").removeClass("active");
 			$(this).addClass("active");
-			changeContent();
+			//changeContent();
 		});
 
 		function changeContent() {

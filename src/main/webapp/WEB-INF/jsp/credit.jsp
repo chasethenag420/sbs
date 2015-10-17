@@ -8,47 +8,60 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta http-equiv="X-Frame-Options" content="allow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
+<link href="web_resources/theme/css/bootstrap-responsive.css" rel="stylesheet">
 <title>
 <spring:message code="title.credit"></spring:message>
 </title>
 </head>
 <body>
  <center>
-
+  <br/><br/>
   <div style="color: teal; font-size: 30px">Credit Amount</div>
+  <br/><br/>
   <form:form id="creditForm"  method="post" modelAttribute="form"
-   action="creditAmount">
+   >
    <center>
    <table  width="700px" height="150px" cellspacing="10">
+   <tr></tr>
     <tr>
-     <td style="white-space: nowrap"><form:label path="map['toAccountNumber']">To Account Number</form:label>
+     <td style="white-space: nowrap"><form:label path="toAccount">To Account Number</form:label>
      </td>
-     <td><form:input path="map['toAccountNumber']" />
+     <td><form:input path="toAccount" />
      </td>
+     <td><form:errors class="alert alert-danger" path="toAccount" /></td>
     </tr>
     <tr>
-     <td style="white-space: nowrap"><form:label path="map['amount']">Amount</form:label>
+     <td style="white-space: nowrap"><form:label path="amount">Amount</form:label>
      </td>
-     <td><form:input path="map['amount']" />
+     <td><form:input path="amount" />
      </td>
+     <td><form:errors class="alert alert-danger" path="amount" /></td>
     </tr>
     <tr>
-     <td style="white-space: nowrap"><form:label path="map['transferDescription']">Transfer Description</form:label>
+     <td style="white-space: nowrap"><form:label path="description">Transfer Description</form:label>
      </td>
-     <td><form:input path="map['transferDescription']" />
+     <td><form:input path="description" />
      </td>
     </tr>
     <tr> 
-     <td><input type="submit" value="Submit" /></td>
-     <td><input type="button" value="Cancel" /></td>
-    </tr>
+    <form:input type="hidden" path="transactionType" value="credit"/>
+     <td><input type="submit" name ="creditAmount" value="Submit" /></td>
+     <td><input type="submit" name ="goBack" value="Cancel" /></td>
+     </tr>
    </table>
+   <div><h2>${successfulMessage}</h2></div>
    </center>
   </form:form>
   
  </center>
+ 
+ 
+
 </body>
 </html>
 
