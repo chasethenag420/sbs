@@ -104,9 +104,22 @@ public class TransactionController {
 		if(logger.isDebugEnabled()){
 			logger.debug("form:"+form.toString());
 		}
-		/*//validate the input data
-		Map<String, String> formMap=form.getMap();
-		Integer toAccountNumber= Integer.parseInt(formMap.get("toAccountNumber"));*/
+		//validate the input data
+		
+		try {
+			Map<String, String> formMap=form.getMap();
+			Integer toAccountNumber= Integer.parseInt(formMap.get("toAccountNumber"));
+			Integer amount= Integer.parseInt(formMap.get("amount"));
+			Integer fromAccountNumber= Integer.parseInt(formMap.get("fromAccountNumber"));
+			transactionservice.doTransfer(fromAccountNumber, toAccountNumber, amount);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			if(logger.isDebugEnabled()){
+				logger.debug("Error in transferAmount method. \n"+ e);
+			}
+			return new ModelAndView("individual", "form", form);
+			
+		}
 		return new ModelAndView("individual", "form", form);
 	}
 	

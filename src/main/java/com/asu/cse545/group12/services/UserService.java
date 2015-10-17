@@ -11,6 +11,7 @@ public interface UserService {
 	public boolean isUserEnabled(Users user);
 	public Users getUserByUserName(String username);
 	public int updateRow(Users user);
+	public int insertRowForEmployee(Users user, UserPII userpii);
 
 /*	public List<User> getList();
 

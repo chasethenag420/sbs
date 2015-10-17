@@ -92,6 +92,7 @@
 			else if (menuValue == "addRequest")
 				$('#content').load('transfer');
 		}
+		
 	</script>
 </body>
 </html>
