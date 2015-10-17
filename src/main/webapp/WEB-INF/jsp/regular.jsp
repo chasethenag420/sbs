@@ -81,7 +81,7 @@
 			else if (menuValue == "notifications")
 				$('#content').load('notifications');
 			else if (menuValue == "createRequest")
-				$('#content').load('transfer');
+				$('#content').load('regularEmprequest');
 		}
 	</script>
 </body>

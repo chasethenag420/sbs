@@ -41,9 +41,15 @@
 
 				<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 				<table>
-					<c:forEach items="${transactions}" var="item">
+						<c:forEach items="${transactions}" var="item">
 						<tr>
-							<td><c:out value="${item}" /></td>
+						<td><c:out value="${item.accountNumber}" /></td>
+
+						<td><c:out value="${item.creationTimestamp}" /></td>
+						<td><c:out value="${item.transactionType}" /></td>
+
+
+						<td><c:out value="${item.amount}" /></td>
 						</tr>
 					</c:forEach>
 				</table>

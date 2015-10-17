@@ -84,7 +84,7 @@
 			else if (menuValue == "transfer")
 				$('#content').load('transfer');
 			else if (menuValue == "addAccount")
-				$('#content').load('regular');
+				$('#content').load('regularEmprequest');
 			else if (menuValue == "transactions")
 				$('#content').load('searchTransaction');
 			else if (menuValue == "notifications")

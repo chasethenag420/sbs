@@ -130,6 +130,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		authorizationRequest.setRequestType("Signup");
 		return authorizationDao.insertRow(authorizationRequest);		
 	}
+
+	@Override
+	public int regularEmpRequest(Authorization authorization) {
+		authorizationDao.insertRow(authorization);
+		return 0;
+	}
 	
 	
 

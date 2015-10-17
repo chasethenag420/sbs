@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 
 
 
+
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+
 
 
 
@@ -57,6 +61,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.stereotype.Service;
 
 import com.asu.cse545.group12.domain.Account;
+import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.Transactions;
 import com.asu.cse545.group12.domain.UserPII;
@@ -73,6 +78,9 @@ public class RegularUserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	AuthorizationService authorizationService;
 	
 	List<Transactions> transactionByAccNum = new ArrayList<Transactions>();
 
@@ -127,5 +135,56 @@ public class RegularUserController {
 			return modelView;
 		
 }
+
+	
+	
+
+	@RequestMapping(value = "/regularEmprequest", method = RequestMethod.GET)
+	public ModelAndView setInteralEmplRequest(/*@ModelAttribute("authorization") Authorization authorization ,@ModelAttribute("user") Users user*/) {
+		if(logger.isDebugEnabled()){
+			logger.debug("create request");
+		}
+			ModelAndView modelView = new ModelAndView();
+			modelView.addObject("user", new Users());
+			modelView.addObject("authorization", new Authorization());
+			modelView.setViewName("regularEmprequest");
+			/*Users usermain = userService.getUserByUserName(user.getUserName());
+			System.out.println(usermain);
+			int userId = usermain.getUserId();
+			authorization.setAuthorizedToUserId(userId);
+			authorizationService.regularEmpRequest(authorization);	*/
+			// need to write the message that request was successful.
+			return modelView;
+		
+}
+	
+	@RequestMapping(value = "regularrequest")
+	public ModelAndView getInteralEmplRequest(@ModelAttribute("authorization") Authorization authorization ,@ModelAttribute("user") Users user,HttpServletRequest request) {
+		if(logger.isDebugEnabled()){
+			logger.debug("create request");
+		}
+			ModelAndView modelView = new ModelAndView();
+			
+			modelView.setViewName("regularEmprequest");
+			Users usermain = userService.getUserByUserName(user.getUserName());
+			System.out.println(usermain);
+			int userId = usermain.getUserId();
+			HttpSession session = request.getSession(false);
+			String reuqesterusername=(String) session.getAttribute("username");
+			Users requesteruser = userService.getUserByUserName(reuqesterusername);
+			int requesteruserid = requesteruser.getUserId();
+			System.out.println("requesteruserid"+requesteruserid);
+			System.out.println("requestedto"+userId);
+			authorization.setAuthorizedByUserId(userId);
+			authorization.setAuthorizedToUserId(requesteruserid);
+			
+			authorization.setRequestStatus("pending");
+			authorizationService.regularEmpRequest(authorization);	
+			// need to write the message that request was successful.
+			return modelView;
+		
+}
+	
+	
 	
 }

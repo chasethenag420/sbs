@@ -68,5 +68,6 @@ public class UserServiceImpl implements UserService {
 	public int updateRow(Users user){
 		return userDao.updateRow(user);
 	}
+	
 }
 
