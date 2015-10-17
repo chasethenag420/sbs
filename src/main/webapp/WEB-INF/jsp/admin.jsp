@@ -95,11 +95,11 @@
 	/* 	$(function(){
 			alert($(location).attr('hash'));
 		}) */
-		alert("<%=request.getSession(false).getAttribute("tab")%>");
+		<%-- alert("<%=request.getSession(false).getAttribute("tab")%>");
 		$(document).on("load", function(event){
 			<% String tabId=(String)request.getSession(false).getAttribute("tab");%>
 			tabId
-		})
+		}) --%>
 	</script>
 </body>
 </html>

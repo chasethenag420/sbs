@@ -90,7 +90,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 		return debitStatus;
 	}
 
-<<<<<<< Updated upstream
+
 	@Override
 	public List<Transactions> searchTransactionByInternals(int accountNumber) {
 		List<Transactions> searchTransactions=transactionDao.getTransactionsByAccNum(accountNumber);
@@ -99,8 +99,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 	
 
-}
-=======
+
 	public boolean doTransfer(int fromAccountNumber, int toAccountNumber, int amount) {
 		boolean debitStatus = false;
 		if (accountService.isValidAccountNumber(toAccountNumber)
@@ -127,7 +126,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				debitTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				debitTransaction.setTransactionType("debit");
 				int debitTransactionId = transactionDao.insertRow(debitTransaction);
->>>>>>> Stashed changes
+
 
 				// create transaction for credit
 				Transactions creditTransaction = new Transactions();
