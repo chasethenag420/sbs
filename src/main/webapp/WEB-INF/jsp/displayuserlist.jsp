@@ -33,6 +33,8 @@ table tr td {
 		<br> <br> <br>
 		<form:form class="form-horizontal" id="displayUserList" method="post"
 			modelAttribute="form">
+			<input type="hidden" name="${_csrf.parameterName}"
+          value="${_csrf.token}" />
 			<c:if test="${!empty userList}">
 
 				<table border="1" bgcolor="black" width="auto">

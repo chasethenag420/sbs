@@ -45,6 +45,8 @@ public class UserServiceImpl implements UserService {
 		java.util.Date date = Calendar.getInstance().getTime();
 		user.setLastModifieddate(date);
 		user.setRegistrationDate(date);
+		user.setNumAttempts(new Integer(0));
+
 		/* Role 
 		 * 0 none
 		 * 1 individual
@@ -77,6 +79,7 @@ public class UserServiceImpl implements UserService {
 		java.util.Date date = Calendar.getInstance().getTime();
 		user.setLastModifieddate(date);
 		user.setRegistrationDate(date);
+
 		/* Role 
 		 * 0 none
 		 * 1 individual

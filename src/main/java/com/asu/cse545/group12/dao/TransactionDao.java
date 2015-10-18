@@ -13,6 +13,8 @@ public interface TransactionDao {
 	public int updateRow(Transactions transaction);
 	public Transactions getTransactionByTransactionId(int transactionId);
     public List<Transactions> getTransactionsByAccNum(int accountNumber);
-    public List<Transactions> getTransactionsBetweenDates(String fromDate, String toDate);
+    public List<Transactions> getTransactionsBetweenDates(Integer accountNum, String fromDate, String toDate);
+    public List<Transactions> getTransactionsByDate(Integer accountNum,Date toDate,Date fromDate);
+
 	
 }

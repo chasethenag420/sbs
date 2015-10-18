@@ -105,7 +105,7 @@ public class PDFController {
 			modelView.setViewName("bankStatement");
 			return modelView;
 		} else {
-			List<Transactions> transactions = transactionDao.getTransactionsBetweenDates(form.getFromDate(), form.getToDate());
+			List<Transactions> transactions = transactionDao.getTransactionsBetweenDates(Integer.parseInt(form.getToAccount()), form.getFromDate(), form.getToDate());
 			final ServletContext servletContext = request.getSession().getServletContext();
 			final File tempDirectory = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
 			final String temperotyFilePath = tempDirectory.getAbsolutePath();

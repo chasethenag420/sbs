@@ -58,7 +58,7 @@ public class SignUpController {
 	@Autowired
 	AuthorizationService  authorizationService;
 
-	@RequestMapping( value= "signUp")
+	@RequestMapping( value= "/signUp",method = RequestMethod.POST)
 	public ModelAndView registerUser(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model) {
 
 		CreateExternalUserValidator validator = new CreateExternalUserValidator();
@@ -86,29 +86,8 @@ public class SignUpController {
 		}
 	}
 	
-	/*@InitBinder     
-	public void initBinder(WebDataBinder binder){
-	     binder.registerCustomEditor(       Date.class,     
-	                         new CustomDateEditor(new SimpleDateFormat("mm/dd/yyyy"), true, 10));   
-	}*/
 	
-	
-	@RequestMapping(value = "/sample", method = RequestMethod.GET)
-	public ModelAndView getSignUpForm() {
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("Sample page requested");
-		}
-		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("form", new Form());
-		modelView.setViewName("sample");
-
-		return modelView;
-	} 
-	
-	
-	
-	@RequestMapping(value = "enterSignupOTP")
+	@RequestMapping(value = "/enterSignupOTP",method = RequestMethod.POST)
 	public ModelAndView enterSignUpOTP(@ModelAttribute("form") Form form, BindingResult result, HttpServletRequest request) {
 		
 		Map<String, String> formMap = form.getMap();
@@ -140,7 +119,7 @@ public class SignUpController {
 	}
 	
 	
-	@RequestMapping(value = "sendOTPAgain")
+	@RequestMapping(value = "/sendOTPAgain",method = RequestMethod.POST)
 	public ModelAndView sendOTPAgain(@ModelAttribute("form") Form form, BindingResult result, HttpServletRequest request) {
 		
 		ModelAndView modelView = new ModelAndView();

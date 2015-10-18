@@ -12,8 +12,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
 import org.apache.log4j.Logger;
+
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Transactions;
 
@@ -95,7 +95,7 @@ public class TransactionDaoImpl implements TransactionDao {
 	}
 
 	@Override
-	public List<Transactions> getTransactionsBetweenDates(String fromDate, String toDate) {
+	public List<Transactions> getTransactionsBetweenDates(Integer accountNum, String fromDate, String toDate) {
 		SimpleDateFormat format;
 		if(fromDate.contains("/"))
 			format = new SimpleDateFormat("MM/dd/yyyy");
@@ -107,9 +107,10 @@ public class TransactionDaoImpl implements TransactionDao {
 			Date enDate = format.parse(toDate);
 
 			Session session = sessionfactory.openSession();
-			Query query = session.createQuery("from transaction where (TRANSACTION_STATUS ='pending' or TRANSACTION_STATUS= 'complete') and CREATION_TIMESTAMP BETWEEN  :stDate AND :edDate");
+			Query query = session.createQuery("from transaction where accountNumber =:accountNumber and (TRANSACTION_STATUS ='pending' or TRANSACTION_STATUS= 'complete') and CREATION_TIMESTAMP BETWEEN  :stDate AND :edDate");
 			query.setParameter("stDate", frmDate);
 			query.setParameter("edDate", enDate);
+			query.setParameter("accountNumber", accountNum);
 			List results = query.list();
 			session.close();
 			return results;
@@ -122,7 +123,21 @@ public class TransactionDaoImpl implements TransactionDao {
 	}
 
 
-
-
-
+	@Override
+	public List<Transactions> getTransactionsByDate(Integer accountNumber,Date toDate , Date fromDate) {
+		// TODO Auto-generated method stub
+		Session session = sessionfactory.openSession();
+		//Query query = session.createQuery("from transaction where accountNumber =:accountNum");
+		//query.setDate("creationTimestamp", toDate);
+		//query.setDate("creationTimestamp", fromDate);
+		//query.setParameter("accountNumber", accountNum);
+		Query query = session.createQuery("from transaction where accountNumber =:accountNumber and creationTimestamp =:toDate");
+		query.setParameter("accountNumber", accountNumber);
+		query.setParameter("toDate", toDate);
+		List<Transactions> results = query.list();
+		System.out.println(results);
+		session.close();
+		return results;
+		
+	}
 }
