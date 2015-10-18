@@ -106,6 +106,14 @@ public class TransactionController {
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("form", form);
+			String username = (String) request.getSession().getAttribute("username");
+			Users user = userDao.getUserByUserName(username);
+			List<String> accountNumbers = new ArrayList<String>();
+			for (Account account : accountService.getAccounts(user.getUserId())) {
+				accountNumbers.add(""+account.getAccountNumber());
+			}
+			
+			modelView.addObject("accounts", accountNumbers);
 			modelView.setViewName("credit");
 			return modelView;
 		} else {
@@ -178,6 +186,17 @@ public class TransactionController {
 
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
+			
+			String username = (String) request.getSession().getAttribute("username");
+			Users user = userDao.getUserByUserName(username);
+			List<String> accountNumbers = new ArrayList<String>();
+			for (Account account : accountService.getAccounts(user.getUserId())) {
+				accountNumbers.add(""+account.getAccountNumber());
+			}
+			
+			modelView.addObject("accounts", accountNumbers);
+			
+			
 			modelView.addObject("form", form);
 			modelView.setViewName("debit");
 			return modelView;
@@ -254,6 +273,17 @@ public class TransactionController {
 
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
+			
+			String username = (String) request.getSession().getAttribute("username");
+			Users user = userDao.getUserByUserName(username);
+			List<String> accountNumbers = new ArrayList<String>();
+			for (Account account : accountService.getAccounts(user.getUserId())) {
+				accountNumbers.add(""+account.getAccountNumber());
+			}
+			
+			modelView.addObject("accounts", accountNumbers);
+			
+			
 			modelView.addObject("form", form);
 			modelView.setViewName("transfer");
 			return modelView;
