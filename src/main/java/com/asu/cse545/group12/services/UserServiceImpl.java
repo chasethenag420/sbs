@@ -2,14 +2,20 @@ package com.asu.cse545.group12.services;
 
 
 import java.util.Calendar;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import com.asu.cse545.group12.hashing.HashGenerator;
 import com.asu.cse545.group12.dao.UserDao;
+import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
+import com.asu.cse545.group12.email.EmailSenderAPI;
+
 
 @Service("UserServiceImpl")
 public class UserServiceImpl implements UserService {
@@ -30,6 +36,7 @@ public class UserServiceImpl implements UserService {
 	public int insertRow(Users user, UserPII userpii){
 
 		user.setUserStatus("inactive");
+		user.setOTP("");
 		user.setPassword(hashGenerator.getHashedPassword(user.getPassword()));
 		java.util.Date date = Calendar.getInstance().getTime();
 		user.setLastModifieddate(date);
@@ -51,7 +58,10 @@ public class UserServiceImpl implements UserService {
 		if(logger.isDebugEnabled()){
 			logger.debug("UserPII data:"+userpii.toString());
 		}
-		
+		//create OTP and email the OTP to user
+		String OTP = generateOTP();
+		user.setOTP(OTP);
+		sendOTPviaEmail(user);
 		return userDao.insertRow(user);
 	}
 	
@@ -97,5 +107,47 @@ public class UserServiceImpl implements UserService {
 	public int updateRow(Users user){
 		return userDao.updateRow(user);
 	}
+	
+	//generate OTP
+	public String generateOTP()
+	{
+		String uuid = UUID.randomUUID().toString();
+		if(logger.isDebugEnabled()){
+			logger.debug("New generated OTP: "+uuid.substring(0, 8));
+		}
+    	return uuid.substring(0, 8);
+	}
+	
+	
+	//sent the OTP to user email
+	public void sendOTPviaEmail(Users user)
+	{
+		String configFile = "com/asu/cse545/group12/email/mail-config.xml";
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(configFile);
+ 
+		// @Service("emailService") <-- same annotation you specified in crunchifyEmailAPI.java
+		EmailSenderAPI emailAPI = (EmailSenderAPI) context.getBean("emailSenderService");
+		String toAddr = user.getEmailId();
+ 
+		// email subject
+		String subject = "Successful Registration";
+ 
+		// email body
+		String body = "Dear "+user.getFirstName()+" "+user.getLastName()+",\n One Time Password for your account creation. \n\n OTP: "+user.getOTP()+"\n\n You need to input the OTP in the prompt for successful creation of account. \n Have a good day!";
+		
+		emailAPI.setToEmailAddress(toAddr);
+		emailAPI.setBody(body);
+		emailAPI.setSubject(subject);
+		emailAPI.sendEmail();
+	}
+	
+	@Override
+	public int updateRowForOTP(Users user){
+		String OTP = generateOTP();
+		user.setOTP(OTP);
+		sendOTPviaEmail(user);
+		return userDao.updateRow(user);
+	}
+	
 }
 

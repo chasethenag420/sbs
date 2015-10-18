@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Users;
 
 @Component("UserDaoImpl")
@@ -91,5 +92,6 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
+	
 	
 }
