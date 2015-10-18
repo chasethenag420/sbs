@@ -20,6 +20,8 @@ Search User
   <div style="color: teal; font-size: 30px">Search User</div>
   <form:form id="searchUser"  method="post" modelAttribute="form"
    action="getuserlist">
+   <input type="hidden" name="${_csrf.parameterName}"
+          value="${_csrf.token}" />
    <center>
    <table  width="700px" height="150px" cellspacing="10">
     <tr>
