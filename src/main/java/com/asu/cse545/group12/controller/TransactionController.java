@@ -57,7 +57,7 @@ public class TransactionController {
 		return modelView;
 	}
 
-	@RequestMapping(params = "creditAmount", method = RequestMethod.POST)
+	@RequestMapping(value = "creditAmount", method = RequestMethod.POST)
 	public ModelAndView creditAmount(@Valid @ModelAttribute("form") TransactionForm form, BindingResult result, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("Credit Amount:");
@@ -96,7 +96,7 @@ public class TransactionController {
 		return modelView;
 	}
 
-	@RequestMapping(params = "debitAmount", method = RequestMethod.POST)
+	@RequestMapping(value = "debitAmount", method = RequestMethod.POST)
 	public ModelAndView debitAmount(@Valid @ModelAttribute("form") TransactionForm form, BindingResult result, HttpServletRequest request) {
 
 		if(logger.isDebugEnabled()){
@@ -116,7 +116,11 @@ public class TransactionController {
 			Integer fromAccountNumber= Integer.parseInt(form.getFromAccount());
 			Integer amount= Integer.parseInt(form.getAmount());
 			transactionservice.doDebit(fromAccountNumber, amount);
-			return new ModelAndView("debit", "form", form);
+			ModelAndView modelView = new ModelAndView();
+			modelView.addObject("successfulMessage", "Successful! The debit request is sent to bank official. Wait for approval.");
+			modelView.setViewName("debit");
+			modelView.addObject("form", new TransactionForm());
+			return modelView;
 		}
 	}
 
@@ -132,7 +136,7 @@ public class TransactionController {
 		return modelView;
 	}
 
-	@RequestMapping(params = "transferAmount", method = RequestMethod.POST)
+	@RequestMapping(value = "transferAmount", method = RequestMethod.POST)
 	public ModelAndView transferAmount(@Valid @ModelAttribute("form") TransactionForm form, BindingResult result, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("form:"+form.toString());
@@ -153,12 +157,19 @@ public class TransactionController {
 			Integer amount= Integer.parseInt(form.getAmount());
 			Integer fromAccountNumber= Integer.parseInt(form.getFromAccount());
 			transactionservice.doTransfer(fromAccountNumber, toAccountNumber, amount);
-			return new ModelAndView("transfer", "form", form);
+			ModelAndView modelView = new ModelAndView();
+			if(amount>1000)
+				modelView.addObject("successfulMessage", "Successful! The transfer request is sent to bank official. Wait for approval.");
+			else
+				modelView.addObject("successfulMessage", "Successful! The transfer is done from account: "+fromAccountNumber+" to account: "+toAccountNumber);
+			modelView.setViewName("transfer");
+			modelView.addObject("form", new TransactionForm());
+			return modelView;
 		} 
 		
 	}
 	
-	@RequestMapping(params = "goBack", method = RequestMethod.POST)
+	@RequestMapping(value = "goBack")
 	public ModelAndView goBack(HttpServletRequest request) {
 		
 		HttpSession session = request.getSession(false);

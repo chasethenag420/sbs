@@ -45,6 +45,11 @@ xmlns:security="http://www.springframework.org/schema/security"
 			</props>
 		</property>
 	</bean>
+	
+	<mvc:resources location="/web_resources/"
+		mapping="/web_resources/**">
+	</mvc:resources>
+	
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="en" />
@@ -130,9 +135,7 @@ xmlns:security="http://www.springframework.org/schema/security"
 
 
 	
-	<mvc:resources location="/web_resources/"
-		mapping="/web_resources/**">
-	</mvc:resources>
+	
 
 	<bean id="userDetailsService"	class="com.asu.cse545.group12.services.SbsUserDetailsService" />
 	<bean id="authProvider"
@@ -147,22 +150,5 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<bean id="hashGenerator" class="com.asu.cse545.group12.hashing.HashGenerator"/>
 	   
 	   
-	<!-- <bean id="emailSenderService"
-		class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="587" />
-		<property name="username" value="bankoftempe@gmail.com" />
-		<property name="password" value="bankoftempe12" />
- 
-		The name of the property, following JavaBean naming conventions
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.transport.protocol">smtp</prop>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
-				<prop key="mail.debug">true</prop>
-			</props>
-		</property>
-	</bean>
- -->
+	
 </beans>

@@ -107,6 +107,8 @@ public class Users implements Serializable {
 	@Column(name = "ZIPCODE")
 	private String zipcode;
 	
+	@Column(name = "OTP")
+	private String OTP;
 	
 	
 	
@@ -245,8 +247,15 @@ public class Users implements Serializable {
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-
-
+	
+	
+	public String getOTP() {
+		return OTP;
+	}
+	public void setOTP(String oTP) {
+		OTP = oTP;
+	}
+	
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}

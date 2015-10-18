@@ -23,8 +23,7 @@
   <br/><br/>
   <div style="color: teal; font-size: 30px">Credit Amount</div>
   <br/><br/>
-  <form:form id="creditForm"  method="post" modelAttribute="form"
-   >
+  <form:form name="creditForm" id="creditForm"  method="post" modelAttribute="form" onsubmit="return OnSubmitForm();">
    <center>
    <table  width="700px" height="150px" cellspacing="10">
    <tr></tr>
@@ -50,8 +49,8 @@
     </tr>
     <tr> 
     <form:input type="hidden" path="transactionType" value="credit"/>
-     <td><input type="submit" name ="creditAmount" value="Submit" /></td>
-     <td><input type="submit" name ="goBack" value="Cancel" /></td>
+     <td><input type="submit"  onclick="document.pressed=this.value" value="Submit" /></td>
+     <td><input type="submit"  onclick="document.pressed=this.value" value="Cancel" /></td>
      </tr>
    </table>
    <div><h2>${successfulMessage}</h2></div>
@@ -60,7 +59,21 @@
   
  </center>
  
- 
+ <script type="text/javascript">
+function OnSubmitForm()
+{
+  if(document.pressed == 'Submit')
+  {
+   document.creditForm.action ="creditAmount";
+  }
+  else
+  if(document.pressed == 'Cancel')
+  {
+    document.creditForm.action ="goBack";
+  }
+  return true;
+}
+</script>
 
 </body>
 </html>

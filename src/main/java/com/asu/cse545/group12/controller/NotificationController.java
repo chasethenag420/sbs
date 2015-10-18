@@ -52,7 +52,7 @@ public class NotificationController {
 		return notificationView;
 	}
 
-	@RequestMapping("approvenotification")
+	@RequestMapping(value = "/approvenotification")
 	public ModelAndView approveRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");

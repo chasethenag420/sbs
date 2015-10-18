@@ -19,6 +19,7 @@ public interface UserService {
 	public int deActivateUserByUserId(int userId);
 	public int deActivateUserByUserName(String userName);
 	public int insertRowForEmployee(Users user, UserPII userpii);
+	public int updateRowForOTP(Users user);
 
 /*	public List<User> getList();
 
