@@ -31,7 +31,7 @@ table tr td {
 			Notifications</div>
 
 		<br> <br> <br>
-		<form:form class="form-horizontal" id="notificationsForm" method="post"  modelAttribute="form">
+		<form:form class="form-horizontal" id="notificationsForm" action="" method="post"  modelAttribute="form">
 			<c:if test="${!empty notificationRows}">
 
 				<table border="1" bgcolor="black" width="auto">
@@ -62,11 +62,11 @@ table tr td {
 							<td><c:out value="${eachnotification.requestStatus}" /></td>
 							<td><c:out value="${eachnotification.authorizedToUserId}" /></td>
 
-							<td><input id="approve" type="submit" class="btn btn-success" >Approve
+							<td><input id="approve" type="submit" class="btn btn-success" value="Approve"/>
 							</td>
-							<td><a id="reject" class="btn btn-danger" href="rejectnotification">Reject</a>
+							<td><input id="reject" type="submit" class="btn btn-danger" value="Reject"/>
 							</td>
-							<td><a id="forward" class="btn btn-info" href="forwardnotification">Forward</a>
+							<td><input id="forward" type="submit" class="btn btn-danger" value="Forward"/>
 							</td>
 						</tr>
 					</c:forEach>
@@ -80,8 +80,16 @@ table tr td {
 
 	</center>
 	
+	<!-- jQuery -->
+	<script src="web_resources/theme/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	
 	<script type="text/javascript">
 	$('#approve').click(function(){$('#notificationsForm').attr("action","approvenotification");});
+	$('#reject').click(function(){$('#notificationsForm').attr("action","rejectnotification");});
+	$('#forward').click(function(){$('#notificationsForm').attr("action","forwardnotification");});
 	</script>
 
 </body>

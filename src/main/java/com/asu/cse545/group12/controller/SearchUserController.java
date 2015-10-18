@@ -28,7 +28,7 @@ import com.asu.cse545.group12.validator.Utils;
 @Controller
 public class SearchUserController {
 
-	private static final Logger logger = Logger.getLogger(ManagerUserController.class);
+	private static final Logger logger = Logger.getLogger(SearchUserController.class);
 
 	@Autowired
 	AuthorizationService  authorizationService;

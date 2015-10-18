@@ -58,7 +58,7 @@ public class SignUpController {
 	@Autowired
 	AuthorizationService  authorizationService;
 
-	@RequestMapping( value= "signUp")
+	@RequestMapping( value= "/signUp",method = RequestMethod.GET)
 	public ModelAndView registerUser(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model) {
 
 		CreateExternalUserValidator validator = new CreateExternalUserValidator();
@@ -108,7 +108,7 @@ public class SignUpController {
 	
 	
 	
-	@RequestMapping(value = "enterSignupOTP")
+	@RequestMapping(value = "/enterSignupOTP",method = RequestMethod.POST)
 	public ModelAndView enterSignUpOTP(@ModelAttribute("form") Form form, BindingResult result, HttpServletRequest request) {
 		
 		Map<String, String> formMap = form.getMap();
@@ -140,7 +140,7 @@ public class SignUpController {
 	}
 	
 	
-	@RequestMapping(value = "sendOTPAgain")
+	@RequestMapping(value = "/sendOTPAgain",method = RequestMethod.POST)
 	public ModelAndView sendOTPAgain(@ModelAttribute("form") Form form, BindingResult result, HttpServletRequest request) {
 		
 		ModelAndView modelView = new ModelAndView();
