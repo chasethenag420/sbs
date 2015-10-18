@@ -23,7 +23,7 @@ import com.asu.cse545.group12.services.AuthorizationService;
 @Controller
 public class NotificationController {
 
-	private static final Logger logger = Logger.getLogger(HomePageController.class);
+	private static final Logger logger = Logger.getLogger(NotificationController.class);
 
 	@Autowired
 	AuthorizationService authorizationService;
@@ -52,7 +52,7 @@ public class NotificationController {
 		return notificationView;
 	}
 
-	@RequestMapping("approvenotification")
+	@RequestMapping(value = "approvenotification", method = RequestMethod.POST)
 	public ModelAndView approveRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username=(String)session.getAttribute("username");
@@ -81,7 +81,7 @@ public class NotificationController {
 		return notificationView;
 	}
 
-	@RequestMapping(value = "/rejectnotification", method = RequestMethod.GET)
+	@RequestMapping(value = "rejectnotification", method = RequestMethod.POST)
 	public ModelAndView rejectRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
@@ -103,7 +103,7 @@ public class NotificationController {
 		return notificationView;
 	}
 
-	@RequestMapping(value = "/forwardnotification", method = RequestMethod.GET)
+	@RequestMapping(value = "forwardnotification", method = RequestMethod.POST)
 	public ModelAndView forwardRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
