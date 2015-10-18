@@ -48,6 +48,10 @@ public class Transactions {
 	@Column(name = "TRANSACTION_KIND")
 	private String severity;
 
+	@Column(name = "TRANSACTION_DESCRIPTION")
+	private String transactionDescription;
+	
+	
 	public int getTransactionId() {
 		return transactionId;
 	}
@@ -137,15 +141,25 @@ public class Transactions {
 		this.severity = severity;
 	}
 
+	
+	public String getTransactionDescription() {
+		return transactionDescription;
+	}
+
+	public void setTransactionDescription(String transactionDescription) {
+		this.transactionDescription = transactionDescription;
+	}
+
 	@Override
 	public String toString() {
 		return "Transactions [transactionId=" + transactionId + ", userId=" + userId + ", transactionStatus="
 				+ transactionStatus + ", accountNumber=" + accountNumber + ", creationTimestamp=" + creationTimestamp
 				+ ", transactionType=" + transactionType + ", modifiedByUserid=" + modifiedByUserid
 				+ ", modifiedTimestamp=" + modifiedTimestamp + ", amount=" + amount + ", transferId=" + transferId
-				+ ", severity=" + severity + "]";
+				+ ", severity=" + severity + ", transactionDescription=" + transactionDescription + "]";
 	}
 
+	
 
 }
 
