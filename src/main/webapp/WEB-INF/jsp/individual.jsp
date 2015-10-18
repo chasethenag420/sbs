@@ -49,7 +49,7 @@
 							class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
 					<li id="bankStatement"><a href="bankStatement"><span
 							class="glyphicon glyphicon-chevron-right"></span> Bank Statement</a></li>
-					<li id="notifications"><a href="searchTransaction"><span
+					<li id="notifications"><a href="notifications"><span
 							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
 					<li id="createRequest"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
