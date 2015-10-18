@@ -12,13 +12,9 @@ public interface TransactionsService {
 	public int doCredit(int accountNumber, int amount);
 	public int doDebit(int accountNumber, int amount);
 	public List<Transactions> searchTransactionByInternals(int accountNumber);
-
-	public int doTransfer(int toAccountNumber, int fromAccountNumber, int amount);
+    public int doTransfer(int toAccountNumber, int fromAccountNumber, int amount);
 	public void sendOTPviaEmail(Users user);
-
-
-
-	
 	public List<Transactions> searchTransactionByExternals(Integer accountNum, Date toDate, Date fromDate);
+
 
 }

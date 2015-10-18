@@ -29,6 +29,7 @@
 			<h1>Regular Employee</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
+
 		<form:form class="form-horizontal" id='individualForm' method='POST'>
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
@@ -59,6 +60,7 @@
 					<%-- <jsp:include page="credit.jsp"/> --%>
 				</div>
 			</div>
+
 		</form:form>
 	</div>
 
@@ -90,9 +92,12 @@
 		}
 	</script>
 	<script type="text/javascript">
+
 		$('#logout').click(function() {
 			$('#merchantForm').attr("action", "logout").submit()
 		});
 	</script>
+
+
 </body>
 </html>

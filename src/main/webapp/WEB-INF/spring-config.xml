@@ -36,7 +36,6 @@
 				<value>com.asu.cse545.group12.domain.Transactions</value>
 				<value>com.asu.cse545.group12.domain.Transfer</value>
 				<value>com.asu.cse545.group12.domain.Form</value>
-				<value>com.asu.cse545.group12.domain.Searchform</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -152,7 +151,7 @@
 			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
 		<security:intercept-url pattern="/successfulSignUp*"
 			access="permitAll" />
-		<security:intercept-url pattern="/invalidSession*"
+		<security:intercept-url pattern="/enterSignupOTP*"
 			access="permitAll" />
 		<security:intercept-url pattern="/**"
 			access="isAuthenticated()" />

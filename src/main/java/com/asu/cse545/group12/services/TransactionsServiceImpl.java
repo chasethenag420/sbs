@@ -110,6 +110,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 	}
 
 
+
 	@Override
 	public List<Transactions> searchTransactionByExternals(Integer accountNum,Date toDate,
 			Date fromDate) {
