@@ -86,17 +86,8 @@ public class RegularUserController {
 
 	@Autowired
 	TransactionsService transactionService;
-	@RequestMapping( value= "/regular")
-	public ModelAndView registerUser() {
-
-		
-			ModelAndView modelView = new ModelAndView();
-			
-			modelView.setViewName("regular");
-			return modelView;
-		}
 	
-	@RequestMapping("profile")
+	@RequestMapping(value="/profile", method = RequestMethod.GET)
 	public ModelAndView getProfile(HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("Credit Amount:");
@@ -116,7 +107,7 @@ public class RegularUserController {
 	
 	
 	
-	@RequestMapping("searchTransaction")
+	@RequestMapping(value="/searchTransaction",method = RequestMethod.GET)
 	public ModelAndView getTransactions(@ModelAttribute("user") Users user,@ModelAttribute("account") Account account) {
 		if(logger.isDebugEnabled()){
 			logger.debug("search Transactions:");
@@ -129,7 +120,9 @@ public class RegularUserController {
 			ListIterator<Transactions> it = transactionByAccNum.listIterator();
 			while(it.hasNext())
 			{
-				System.out.println(it.next());
+				if(logger.isDebugEnabled()){
+					logger.debug(it.next());
+				}
 			}
 			modelView.addObject("transactions", transactionByAccNum);
 			return modelView;
@@ -148,12 +141,6 @@ public class RegularUserController {
 			modelView.addObject("user", new Users());
 			modelView.addObject("authorization", new Authorization());
 			modelView.setViewName("regularEmprequest");
-			/*Users usermain = userService.getUserByUserName(user.getUserName());
-			System.out.println(usermain);
-			int userId = usermain.getUserId();
-			authorization.setAuthorizedToUserId(userId);
-			authorizationService.regularEmpRequest(authorization);	*/
-			// need to write the message that request was successful.
 			return modelView;
 		
 }

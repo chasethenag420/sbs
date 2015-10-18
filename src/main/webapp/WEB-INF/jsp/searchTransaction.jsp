@@ -13,6 +13,11 @@
 	rel="stylesheet">
 
 <title>Search Transactions</title>
+<head>
+<script>
+document.getElementById("deletetransaction").disabled=true;
+</script>
+</head>
 <body>
 	<center>
 
@@ -22,16 +27,20 @@
 
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
+				
+				
 			<div class="control-group">
-				<form:label class="control-label" path="user.firstName">First Name</form:label>
+				<form:label class="control-label" type ="date" path="user.firstName">First Name</form:label>
 				<form:input class="controls" path="user.firstName" />
 				<form:errors class="alert alert-danger" path="user.firstName" />
 			</div>
-
 			<div class="control-group">
-				<form:label class="control-label" path="account.accountNumber">AccountNumber</form:label>
+				<form:label class="control-label" type ="date" path="account.accountNumber">Account Number</form:label>
 				<form:input class="controls" path="account.accountNumber" />
+				<form:errors class="alert alert-danger" path="account.accountNumber" />
 			</div>
+
+			
 
 			<div class="control-group">
 				<div class="controls">
@@ -40,19 +49,29 @@
 				</div>
 
 				<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-				<table>
+				<center>
+				<table border="1" cellspacing="40" width="100">
+						<tr>
+						<th>AccountNumber</th>
+						<th>AccountCreation</th>
+						<th>TransactionType</th>
+						<th>Amount</th>
+						</tr>
 						<c:forEach items="${transactions}" var="item">
 						<tr>
-						<td><c:out value="${item.accountNumber}" /></td>
-
-						<td><c:out value="${item.creationTimestamp}" /></td>
-						<td><c:out value="${item.transactionType}" /></td>
-
-
+						
+						<td width="30"><c:out value="${item.accountNumber}" /></td>
+						
+						<td width="80"><c:out value="${item.creationTimestamp}" /></td>
+						
+						<td width="30"><c:out value="${item.transactionType}" /></td>
+						
 						<td><c:out value="${item.amount}" /></td>
+						<td><button type="button" id="deletetransaction" disabled >Delete</button> </td>
 						</tr>
 					</c:forEach>
 				</table>
+				</center>
 			</div>
 
 

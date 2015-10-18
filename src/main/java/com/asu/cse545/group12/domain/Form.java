@@ -1,12 +1,12 @@
 package com.asu.cse545.group12.domain;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Form {
 	Map<String, String> map = new HashMap<String, String>();
-
-
+	
 
 	public Map<String, String> getMap() {
 		return map;

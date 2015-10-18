@@ -1,10 +1,14 @@
 package com.asu.cse545.group12.services;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.asu.cse545.group12.hashing.HashGenerator;
@@ -19,6 +23,7 @@ import com.asu.cse545.group12.domain.Transactions;
 import com.asu.cse545.group12.domain.Transfer;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
+import com.asu.cse545.group12.email.EmailSenderAPI;
 
 @Service("TransactionsServiceImpl")
 public class TransactionsServiceImpl implements TransactionsService {
@@ -35,8 +40,11 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 	@Autowired
 	TransferDao transferDao;
+	
+	@Autowired
+	UserDao userDao;
 
-	public boolean doCredit(int accountNumber, int amount) {
+	public int doCredit(int accountNumber, int amount) {
 		boolean creditStatus = accountService.isBalanceValid(accountNumber, amount, "credit");
 		if (creditStatus == true) {
 			Account account = accountService.getAccount(accountNumber);
@@ -44,7 +52,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 			transaction.setAccountNumber(accountNumber);
 			transaction.setAmount(amount);
 			transaction.setCreationTimestamp(Calendar.getInstance().getTime());
-			transaction.setTransactionStatus("pending");
+			transaction.setTransactionStatus("submitted");
 			transaction.setUserId(account.getUserId());
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setSeverity("critical");
@@ -53,17 +61,19 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 			Authorization authorization = new Authorization();
 			authorization.setAuthorizedToUserId(account.getUserId());
-			authorization.setRequestStatus("Pending");
+			authorization.setRequestStatus("submitted");
 			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 			authorization.setRequestDescription("Approval for amount credit");
 			authorization.setRequestType("Credit");
 			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
+
+			return transactionId;
 		}
-		return creditStatus;
+		return 0;
 	}
 
-	public boolean doDebit(int accountNumber, int amount) {
+	public int doDebit(int accountNumber, int amount) {
 		boolean debitStatus = accountService.isBalanceValid(accountNumber, amount, "debit");
 		if (debitStatus == true) {
 			Account account = accountService.getAccount(accountNumber);
@@ -71,7 +81,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 			transaction.setAccountNumber(accountNumber);
 			transaction.setAmount(amount);
 			transaction.setCreationTimestamp(Calendar.getInstance().getTime());
-			transaction.setTransactionStatus("pending");
+			transaction.setTransactionStatus("submitted");
 			transaction.setUserId(account.getUserId());
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setSeverity("critical");
@@ -80,14 +90,16 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 			Authorization authorization = new Authorization();
 			authorization.setAuthorizedToUserId(account.getUserId());
-			authorization.setRequestStatus("Pending");
+			authorization.setRequestStatus("submitted");
 			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 			authorization.setRequestDescription("Approval for amount debit");
 			authorization.setRequestType("Debit");
 			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
+
+			return transactionId;
 		}
-		return debitStatus;
+		return 0;
 	}
 
 
@@ -97,10 +109,21 @@ public class TransactionsServiceImpl implements TransactionsService {
 		return searchTransactions;
 	}
 
+
+	@Override
+	public List<Transactions> searchTransactionByExternals(Integer accountNum,Date toDate,
+			Date fromDate) {
+		
+		List<Transactions> transactionlist =transactionDao.getTransactionsByDate(accountNum, toDate, fromDate);
+		return transactionlist;
+	}
+
 	
 
 
-	public boolean doTransfer(int fromAccountNumber, int toAccountNumber, int amount) {
+
+
+	public int doTransfer(int fromAccountNumber, int toAccountNumber, int amount) {
 		boolean debitStatus = false;
 		if (accountService.isValidAccountNumber(toAccountNumber)
 				&& accountService.isValidAccountNumber(fromAccountNumber)) {
@@ -115,7 +138,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				debitTransaction.setAmount(amount);
 				debitTransaction.setCreationTimestamp(Calendar.getInstance().getTime());
 				if (amount > 1000) {
-					debitTransaction.setTransactionStatus("pending");
+					debitTransaction.setTransactionStatus("submitted");
 					debitTransaction.setSeverity("critical");
 				} else {
 					debitTransaction.setTransactionStatus("complete");
@@ -135,7 +158,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				creditTransaction.setCreationTimestamp(Calendar.getInstance().getTime());
 				if (amount > 1000) {
 					creditTransaction.setSeverity("critical");
-					creditTransaction.setTransactionStatus("pending");
+					creditTransaction.setTransactionStatus("submitted");
 				} else {
 					creditTransaction.setSeverity("non-critical");
 					creditTransaction.setTransactionStatus("complete");
@@ -149,7 +172,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				// create transfer
 				Transfer transfer = new Transfer();
 				if (amount > 1000) {
-					transfer.setTransactionStatus("pending");
+					transfer.setTransactionStatus("submitted");
 				} else {
 					transfer.setTransactionStatus("complete");
 				}
@@ -168,16 +191,54 @@ public class TransactionsServiceImpl implements TransactionsService {
 				if (amount > 1000) {
 					Authorization authorization = new Authorization();
 					authorization.setAuthorizedToUserId(fromAccount.getUserId());
-					authorization.setRequestStatus("Pending");
+					authorization.setRequestStatus("submitted");
 					authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 					authorization.setRequestDescription("Approval for amount transfer");
 					authorization.setRequestType("Transfer");
 					authorization.setTransactionId(debitTransactionId);
 					authorizationDao.insertRow(authorization);
 				}
+				return debitTransactionId;
 			}
 		}
-		return debitStatus;
+		return 0;
+	}
+
+	//sent the OTP to user email
+	@Override
+	public void sendOTPviaEmail(Users user)
+	{
+		String OTP = generateOTP();
+		user.setOTP(OTP);
+		userDao.updateRow(user);
+		
+		String configFile = "com/asu/cse545/group12/email/mail-config.xml";
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(configFile);
+
+		// @Service("emailService") <-- same annotation you specified in crunchifyEmailAPI.java
+		EmailSenderAPI emailAPI = (EmailSenderAPI) context.getBean("emailSenderService");
+		String toAddr = user.getEmailId();
+
+		// email subject
+		String subject = "OTP for Successful Transaction";
+
+		// email body
+		String body = "Dear "+user.getFirstName()+" "+user.getLastName()+",\n\n One Time Password for your transaction. \n\n OTP: "+user.getOTP()+"\n\n You need to input the OTP in the prompt for processing transaction. \n Have a good day!";
+
+		emailAPI.setToEmailAddress(toAddr);
+		emailAPI.setBody(body);
+		emailAPI.setSubject(subject);
+		emailAPI.sendEmail();
+	}
+
+	//generate OTP
+	public String generateOTP()
+	{
+		String uuid = UUID.randomUUID().toString();
+		if(logger.isDebugEnabled()){
+			logger.debug("New generated OTP: "+uuid.substring(0, 8));
+		}
+		return uuid.substring(0, 8);
 	}
 
 }

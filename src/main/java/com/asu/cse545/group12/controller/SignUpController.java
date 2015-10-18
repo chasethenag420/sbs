@@ -58,7 +58,7 @@ public class SignUpController {
 	@Autowired
 	AuthorizationService  authorizationService;
 
-	@RequestMapping( value= "signUp")
+	@RequestMapping( value= "/signUp",method = RequestMethod.GET)
 	public ModelAndView registerUser(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model) {
 
 		CreateExternalUserValidator validator = new CreateExternalUserValidator();
@@ -72,16 +72,25 @@ public class SignUpController {
 		} else {		
 
 			userService.insertRow(user,userpii);
-			authorizationService.signupInsertRow(user);
-			return new ModelAndView("successfulSignUp");
+			ModelAndView modelView = new ModelAndView();
+			Form form = new Form();
+			form.getMap().put("email", new String(user.getEmailId()));
+			form.getMap().put("OTP", new String(""));
+			form.getMap().put("username", new String(user.getUserName()));
+			
+			modelView.addObject("form", form);
+			modelView.setViewName("signUpOTP");
+			//authorizationService.signupInsertRow(user);
+			//return new ModelAndView("successfulSignUp");
+			return modelView;
 		}
 	}
 	
-	@InitBinder     
+	/*@InitBinder     
 	public void initBinder(WebDataBinder binder){
 	     binder.registerCustomEditor(       Date.class,     
 	                         new CustomDateEditor(new SimpleDateFormat("mm/dd/yyyy"), true, 10));   
-	}
+	}*/
 	
 	
 	@RequestMapping(value = "/sample", method = RequestMethod.GET)
@@ -97,6 +106,58 @@ public class SignUpController {
 		return modelView;
 	} 
 	
+	
+	
+	@RequestMapping(value = "/enterSignupOTP",method = RequestMethod.POST)
+	public ModelAndView enterSignUpOTP(@ModelAttribute("form") Form form, BindingResult result, HttpServletRequest request) {
+		
+		Map<String, String> formMap = form.getMap();
+		String OTP  = formMap.get("OTP");
+		String username = formMap.get("username");
+		Users user = userService.getUserByUserName(username);
+		//System.out.println("***************************************************************** OTP: "+OTP+" username:"+username+ "opt from user: "+user.getOTP());
+		if(logger.isDebugEnabled()){
+			logger.debug("**********************OTP:"+OTP);
+			logger.debug("**********************Usename:"+username);
+			logger.debug("**********************OTP from user: "+user.getOTP());
+		}
+		if(OTP.equals(user.getOTP()))
+		{
+			authorizationService.signupInsertRow(user);
+			return new ModelAndView("successfulSignUp");
+		}
+		else
+		{
+			ModelAndView modelView = new ModelAndView();
+			form.getMap().put("OTP", new String(""));
+			modelView.addObject("form", form);
+			modelView.setViewName("signUpOTP");
+			modelView.addObject("errorMessage", "OTP does not match.");
+
+			return modelView;
+		}
+		
+	}
+	
+	
+	@RequestMapping(value = "/sendOTPAgain",method = RequestMethod.POST)
+	public ModelAndView sendOTPAgain(@ModelAttribute("form") Form form, BindingResult result, HttpServletRequest request) {
+		
+		ModelAndView modelView = new ModelAndView();
+		
+		Map<String, String> formMap = form.getMap();
+		String username = formMap.get("username");
+		Users user = userService.getUserByUserName(username);
+		
+		userService.updateRowForOTP(user);
+		form.getMap().put("email", new String(user.getEmailId()));
+		form.getMap().put("OTP", new String(""));
+		modelView.addObject("form", form);
+		modelView.setViewName("signUpOTP");
+		
+		return modelView;
+		
+	}
 
 }
 
