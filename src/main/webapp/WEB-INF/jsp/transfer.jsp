@@ -21,7 +21,7 @@
   <br/><br/>
   <div style="color: teal; font-size: 30px">Transfer Amount</div>
   <br/><br/>
-  <form:form id="transferForm"  method="post" modelAttribute="form">
+  <form:form name="transferForm" id="transferForm"  method="post" modelAttribute="form" onsubmit="return OnSubmitForm();">
    <table width="700px" height="150px">
    <tr>
      <td style="white-space: nowrap"><form:label path="fromAccount">From Account Number</form:label>
@@ -52,12 +52,31 @@
     </tr>
     <tr> 
      <form:input type="hidden" path="transactionType" value="transfer"/>
-     <td><input type="submit" name ="transferAmount" value="Submit" /></td>
-     <td><input type="submit" name ="goBack" value="Cancel" /></td>
+     <td><input type="submit"  onclick="document.pressed=this.value" value="Submit" /></td>
+     <td><input type="submit"  onclick="document.pressed=this.value" value="Cancel" /></td>
+    
     </tr>
    </table>
+    <div><h2>${successfulMessage}</h2></div>
   </form:form>
  </center>
+ 
+ 
+  <script type="text/javascript">
+function OnSubmitForm()
+{
+  if(document.pressed == 'Submit')
+  {
+   document.transferForm.action ="transferAmount";
+  }
+  else
+  if(document.pressed == 'Cancel')
+  {
+    document.transferForm.action ="goBack";
+  }
+  return true;
+}
+</script>
 </body>
 </html>
 

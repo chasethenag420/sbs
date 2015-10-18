@@ -29,7 +29,7 @@ public class TransactionInputValidator implements Validator{
 			try
 			{
 				Integer toAccountNumber;
-				if(form.getToAccount().equals(""))
+				if("".equals(form.getToAccount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "toAccount","not-integer", "Account cannot be empty.");
 				else
 					toAccountNumber= Integer.parseInt(form.getToAccount());
@@ -43,7 +43,7 @@ public class TransactionInputValidator implements Validator{
 			try
 			{
 				Integer amount;
-				if(form.getAmount().equals(""))
+				if("".equals(form.getAmount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
 				else
 					amount= Integer.parseInt(form.getAmount());
@@ -62,10 +62,11 @@ public class TransactionInputValidator implements Validator{
 			try
 			{
 				Integer fromAccount;
-				if(form.getFromAccount().equals(""))
+				if("".equals(form.getFromAccount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromAccount","not-integer", "Account cannot be empty.");
 				else
 					fromAccount= Integer.parseInt(form.getFromAccount());
+				
 			}
 			catch(Exception e)
 			{
@@ -75,7 +76,7 @@ public class TransactionInputValidator implements Validator{
 			try
 			{
 				Integer amount;
-				if(form.getAmount().equals(""))
+				if("".equals(form.getAmount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
 				else
 					amount= Integer.parseInt(form.getAmount());
@@ -93,7 +94,7 @@ public class TransactionInputValidator implements Validator{
 			try
 			{
 				Integer toAccountNumber;
-				if(form.getToAccount().equals(""))
+				if("".equals(form.getToAccount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "toAccount","not-integer", "Account cannot be empty.");
 				else
 					toAccountNumber= Integer.parseInt(form.getToAccount());
@@ -106,7 +107,7 @@ public class TransactionInputValidator implements Validator{
 			try
 			{
 				Integer fromAccount;
-				if(form.getFromAccount().equals(""))
+				if("".equals(form.getFromAccount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromAccount","not-integer", "Account cannot be empty.");
 				else
 					fromAccount= Integer.parseInt(form.getFromAccount());
@@ -118,7 +119,7 @@ public class TransactionInputValidator implements Validator{
 			try
 			{
 				Integer amount;
-				if(form.getAmount().equals(""))
+				if("".equals(form.getAmount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
 				else
 					amount= Integer.parseInt(form.getAmount());
