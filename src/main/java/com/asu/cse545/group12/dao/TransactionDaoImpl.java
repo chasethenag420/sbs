@@ -101,9 +101,10 @@ public class TransactionDaoImpl implements TransactionDao {
 		//query.setDate("creationTimestamp", toDate);
 		//query.setDate("creationTimestamp", fromDate);
 		//query.setParameter("accountNumber", accountNum);
-		Query query = session.createQuery("from transaction where accountNumber =:accountNumber and creationTimestamp =:toDate");
+		Query query = session.createQuery("from transaction where accountNumber =:accountNumber and creationTimestamp <=:toDate and creationTimestamp >=:fromDate");
 		query.setParameter("accountNumber", accountNumber);
 		query.setParameter("toDate", toDate);
+		query.setParameter("fromDate", fromDate);
 		List<Transactions> results = query.list();
 		System.out.println(results);
 		session.close();
