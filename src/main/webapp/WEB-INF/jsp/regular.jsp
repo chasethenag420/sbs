@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,15 +23,15 @@
 <title>Welcome User</title>
 </head>
 <body>
-	<input type="hidden" name="${_csrf.parameterName}"
-		value="${_csrf.token}" />
 	<div class="container">
 
 		<div class="jumbotron">
 			<h1>Regular Employee</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
-
+<form:form class="form-horizontal" id='individualForm' method='POST'>
+<input type="hidden" name="${_csrf.parameterName}"
+		value="${_csrf.token}" />
 		<div class="row">
 			<div class="col-md-3 column margintop20">
 				<ul class="nav nav-pills nav-stacked">
@@ -46,7 +47,7 @@
 							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
 					<li id="createRequest"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
-					<li id="logout"><a href="logout"><span
+					<li id="logout"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
 				</ul>
 			</div>
@@ -54,6 +55,7 @@
 				<%-- <jsp:include page="credit.jsp"/> --%>
 			</div>
 		</div>
+		</form:form>
 	</div>
 
 	<!-- jQuery -->
@@ -84,5 +86,8 @@
 				$('#content').load('transfer');
 		}
 	</script>
+	<script type="text/javascript">
+      $('#logout').click(function(){$('#merchantForm').attr("action","logout").submit()});
+    </script>
 </body>
 </html>

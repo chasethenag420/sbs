@@ -96,7 +96,14 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<security:http  pattern="/web_resources/**" security="none"/>
 	<security:http auto-config="true" use-expressions="true" disable-url-rewriting="true" >
-		<security:intercept-url pattern="/j_spring_security_check"	access="permitAll" />
+	<security:form-login login-page='/login.html' login-processing-url="/j_spring_security_check"
+			default-target-url="/home.html" authentication-success-handler-ref="authenticationSuccessRedirecthandler" authentication-failure-url="/login.html?error=true"
+			always-use-default-target="true"
+			username-parameter="username"
+            password-parameter="password"
+            />
+		<security:logout logout-url="/logout" delete-cookies="JSESSIONID" success-handler-ref="logOutSuccessRedirecthandler"/> 
+ 		<security:intercept-url pattern="/j_spring_security_check"	access="permitAll" />
 		<security:intercept-url pattern="/login*" access="permitAll" />
 		<security:intercept-url pattern="/logout*" access="permitAll" />
 		<security:intercept-url pattern="/index*" access="permitAll" />
@@ -124,15 +131,7 @@ xmlns:security="http://www.springframework.org/schema/security"
  		<security:intercept-url pattern="/**" access="isAuthenticated()" />
 
 		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
-		<security:form-login login-page='/login.html' login-processing-url="/j_spring_security_check"
-			default-target-url="/home.html" authentication-success-handler-ref="authenticationSuccessRedirecthandler" authentication-failure-url="/login.html?error=true"
-			always-use-default-target="true"
-			username-parameter="username"
-            password-parameter="password"
-            />
-		<security:logout invalidate-session="false" logout-url="/j_spring_security_logout"
-			logout-success-url="/login.html" delete-cookies="JSESSIONID" />
-	</security:http>
+			</security:http>
 	<security:authentication-manager>
 		<security:authentication-provider ref="authProvider" />
 	</security:authentication-manager>
@@ -149,7 +148,7 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<bean id="TransactionsServiceImpl" class="com.asu.cse545.group12.services.TransactionsServiceImpl" />
 	<bean id="AccountServiceImpl" class="com.asu.cse545.group12.services.AccountServiceImpl" />
 	<bean id="authenticationSuccessRedirecthandler" class="com.asu.cse545.group12.authentication.SbsAuthenticationHandler" ></bean>
-
+	<bean id="logOutSuccessRedirecthandler" class="com.asu.cse545.group12.authentication.SbsLogoutSuccessHandler"/>
 
 	
 	
