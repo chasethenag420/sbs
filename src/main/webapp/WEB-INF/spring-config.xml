@@ -132,7 +132,7 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<bean id="TransactionsServiceImpl" class="com.asu.cse545.group12.services.TransactionsServiceImpl" />
 	<bean id="AccountServiceImpl" class="com.asu.cse545.group12.services.AccountServiceImpl" />
 	<bean id="authenticationSuccessRedirecthandler" class="com.asu.cse545.group12.authentication.SbsAuthenticationHandler" ></bean>
-
+	<bean id="TransferServiceImpl" class="com.asu.cse545.group12.services.TransferServiceImpl" />
 
 	
 	
