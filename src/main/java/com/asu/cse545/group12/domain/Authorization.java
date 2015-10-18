@@ -17,7 +17,7 @@ public class Authorization{
 		return "Authorization [authorizationId=" + authorizationId + ", authorizedByUserId=" + authorizedByUserId
 				+ ", authorizedToUserId=" + authorizedToUserId + ", transactionId=" + transactionId
 				+ ", requestCreationTimeStamp=" + requestCreationTimeStamp + ", requestType=" + requestType
-				+ ", requestStatus=" + requestStatus + ", approvalFlag=" + approvalFlag + ", requestDescription="
+				+ ", requestStatus=" + requestStatus + ", assignedToRole=" + assignedToRole + ", requestDescription="
 				+ requestDescription + "]";
 	}
 	@Id
@@ -43,8 +43,8 @@ public class Authorization{
 	@Column(name="REQUEST_STATUS")
 	private String requestStatus;
 	
-	@Column(name="APPROVAL_FLAG")
-	private String approvalFlag;
+	@Column(name="ASSIGNED_TO_ROLE")
+	private String assignedToRole;
 	
 	@Column(name="REQUEST_DESCRIPTION")
 	private String requestDescription;
@@ -91,11 +91,12 @@ public class Authorization{
 	public void setRequestStatus(String requestStatus) {
 		this.requestStatus = requestStatus;
 	}
-	public String getApprovalFlag() {
-		return approvalFlag;
+
+	public String getAssignedToRole() {
+		return assignedToRole;
 	}
-	public void setApprovalFlag(String approvalFlag) {
-		this.approvalFlag = approvalFlag;
+	public void setAssignedToRole(String assignedToRole) {
+		this.assignedToRole = assignedToRole;
 	}
 	public String getRequestDescription() {
 		return requestDescription;

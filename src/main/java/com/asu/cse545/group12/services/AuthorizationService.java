@@ -17,9 +17,9 @@ public interface AuthorizationService {
 	
 	public int approve(int authorizationId, String userName);
 
-	public int reject(Authorization authorization);
+	public int reject(int authorizationId, String userName);
 
-	public int forward(Authorization authorization);
+	public int forward(int authorizationId, String userName);
 	
 	public List<Authorization> getNotifications(); 
 }

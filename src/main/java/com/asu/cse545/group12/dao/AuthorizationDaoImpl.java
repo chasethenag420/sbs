@@ -54,7 +54,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	{
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
-		authorization.setApprovalFlag("yes");
+		//authorization.setApprovalFlag("yes");
 		authorization.setRequestStatus("approve");
 		session.saveOrUpdate(authorization);  
 		tx.commit();  
@@ -69,7 +69,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	{
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
-		authorization.setApprovalFlag("no");
+		//authorization.setApprovalFlag("no");
 		authorization.setRequestStatus("reject");
 		session.saveOrUpdate(authorization);  
 		tx.commit();  
@@ -83,7 +83,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	{
 		Session session = sessionfactory.openSession(); 
 		Transaction tx = session.beginTransaction();  
-		authorization.setApprovalFlag("yes");
+		//authorization.set("yes");
 		authorization.setRequestStatus("forward");
 		session.saveOrUpdate(authorization);  
 		tx.commit();  

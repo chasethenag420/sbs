@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.AuthorizationService;
-
 
 @Controller
 public class NotificationController {
@@ -26,84 +26,118 @@ public class NotificationController {
 	private static final Logger logger = Logger.getLogger(NotificationController.class);
 
 	@Autowired
-	AuthorizationService  authorizationService;
+	AuthorizationService authorizationService;
+
+	@Autowired
+	UserDao userDao;
 
 	@RequestMapping(value = "/notifications", method = RequestMethod.GET)
 	public ModelAndView getNotificationPage() {
-		//logs debug message
-		if(logger.isDebugEnabled()){
+		// logs debug message
+		if (logger.isDebugEnabled()) {
 			logger.debug("Notification page is requested");
 		}
 
 		ModelAndView notificationView = new ModelAndView();
 
-		//********************************************************************************
-		//    GET THE VALUES FROM THE getNotifications() method from the AuthorizationDao
-		//********************************************************************************
-		//notificationView.addObject("notificationRows", authorizationService.getNotifications());
+		// ********************************************************************************
+		// GET THE VALUES FROM THE getNotifications() method from the
+		// AuthorizationDao
+		// ********************************************************************************
+		// notificationView.addObject("notificationRows",
+		// authorizationService.getNotifications());
 		notificationView.addObject("form", new Form());
 		notificationView.addObject("notificationRows", authorizationService.getNotifications());
 		notificationView.setViewName("notifications");
 		return notificationView;
 	}
 
-
 	@RequestMapping("approvenotification")
-	public ModelAndView approveRequest(@ModelAttribute("form") Form form,HttpServletRequest request) {
+	public ModelAndView approveRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		String username=(String)session.getAttribute("username");
-		Map<String, String> formMap=form.getMap();
-		Integer authorizationId= Integer.parseInt(formMap.get("authorizationId"));
-		if(logger.isDebugEnabled()){
-			logger.debug("***************************************************username in notifications: "+authorizationId);
+		String username = (String) session.getAttribute("username");
+		// Add validator
+		Map<String, String> formMap = form.getMap();
+		Integer authorizationId = Integer.parseInt(formMap.get("authorizationId"));
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					"***************************************************username in notifications: " + authorizationId);
 		}
 		ModelAndView notificationView = new ModelAndView();
-		
-		//Integer authorizationId= Integer.parseInt((String)modelMap.get("authorizationId"));
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("Request Approved by "+authorizationId);
+
+		// Integer authorizationId=
+		// Integer.parseInt((String)modelMap.get("authorizationId"));
+		// logs debug message
+		if (logger.isDebugEnabled()) {
+			logger.debug("Request Approved by " + authorizationId);
 		}
-		//********************************************************************************
-		//    Have to get the Internal User Who clicked on the APPROVE button along with authorization Object()
-		//********************************************************************************
-		authorizationService.approve(authorizationId,username);
+		// ********************************************************************************
+		// Have to get the Internal User Who clicked on the APPROVE button along
+		// with authorization Object()
+		// ********************************************************************************
+		authorizationService.approve(authorizationId, username);
 		notificationView.addObject("notificationRows", authorizationService.getNotifications());
 		notificationView.addObject("authorizationId", new Integer(0));
-		notificationView.setViewName("notifications");
+		notificationView.setViewName(getViewName(username));
+		
 		return notificationView;
 	}
 
-
 	@RequestMapping(value = "/rejectnotification", method = RequestMethod.GET)
-	public ModelAndView rejectRequest(Model model) {
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("Notification page is requested");
+	public ModelAndView rejectRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		String username = (String) session.getAttribute("username");
+		// logs debug message
+		if (logger.isDebugEnabled()) {
+			logger.debug("Notificatio Reject page is requested");
 		}
+		Map<String, String> formMap = form.getMap();
+		Integer authorizationId = Integer.parseInt(formMap.get("authorizationId"));
 
 		ModelAndView notificationView = new ModelAndView();
-		//********************************************************************************
-		//    GET THE VALUES FROM THE getNotifications() method from the AuthorizationDao
-		//********************************************************************************
+		// ********************************************************************************
+		// GET THE VALUES FROM THE getNotifications() method from the
+		// AuthorizationDao
+		// ********************************************************************************
 		notificationView.addObject("notificationRows", authorizationService.getNotifications());
-		notificationView.setViewName("notifications");
+		authorizationService.reject(authorizationId, username);
+		notificationView.setViewName(getViewName(username));
 		return notificationView;
 	}
 
 	@RequestMapping(value = "/forwardnotification", method = RequestMethod.GET)
-	public ModelAndView forwardRequest(Model model) {
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("Notification page is requested");
+	public ModelAndView forwardRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		String username = (String) session.getAttribute("username");
+		// logs debug message
+		if (logger.isDebugEnabled()) {
+			logger.debug("Notification Forward page is requested");
 		}
 
 		ModelAndView notificationView = new ModelAndView();
-		//********************************************************************************
-		//    GET THE VALUES FROM THE getNotifications() method from the AuthorizationDao
-		//********************************************************************************
+		// ********************************************************************************
+		// GET THE VALUES FROM THE getNotifications() method from the
+		// AuthorizationDao
+		// ********************************************************************************
 		notificationView.addObject("notificationRows", authorizationService.getNotifications());
-		notificationView.setViewName("notifications");
+		notificationView.setViewName(getViewName(username));
 		return notificationView;
+	}
+	
+	private String getViewName(String username){
+		int roleId = userDao.getUserByUserName(username).getRoleId();
+		// for individual user
+		if (roleId == 1) {
+			return "individual";
+		} else if (roleId == 2) {
+			return "merchant";
+		} else if (roleId == 3) {
+			return "regular";
+		} else if (roleId == 4) {
+			return "manager";
+		} else if (roleId == 5) {
+			return "admin";
+		} else
+			return "404";
 	}
 }

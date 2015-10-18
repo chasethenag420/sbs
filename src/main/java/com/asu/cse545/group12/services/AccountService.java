@@ -1,5 +1,7 @@
 package com.asu.cse545.group12.services;
 
+import java.util.List;
+
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Users;
 
@@ -16,4 +18,5 @@ public interface AccountService {
 	public boolean doDebit(int accountNumber, int amount);
 	public Account getRowById(int accountNumber);
 	public int updateRow(Account account);
+	public List<Account> getAccounts(int userId);
 }

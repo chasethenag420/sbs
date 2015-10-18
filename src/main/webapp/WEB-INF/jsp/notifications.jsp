@@ -31,13 +31,14 @@ table tr td {
 			Notifications</div>
 
 		<br> <br> <br>
-		<form:form class="form-horizontal" id="notificationsForm" method="post" action="approvenotification" modelAttribute="form">
+		<form:form class="form-horizontal" id="notificationsForm" method="post"  modelAttribute="form">
 			<c:if test="${!empty notificationRows}">
 
 				<table border="1" bgcolor="black" width="auto">
 					<tr
 						style="background-color: teal; color: white; text-align: center;"
 						height="40px">
+						<td><b>&nbsp;</b></td>
 						<td><b>Request Type</b></td>
 						<td><b>Request Description</b></td>
 						<td><b>Requested Date</b></td>
@@ -61,11 +62,11 @@ table tr td {
 							<td><c:out value="${eachnotification.requestStatus}" /></td>
 							<td><c:out value="${eachnotification.authorizedToUserId}" /></td>
 
-							<td><input type="submit" class="btn btn-success" >Approve</a>
+							<td><input id="approve" type="submit" class="btn btn-success" >Approve
 							</td>
-							<td><a class="btn btn-danger" href="rejectnotification">Reject</a>
+							<td><a id="reject" class="btn btn-danger" href="rejectnotification">Reject</a>
 							</td>
-							<td><a class="btn btn-info" href="forwardnotification">Forward</a>
+							<td><a id="forward" class="btn btn-info" href="forwardnotification">Forward</a>
 							</td>
 						</tr>
 					</c:forEach>
@@ -78,6 +79,10 @@ table tr td {
 
 
 	</center>
+	
+	<script type="text/javascript">
+	$('#approve').click(function(){$('#notificationsForm').attr("action","approvenotification");});
+	</script>
 
 </body>
 </html>

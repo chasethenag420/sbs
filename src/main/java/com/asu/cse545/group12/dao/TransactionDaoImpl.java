@@ -77,5 +77,22 @@ public class TransactionDaoImpl implements TransactionDao {
 			return null;
 		}
 	}
+
+
+
+	@Override
+	public List<Transactions> getTransactionsByAccNum(int accountNumber) {
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from transaction where accountNumber =:accountNumber ");
+		query.setParameter("accountNumber", accountNumber);
+		List results = query.list();
+		session.close();
+		return results;
+	
+	}
+
+
+
+	
 	
 }

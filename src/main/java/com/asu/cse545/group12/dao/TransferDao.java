@@ -12,6 +12,7 @@ public interface TransferDao {
 
 	public int updateRow(Transfer transfer);
 
+	public Transfer getTransferByTransferId(int transferId);
 	//public int deleteRow(int id);
 
 }

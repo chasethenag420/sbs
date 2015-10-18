@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- our Authenticator implementation -->
+	<bean id="smtpAuthenticator"
+		class="com.asu.cse545.group12.email.SmtpAuthenticator">
+		<constructor-arg value="bankoftempe@gmail.com" />
+		<constructor-arg value="bankoftempe12" />
+	</bean>
+
+        <!-- now setup an authenticated session -->
+	<bean id="mailSession" class="javax.mail.Session"
+		factory-method="getInstance">
+		<constructor-arg>
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.socketFactory.port">465</prop>
+				<prop key="mail.smtp.socketFactory.class">
+					javax.net.ssl.SSLSocketFactory
+				</prop>
+				<prop key="mail.smtp.socketFactory.fallback">
+					false
+				</prop>
+			</props>
+		</constructor-arg>
+		<constructor-arg ref="smtpAuthenticator" />
+	</bean>
+
+        <!-- and configure the MailSender with the authenticated session -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="session" ref="mailSession" />
+	</bean>
+	
+	<bean id="emailSenderService" class="com.asu.cse545.group12.email.EmailSenderAPI">
+		<constructor-arg ref="mailSender" />
+	</bean>
+
+</beans>

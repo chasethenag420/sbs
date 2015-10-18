@@ -59,6 +59,35 @@ public class UserServiceImpl implements UserService {
 		
 		return userDao.insertRow(user);
 	}
+	
+	@Override
+	public int insertRowForEmployee(Users user, UserPII userpii){
+
+		user.setUserStatus("active");
+		user.setPassword(hashGenerator.getHashedPassword(user.getPassword()));
+		java.util.Date date = Calendar.getInstance().getTime();
+		user.setLastModifieddate(date);
+		user.setRegistrationDate(date);
+		/* Role 
+		 * 0 none
+		 * 1 individual
+		 * 2 merchant
+		 * 3 regular
+		 * 4 manager
+		 * 5 admin
+		 * */
+		userpii.setSsn(hashGenerator.getHashedPassword(userpii.getSsn()));
+		userpii.setUser(user);
+		user.setUserpii(userpii);
+		if(logger.isDebugEnabled()){
+			logger.debug("User Data: "+user.toString());
+		}
+		if(logger.isDebugEnabled()){
+			logger.debug("UserPII data:"+userpii.toString());
+		}
+		
+		return userDao.insertRow(user);
+	}
 	@Override
 	public boolean isUserEnabled(Users user){
 		if("active".equalsIgnoreCase(user.getUserStatus())){
