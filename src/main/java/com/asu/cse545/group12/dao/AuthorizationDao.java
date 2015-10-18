@@ -10,6 +10,8 @@ public interface AuthorizationDao {
 	
 	public int insertRow(Authorization authorization);
 	
+	public int updateRow(Authorization authorization);
+	
 	public int approve(Authorization authorization);
 
 	public int reject(Authorization authorization);
@@ -22,4 +24,6 @@ public interface AuthorizationDao {
 	public Authorization getRowById(int authorizationId);
 	
 	public Authorization getAuthorizationByAuthorizationId(int authorizationId);
+	
+	public Authorization getAuthorizationByTransactionId(int transactionId);
 }

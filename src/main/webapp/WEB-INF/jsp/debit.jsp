@@ -27,8 +27,10 @@
     <tr>
      <td style="white-space: nowrap"><form:label path="fromAccount">From Account Number</form:label>
      </td>
-     <td><form:input path="fromAccount" />
-     </td>
+    <td><form:select path="fromAccount">
+								<form:option value="NONE" label="--Select Account --" />
+								<form:options items="${accounts}" />
+							</form:select></td>
      <td><form:errors class="alert alert-danger" path="fromAccount" /></td>
     </tr>
     <tr>
