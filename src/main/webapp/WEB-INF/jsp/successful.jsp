@@ -29,26 +29,28 @@ td {
 <body>
 
 	<center>
-		<br />
-		<br />
+		<br /> <br />
 		<div style="color: teal; font-size: 30px">Successful Action</div>
-		<br />
-		<br />
+		<br /> <br />
+		<h3>${successfulMessage}</h3>
 		<form:form name="successful" id="successful" method="post"
 			action="goBack">
-			
 
-				<br />
-				<br /> <input type="submit" value="Back"/>
-				
-			
+
+			<br />
+			<br />
+			<br />
+			<br />
+			<input type="submit" value="Back" />
+
+
 		</form:form>
 
 	</center>
 
-	<center>
-		<h3>${successfulMessage}</h3>
-	</center>
+
+
+
 
 </body>
 </html>

@@ -23,7 +23,7 @@
   <br/><br/>
   <div style="color: teal; font-size: 30px">Enter OTP</div>
   <br/><br/>
-  <form:form name = "signUpOTP" id="signUpOTP"  modelAttribute="form" method="post" onsubmit="return OnSubmitForm();">
+  <form:form name = "transactionOTP" id="transactionOTP"  modelAttribute="form" method="post" onsubmit="return OnSubmitForm();">
    <center>
    <div style="white-space: nowrap" ><b>An OTP is sent to your email : ${form.map.email}</b></div><br/><br/>
    <table  width="700px" height="150px" cellspacing="10">
@@ -61,12 +61,12 @@ function OnSubmitForm()
 {
   if(document.pressed == 'Submit')
   {
-   document.signUpOTP.action ="enterTransactionOTP";
+   document.transactionOTP.action ="enterTransactionOTP";
   }
   else
   if(document.pressed == 'Create New OTP')
   {
-    document.signUpOTP.action ="sendTransactionOTPAgain";
+    document.transactionOTP.action ="sendTransactionOTPAgain";
   }
   return true;
 }

@@ -416,9 +416,12 @@ public class TransactionController {
 		else
 		{
 			modelView = new ModelAndView();
+			form.getMap().put("transactionType", transactionType);
+			form.getMap().put("email", new String(user.getEmailId()));
 			form.getMap().put("OTP", new String(""));
 			modelView.addObject("form", form);
-			modelView.setViewName("signUpOTP");
+			
+			modelView.setViewName("transactionOTP");
 			modelView.addObject("errorMessage", "OTP does not match.");
 
 			return modelView;
@@ -433,7 +436,8 @@ public class TransactionController {
 		ModelAndView modelView = new ModelAndView();
 
 		Map<String, String> formMap = form.getMap();
-		String username = formMap.get("username");
+		HttpSession session = request.getSession(false);
+		String username = (String) session.getAttribute("username");
 		Users user = userService.getUserByUserName(username);
 
 		transactionservice.sendOTPviaEmail(user);
