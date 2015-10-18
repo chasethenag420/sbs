@@ -98,13 +98,30 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<security:http auto-config="true" use-expressions="true" disable-url-rewriting="true" >
 		<security:intercept-url pattern="/j_spring_security_check"	access="permitAll" />
 		<security:intercept-url pattern="/login*" access="permitAll" />
+		<security:intercept-url pattern="/logout*" access="permitAll" />
 		<security:intercept-url pattern="/index*" access="permitAll" />
-		<security:intercept-url pattern="/signup*" access="permitAll" /> 
+		<security:intercept-url pattern="/signup*" access="permitAll" />
+		<security:intercept-url pattern="/404*" access="permitAll" /> 
 		<security:intercept-url pattern="/forgetPassword*" access="permitAll" /> 
-		<security:intercept-url pattern="/notifications*" access="permitAll" /> 
-<!--  		<security:intercept-url pattern="/**" access="isAuthenticated()" />  -->
-		<security:intercept-url pattern="/**" access="permitAll" />
+		<security:intercept-url pattern="/notifications*" access="isAuthenticated()" /> 
+		<security:intercept-url pattern="/authorizationrequest*" access="isAuthenticated()" /> 
+		<security:intercept-url pattern="/createEmployee*" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/credit*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" /> 
+		<security:intercept-url pattern="/debit*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" /> 
+		<security:intercept-url pattern="/displayuserlist*" access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+		<security:intercept-url pattern="/individual*" access="hasRole('INDIVIDUAL')" /> 
+		<security:intercept-url pattern="/merchant*" access="hasAnyRole('MERCHANT')" /> 
+		<security:intercept-url pattern="/regular*" access="hasAnyRole('REGULAR')" /> 
+		<security:intercept-url pattern="/manager*" access="hasAnyRole('MANAGER')" /> 
+		<security:intercept-url pattern="/admin*" access="hasAnyRole('ADMIN')" />  
+		<security:intercept-url pattern="/profile*" access="isAuthenticated()" /> 
+		<security:intercept-url pattern="/searchTransaction*" access="hasAnyRole('REGULAR,MANAGER')" /> 
+		<security:intercept-url pattern="/searchUser*" access="hasAnyRole('REGULAR,MANAGER,ADMIN')" /> 
+		<security:intercept-url pattern="/signUpOTP*" access="permitAll" />
+		<security:intercept-url pattern="/transfer*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+		<security:intercept-url pattern="/successfulSignUp*" access="permitAll" />  		
  		<security:intercept-url pattern="/invalidSession*" access="permitAll" />
+ 		<security:intercept-url pattern="/**" access="isAuthenticated()" />
 
 		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
 		<security:form-login login-page='/login.html' login-processing-url="/j_spring_security_check"
