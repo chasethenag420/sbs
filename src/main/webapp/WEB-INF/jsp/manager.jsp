@@ -32,7 +32,7 @@
                 class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
               <li id="searchuser"><a href="searchuser"><span
                 class="glyphicon glyphicon-chevron-right"></span> Search User</a></li>
-              <li id="searchtransactions"><a href="searchtransactions"><span
+              <li id="searchtransactions"><a href="searchTransaction"><span
                 class="glyphicon glyphicon-chevron-right"></span> Search
                 Transactions</a>
               </li>
