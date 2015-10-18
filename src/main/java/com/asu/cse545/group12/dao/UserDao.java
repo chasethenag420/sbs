@@ -16,4 +16,8 @@ public interface UserDao {
 	//public int deleteRow(int id);
 	public Users getUserByUserName(String username);
 	public Users getUserByUserId(int userId);
+	public List<Users> getUsersByFirstName(String firstName);
+	public List<Users> getUsersByLastName(String lastName);
+	public List<Users> getUsersByPhoneNumber(String phoneNumber);
+	public List<Users> getUsersByEmailId(String emailId);
 }

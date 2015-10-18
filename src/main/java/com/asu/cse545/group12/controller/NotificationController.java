@@ -23,7 +23,7 @@ import com.asu.cse545.group12.services.AuthorizationService;
 @Controller
 public class NotificationController {
 
-	private static final Logger logger = Logger.getLogger(HomePageController.class);
+	private static final Logger logger = Logger.getLogger(NotificationController.class);
 
 	@Autowired
 	AuthorizationService authorizationService;

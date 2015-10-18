@@ -57,7 +57,7 @@ public class TransactionController {
 		return modelView;
 	}
 
-	@RequestMapping(value = "creditAmount")
+	@RequestMapping(value = "creditAmount", method = RequestMethod.POST)
 	public ModelAndView creditAmount(@Valid @ModelAttribute("form") TransactionForm form, BindingResult result, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("Credit Amount:");
@@ -96,7 +96,7 @@ public class TransactionController {
 		return modelView;
 	}
 
-	@RequestMapping(value = "debitAmount")
+	@RequestMapping(value = "debitAmount", method = RequestMethod.POST)
 	public ModelAndView debitAmount(@Valid @ModelAttribute("form") TransactionForm form, BindingResult result, HttpServletRequest request) {
 
 		if(logger.isDebugEnabled()){
@@ -136,7 +136,7 @@ public class TransactionController {
 		return modelView;
 	}
 
-	@RequestMapping(value = "transferAmount")
+	@RequestMapping(value = "transferAmount", method = RequestMethod.POST)
 	public ModelAndView transferAmount(@Valid @ModelAttribute("form") TransactionForm form, BindingResult result, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("form:"+form.toString());
