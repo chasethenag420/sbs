@@ -31,7 +31,7 @@ public class Users implements Serializable {
 				+ roleId + ", userStatus=" + userStatus + ", registrationDate=" + registrationDate
 				+ ", lastModifieddate=" + lastModifieddate + ", emailId=" + emailId + ", phoneNumber=" + phoneNumber
 				+ ", address=" + address + ", city=" + city + ", state=" + state + ", country=" + country + ", zipcode="
-				+ zipcode + ", userpii=" + userpii + "]";
+				+ zipcode + ", userpii=" + userpii+"]";
 	}
 
 
@@ -47,6 +47,21 @@ public class Users implements Serializable {
 	
 	@Column(name = "MIDDLENAME")
 	private String middleName;
+	
+	@Column(name = "FAILED_ATTEMPTS") 
+	private Integer numAttempts;
+	
+	
+
+	@Column(name = "FAILED_ATTEMPTS")
+	public Integer getNumAttempts() {
+		return numAttempts;
+	}
+	//@Column(name = "FAILED_ATTEMPTS")
+	public void setNumAttempts(Integer numAttempts) {
+		this.numAttempts = numAttempts;
+	}
+
 
 	@NotNull
     @NotEmpty(message = "Please enter your Lastname.")

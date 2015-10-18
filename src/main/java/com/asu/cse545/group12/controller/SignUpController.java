@@ -58,7 +58,7 @@ public class SignUpController {
 	@Autowired
 	AuthorizationService  authorizationService;
 
-	@RequestMapping( value= "/signUp",method = RequestMethod.GET)
+	@RequestMapping( value= "/signUp",method = RequestMethod.POST)
 	public ModelAndView registerUser(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model) {
 
 		CreateExternalUserValidator validator = new CreateExternalUserValidator();
@@ -85,27 +85,6 @@ public class SignUpController {
 			return modelView;
 		}
 	}
-	
-	/*@InitBinder     
-	public void initBinder(WebDataBinder binder){
-	     binder.registerCustomEditor(       Date.class,     
-	                         new CustomDateEditor(new SimpleDateFormat("mm/dd/yyyy"), true, 10));   
-	}*/
-	
-	
-	@RequestMapping(value = "/sample", method = RequestMethod.GET)
-	public ModelAndView getSignUpForm() {
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("Sample page requested");
-		}
-		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("form", new Form());
-		modelView.setViewName("sample");
-
-		return modelView;
-	} 
-	
 	
 	
 	@RequestMapping(value = "/enterSignupOTP",method = RequestMethod.POST)

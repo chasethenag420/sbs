@@ -21,9 +21,10 @@ public interface UserService {
 	public int insertRowForEmployee(Users user, UserPII userpii);
 	public int updateRowForOTP(Users user);
 
+
 /*	public List<User> getList();
 
-	public User getRowById(int id);
+	
 
 	
 

@@ -1,6 +1,7 @@
 package com.asu.cse545.group12.services;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -107,6 +108,18 @@ public class TransactionsServiceImpl implements TransactionsService {
 		List<Transactions> searchTransactions=transactionDao.getTransactionsByAccNum(accountNumber);
 		return searchTransactions;
 	}
+
+
+
+	@Override
+	public List<Transactions> searchTransactionByExternals(Integer accountNum,Date toDate,
+			Date fromDate) {
+		
+		List<Transactions> transactionlist =transactionDao.getTransactionsByDate(accountNum, toDate, fromDate);
+		return transactionlist;
+	}
+
+	
 
 
 

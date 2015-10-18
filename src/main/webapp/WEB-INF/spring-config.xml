@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:aop="http://www.springframework.org/schema/aop"
@@ -45,11 +45,10 @@ xmlns:security="http://www.springframework.org/schema/security"
 			</props>
 		</property>
 	</bean>
-	
-	<mvc:resources location="/web_resources/"
-		mapping="/web_resources/**">
+
+	<mvc:resources location="/web_resources/" mapping="/web_resources/**">
 	</mvc:resources>
-	
+
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="en" />
@@ -94,46 +93,74 @@ xmlns:security="http://www.springframework.org/schema/security"
 		</property>
 	</bean>
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<security:http  pattern="/web_resources/**" security="none"/>
-	<security:http auto-config="true" use-expressions="true" disable-url-rewriting="true" >
-	<security:form-login login-page='/login.html' login-processing-url="/j_spring_security_check"
-			default-target-url="/home.html" authentication-success-handler-ref="authenticationSuccessRedirecthandler" authentication-failure-url="/login.html?error=true"
-			always-use-default-target="true"
-			username-parameter="username"
-            password-parameter="password"
-            />
-		<security:logout logout-url="/logout" delete-cookies="JSESSIONID" success-handler-ref="logOutSuccessRedirecthandler"/> 
- 		<security:intercept-url pattern="/j_spring_security_check"	access="permitAll" />
-		<security:intercept-url pattern="/login*" access="permitAll" />
-		<security:intercept-url pattern="/logout*" access="permitAll" />
-		<security:intercept-url pattern="/index*" access="permitAll" />
-		<security:intercept-url pattern="/signup*" access="permitAll" />
-		<security:intercept-url pattern="/404*" access="permitAll" /> 
-		<security:intercept-url pattern="/forgetPassword*" access="permitAll" /> 
-		<security:intercept-url pattern="/notifications*" access="isAuthenticated()" /> 
-		<security:intercept-url pattern="/authorizationrequest*" access="isAuthenticated()" /> 
-		<security:intercept-url pattern="/createEmployee*" access="hasRole('ADMIN')" /> 
-		<security:intercept-url pattern="/credit*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" /> 
-		<security:intercept-url pattern="/debit*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" /> 
-		<security:intercept-url pattern="/displayuserlist*" access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
-		<security:intercept-url pattern="/individual*" access="hasRole('INDIVIDUAL')" /> 
-		<security:intercept-url pattern="/merchant*" access="hasAnyRole('MERCHANT')" /> 
-		<security:intercept-url pattern="/regular*" access="hasAnyRole('REGULAR')" /> 
-		<security:intercept-url pattern="/manager*" access="hasAnyRole('MANAGER')" /> 
-		<security:intercept-url pattern="/admin*" access="hasAnyRole('ADMIN')" />  
-		<security:intercept-url pattern="/profile*" access="isAuthenticated()" /> 
-		<security:intercept-url pattern="/searchTransaction*" access="hasAnyRole('REGULAR,MANAGER')" /> 
-		<security:intercept-url pattern="/searchUser*" access="hasAnyRole('REGULAR,MANAGER,ADMIN')" /> 
-		<security:intercept-url pattern="/signUpOTP*" access="permitAll" />
-		<security:intercept-url pattern="/transfer*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
-		<security:intercept-url pattern="/successfulSignUp*" access="permitAll" />  		
- 		<security:intercept-url pattern="/invalidSession*" access="permitAll" />
- 		<security:intercept-url pattern="/**" access="isAuthenticated()" />
+	<security:http pattern="/web_resources/**" security="none" />
+	<security:http auto-config="true" use-expressions="true"
+		disable-url-rewriting="true">
+		<security:form-login login-page='/login.html'
+			login-processing-url="/j_spring_security_check" default-target-url="/home.html"
+			authentication-success-handler-ref="authenticationSuccessRedirecthandler"
+			authentication-failure-url="/login.html?error=true"
+			always-use-default-target="true" username-parameter="username"
+			password-parameter="password" />
+		<security:logout logout-url="/logout" delete-cookies="JSESSIONID"
+			success-handler-ref="logOutSuccessRedirecthandler" />
+		<security:intercept-url pattern="/j_spring_security_check"
+			access="permitAll" />
+		<security:intercept-url pattern="/login*"
+			access="permitAll" />
+		<security:intercept-url pattern="/logout*"
+			access="permitAll" />
+		<security:intercept-url pattern="/index*"
+			access="permitAll" />
+		<security:intercept-url pattern="/signup*"
+			access="permitAll" />
+		<security:intercept-url pattern="/404*" access="permitAll" />
+		<security:intercept-url pattern="/forgetPassword*"
+			access="permitAll" />
+		<security:intercept-url pattern="/notifications*"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/authorizationrequest*"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/createEmployee*"
+			access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/credit*"
+			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+		<security:intercept-url pattern="/debit*"
+			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+		<security:intercept-url pattern="/displayuserlist*"
+			access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+		<security:intercept-url pattern="/individual*"
+			access="hasRole('INDIVIDUAL')" />
+		<security:intercept-url pattern="/merchant*"
+			access="hasAnyRole('MERCHANT')" />
+		<security:intercept-url pattern="/regular*"
+			access="hasAnyRole('REGULAR')" />
+		<security:intercept-url pattern="/manager*"
+			access="hasAnyRole('MANAGER')" />
+		<security:intercept-url pattern="/admin*"
+			access="hasAnyRole('ADMIN')" />
+		<security:intercept-url pattern="/profile*"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/searchTransaction*"
+			access="hasAnyRole('REGULAR,MANAGER')" />
+		<security:intercept-url pattern="/searchUser*"
+			access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+		<security:intercept-url pattern="/signUpOTP*"
+			access="permitAll" />
+		<security:intercept-url pattern="/transfer*"
+			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+		<security:intercept-url pattern="/successfulSignUp*"
+			access="permitAll" />
+		<security:intercept-url pattern="/enterSignupOTP*"
+			access="permitAll" />
+		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" />
 
 		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
-			</security:http>
+	</security:http>
 	<security:authentication-manager>
-		<security:authentication-provider ref="authProvider" />
+		<security:authentication-provider
+			ref="authenticationProvider" />
 	</security:authentication-manager>
 	<bean id="UserDaoImpl" class="com.asu.cse545.group12.dao.UserDaoImpl" />
 	<bean id="RoleDaoImpl" class="com.asu.cse545.group12.dao.RoleDaoImpl" />
@@ -143,20 +170,21 @@ xmlns:security="http://www.springframework.org/schema/security"
 	<bean id="UserPiiServiceImpl" class="com.asu.cse545.group12.services.UserPiiServiceImpl" />
 	<bean id="UserServiceImpl" class="com.asu.cse545.group12.services.UserServiceImpl" />
 	<bean id="AuthorizationDaoImpl" class="com.asu.cse545.group12.dao.AuthorizationDaoImpl" />
-	<bean id="AuthorizationServiceImpl" class="com.asu.cse545.group12.services.AuthorizationServiceImpl" />
+	<bean id="AuthorizationServiceImpl"
+		class="com.asu.cse545.group12.services.AuthorizationServiceImpl" />
 	<bean id="TransactionDao" class="com.asu.cse545.group12.dao.TransactionDaoImpl" />
 	<bean id="TransactionsServiceImpl" class="com.asu.cse545.group12.services.TransactionsServiceImpl" />
 	<bean id="AccountServiceImpl" class="com.asu.cse545.group12.services.AccountServiceImpl" />
-	<bean id="authenticationSuccessRedirecthandler" class="com.asu.cse545.group12.authentication.SbsAuthenticationHandler" ></bean>
-	<bean id="logOutSuccessRedirecthandler" class="com.asu.cse545.group12.authentication.SbsLogoutSuccessHandler"/>
+	<bean id="authenticationSuccessRedirecthandler"
+		class="com.asu.cse545.group12.authentication.SbsAuthenticationHandler"></bean>
+	<bean id="logOutSuccessRedirecthandler"
+		class="com.asu.cse545.group12.authentication.SbsLogoutSuccessHandler" />
 	<bean id="TransferServiceImpl" class="com.asu.cse545.group12.services.TransferServiceImpl" />
+	<bean id="userLoginDetailsDao" class="com.asu.cse545.group12.dao.UserloginDetailsDaoImpl" />
+	<bean id="userDetailsService" class="com.asu.cse545.group12.services.SbsUserDetailsService" />
 
-	
-	
-
-	<bean id="userDetailsService"	class="com.asu.cse545.group12.services.SbsUserDetailsService" />
-	<bean id="authProvider"
-		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+	<bean id="authenticationProvider"
+		class="com.asu.cse545.group12.authentication.LimitLoginAuthentication">
 		<property name="userDetailsService" ref="userDetailsService" />
 		<property name="passwordEncoder" ref="encoder" />
 	</bean>
@@ -164,8 +192,8 @@ xmlns:security="http://www.springframework.org/schema/security"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<constructor-arg name="strength" value="10" />
 	</bean>
-	<bean id="hashGenerator" class="com.asu.cse545.group12.hashing.HashGenerator"/>
-	   
-	   
-	
+	<bean id="hashGenerator" class="com.asu.cse545.group12.hashing.HashGenerator" />
+
+
+
 </beans>

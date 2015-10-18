@@ -39,7 +39,7 @@
 							class="glyphicon glyphicon-chevron-right"></span> Debit</a></li>
 					<li id="transfer"><a href="transfer"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
-					<li id="addAccount"><a href="regular"><span
+					<li id="addAccount"><a href="externalsearchtrans"><span
 							class="glyphicon glyphicon-chevron-right"></span> Add Account</a></li>
 					<li id="transactions"><a href="searchTransaction"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
@@ -76,20 +76,20 @@
 			var menuValue = $(".active").attr('id');
 			if (menuValue == "home")
 				$('#content').load('accountDetails');
-			/* if (menuValue == "credit")
+			 if (menuValue == "credit")
 				$('#content').load('credit');
 			else if (menuValue == "debit")
 				$('#content').load('debit');
 			else if (menuValue == "transfer")
 				$('#content').load('transfer');
 			else if (menuValue == "addAccount")
-				$('#content').load('regular');
+				$('#content').load('externalsearchtrans');
 			else if (menuValue == "transactions")
 				$('#content').load('searchTransaction');
 			else if (menuValue == "notifications")
 				$('#content').load('notifications');
 			else if (menuValue == "addRequest")
-				$('#content').load('transfer'); */
+				$('#content').load('transfer'); 
 		}
 		
 	</script>
