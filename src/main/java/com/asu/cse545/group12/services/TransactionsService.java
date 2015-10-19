@@ -15,6 +15,6 @@ public interface TransactionsService {
     public int doTransfer(int toAccountNumber, int fromAccountNumber, int amount);
 	public void sendOTPviaEmail(Users user);
 	public List<Transactions> searchTransactionByExternals(Integer accountNum, Date toDate, Date fromDate);
-
+	public int deleteTransaction(int transactionId);
 
 }

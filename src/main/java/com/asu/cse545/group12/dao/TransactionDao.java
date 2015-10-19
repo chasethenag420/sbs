@@ -14,5 +14,5 @@ public interface TransactionDao {
 	public Transactions getTransactionByTransactionId(int transactionId);
     public List<Transactions> getTransactionsByAccNum(int accountNumber);
     public List<Transactions> getTransactionsByDate(Integer accountNum,Date toDate,Date fromDate);
-	
+	public int deleteTransaction(int transactionId);
 }
