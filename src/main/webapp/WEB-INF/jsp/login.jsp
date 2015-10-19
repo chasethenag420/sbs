@@ -34,7 +34,25 @@
 </c:if>
 <html>
   <head>
-   
+ <link href="web_resources/theme/css/jquery-ui.min.css" rel="stylesheet"> 
+	<script src="web_resources/theme/js/jquery.min.js"></script>
+	<script src="web_resources/theme/js/jquery-ui.min.js"></script>
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+
+	<!-- keyboard widget css & script (required) -->
+	<link href="web_resources/theme/css/keyboard.css" rel="stylesheet">
+	<script src="web_resources/theme/js/jquery.keyboard.js"></script>
+
+	<!-- keyboard extensions (optional) -->
+	<script src="web_resources/theme/js/jquery.mousewheel.js"></script>
+	
+	<!-- initialize keyboard (required) -->
+	<script>
+		$(function(){
+		$("input[id^='keyboard']").keyboard();
+			<!-- $('#keyboard').keyboard(); -->
+		});
+	</script>
 <link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
 <link href="web_resources/theme/css/bootstrap-responsive.css" rel="stylesheet">
     <title>
@@ -88,14 +106,14 @@
             <spring:message	code="label.form.userName"></spring:message>
           </label>
           <span class="col-sm-8"> 
-          <input class="form-control" type='text' name='username' value=''>
+          <input id="keyboard" class="form-control" type='text' name='username' value=''>
           </span> 
           <br> <br> 
           <label class="col-sm-4">
             <spring:message	code="label.form.loginPass"> </spring:message>
           </label>
           <span class="col-sm-8"> <input class="form-control"
-            type='password' name='password' />
+            id="keyboard" type='password' name='password' />
           </span> <br> <br> <input class="btn btn-primary" name="submit"
           type="submit"
           value=<spring:message code="label.form.submit"></spring:message> />
