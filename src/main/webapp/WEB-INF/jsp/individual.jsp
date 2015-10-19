@@ -30,8 +30,7 @@
 		<div class="row">
 			<div class="col-md-3 column margintop20">
 				<ul class="nav nav-pills nav-stacked">
-					<li id="home"><a 
-						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
+					<li id="home"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span>
 							Home</a></li>
 					<li id="credit"><a href="credit"><span
 							class="glyphicon glyphicon-chevron-right"></span> Credit</a></li>
@@ -39,15 +38,12 @@
 							class="glyphicon glyphicon-chevron-right"></span> Debit</a></li>
 					<li id="transfer"><a href="transfer"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
-					<li id="addAccount"><a href="externalsearchtrans"><span
+					<li id="addAccount"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Add Account</a></li>
-					<li id="transactions"><a href="searchTransaction"><span
+					<li id="transactions"><a href="externalsearchtrans"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
-<<<<<<< HEAD
 					<li id="bankStatement"><a href="bankStatement"><span
 							class="glyphicon glyphicon-chevron-right"></span> Bank Statement</a></li>
-=======
->>>>>>> f0d0d53f4154ba4231cae563cb09c362150b9c58
 					<li id="notifications"><a href="notifications"><span
 							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
 					<li id="createRequest"><a href="#"><span
