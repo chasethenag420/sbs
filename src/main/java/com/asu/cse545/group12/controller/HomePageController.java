@@ -37,12 +37,6 @@ public class HomePageController {
 	
 	@Autowired
 	UserService userService;
-	
-	@RequestMapping("home")
-	public ModelAndView homePage(Model model) {
-		return new ModelAndView("home");
-	}
-
 	@RequestMapping(value = "/individual", method = RequestMethod.GET)
 	public ModelAndView getIndividualHomePage() {
 		//logs debug message

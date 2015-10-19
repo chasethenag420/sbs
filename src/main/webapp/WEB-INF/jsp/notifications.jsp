@@ -31,7 +31,8 @@ table tr td {
 			Notifications</div>
 
 		<br> <br> <br>
-		<form:form class="form-horizontal" id="notificationsForm" method="post"  modelAttribute="form">
+		<form:form class="form-horizontal" id="notificationsForm" action=""
+			method="post" modelAttribute="form">
 			<c:if test="${!empty notificationRows}">
 
 				<table border="1" bgcolor="black" width="auto">
@@ -45,15 +46,13 @@ table tr td {
 						<td><b>Requester UserId</b></td>
 						<td><b>Request Status</b></td>
 						<td><b>Approver UserId</b></td>
-						<td><b>Approve</b></td>
-						<td><b>Reject</b></td>
-						<td><b>Forward</b></td>
 					</tr>
 					<c:forEach items="${notificationRows}" var="eachnotification">
 						<tr
 							style="background-color: white; color: black; text-align: center;"
 							height="30px">
-							<td><form:radiobutton path="map['authorizationId']" value="${eachnotification.authorizationId}" /></td>
+							<td><form:radiobutton path="map['authorizationId']"
+									value="${eachnotification.authorizationId}" /></td>
 							<td><c:out value="${eachnotification.requestType}" /></td>
 							<td><c:out value="${eachnotification.requestDescription}" /></td>
 							<td><c:out
@@ -62,26 +61,42 @@ table tr td {
 							<td><c:out value="${eachnotification.requestStatus}" /></td>
 							<td><c:out value="${eachnotification.authorizedToUserId}" /></td>
 
-							<td><input id="approve" type="submit" class="btn btn-success" >Approve
-							</td>
-							<td><a id="reject" class="btn btn-danger" href="rejectnotification">Reject</a>
-							</td>
-							<td><a id="forward" class="btn btn-info" href="forwardnotification">Forward</a>
-							</td>
+
 						</tr>
 					</c:forEach>
 
 				</table>
 			</c:if>
+			<input id="approve" type="submit" class="btn btn-success"
+				value="Approve" />
+			<input id="reject" type="submit" class="btn btn-danger"
+				value="Reject" />
+
+			<input id="forward" type="submit" class="btn btn-danger"
+				value="Forward" />
 
 		</form:form>
 
 
 
 	</center>
-	
+
+	<!-- jQuery -->
+	<script src="web_resources/theme/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+
 	<script type="text/javascript">
-	$('#approve').click(function(){$('#notificationsForm').attr("action","approvenotification");});
+		$('#approve').click(function() {
+			$('#notificationsForm').attr("action", "approvenotification");
+		});
+		$('#reject').click(function() {
+			$('#notificationsForm').attr("action", "rejectnotification");
+		});
+		$('#forward').click(function() {
+			$('#notificationsForm').attr("action", "forwardnotification");
+		});
 	</script>
 
 </body>

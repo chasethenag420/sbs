@@ -1,69 +1,58 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+  pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
-<link href="web_resources/theme/css/bootstrap-responsive.css"
-	rel="stylesheet">
-
-<title>Manager User homepage</title>
-<style>
-div.Managerdetails
-{
-	margin-top:50px;
-    float: left;
-    vertical-align:left;
-    width: 250px;
-    height:1000px;
-}
-div.heading
-{
- 	margin-left: 250px;
-    margin-right: 3px;
-    float: center;
-  	width: 150px;
-    height:100px;
-}
-</style>
-</head>
-<body>
-
-	<div class="Managerdetails">
-		
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-			<table width="400px" height="150px">
-			<tr>
-		<td><a href="notifications" id="notifications">Notifications</a>
-		</td>
-		</tr>
-		<tr>
-		<td><a href="notifications" id="notifications">Profile</a>
-		</td>
-		</tr>
-		
-		<tr>
-		<td>
-		<a href="notifications" id="notifications">Createuser</a>
-		</td>
-		</tr>
-		<tr>
-		<td><a href="notifications" id="notifications">viewtransactions</a>
-		</td>
-		</tr>
-		<tr>
-		<td><a href="notifications" id="notifications">CriticalTransactions</a>
-		</td>
-		</tr>
-			</table>
-	</div>
-	<div class="heading">
-	<h1>ManagerHome</h1>
-	</div>
-</body>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-Frame-Options" content="allow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link href="web_resources/theme/css/main.css" rel="stylesheet">
+    <link href="web_resources/theme/css/bootstrap.min.css" rel="stylesheet">
+    <title>Welcome Manager</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Manager</h1>
+        <p>Welcome to Bank of Tempe!</p>
+      </div>
+      <form:form class="form-horizontal" id='managerForm' method='POST'>
+        <input type="hidden" name="${_csrf.parameterName}"
+          value="${_csrf.token}" />
+        <div class="row">
+          <div class="col-md-3 column margintop20">
+            <ul class="nav nav-pills nav-stacked">
+              <li id="home" class="active"><a href="profile"><span
+                class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
+              <li id="searchuser"><a href="searchuser"><span
+                class="glyphicon glyphicon-chevron-right"></span> Search User</a></li>
+              <li id="searchtransactions"><a href="searchTransaction"><span
+                class="glyphicon glyphicon-chevron-right"></span> Search
+                Transactions</a>
+              </li>
+              <li id="notifications"><a href="notifications"><span
+                class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
+              <li id="logout"><a href="#"><span
+                class="glyphicon glyphicon-chevron-right"> </span>Logout</a></li>
+            </ul>
+          </div>
+          <div id="content" class="col-md-9 column margintop20"></div>
+        </div>
+      </form:form>
+    </div>
+    <!-- jQuery -->
+    <script src="web_resources/theme/js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="web_resources/theme/js/bootstrap.min.js"></script>
+    <!-- Menu Toggle Script -->
+    <script>
+      $('#logout').click(function(){$('#managerForm').attr("action","logout").submit()});
+    </script>
+  </body>
 </html>

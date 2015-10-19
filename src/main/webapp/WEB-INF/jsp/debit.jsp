@@ -21,14 +21,16 @@
   <br/><br/>
   <div style="color: teal; font-size: 30px">Debit Amount</div>
   <br/><br/>
-  <form:form id="debitForm"  method="post" modelAttribute="form">
+  <form:form name="debitForm" id="debitForm"  method="post" modelAttribute="form" onsubmit="return OnSubmitForm();">
    <table width="700px" height="150px">
    <tr></tr>
     <tr>
      <td style="white-space: nowrap"><form:label path="fromAccount">From Account Number</form:label>
      </td>
-     <td><form:input path="fromAccount" />
-     </td>
+    <td><form:select path="fromAccount">
+								<form:option value="NONE" label="--Select Account --" />
+								<form:options items="${accounts}" />
+							</form:select></td>
      <td><form:errors class="alert alert-danger" path="fromAccount" /></td>
     </tr>
     <tr>
@@ -46,12 +48,30 @@
     </tr>
     <tr> 
      <form:input type="hidden" path="transactionType" value="debit"/>
-     <td><input type="submit" name ="debitAmount" value="Submit" /></td>
-     <td><input type="submit" name ="goBack" value="Cancel" /></td>
+     <td><input type="submit"  onclick="document.pressed=this.value" value="Submit" /></td>
+     <td><input type="submit"  onclick="document.pressed=this.value" value="Cancel" /></td>
+     
     </tr>
    </table>
+    <div><h2>${successfulMessage}</h2></div>
   </form:form>
  </center>
+ 
+  <script type="text/javascript">
+function OnSubmitForm()
+{
+  if(document.pressed == 'Submit')
+  {
+   document.debitForm.action ="debitAmount";
+  }
+  else
+  if(document.pressed == 'Cancel')
+  {
+    document.debitForm.action ="goBack";
+  }
+  return true;
+}
+</script>
 </body>
 </html>
 

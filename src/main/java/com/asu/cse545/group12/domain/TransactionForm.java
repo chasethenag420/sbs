@@ -4,6 +4,7 @@ public class TransactionForm
 {
 	String toAccount, fromAccount, amount;
 	String description, transactionType;
+	String fromDate, toDate;
 	
 	
 	
@@ -65,12 +66,41 @@ public class TransactionForm
 		this.transactionType = transactionType;
 	}
 
+	
+	public String getFromDate() {
+		return fromDate;
+	}
+
+
+
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+
+
+
+	public String getToDate() {
+		return toDate;
+	}
+
+
+
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "TransactionForm [toAccount=" + toAccount + ", fromAccount=" + fromAccount + ", amount=" + amount
-				+ ", description=" + description + ", transactionType=" + transactionType + "]";
+				+ ", description=" + description + ", transactionType=" + transactionType + ", fromDate=" + fromDate
+				+ ", toDate=" + toDate + "]";
 	}
 
+
+
+	
 	
 	
 }

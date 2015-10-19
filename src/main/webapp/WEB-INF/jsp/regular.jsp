@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,8 +23,6 @@
 <title>Welcome User</title>
 </head>
 <body>
-	<input type="hidden" name="${_csrf.parameterName}"
-		value="${_csrf.token}" />
 	<div class="container">
 
 		<div class="jumbotron">
@@ -31,29 +30,38 @@
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
 
-		<div class="row">
-			<div class="col-md-3 column margintop20">
-				<ul class="nav nav-pills nav-stacked">
-					<li id="home" class="active"><a 
-						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
-							Home</a></li>
-					<li id="profile"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> profile</a></li>
-					
-					<li id="transactions"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
-					<li id="notifications"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
-					<li id="createRequest"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
-					<li id="logout"><a href="logout"><span
-							class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
-				</ul>
+		<form:form class="form-horizontal" id='individualForm' method='POST'>
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<div class="row">
+				<div class="col-md-3 column margintop20">
+					<ul class="nav nav-pills nav-stacked">
+						<li id="home" class="active"><a , href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
+						<li id="profile"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> profile</a></li>
+
+						<li id="transactions"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
+						<li id="notifications"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
+						<li id="createRequest"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
+
+
+
+						<li id="modifyUser"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> ModifyUser</a></li>
+						<li id="logout"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
+					</ul>
+				</div>
+				<div id="content" class="col-md-9 column margintop20">
+					<%-- <jsp:include page="credit.jsp"/> --%>
+				</div>
 			</div>
-			<div id="content" class="col-md-9 column margintop20">
-				<%-- <jsp:include page="credit.jsp"/> --%>
-			</div>
-		</div>
+
+		</form:form>
 	</div>
 
 	<!-- jQuery -->
@@ -74,15 +82,22 @@
 			var menuValue = $(".active").attr('id');
 			if (menuValue == "profile")
 				$('#content').load('profile');
-			
-			
+
 			else if (menuValue == "transactions")
 				$('#content').load('searchTransaction');
 			else if (menuValue == "notifications")
 				$('#content').load('notifications');
 			else if (menuValue == "createRequest")
-				$('#content').load('transfer');
+				$('#content').load('regularEmprequest');
 		}
 	</script>
+	<script type="text/javascript">
+
+		$('#logout').click(function() {
+			$('#merchantForm').attr("action", "logout").submit()
+		});
+	</script>
+
+
 </body>
 </html>

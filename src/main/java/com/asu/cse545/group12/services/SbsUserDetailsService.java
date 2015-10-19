@@ -35,7 +35,7 @@ public class SbsUserDetailsService implements UserDetailsService {
 	private static final Logger logger = Logger.getLogger(SbsUserDetailsService.class);
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		boolean enabled = true;
+		
 		boolean accountNonExpired = true;
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
@@ -46,17 +46,18 @@ public class SbsUserDetailsService implements UserDetailsService {
 		
 		try {
 			Users user = userDao.getUserByUserName(username);
+			boolean enabled = service.isUserEnabled(user);
 			if (user == null) {
 				return new org.springframework.security.core.userdetails.User(" ", " ", enabled, true, true, true, getAuthorities("individual"));
 			}
 			if(logger.isDebugEnabled()){
-				logger.debug("User Enabled: "+service.isUserEnabled(user));
+				logger.debug("User Enabled: "+enabled);
 				logger.debug("User accountNonExpired: "+accountNonExpired);
 				logger.debug("User credentialsNonExpired: "+credentialsNonExpired);
 				logger.debug("User accountNonLocked: "+accountNonLocked);
 				logger.debug("User authorities: "+getAuthorities(roleDao.getRowById(user.getRoleId()).getRoleDescription()));
 			}
-			return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), service.isUserEnabled(user), accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(roleDao.getRowById(user.getRoleId()).getRoleDescription()));
+			return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(roleDao.getRowById(user.getRoleId()).getRoleDescription()));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

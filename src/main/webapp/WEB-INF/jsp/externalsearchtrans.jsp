@@ -13,42 +13,36 @@
 	rel="stylesheet">
 
 <title>Search Transactions</title>
-<head>
-<script>
-document.getElementById("deletetransaction").disabled=true;
-</script>
-</head>
 <body>
-	<center>
-
-
-		<form class="form-horizontal" id="searchTransaction" method="post"
-			action="searchTransaction">
-
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
-				
+<center>
+ <div style="color: teal; font-size: 30px">Search Transactions</div>
+  <form:form id="externalsearchtrans"   modelAttribute="form" method="post" 
+   action="externalsearchtransform">
+   <center>
+   
+			<div class="control-group">
+				<form:label class="control-label" path="accountNumber">Account Number</form:label>
+				<form:input class="controls" path="accountNumber" />
+				<form:errors class="alert alert-danger" path="accountNumber" />
+			</div>
 				
 			<div class="control-group">
-				<form:label class="control-label" type ="date" path="user.firstName">First Name</form:label>
-				<form:input class="controls" path="user.firstName" />
-				<form:errors class="alert alert-danger" path="user.firstName" />
+				<form:label class="control-label" path="toDate">To Date</form:label>
+				<form:input class="controls" path="toDate" />
+				<form:errors class="alert alert-danger" path="toDate" />
 			</div>
 			<div class="control-group">
-				<form:label class="control-label" type ="date" path="account.accountNumber">Account Number</form:label>
-				<form:input class="controls" path="account.accountNumber" />
-				<form:errors class="alert alert-danger" path="account.accountNumber" />
+				<form:label class="control-label" path="fromDate">From Date</form:label>
+				<form:input class="controls" path="fromDate" />
+				<form:errors class="alert alert-danger" path="fromDate" />
 			</div>
-
-			
-
 			<div class="control-group">
 				<div class="controls">
-					<input class="btn  btn-primary " type="submit" value="Submit" /> <a
-						class="btn  btn-primary " href="sample" type="button">Cancel</a>
+					<input class="btn  btn-primary " type="submit" value="Submit" /> 
 				</div>
-
-				<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+			</div>
+   </center>
+   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 				<center>
 				<table border="1" cellspacing="40" width="100">
 						<tr>
@@ -60,6 +54,7 @@ document.getElementById("deletetransaction").disabled=true;
 						<c:forEach items="${transactions}" var="item">
 						<tr>
 						
+						
 						<td width="30"><c:out value="${item.accountNumber}" /></td>
 						
 						<td width="80"><c:out value="${item.creationTimestamp}" /></td>
@@ -67,15 +62,13 @@ document.getElementById("deletetransaction").disabled=true;
 						<td width="30"><c:out value="${item.transactionType}" /></td>
 						
 						<td><c:out value="${item.amount}" /></td>
-						<td><button type="button" id="deletetransaction" disabled >Delete</button> </td>
-						</tr>
+						
 					</c:forEach>
 				</table>
 				</center>
-			</div>
-
-
-		</form>
-	</center>
+  
+   </form:form>
+  
+ </center>
 </body>
 </html>

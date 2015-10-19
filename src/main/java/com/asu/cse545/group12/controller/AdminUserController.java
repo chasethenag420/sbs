@@ -55,7 +55,7 @@ public class AdminUserController {
 		return modelView;
 	} 
 	
-	@RequestMapping( value= "createEmployeeUser")
+	@RequestMapping( value= "createEmployeeUser", method = RequestMethod.POST)
 	public ModelAndView registerEmployee(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model, HttpServletRequest request) {
 
 		CreateExternalUserValidator validator = new CreateExternalUserValidator();

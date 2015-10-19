@@ -149,9 +149,6 @@ label {
 						<form:option value="-1" label="--- Select ---" />
 						<form:option value="1" label="Individual" />
 						<form:option value="2" label="Organization/Merchant" />
-						<form:option value="3" label="Regular" />
-						<form:option value="4" label="Manager" />
-						<form:option value="5" label="Admin" />
 					</form:select>
 					<form:errors class="alert alert-danger" path="user.roleId" />
 				</div>

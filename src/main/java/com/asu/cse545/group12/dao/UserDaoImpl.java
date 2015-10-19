@@ -4,19 +4,23 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Users;
 
 @Component("UserDaoImpl")
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
+	private static final int maxAttempts =3;
 	
 	@Autowired
 	SessionFactory sessionfactory;
@@ -91,5 +95,43 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
-	
+
+	@Override
+	public List<Users> getUsersByFirstName(String firstName){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where firstName = :firstName ");
+		query.setParameter("firstName", firstName);
+		List<Users> results = query.list();
+		session.close();
+		return results;
+	}
+	@Override
+	public List<Users> getUsersByLastName(String lastName){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where lastName = :lastName ");
+		query.setParameter("lastName", lastName);
+		List<Users> results = query.list();
+		session.close();
+		return results;
+	}
+	@Override
+	public List<Users> getUsersByPhoneNumber(String phoneNumber){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where phoneNumber = :phoneNumber ");
+		query.setParameter("phoneNumber", phoneNumber);
+		List<Users> results = query.list();
+		session.close();
+		return results;
+	}
+	@Override
+	public List<Users> getUsersByEmailId(String emailId){
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where emailId = :emailId ");
+		query.setParameter("emailId", emailId);
+		List<Users> results = query.list();
+		session.close();
+		return results;
+	}
+		
+
 }

@@ -1,77 +1,112 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
-<link href="web_resources/theme/css/bootstrap-responsive.css"
-	rel="stylesheet">
 
-<title>Merchant User homepage</title>
-<style>
-div.Merchantuserdetails
-{
-	margin-top:50px;
-    float: left;
-    vertical-align:left;
-    width: 250px;
-    height:1000px;
-}
-div.heading
-{
- 	margin-left: 250px;
-    margin-right: 3px;
-    float: center;
-  	width: 150px;
-    height:100px;
-}
-</style>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="X-Frame-Options" content="allow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="web_resources/theme/css/main.css" rel="stylesheet">
+
+<!--<link href="web_resources/theme/css/bootstrap.min.css" rel="stylesheet"> -->
+<link
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- jQuery library -->
+
+
+<link href="web_resources/theme/css/bootstrap.min.css" rel="stylesheet">
+
+
+<title>Welcome User</title>
 </head>
 <body>
+	<input type="hidden" name="${_csrf.parameterName}"
+		value="${_csrf.token}" />
+	<div class="container">
 
-	<div class="Merchantuserdetails">
-		
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-			<table width="400px" height="150px">
-			<tr>
-		<td><a href="notifications" id="notifications">Profile</a>
-		</td>
-		</tr>
-		<tr>
-		<td><a href="notifications" id="notifications">Bulk Transfer</a>
-		</td>
-		</tr>
-		<tr>
-		<tr>
-		<td><a href="notifications" id="notifications">Credit</a>
-		</td>
-		</tr>
-		<td><a href="notifications" id="notifications">Debit</a>
-		</td>
-		</tr>
-		<tr>
-		<td><a href="notifications" id="notifications">Transfer</a>
-		</td>
-		</tr>
-		<tr>
-		<td>
-		<a href="notifications" id="notifications">Raise Request</a>
-		</td>
-		</tr>
-		
-		<tr>
-		<td><a href="notifications" id="notifications">Account Summary</a>
-		</td>
-		</tr>
-			</table>
+		<div class="jumbotron">
+			<h1>Merchant</h1>
+			<p>Welcome to Bank of Tempe!</p>
+		</div>
+
+
+		<div class="row">
+			<div class="col-md-3 column margintop20">
+				<ul class="nav nav-pills nav-stacked">
+					<li id="home"><a 
+						 href="#"><span class="glyphicon glyphicon-chevron-right"></span>
+							Home</a></li>
+					<li id="credit"><a href="credit"><span
+							class="glyphicon glyphicon-chevron-right"></span> Credit</a></li>
+					<li id="debit"><a  href="debit"><span
+							class="glyphicon glyphicon-chevron-right"></span> Debit</a></li>
+					<li id="transfer"><a href="transfer"><span
+							class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
+					<li id="addAccount"><a href="#"><span
+							class="glyphicon glyphicon-chevron-right"></span> Add Account</a></li>
+					<li id="transactions"><a href="externalsearchtrans"><span
+							class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
+					<li id="bankStatement"><a href="bankStatement"><span
+							class="glyphicon glyphicon-chevron-right"></span> Bank Statement</a></li>
+					<li id="notifications"><a href="notifications"><span
+							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
+					<li id="createRequest"><a href="#"><span
+							class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
+					<li id="logout"><a href="logout"><span 
+					        class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
+				</ul>
+			</div>
+			<div id="content" class="col-md-9 column margintop20">
+				<%-- <jsp:include page="accountDetails.jsp"/> --%>
+			</div>
+		</div>
 	</div>
-	<div class="heading">
-	<h1>MerchantHomePage</h1>
-	</div>
+
+	<!-- jQuery -->
+	<script src="web_resources/theme/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$(".nav li").on("click", function() {
+			$(".nav li").removeClass("active");
+			$(this).addClass("active");
+			changeContent();
+		});
+
+		function changeContent() {
+			var menuValue = $(".active").attr('id');
+			if (menuValue == "home")
+				$('#content').load('accountDetails');
+			/* if (menuValue == "credit")
+				$('#content').load('credit');
+			else if (menuValue == "debit")
+				$('#content').load('debit');
+			else if (menuValue == "transfer")
+				$('#content').load('transfer');
+			else if (menuValue == "addAccount")
+				$('#content').load('regular');
+			else if (menuValue == "transactions")
+				$('#content').load('searchTransaction');
+			else if (menuValue == "notifications")
+				$('#content').load('notifications');
+			else if (menuValue == "addRequest")
+				$('#content').load('transfer'); */
+		}
+		
+	</script>
+	
+	<script type="text/javascript">
+      $('#logout').click(function(){$('#merchantForm').attr("action","logout").submit()});
+    </script>
 </body>
 </html>

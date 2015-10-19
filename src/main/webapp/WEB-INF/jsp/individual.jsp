@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,30 +14,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="web_resources/theme/css/main.css" rel="stylesheet">
-<!--<link href="web_resources/theme/css/bootstrap.min.css" rel="stylesheet"> -->
-<link
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- jQuery library -->
-
-
+<link href="web_resources/theme/css/bootstrap.min.css" rel="stylesheet">
 <title>Welcome User</title>
 </head>
 <body>
-	<input type="hidden" name="${_csrf.parameterName}"
-		value="${_csrf.token}" />
 	<div class="container">
 
 		<div class="jumbotron">
 			<h1>Individual User</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
-
+<form:form class="form-horizontal" id='individualForm' method='POST'>
+<input type="hidden" name="${_csrf.parameterName}"
+		value="${_csrf.token}" />
 		<div class="row">
 			<div class="col-md-3 column margintop20">
 				<ul class="nav nav-pills nav-stacked">
-					<li id="home"><a 
-						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
+					<li id="home"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span>
 							Home</a></li>
 					<li id="credit"><a href="credit"><span
 							class="glyphicon glyphicon-chevron-right"></span> Credit</a></li>
@@ -43,15 +38,17 @@
 							class="glyphicon glyphicon-chevron-right"></span> Debit</a></li>
 					<li id="transfer"><a href="transfer"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
-					<li id="addAccount"><a href="regular"><span
+					<li id="addAccount"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Add Account</a></li>
-					<li id="transactions"><a href="searchTransaction"><span
+					<li id="transactions"><a href="externalsearchtrans"><span
 							class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
-					<li id="notifications"><a href="searchTransaction"><span
+					<li id="bankStatement"><a href="bankStatement"><span
+							class="glyphicon glyphicon-chevron-right"></span> Bank Statement</a></li>
+					<li id="notifications"><a href="notifications"><span
 							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
 					<li id="createRequest"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
-					<li id="logout"><a href="logout"><span
+					<li id="logout"><a href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
 				</ul>
 			</div>
@@ -59,6 +56,7 @@
 				<%-- <jsp:include page="accountDetails.jsp"/> --%>
 			</div>
 		</div>
+		</form:form>
 	</div>
 
 	<!-- jQuery -->
@@ -79,22 +77,26 @@
 			var menuValue = $(".active").attr('id');
 			if (menuValue == "home")
 				$('#content').load('accountDetails');
-			/* if (menuValue == "credit")
+			 if (menuValue == "credit")
 				$('#content').load('credit');
 			else if (menuValue == "debit")
 				$('#content').load('debit');
 			else if (menuValue == "transfer")
 				$('#content').load('transfer');
 			else if (menuValue == "addAccount")
-				$('#content').load('regular');
+				$('#content').load('externalsearchtrans');
 			else if (menuValue == "transactions")
 				$('#content').load('searchTransaction');
 			else if (menuValue == "notifications")
 				$('#content').load('notifications');
 			else if (menuValue == "addRequest")
-				$('#content').load('transfer'); */
+				$('#content').load('transfer'); 
 		}
 		
 	</script>
+	
+	<script type="text/javascript">
+      $('#logout').click(function(){$('#individualForm').attr("action","logout").submit()});
+    </script>
 </body>
 </html>

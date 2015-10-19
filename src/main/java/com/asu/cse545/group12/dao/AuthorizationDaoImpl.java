@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.asu.cse545.group12.controller.LoginController;
+import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Users;
 
@@ -138,4 +139,36 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		}
 	}
 	//public int deleteRow(int AccountId);
+
+	@Override
+	public Authorization getAuthorizationByTransactionId(int transactionId) {
+		
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from authorization where TRANSACTION_ID =:transactionId ");
+		query.setParameter("transactionId", transactionId);
+		List results = query.list();
+		if(logger.isDebugEnabled()){
+			logger.debug("Authorization by transactionId: "+transactionId);
+		}
+		if(logger.isDebugEnabled()){
+			logger.debug("Authorization by transactionId: "+results);
+		}
+		session.close();
+		if(results.size()==1){
+			return (Authorization)results.get(0);
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	@Transactional
+	public int updateRow(Authorization authorization) {
+		// TODO Auto-generated method stub
+		Session session = sessionfactory.openSession(); 
+		Transaction tx = session.beginTransaction();
+		session.saveOrUpdate(authorization);
+		tx.commit();
+		return authorization.getAuthorizationId();
+	}
 }

@@ -124,18 +124,7 @@
         ">
         <spring:message
           code="label.form.loginSignUp"></spring:message>
-        </a> <br> <br>
-        <a class="btn btn-default"
-        href="
-        <c:url value="/admin.html" />
-        ">Admin</a>
-        
-        <a class="btn btn-default"
-        href="
-        <c:url value="/credit.html" />
-        ">Credit
-        
-        </a>
+        </a> 
       </div>
     </div>
   </body>
