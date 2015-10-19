@@ -54,8 +54,15 @@
 						<c:forEach items="${transactions}" var="item">
 						<tr>
 						
-						<td>${item }</td>
-						</tr>
+						
+						<td width="30"><c:out value="${item.accountNumber}" /></td>
+						
+						<td width="80"><c:out value="${item.creationTimestamp}" /></td>
+						
+						<td width="30"><c:out value="${item.transactionType}" /></td>
+						
+						<td><c:out value="${item.amount}" /></td>
+						
 					</c:forEach>
 				</table>
 				</center>
