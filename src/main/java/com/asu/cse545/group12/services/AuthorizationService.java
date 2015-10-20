@@ -21,5 +21,7 @@ public interface AuthorizationService {
 
 	public int forward(int authorizationId, String userName);
 	
+	public int regularEmpRequest(Authorization authorization);
+	
 	public List<Authorization> getNotifications(); 
 }

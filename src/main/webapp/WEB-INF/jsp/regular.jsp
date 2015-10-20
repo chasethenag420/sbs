@@ -29,32 +29,38 @@
 			<h1>Regular Employee</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
-<form:form class="form-horizontal" id='individualForm' method='POST'>
-<input type="hidden" name="${_csrf.parameterName}"
-		value="${_csrf.token}" />
-		<div class="row">
-			<div class="col-md-3 column margintop20">
-				<ul class="nav nav-pills nav-stacked">
-					<li id="home" class="active"><a 
-						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
-							Home</a></li>
-					<li id="profile"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> profile</a></li>
-					
-					<li id="transactions"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
-					<li id="notifications"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
-					<li id="createRequest"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
-					<li id="logout"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
-				</ul>
+
+		<form:form class="form-horizontal" id='individualForm' method='POST'>
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<div class="row">
+				<div class="col-md-3 column margintop20">
+					<ul class="nav nav-pills nav-stacked">
+						<li id="home" class="active"><a , href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
+						<li id="profile"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> profile</a></li>
+
+						<li id="transactions"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
+						<li id="notifications"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
+						<li id="createRequest"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
+
+
+
+						<li id="modifyUser"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> ModifyUser</a></li>
+						<li id="logout"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
+					</ul>
+				</div>
+				<div id="content" class="col-md-9 column margintop20">
+					<%-- <jsp:include page="credit.jsp"/> --%>
+				</div>
 			</div>
-			<div id="content" class="col-md-9 column margintop20">
-				<%-- <jsp:include page="credit.jsp"/> --%>
-			</div>
-		</div>
+
 		</form:form>
 	</div>
 
@@ -76,18 +82,22 @@
 			var menuValue = $(".active").attr('id');
 			if (menuValue == "profile")
 				$('#content').load('profile');
-			
-			
+
 			else if (menuValue == "transactions")
 				$('#content').load('searchTransaction');
 			else if (menuValue == "notifications")
 				$('#content').load('notifications');
 			else if (menuValue == "createRequest")
-				$('#content').load('transfer');
+				$('#content').load('regularEmprequest');
 		}
 	</script>
 	<script type="text/javascript">
-      $('#logout').click(function(){$('#merchantForm').attr("action","logout").submit()});
-    </script>
+
+		$('#logout').click(function() {
+			$('#merchantForm').attr("action", "logout").submit()
+		});
+	</script>
+
+
 </body>
 </html>

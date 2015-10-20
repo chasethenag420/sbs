@@ -7,8 +7,8 @@ import javax.transaction.Transaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.apache.log4j.Logger;
+
 import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.AuthorizationDao;
 import com.asu.cse545.group12.dao.TransactionDao;
@@ -233,7 +233,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public int forward(int authorizationId, String userName) {
+	public int forward (int authorizationId, String userName){
 		// TODO Auto-generated method stub
 		if (logger.isDebugEnabled()) {
 			logger.debug("Reject notification invoked");
@@ -334,7 +334,19 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		authorizationRequest.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 		authorizationRequest.setRequestDescription("Approval for account creation");
 		authorizationRequest.setRequestType("Signup");
+		
 		return authorizationDao.insertRow(authorizationRequest);
 	}
+
+	
+
+	@Override
+	public int regularEmpRequest(Authorization authorization) {
+		// TODO Auto-generated method stub
+		authorizationDao.insertRow(authorization);
+		return 0;
+	}
+
+
 
 }

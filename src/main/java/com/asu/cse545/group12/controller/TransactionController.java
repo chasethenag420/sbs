@@ -106,13 +106,21 @@ public class TransactionController {
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("form", form);
+			String username = (String) request.getSession().getAttribute("username");
+			Users user = userDao.getUserByUserName(username);
+			List<String> accountNumbers = new ArrayList<String>();
+			for (Account account : accountService.getAccounts(user.getUserId())) {
+				accountNumbers.add(""+account.getAccountNumber());
+			}
+			
+			modelView.addObject("accounts", accountNumbers);
 			modelView.setViewName("credit");
 			return modelView;
 		} else {
 
 			Integer toAccountNumber= Integer.parseInt(form.getToAccount());
 			Integer amount= Integer.parseInt(form.getAmount());
-			String transactionId = ""+transactionservice.doCredit(toAccountNumber, amount);
+			String transactionId = ""+transactionservice.doCredit(toAccountNumber, amount, form.getDescription());
 			ModelAndView modelView = new ModelAndView();
 
 			String username = (String) request.getSession().getAttribute("username");
@@ -178,6 +186,17 @@ public class TransactionController {
 
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
+			
+			String username = (String) request.getSession().getAttribute("username");
+			Users user = userDao.getUserByUserName(username);
+			List<String> accountNumbers = new ArrayList<String>();
+			for (Account account : accountService.getAccounts(user.getUserId())) {
+				accountNumbers.add(""+account.getAccountNumber());
+			}
+			
+			modelView.addObject("accounts", accountNumbers);
+			
+			
 			modelView.addObject("form", form);
 			modelView.setViewName("debit");
 			return modelView;
@@ -185,7 +204,7 @@ public class TransactionController {
 
 			Integer fromAccountNumber= Integer.parseInt(form.getFromAccount());
 			Integer amount= Integer.parseInt(form.getAmount());
-			String transactionId = ""+transactionservice.doDebit(fromAccountNumber, amount);
+			String transactionId = ""+transactionservice.doDebit(fromAccountNumber, amount, form.getDescription());
 
 			ModelAndView modelView = new ModelAndView();
 
@@ -254,6 +273,17 @@ public class TransactionController {
 
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
+			
+			String username = (String) request.getSession().getAttribute("username");
+			Users user = userDao.getUserByUserName(username);
+			List<String> accountNumbers = new ArrayList<String>();
+			for (Account account : accountService.getAccounts(user.getUserId())) {
+				accountNumbers.add(""+account.getAccountNumber());
+			}
+			
+			modelView.addObject("accounts", accountNumbers);
+			
+			
 			modelView.addObject("form", form);
 			modelView.setViewName("transfer");
 			return modelView;
@@ -262,7 +292,7 @@ public class TransactionController {
 			Integer toAccountNumber= Integer.parseInt(form.getToAccount());
 			Integer amount= Integer.parseInt(form.getAmount());
 			Integer fromAccountNumber= Integer.parseInt(form.getFromAccount());
-			String transactionId = ""+transactionservice.doTransfer(fromAccountNumber, toAccountNumber, amount);
+			String transactionId = ""+transactionservice.doTransfer(fromAccountNumber, toAccountNumber, amount, form.getDescription());
 
 			
 			ModelAndView modelView = new ModelAndView();
