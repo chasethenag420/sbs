@@ -191,5 +191,11 @@ public class UserServiceImpl implements UserService {
 		return userDao.updateRow(user);
 	}
 	
+	@Override
+	public int updateRowForPassword(Users user){
+		user.setPassword(hashGenerator.getHashedPassword(user.getPassword()));
+		return userDao.updateRow(user);
+	}
+	
 }
 

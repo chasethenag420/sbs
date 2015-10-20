@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS `transaction` cascade;
 DROP TABLE IF EXISTS `account` cascade;
 DROP TABLE IF EXISTS `user` cascade;
 DROP TABLE IF EXISTS `accesscontrol` cascade;
-
+DROP TABLE IF EXISTS `securityquestions` cascade;
 
 CREATE TABLE `accesscontrol` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -129,6 +129,20 @@ CREATE TABLE `userpii` (
   CONSTRAINT `userpii_ibfk_1` FOREIGN KEY (`USERID`) REFERENCES `user` (`USERID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE `securityquestions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
+  `question1` varchar(100) DEFAULT NULL,
+  `answer1` varchar(100) DEFAULT NULL,
+  `question2` varchar(100) DEFAULT NULL,
+  `answer2` varchar(100) DEFAULT NULL,
+  `question3` varchar(100) DEFAULT NULL,
+  `answer3` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `userid_UNIQUE` (`userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
 insert into role values(5,'admin',1,1,1,1);
