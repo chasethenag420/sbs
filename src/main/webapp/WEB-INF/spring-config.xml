@@ -176,7 +176,7 @@
 			access="permitAll" />
 			
 		<security:intercept-url pattern="/**"
-			access="permitAll" />
+			access="isAuthenticated()" />
 
 		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
 	</security:http>

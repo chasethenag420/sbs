@@ -35,8 +35,6 @@
 
 <link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
 <link href="web_resources/theme/css/bootstrap-responsive.css" rel="stylesheet">
-
-
 <title>Sign Up Form</title>
 
 <style type="text/css">
@@ -51,8 +49,52 @@ label {
 }
 </style>
 
+<script type="text/javascript">
+
+   //Created / Generates the captcha function    
+    function DrawCaptcha()
+    {
+    	document.getElementById("submitbutton").disabled = true;
+        var a = Math.ceil(Math.random() * 10)+ '';
+        var b = Math.ceil(Math.random() * 10)+ '';       
+        var c = Math.ceil(Math.random() * 10)+ '';  
+        var d = Math.ceil(Math.random() * 10)+ '';  
+        var e = Math.ceil(Math.random() * 10)+ '';  
+        var f = Math.ceil(Math.random() * 10)+ '';  
+        var g = Math.ceil(Math.random() * 10)+ '';  
+        var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' '+ f + ' ' + g;
+        document.getElementById("txtCaptcha").value = code;
+        document.getElementById("txtInput").value = '';
+    }
+
+    // Validate the Entered input aganist the generated security code function   
+    	
+	function ValidCaptcha(){
+        var str1 = removeSpaces(document.getElementById('txtCaptcha').value);
+        var str2 = removeSpaces(document.getElementById('txtInput').value);
+        if (str1 == str2)
+        {	
+        	document.getElementById("submitbutton").disabled = false;
+        	document.getElementById("txtInput").value = '';
+        }
+        else
+        {
+			DrawCaptcha();
+			document.getElementById("txtInput").value = '';
+			document.getElementById("submitbutton").disabled = true;
+		}
+    }
+    // Remove the spaces from the entered and generated code
+    function removeSpaces(string)
+    {
+        return string.split(' ').join('');
+    }
+    
+ 
+</script>
+
 </head>
-<body>
+<body onload="DrawCaptcha();">
 
 	<div class="container">
 		
@@ -162,9 +204,37 @@ label {
 					<form:input class="controls" type="email" path="user.emailId" />
 					<form:errors class="alert alert-danger" path="user.emailId" />
 				</div>
+
+				<table>
+					<tr>
+    					<td>Captcha<br /></td>
+					</tr>
+					
+					<tr>
+    					<td>
+        					<input type="text" id="txtCaptcha" style="background-image: url(/sbs/web_resources/img/1.jpg); text-align:center; border:none;
+            				font-weight:bold; font-family:Modern" />
+        					<input type="button" id="btnrefresh" value="Refresh" onclick="DrawCaptcha();"/>
+    					</td>
+					</tr>
+					
+					<tr>
+    					<td>
+        					<input type="text" id="txtInput"/>    	
+    					</td>
+					</tr>
+						
+					<tr>
+    					<td>
+        					<input id="Button1" type="button" value="Validate Captcha to enable Submit" onclick="ValidCaptcha();"/>
+    					</td>
+					</tr>
+				</table>	
+
+
 				<div class="control-group">
 					<div class="controls">
-						<input class="btn  btn-primary " type="submit" value="Submit" />
+						<input id='submitbutton' class="btn  btn-primary " type="submit" value="Submit" />
 						<a class="btn  btn-primary " href="sample" type="button"  >Cancel</a>
 					</div>
 				</div>
@@ -176,6 +246,5 @@ label {
 			</fieldset>
 		</form>
 	</div>
-
 </body>
 </html>
