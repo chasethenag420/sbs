@@ -330,7 +330,7 @@ public class TransactionController {
 
 	}
 
-	@RequestMapping(params = "goBack", method = RequestMethod.POST)
+	@RequestMapping(value = "goBack")
 	public ModelAndView goBack(HttpServletRequest request) {
 
 		HttpSession session = request.getSession(false);
