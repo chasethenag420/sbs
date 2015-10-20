@@ -96,7 +96,7 @@ public class IndividualUserController {
 		return modelView;
 	}
 	
-	@RequestMapping("externalsearchtransform")
+	@RequestMapping(value="externalsearchtransform")
 	public ModelAndView creditAmount(@ModelAttribute("searchform") Searchform searchform) {
 		if(logger.isDebugEnabled()){
 			logger.debug("External User search:");
