@@ -50,23 +50,6 @@ public class LoginController {
 		return modelView;
 	} 
 	
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public ModelAndView logout(@RequestParam(value = "logout", required = false) String logout, 
-            HttpServletRequest request) {
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("User logout");
-		}
-		ModelAndView model = new ModelAndView();
-		
-		if (logout != null) {
-			model.addObject("msg", "You've been logged out successfully.");
-		}
-		model.setViewName("login");
-
-		return model;
-
-	}
 
 	private String getErrorMessage(HttpServletRequest request, String string) {
 		// TODO Auto-generated method stub
