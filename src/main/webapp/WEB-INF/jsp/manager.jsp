@@ -28,8 +28,10 @@
         <div class="row">
           <div class="col-md-3 column margintop20">
             <ul class="nav nav-pills nav-stacked">
-              <li id="home" class="active"><a href="profile"><span
+              <li id="home" class="active"><a href="#"><span
                 class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
+              <li id="userProfile"><a href="profile"><span
+				class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
               <li id="searchuser"><a href="searchuser"><span
                 class="glyphicon glyphicon-chevron-right"></span> Search User</a></li>
               <li id="searchtransactions"><a href="searchTransaction"><span

@@ -2,19 +2,6 @@ package com.asu.cse545.group12.controller;
 
 import org.apache.log4j.Logger;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,18 +15,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,17 +37,17 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.stereotype.Service;
 
+import com.asu.cse545.group12.dao.SecurityQuestionsDao;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
+import com.asu.cse545.group12.domain.SecurityQuestions;
 import com.asu.cse545.group12.domain.Transactions;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.AuthorizationService;
 import com.asu.cse545.group12.services.TransactionsService;
 import com.asu.cse545.group12.services.UserService;
-import com.asu.cse545.group12.validator.CreateExternalUserValidator;
-
 
 @Controller
 public class RegularUserController {
@@ -80,15 +55,18 @@ public class RegularUserController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	AuthorizationService authorizationService;
-	
+
 	List<Transactions> transactionByAccNum = new ArrayList<Transactions>();
 
 	@Autowired
 	TransactionsService transactionService;
 	
+	@Autowired
+	SecurityQuestionsDao securityQuestionsDao;
+
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
 	public ModelAndView getProfile(HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
@@ -215,6 +193,107 @@ public class RegularUserController {
 		
 }
 	
+	@RequestMapping(value = "enterSecurityQuestions", method = RequestMethod.POST)
+	public ModelAndView enterSecurityQuestions(HttpServletRequest request) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("enter security questions");
+		}
 	
-	
+		
+		List<String> questions = new ArrayList<String>();
+		questions.add("What is the name of the place your wedding reception was held?");
+		questions.add("What was the name of your elementary / primary school?");
+		questions.add("In what city or town does your nearest sibling live?");
+		questions.add("What time of the day were you born? (hh:mm)");
+		questions.add("What was the house number and street name you lived in as a child?");
+		questions.add("What were the last four digits of your childhood telephone number?");
+		questions.add("In what town or city was your first full time job?");
+		questions.add("What are the last five digits of your driver's licence number?");
+		questions.add("What is your grandmother's (on your mother's side) maiden name?");
+		questions.add("What is your spouse or partner's mother's maiden name?");
+		questions.add("In what town or city did your mother and father meet?");
+		
+		Form form = new Form();
+		form.getMapObject().put("question1", questions);
+		form.getMapObject().put("question2", questions);
+		form.getMapObject().put("question3", questions);
+		
+		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("form", form);
+		modelView.setViewName("setSecurityQuestions");
+		
+		return modelView;
+
+	}
+
+	@RequestMapping(value = "addSecurityQuestions", method = RequestMethod.POST)
+	public ModelAndView addSecurityQuestions(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Adding security questions");
+		}
+		ModelAndView modelView = new ModelAndView();
+
+		Map<String, String> map = form.getMap();
+		
+		List<String> questions = new ArrayList<String>();
+		questions.add("What is the name of the place your wedding reception was held?");
+		questions.add("What was the name of your elementary / primary school?");
+		questions.add("In what city or town does your nearest sibling live?");
+		questions.add("What time of the day were you born? (hh:mm)");
+		questions.add("What was the house number and street name you lived in as a child?");
+		questions.add("What were the last four digits of your childhood telephone number?");
+		questions.add("In what town or city was your first full time job?");
+		questions.add("What are the last five digits of your driver's licence number?");
+		questions.add("What is your grandmother's (on your mother's side) maiden name?");
+		questions.add("What is your spouse or partner's mother's maiden name?");
+		questions.add("In what town or city did your mother and father meet?");
+		
+		
+		if((map.get("question1").equals(map.get("question2")) || map.get("question2").equals(map.get("question3")) || map.get("question1").equals(map.get("question3"))) && (map.get("answer1").equals("") || map.get("answer2").equals("") || map.get("answer3").equals("")))
+		{
+			
+			Form newForm = new Form();
+			newForm.getMapObject().put("question1", questions);
+			newForm.getMapObject().put("question2", questions);
+			newForm.getMapObject().put("question3", questions);
+			modelView.addObject("errorMessage", "Every question must be different and answer should not be same for different questions.");
+			modelView.addObject("form", newForm);
+			modelView.setViewName("setSecurityQuestions");
+			return modelView;
+		}
+		
+		String username = (String) request.getSession(false).getAttribute("username");
+		Users user = userService.getUserByUserName(username);
+		if(user != null)
+		{
+			SecurityQuestions securityQuestions = new SecurityQuestions();
+			securityQuestions.setUserId(user.getUserId());
+			securityQuestions.setQuestion1(map.get("question1"));
+			securityQuestions.setAnswer1(map.get("answer1"));
+			securityQuestions.setQuestion2(map.get("question2"));
+			securityQuestions.setAnswer2(map.get("answer2"));
+			securityQuestions.setQuestion3(map.get("question3"));
+			securityQuestions.setAnswer3(map.get("answer3"));
+			
+			securityQuestionsDao.insertRow(securityQuestions);
+			
+			Form newForm = new Form();
+			newForm.getMapObject().put("question1", questions);
+			newForm.getMapObject().put("question2", questions);
+			newForm.getMapObject().put("question3", questions);
+			modelView.addObject("", "Every question must be different and answer should not be same for different questions.");
+			
+			modelView.addObject("form", newForm);
+			modelView.addObject("successfulMessage", "Successfull! Security Questions are set Successfully.");
+			modelView.setViewName("setSecurityQuestions");
+			
+			return modelView;
+			
+		}
+		modelView.setViewName("login");
+		return modelView;
+		
+		
+	}
+
 }

@@ -38,9 +38,9 @@
 					<li id="home" class="active"><a 
 						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
 							Home</a></li>
-					<li id="viewProfile"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> View Profile</a></li>
-					<li id="createEmployee"><a href="#"><span
+					<li id="userProfile"><a href="profile"><span
+							class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
+					<li id="createEmployee"><a href="createEmployee"><span
 							class="glyphicon glyphicon-chevron-right"></span> Create Employee</a></li>
 					<li id="modifyEmployee"><a  href="#"><span
 							class="glyphicon glyphicon-chevron-right"></span> Modify Employee</a></li>
@@ -79,7 +79,7 @@
 
 		function changeContent() {
 			var menuValue = $(".active").attr('id');
-			if (menuValue == "viewProfile")
+			/* if (menuValue == "viewProfile")
 				$('#content').load('credit');
 			else if (menuValue == "createEmployee")
 				$('#content').load('createEmployee');
@@ -92,7 +92,7 @@
 			else if (menuValue == "piiInformation")
 				$('#content').load('transfer');
 			else if (menuValue == "notifications")
-				$('#content').load('notifications');
+				$('#content').load('notifications'); */
 		}
 	/* 	$(function(){
 			alert($(location).attr('hash'));
