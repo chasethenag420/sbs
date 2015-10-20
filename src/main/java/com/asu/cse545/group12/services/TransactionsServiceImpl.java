@@ -246,4 +246,12 @@ public class TransactionsServiceImpl implements TransactionsService {
 		return uuid.substring(0, 8);
 	}
 
+	@Override
+	public int deleteTransaction(int transactionId) {
+		
+		int result =transactionDao.deleteTransaction(transactionId);
+		
+		return result;
+	}
+
 }

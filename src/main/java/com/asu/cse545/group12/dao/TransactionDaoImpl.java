@@ -127,18 +127,36 @@ public class TransactionDaoImpl implements TransactionDao {
 	public List<Transactions> getTransactionsByDate(Integer accountNumber,Date toDate , Date fromDate) {
 		// TODO Auto-generated method stub
 		Session session = sessionfactory.openSession();
-		//Query query = session.createQuery("from transaction where accountNumber =:accountNum");
-		//query.setDate("creationTimestamp", toDate);
-		//query.setDate("creationTimestamp", fromDate);
-		//query.setParameter("accountNumber", accountNum);
+		
 		Query query = session.createQuery("from transaction where accountNumber =:accountNumber and creationTimestamp <=:toDate and creationTimestamp >=:fromDate");
 		query.setParameter("accountNumber", accountNumber);
 		query.setParameter("toDate", toDate);
 		query.setParameter("fromDate", fromDate);
+		@SuppressWarnings("unchecked")
 		List<Transactions> results = query.list();
 		System.out.println(results);
 		session.close();
 		return results;
 		
+
 	}
-}
+
+
+
+	@Override
+	public int deleteTransaction(int transactionId) {
+		Session session = sessionfactory.openSession();
+		
+		//Query query = session.createQuery("from transaction where transactionId =:transactionId");
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("delete transaction where transactionId = :transactionId");
+		query.setParameter("transactionId",transactionId );
+		int result = query.executeUpdate();
+		tx.commit();
+		session.close();
+		return result;
+		
+	}
+	
+	}
+

@@ -13,17 +13,13 @@
 	rel="stylesheet">
 
 <title>Search Transactions</title>
-<head>
-<script>
-document.getElementById("deletetransaction").disabled=true;
-</script>
-</head>
+
 <body>
 	<center>
 
 
 		<form class="form-horizontal" id="searchTransaction" method="post"
-			action="searchTransaction">
+			action="" >
 
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
@@ -44,12 +40,17 @@ document.getElementById("deletetransaction").disabled=true;
 
 			<div class="control-group">
 				<div class="controls">
-					<input class="btn  btn-primary " type="submit" value="Submit" /> <a
-						class="btn  btn-primary " href="sample" type="button">Cancel</a>
+					<input class="btn  btn-primary " type="submit" id ="search" value="Submit" /> <a
+						class="btn  btn-primary " type="button">Cancel</a>
 				</div>
-
+				</div>
+				
+				
 				<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 				<center>
+				
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
 				<table border="1" cellspacing="40" width="100">
 						<tr>
 						<th>AccountNumber</th>
@@ -59,7 +60,8 @@ document.getElementById("deletetransaction").disabled=true;
 						</tr>
 						<c:forEach items="${transactions}" var="item">
 						<tr>
-						
+						<td><form:radiobutton path="form.map['transactionId']"
+									value="${item.transactionId}" /></td>
 						<td width="30"><c:out value="${item.accountNumber}" /></td>
 						
 						<td width="80"><c:out value="${item.creationTimestamp}" /></td>
@@ -70,12 +72,35 @@ document.getElementById("deletetransaction").disabled=true;
 						<td><button type="button" id="deletetransaction" disabled >Delete</button> </td>
 						</tr>
 					</c:forEach>
+					
 				</table>
+				
+				<input id="delete" type="submit" class="btn btn-danger"
+				value="delete" />
+
+			<input id="modify" type="submit" class="btn btn-danger"
+				value="Modify" />
 				</center>
-			</div>
-
-
 		</form>
 	</center>
+	
+	<!-- jQuery -->
+	<script src="web_resources/theme/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	$('#search').click(function() {
+		$('#searchTransaction').attr("action", "searchTransactionform");
+	});
+		
+		$('#delete').click(function() {
+			$('#searchTransaction').attr("action", "deleteTransaction");
+		});
+		$('#modify').click(function() {
+			$('#searchTransaction').attr("action", "modifyTransaction");
+		});
+	</script>
+	
 </body>
 </html>

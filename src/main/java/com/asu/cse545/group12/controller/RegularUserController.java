@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 
 
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 
 
 
@@ -105,30 +107,71 @@ public class RegularUserController {
 		return modelView;
 	}
 	
+	@RequestMapping(value="/searchTransaction")
+	public ModelAndView setTransactions() {
+		if(logger.isDebugEnabled()){
+			logger.debug("search Transactions:");
+		}
+			ModelAndView modelView = new ModelAndView();
+			modelView.setViewName("searchTransaction");
+			modelView.addObject("form", new Form());
+			modelView.addObject("account", new Account());
+			modelView.addObject("user", new Users());
+			return modelView;
+	}
 	
 	
-	@RequestMapping(value="/searchTransaction",method = RequestMethod.GET)
+	
+	
+	@RequestMapping(value="/searchTransactionform")
 	public ModelAndView getTransactions(@ModelAttribute("user") Users user,@ModelAttribute("account") Account account) {
 		if(logger.isDebugEnabled()){
 			logger.debug("search Transactions:");
 		}
 			ModelAndView modelView = new ModelAndView();
 			modelView.setViewName("searchTransaction");
-			
-			
+			modelView.addObject("form", new Form());
+			System.out.println("accountnum"+account.getAccountNumber());
+			System.out.println("username"+user.getFirstName());
 			transactionByAccNum=transactionService.searchTransactionByInternals(account.getAccountNumber());
+			System.out.println("transactions list"+transactionByAccNum);
 			ListIterator<Transactions> it = transactionByAccNum.listIterator();
 			while(it.hasNext())
 			{
 				if(logger.isDebugEnabled()){
 					logger.debug(it.next());
 				}
+				
+				
 			}
+			
 			modelView.addObject("transactions", transactionByAccNum);
 			return modelView;
 		
 }
-
+	
+	@RequestMapping(value="/deleteTransaction" ,method = RequestMethod.POST)
+	public ModelAndView approveTransactions(@ModelAttribute("form") Form form) {
+		if(logger.isDebugEnabled()){
+			logger.debug("aprove transactions:");
+		}
+		ModelAndView model = new ModelAndView();
+		model.addObject("form", new Form());
+		model.addObject("user", new Users());
+		model.addObject("account", new Account());
+		model.setViewName("searchTransaction");
+		Map<String, String> formMap = form.getMap();
+		Integer transactionId = Integer.parseInt(formMap.get("transactionId"));
+		System.out.println("delete transaction"+formMap.get("transactionId"));
+		int result =transactionService.deleteTransaction(transactionId);
+		System.out.println("result"+result);
+		if(result ==1)
+		{
+			model.addObject("msg", "successfully deleted the transaction");
+		}
+	return model;
+	}
+	
 	
 	
 
@@ -154,7 +197,7 @@ public class RegularUserController {
 			
 			modelView.setViewName("regularEmprequest");
 			Users usermain = userService.getUserByUserName(user.getUserName());
-			System.out.println(usermain);
+			//System.out.println(usermain);
 			int userId = usermain.getUserId();
 			HttpSession session = request.getSession(false);
 			String reuqesterusername=(String) session.getAttribute("username");
