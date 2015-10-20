@@ -70,7 +70,7 @@ public class IndividualUserController {
 	}
 	*/
 	@RequestMapping(value = "/externalsearchtrans", method =RequestMethod.GET)
-	public ModelAndView getsearchForm() {
+	public ModelAndView getsearchForm(HttpServletRequest request) {
 		//logs debug message
 		if(logger.isDebugEnabled()){
 			logger.debug("external user search!");

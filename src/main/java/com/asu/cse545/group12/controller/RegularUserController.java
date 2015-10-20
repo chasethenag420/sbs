@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
@@ -66,90 +67,131 @@ public class RegularUserController {
 	@Autowired
 	SecurityQuestionsDao securityQuestionsDao;
 
-	@RequestMapping(value = "/profile", method = RequestMethod.GET)
+	@RequestMapping(value="/profile", method = RequestMethod.GET)
 	public ModelAndView getProfile(HttpServletRequest request) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("User Profile");
+		if(logger.isDebugEnabled()){
+			logger.debug("Credit Amount:");
 		}
-		ModelAndView modelView = new ModelAndView();
-		modelView.setViewName("profile");
-		HttpSession session = request.getSession(false);
-		String username = (String) session.getAttribute("username");
-		Users user = new Users();
-		user = userService.getUserByUserName(username);
-		System.out.println(user.getUserName());
-		modelView.addObject("user", user);
-
+			ModelAndView modelView = new ModelAndView();
+			modelView.setViewName("profile");
+			HttpSession session = request.getSession(false);
+			String username=(String)session.getAttribute("username");
+			Users user = new Users();
+			user=userService.getUserByUserName(username);
+			System.out.println(user.getUserName());
+			modelView.addObject("user", user);
+		
+		//validate the input data
 		return modelView;
 	}
-
-	@RequestMapping(value = "/searchTransaction", method = RequestMethod.GET)
-	public ModelAndView getTransactions(@ModelAttribute("user") Users user,
-			@ModelAttribute("account") Account account) {
-		if (logger.isDebugEnabled()) {
+	
+	@RequestMapping(value="/searchTransaction")
+	public ModelAndView setTransactions() {
+		if(logger.isDebugEnabled()){
 			logger.debug("search Transactions:");
 		}
-		ModelAndView modelView = new ModelAndView();
-		modelView.setViewName("searchTransaction");
-
-		transactionByAccNum = transactionService.searchTransactionByInternals(account.getAccountNumber());
-		ListIterator<Transactions> it = transactionByAccNum.listIterator();
-		while (it.hasNext()) {
-			if (logger.isDebugEnabled()) {
-				logger.debug(it.next());
-			}
-		}
-		modelView.addObject("transactions", transactionByAccNum);
-		return modelView;
-
+			ModelAndView modelView = new ModelAndView();
+			modelView.setViewName("searchTransaction");
+			modelView.addObject("form", new Form());
+			modelView.addObject("account", new Account());
+			modelView.addObject("user", new Users());
+			return modelView;
 	}
+	
+	
+	
+	
+	@RequestMapping(value="/searchTransactionform")
+	public ModelAndView getTransactions(@ModelAttribute("user") Users user,@ModelAttribute("account") Account account) {
+		if(logger.isDebugEnabled()){
+			logger.debug("search Transactions:");
+		}
+			ModelAndView modelView = new ModelAndView();
+			modelView.setViewName("searchTransaction");
+			modelView.addObject("form", new Form());
+			System.out.println("accountnum"+account.getAccountNumber());
+			System.out.println("username"+user.getFirstName());
+			transactionByAccNum=transactionService.searchTransactionByInternals(account.getAccountNumber());
+			System.out.println("transactions list"+transactionByAccNum);
+			ListIterator<Transactions> it = transactionByAccNum.listIterator();
+			while(it.hasNext())
+			{
+				if(logger.isDebugEnabled()){
+					logger.debug(it.next());
+				}
+				
+				
+			}
+			
+			modelView.addObject("transactions", transactionByAccNum);
+			return modelView;
+		
+}
+	
+	@RequestMapping(value="/deleteTransaction" ,method = RequestMethod.POST)
+	public ModelAndView approveTransactions(@ModelAttribute("form") Form form) {
+		if(logger.isDebugEnabled()){
+			logger.debug("aprove transactions:");
+		}
+		ModelAndView model = new ModelAndView();
+		model.addObject("form", new Form());
+		model.addObject("user", new Users());
+		model.addObject("account", new Account());
+		model.setViewName("searchTransaction");
+		Map<String, String> formMap = form.getMap();
+		Integer transactionId = Integer.parseInt(formMap.get("transactionId"));
+		System.out.println("delete transaction"+formMap.get("transactionId"));
+		int result =transactionService.deleteTransaction(transactionId);
+		System.out.println("result"+result);
+		if(result ==1)
+		{
+			model.addObject("msg", "successfully deleted the transaction");
+		}
+	return model;
+	}
+	
+	
+	
 
 	@RequestMapping(value = "/regularEmprequest", method = RequestMethod.GET)
-	public ModelAndView setInteralEmplRequest(/*
-												 * @ModelAttribute(
-												 * "authorization")
-												 * Authorization authorization
-												 * ,@ModelAttribute("user")
-												 * Users user
-												 */) {
-		if (logger.isDebugEnabled()) {
+	public ModelAndView setInteralEmplRequest(/*@ModelAttribute("authorization") Authorization authorization ,@ModelAttribute("user") Users user*/) {
+		if(logger.isDebugEnabled()){
 			logger.debug("create request");
 		}
-		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("user", new Users());
-		modelView.addObject("authorization", new Authorization());
-		modelView.setViewName("regularEmprequest");
-		return modelView;
-
-	}
-
+			ModelAndView modelView = new ModelAndView();
+			modelView.addObject("user", new Users());
+			modelView.addObject("authorization", new Authorization());
+			modelView.setViewName("regularEmprequest");
+			return modelView;
+		
+}
+	
 	@RequestMapping(value = "regularrequest")
-	public ModelAndView getInteralEmplRequest(@ModelAttribute("authorization") Authorization authorization,
-			@ModelAttribute("user") Users user, HttpServletRequest request) {
-		if (logger.isDebugEnabled()) {
+	public ModelAndView getInteralEmplRequest(@ModelAttribute("authorization") Authorization authorization ,@ModelAttribute("user") Users user,HttpServletRequest request) {
+		if(logger.isDebugEnabled()){
 			logger.debug("create request");
 		}
-		ModelAndView modelView = new ModelAndView();
-
-		modelView.setViewName("regularEmprequest");
-		Users usermain = userService.getUserByUserName(user.getUserName());
-		System.out.println(usermain);
-		int userId = usermain.getUserId();
-		HttpSession session = request.getSession(false);
-		String reuqesterusername = (String) session.getAttribute("username");
-		Users requesteruser = userService.getUserByUserName(reuqesterusername);
-		int requesteruserid = requesteruser.getUserId();
-		System.out.println("requesteruserid" + requesteruserid);
-		System.out.println("requestedto" + userId);
-		authorization.setAuthorizedByUserId(userId);
-		authorization.setAuthorizedToUserId(requesteruserid);
-
-		authorization.setRequestStatus("pending");
-		authorizationService.regularEmpRequest(authorization);
-		// need to write the message that request was successful.
-		return modelView;
-
-	}
+			ModelAndView modelView = new ModelAndView();
+			
+			modelView.setViewName("regularEmprequest");
+			Users usermain = userService.getUserByUserName(user.getUserName());
+			//System.out.println(usermain);
+			int userId = usermain.getUserId();
+			HttpSession session = request.getSession(false);
+			String reuqesterusername=(String) session.getAttribute("username");
+			Users requesteruser = userService.getUserByUserName(reuqesterusername);
+			int requesteruserid = requesteruser.getUserId();
+			System.out.println("requesteruserid"+requesteruserid);
+			System.out.println("requestedto"+userId);
+			authorization.setAuthorizedByUserId(userId);
+			authorization.setAuthorizedToUserId(requesteruserid);
+			
+			authorization.setRequestStatus("pending");
+			authorizationService.regularEmpRequest(authorization);	
+			// need to write the message that request was successful.
+			return modelView;
+		
+}
 	
 	@RequestMapping(value = "enterSecurityQuestions", method = RequestMethod.POST)
 	public ModelAndView enterSecurityQuestions(HttpServletRequest request) {
@@ -215,10 +257,8 @@ public class RegularUserController {
 			newForm.getMapObject().put("question2", questions);
 			newForm.getMapObject().put("question3", questions);
 			modelView.addObject("errorMessage", "Every question must be different and answer should not be same for different questions.");
-			
 			modelView.addObject("form", newForm);
 			modelView.setViewName("setSecurityQuestions");
-			
 			return modelView;
 		}
 		

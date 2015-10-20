@@ -15,6 +15,7 @@ public interface TransactionDao {
     public List<Transactions> getTransactionsByAccNum(int accountNumber);
     public List<Transactions> getTransactionsBetweenDates(Integer accountNum, String fromDate, String toDate);
     public List<Transactions> getTransactionsByDate(Integer accountNum,Date toDate,Date fromDate);
+	public int deleteTransaction(int transactionId);
 
-	
+
 }
