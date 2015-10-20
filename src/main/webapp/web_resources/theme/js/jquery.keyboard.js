@@ -2095,9 +2095,9 @@ var $keyboard = $.keyboard = function(el, options){
 
 		// *** Useability ***
 		// Auto-accept content when clicking outside the keyboard (popup will close)
-		autoAccept      : false,
+		autoAccept      : true,
 		// Auto-accept content even if the user presses escape (only works if `autoAccept` is `true`)
-		autoAcceptOnEsc : false,
+		autoAcceptOnEsc : true,
 
 		// Prevents direct input in the preview window when true
 		lockInput    : false,
@@ -2112,7 +2112,7 @@ var $keyboard = $.keyboard = function(el, options){
 
 		// if acceptValid is true & the validate function returns a false, this option will cancel
 		// a keyboard close only after the accept button is pressed
-		cancelClose  : true,
+		cancelClose  : false,
 
 		// tab to go to next, shift-tab for previous (default behavior)
 		tabNavigation: false,

@@ -118,7 +118,7 @@ label {
 				
 				<div class="control-group">
 					<form:label class="control-label" path="user.city">City</form:label>
-					<form:input id="keyboard" class="controls" path="user.city" />
+					<form:input class="controls" path="user.city" />
 					<form:errors class="alert alert-danger" path="user.city" />
 				</div>
 				
