@@ -6,9 +6,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+
+<!-- Keyboard Code start -->
+<link href="web_resources/theme/css/jquery-ui.min.css" rel="stylesheet"> 
+	<script src="web_resources/theme/js/jquery.min.js"></script>
+	<script src="web_resources/theme/js/jquery-ui.min.js"></script>
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+
+	<!-- keyboard widget css & script (required) -->
+	<link href="web_resources/theme/css/keyboard.css" rel="stylesheet">
+	<script src="web_resources/theme/js/jquery.keyboard.js"></script>
+
+	<!-- keyboard extensions (optional) -->
+	<script src="web_resources/theme/js/jquery.mousewheel.js"></script>
+	
+	<!-- initialize keyboard (required) -->
+	<script>
+		$(function(){
+		$("input[id^='keyboard']").keyboard();
+			<!-- $('#keyboard').keyboard(); -->
+		});
+	</script>
+<!-- Keyboard Code end -->
+
 <link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
+<link href="web_resources/theme/css/bootstrap-responsive.css" rel="stylesheet">
 <title>Sign Up Form</title>
 
 <style type="text/css">
@@ -78,15 +104,15 @@ label {
 				
 				<div class="control-group">
 
-					<form:label class="control-label" path="user.userName">Username</form:label>
-					<form:input class="controls" path="user.userName" />
+					<form:label class="control-label " path="user.userName">Username</form:label>
+					<form:input id="keyboard" class="controls " path="user.userName" />
 					<form:errors class="alert alert-danger" path="user.userName" />
 
 				</div>
 
 				<div class="control-group">
-					<form:label class="control-label " path="user.password">Password</form:label>
-					<form:input class="controls " type="password" path="user.password" />
+					<form:label  class="control-label" path="user.password">Password</form:label>
+					<form:input id="keyboard"  class="controls" type="password" path="user.password" />
 					<form:errors class="alert alert-danger" path="user.password" />
 				</div>
 				<div class="control-group">
@@ -96,7 +122,7 @@ label {
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.middleName">Middle(M I)</form:label>
-					<form:input class="controls" path="user.middleName" />
+					<form:input  class="controls" path="user.middleName" />
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.lastName">Last Name</form:label>
@@ -121,7 +147,7 @@ label {
 				
 				<div class="control-group">
 					<form:label class="control-label" path="userpii.DateOfBirth">Date of Birth</form:label>
-					<form:input type="date" class="controls" path="userpii.DateOfBirth" />
+					<form:input  type="date" class="controls" path="userpii.DateOfBirth" />
 					<form:errors class="alert alert-danger" path="userpii.DateOfBirth" />
 
 				</div>
