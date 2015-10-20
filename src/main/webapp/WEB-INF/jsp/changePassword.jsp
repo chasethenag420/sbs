@@ -8,10 +8,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
 <meta http-equiv="X-Frame-Options" content="allow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<!--  Virtual keyboard code starts here -->
+<link href="web_resources/theme/css/keyboard.css" rel="stylesheet">
+	<script src="web_resources/theme/js/jquery.keyboard.js"></script>
+	<script src="web_resources/theme/js/jquery.mousewheel.js"></script>
+	
+	<script>
+		$(function(){
+		$("input[id^='keyboard']").keyboard();
+			<!-- $('#keyboard').keyboard(); -->
+		});
+	</script>
+	<!-- Vitual Keyboard code ends here -->
+
 <link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
 <link href="web_resources/theme/css/bootstrap-responsive.css"
 	rel="stylesheet">
@@ -31,13 +44,13 @@
 					<!-- <tr>
 						<td style="white-space: nowrap"><form:label
 								path="map['currentPassword']">Current Password</form:label></td>
-						<td><form:input type="password" path="map['currentPassword']" /></td>
+						<td><form:input id="keyboard" type="password" path="map['currentPassword']" /></td>
 
 					</tr> -->
 					<tr>
 						<td style="white-space: nowrap"><form:label
 								path="map['newPassword']">New Password</form:label></td>
-						<td><form:input type="password" path="map['newPassword']" /></td>
+						<td><form:input id="keyboard" type="password" path="map['newPassword']" /></td>
 
 					</tr>
 
@@ -45,7 +58,7 @@
 						<td style="white-space: nowrap"><form:label
 								path="map['confirmPassword']">Confirm New Password</form:label>
 						</td>
-						<td><form:input type="password" path="map['confirmPassword']" /></td>
+						<td><form:input id="keyboard" type="password" path="map['confirmPassword']" /></td>
 
 					</tr>
 
