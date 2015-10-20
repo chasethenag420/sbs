@@ -38,9 +38,8 @@
 					<ul class="nav nav-pills nav-stacked">
 						<li id="home" class="active"><a , href="#"><span
 								class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
-						<li id="profile"><a href="#"><span
-								class="glyphicon glyphicon-chevron-right"></span> profile</a></li>
-
+						<li id="userProfile"><a href="profile"><span
+							class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
 						<li id="transactions"><a href="#"><span
 								class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
 						<li id="notifications"><a href="#"><span

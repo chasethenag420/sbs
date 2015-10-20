@@ -19,11 +19,9 @@
 </head>
 <body>
 	<center>
-		<br />
-		<br />
+		<br /> <br />
 		<div style="color: teal; font-size: 30px">Credit Amount</div>
-		<br />
-		<br />
+		<br /> <br />
 		<form:form name="creditForm" id="creditForm" method="post"
 			modelAttribute="form" onsubmit="return OnSubmitForm();">
 			<center>
@@ -59,6 +57,8 @@
 							onclick="document.pressed=this.value" value="Submit" /></td>
 						<td><input type="submit"
 							onclick="document.pressed=this.value" value="Cancel" /></td>
+						<td><input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" /></td>
 					</tr>
 				</table>
 				<div>

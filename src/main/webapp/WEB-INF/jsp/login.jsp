@@ -107,6 +107,13 @@
         <spring:message
           code="label.form.loginSignUp"></spring:message>
         </a> 
+        
+        <a class="btn btn-default" href="
+        <c:url value="/forgetPassword.html" />
+        ">
+        <spring:message
+          code="label.form.forgetPassword"></spring:message>
+        </a> 
       </div>
     </div>
   </body>
