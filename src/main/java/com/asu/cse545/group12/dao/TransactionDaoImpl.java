@@ -1,6 +1,8 @@
 package com.asu.cse545.group12.dao;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,12 +18,12 @@ import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Transactions;
 
 public class TransactionDaoImpl implements TransactionDao {
-	
+
 	private static final Logger logger = Logger.getLogger(TransactionDaoImpl.class);
 	@Autowired
 	SessionFactory sessionfactory;
-	
-	
+
+
 
 	@Override
 	@Transactional
@@ -89,7 +91,35 @@ public class TransactionDaoImpl implements TransactionDao {
 		List results = query.list();
 		session.close();
 		return results;
-	
+
+	}
+
+	@Override
+	public List<Transactions> getTransactionsBetweenDates(Integer accountNum, String fromDate, String toDate) {
+		SimpleDateFormat format;
+		if(fromDate.contains("/"))
+			format = new SimpleDateFormat("MM/dd/yyyy");
+		else
+			format = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date frmDate = format.parse(fromDate);
+
+			Date enDate = format.parse(toDate);
+
+			Session session = sessionfactory.openSession();
+			Query query = session.createQuery("from transaction where accountNumber =:accountNumber and (TRANSACTION_STATUS ='pending' or TRANSACTION_STATUS= 'complete') and CREATION_TIMESTAMP BETWEEN  :stDate AND :edDate");
+			query.setParameter("stDate", frmDate);
+			query.setParameter("edDate", enDate);
+			query.setParameter("accountNumber", accountNum);
+			List results = query.list();
+			session.close();
+			return results;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 
@@ -108,6 +138,7 @@ public class TransactionDaoImpl implements TransactionDao {
 		session.close();
 		return results;
 		
+
 	}
 
 
@@ -127,4 +158,5 @@ public class TransactionDaoImpl implements TransactionDao {
 		
 	}
 	
-}
+	}
+

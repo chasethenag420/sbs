@@ -44,7 +44,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 	@Autowired
 	UserDao userDao;
 
-	public int doCredit(int accountNumber, int amount) {
+	public int doCredit(int accountNumber, int amount, String description) {
 		boolean creditStatus = accountService.isBalanceValid(accountNumber, amount, "credit");
 		if (creditStatus == true) {
 			Account account = accountService.getAccount(accountNumber);
@@ -57,6 +57,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setSeverity("critical");
 			transaction.setTransactionType("credit");
+			transaction.setTransactionDescription(description);
 			int transactionId = transactionDao.insertRow(transaction);
 
 			Authorization authorization = new Authorization();
@@ -73,7 +74,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 		return 0;
 	}
 
-	public int doDebit(int accountNumber, int amount) {
+	public int doDebit(int accountNumber, int amount, String description) {
 		boolean debitStatus = accountService.isBalanceValid(accountNumber, amount, "debit");
 		if (debitStatus == true) {
 			Account account = accountService.getAccount(accountNumber);
@@ -86,6 +87,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setSeverity("critical");
 			transaction.setTransactionType("debit");
+			transaction.setTransactionDescription(description);
 			int transactionId = transactionDao.insertRow(transaction);
 
 			Authorization authorization = new Authorization();
@@ -124,7 +126,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 
 
-	public int doTransfer(int fromAccountNumber, int toAccountNumber, int amount) {
+	public int doTransfer(int fromAccountNumber, int toAccountNumber, int amount, String description) {
 		boolean debitStatus = false;
 		if (accountService.isValidAccountNumber(toAccountNumber)
 				&& accountService.isValidAccountNumber(fromAccountNumber)) {
@@ -149,6 +151,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				debitTransaction.setUserId(fromAccount.getUserId());
 				debitTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				debitTransaction.setTransactionType("debit");
+				debitTransaction.setTransactionDescription(description+"\n Transfer to "+toAccountNumber);
 				int debitTransactionId = transactionDao.insertRow(debitTransaction);
 
 
@@ -168,6 +171,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				creditTransaction.setUserId(toAccount.getUserId());
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				creditTransaction.setTransactionType("credit");
+				debitTransaction.setTransactionDescription("\n Transfer from "+fromAccountNumber);
 				int creditTransactionId = transactionDao.insertRow(creditTransaction);
 
 				// create transfer
