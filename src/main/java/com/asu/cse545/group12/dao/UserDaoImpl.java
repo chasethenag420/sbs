@@ -132,6 +132,22 @@ public class UserDaoImpl implements UserDao {
 		session.close();
 		return results;
 	}
+	
+	@Override
+	public Users getUserByInformation(String username, String email)
+	{
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where username =: username and emailId = :emailId ");
+		query.setParameter("username", username);
+		query.setParameter("emailId", email);
+		List<Users> results = query.list();
+		session.close();
+		if(results.size()==1){
+			return (Users)results.get(0);
+		} else {
+			return null;
+		}
+	}
 		
 
 }
