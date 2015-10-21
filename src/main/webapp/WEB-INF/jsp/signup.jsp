@@ -6,11 +6,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+
+<!-- Keyboard Code start -->
+<link href="web_resources/theme/css/jquery-ui.min.css" rel="stylesheet"> 
+	<script src="web_resources/theme/js/jquery.min.js"></script>
+	<script src="web_resources/theme/js/jquery-ui.min.js"></script>
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+
+	<!-- keyboard widget css & script (required) -->
+	<link href="web_resources/theme/css/keyboard.css" rel="stylesheet">
+	<script src="web_resources/theme/js/jquery.keyboard.js"></script>
+
+	<!-- keyboard extensions (optional) -->
+	<script src="web_resources/theme/js/jquery.mousewheel.js"></script>
+	
+	<!-- initialize keyboard (required) -->
+	<script>
+		$(function(){
+		$("input[id^='keyboard']").keyboard();
+			<!-- $('#keyboard').keyboard(); -->
+		});
+	</script>
+<!-- Keyboard Code end -->
+
 <link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
 <link href="web_resources/theme/css/bootstrap-responsive.css" rel="stylesheet">
-
 <title>Sign Up Form</title>
 
 <style type="text/css">
@@ -25,8 +49,52 @@ label {
 }
 </style>
 
+<script type="text/javascript">
+
+   //Created / Generates the captcha function    
+    function DrawCaptcha()
+    {
+    	document.getElementById("submitbutton").disabled = true;
+        var a = Math.ceil(Math.random() * 10)+ '';
+        var b = Math.ceil(Math.random() * 10)+ '';       
+        var c = Math.ceil(Math.random() * 10)+ '';  
+        var d = Math.ceil(Math.random() * 10)+ '';  
+        var e = Math.ceil(Math.random() * 10)+ '';  
+        var f = Math.ceil(Math.random() * 10)+ '';  
+        var g = Math.ceil(Math.random() * 10)+ '';  
+        var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' '+ f + ' ' + g;
+        document.getElementById("txtCaptcha").value = code;
+        document.getElementById("txtInput").value = '';
+    }
+
+    // Validate the Entered input aganist the generated security code function   
+    	
+	function ValidCaptcha(){
+        var str1 = removeSpaces(document.getElementById('txtCaptcha').value);
+        var str2 = removeSpaces(document.getElementById('txtInput').value);
+        if (str1 == str2)
+        {	
+        	document.getElementById("submitbutton").disabled = false;
+        	document.getElementById("txtInput").value = '';
+        }
+        else
+        {
+			DrawCaptcha();
+			document.getElementById("txtInput").value = '';
+			document.getElementById("submitbutton").disabled = true;
+		}
+    }
+    // Remove the spaces from the entered and generated code
+    function removeSpaces(string)
+    {
+        return string.split(' ').join('');
+    }
+    
+ 
+</script>
+
 </head>
-<body>
+<body onload="DrawCaptcha();">
 
 	<div class="container">
 		
@@ -36,15 +104,15 @@ label {
 				
 				<div class="control-group">
 
-					<form:label class="control-label" path="user.userName">Username</form:label>
-					<form:input class="controls" path="user.userName" />
+					<form:label class="control-label " path="user.userName">Username</form:label>
+					<form:input id="keyboard" class="controls " path="user.userName" />
 					<form:errors class="alert alert-danger" path="user.userName" />
 
 				</div>
 
 				<div class="control-group">
-					<form:label class="control-label " path="user.password">Password</form:label>
-					<form:input class="controls " type="password" path="user.password" />
+					<form:label  class="control-label" path="user.password">Password</form:label>
+					<form:input id="keyboard"  class="controls" type="password" path="user.password" />
 					<form:errors class="alert alert-danger" path="user.password" />
 				</div>
 				<div class="control-group">
@@ -54,7 +122,7 @@ label {
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.middleName">Middle(M I)</form:label>
-					<form:input class="controls" path="user.middleName" />
+					<form:input  class="controls" path="user.middleName" />
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.lastName">Last Name</form:label>
@@ -79,7 +147,7 @@ label {
 				
 				<div class="control-group">
 					<form:label class="control-label" path="userpii.DateOfBirth">Date of Birth</form:label>
-					<form:input type="date" class="controls" path="userpii.DateOfBirth" />
+					<form:input  type="date" class="controls" path="userpii.DateOfBirth" />
 					<form:errors class="alert alert-danger" path="userpii.DateOfBirth" />
 
 				</div>
@@ -136,9 +204,37 @@ label {
 					<form:input class="controls" type="email" path="user.emailId" />
 					<form:errors class="alert alert-danger" path="user.emailId" />
 				</div>
+
+				<table>
+					<tr>
+    					<td>Captcha<br /></td>
+					</tr>
+					
+					<tr>
+    					<td>
+        					<input type="text" id="txtCaptcha" style="background-image: url(/sbs/web_resources/img/1.jpg); text-align:center; border:none;
+            				font-weight:bold; font-family:Modern" />
+        					<input type="button" id="btnrefresh" value="Refresh" onclick="DrawCaptcha();"/>
+    					</td>
+					</tr>
+					
+					<tr>
+    					<td>
+        					<input type="text" id="txtInput"/>    	
+    					</td>
+					</tr>
+						
+					<tr>
+    					<td>
+        					<input id="Button1" type="button" value="Validate Captcha to enable Submit" onclick="ValidCaptcha();"/>
+    					</td>
+					</tr>
+				</table>	
+
+
 				<div class="control-group">
 					<div class="controls">
-						<input class="btn  btn-primary " type="submit" value="Submit" />
+						<input id='submitbutton' class="btn  btn-primary " type="submit" value="Submit" />
 						<a class="btn  btn-primary " href="sample" type="button"  >Cancel</a>
 					</div>
 				</div>
@@ -150,6 +246,5 @@ label {
 			</fieldset>
 		</form>
 	</div>
-
 </body>
 </html>

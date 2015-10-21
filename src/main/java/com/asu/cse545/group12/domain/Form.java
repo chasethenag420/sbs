@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class Form {
 	Map<String, String> map = new HashMap<String, String>();
+	Map<String, Object> mapObject = new HashMap<String, Object>();
 	
 
 	public Map<String, String> getMap() {
@@ -15,5 +16,14 @@ public class Form {
 	public void setMap(Map<String, String> map) {
 		this.map = map;
 	}
+
+	public Map<String, Object> getMapObject() {
+		return mapObject;
+	}
+
+	public void setMapObject(Map<String, Object> mapObject) {
+		this.mapObject = mapObject;
+	}
+	
 	
 }

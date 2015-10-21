@@ -36,6 +36,7 @@
 				<value>com.asu.cse545.group12.domain.Transactions</value>
 				<value>com.asu.cse545.group12.domain.Transfer</value>
 				<value>com.asu.cse545.group12.domain.Form</value>
+				<value>com.asu.cse545.group12.domain.SecurityQuestions</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -128,7 +129,7 @@
 		<security:intercept-url pattern="/debit*"
 			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
 		<security:intercept-url pattern="/displayuserlist*"
-			access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+			access="hasAnyRole('REGULAR','MANAGER','ADMIN')" />
 		<security:intercept-url pattern="/individual*"
 			access="hasRole('INDIVIDUAL')" />
 		<security:intercept-url pattern="/merchant*"
@@ -142,9 +143,9 @@
 		<security:intercept-url pattern="/profile*"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/searchTransaction*"
-			access="hasAnyRole('REGULAR,MANAGER')" />
+			access="hasAnyRole('REGULAR','MANAGER')" />
 		<security:intercept-url pattern="/searchUser*"
-			access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+			access="hasAnyRole('REGULAR','MANAGER','ADMIN')" />
 		<security:intercept-url pattern="/signUpOTP*"
 			access="permitAll" />
 		<security:intercept-url pattern="/transfer*"
@@ -153,14 +154,39 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/enterSignupOTP*"
 			access="permitAll" />
-		<security:intercept-url pattern="/**"
+	    <security:intercept-url pattern="/notifications*"
+			access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />
+		<security:intercept-url pattern="/addSecurityQuestions*"
+			access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />
+		<security:intercept-url pattern="/enterSecurityQuestions*"
+			access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />	
+		<security:intercept-url pattern="/setNewPassword*"
+			access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />	
+		<security:intercept-url pattern="/changePassword*"
+			access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />	
+		<security:intercept-url pattern="/forgetPassword*"
 			access="permitAll" />
+		<security:intercept-url pattern="/securityQuestions*"
+			access="permitAll" />
+		<security:intercept-url pattern="/successful*"
+			access="permitAll" />
+
 		<security:intercept-url pattern="/external*"
 			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
 		<security:intercept-url pattern="/regularEmprequest*"
 			access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
 		 <security:intercept-url pattern="/regularrequest*"
 			access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+
+		<security:intercept-url pattern="/validateSecurityQuestions*"
+			access="permitAll" />
+		<security:intercept-url pattern="/setForgetPassword*"
+			access="permitAll" />
+			
+		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" />
+
+
 		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
 	</security:http>
 	<security:authentication-manager>
@@ -187,6 +213,7 @@
 	<bean id="TransferServiceImpl" class="com.asu.cse545.group12.services.TransferServiceImpl" />
 	<bean id="userLoginDetailsDao" class="com.asu.cse545.group12.dao.UserloginDetailsDaoImpl" />
 	<bean id="userDetailsService" class="com.asu.cse545.group12.services.SbsUserDetailsService" />
+	<bean id="SecurityQuestionsDaoImpl" class="com.asu.cse545.group12.dao.SecurityQuestionsDaoImpl" />
 
 	<bean id="authenticationProvider"
 		class="com.asu.cse545.group12.authentication.LimitLoginAuthentication">

@@ -16,6 +16,7 @@ public interface UserService {
 	public List<Users> getUsersByEmailId(String emailId);
 	public Users getUsersByAccountNumber(int accountNumber);
 	public int updateRow(Users user);
+	public int updateRowForPassword(Users user);
 	public int deActivateUserByUserId(int userId);
 	public int deActivateUserByUserName(String userName);
 	public int insertRowForEmployee(Users user, UserPII userpii);

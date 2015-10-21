@@ -55,21 +55,19 @@ public class NotificationController {
 	@RequestMapping(value = "approvenotification", method = RequestMethod.POST)
 	public ModelAndView approveRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		String username = (String) session.getAttribute("username");
-		// Add validator
-		Map<String, String> formMap = form.getMap();
-		Integer authorizationId = Integer.parseInt(formMap.get("authorizationId"));
-		if (logger.isDebugEnabled()) {
-			logger.debug(
-					"***************************************************username in notifications: " + authorizationId);
+		String username=(String)session.getAttribute("username");
+		Map<String, String> formMap=form.getMap();
+		Integer authorizationId= Integer.parseInt(formMap.get("authorizationId"));
+		if(logger.isDebugEnabled()){
+			logger.debug("***************************************************username in notifications: "+ username);
 		}
 		ModelAndView notificationView = new ModelAndView();
-
-		// Integer authorizationId=
-		// Integer.parseInt((String)modelMap.get("authorizationId"));
-		// logs debug message
-		if (logger.isDebugEnabled()) {
-			logger.debug("Request Approved by " + authorizationId);
+		
+		//Integer authorizationId= Integer.parseInt((String)modelMap.get("authorizationId"));
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("Request Approved by:"+ username);
+			logger.debug("Authorization Request Number is:"+ username);
 		}
 		// ********************************************************************************
 		// Have to get the Internal User Who clicked on the APPROVE button along
