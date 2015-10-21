@@ -64,6 +64,10 @@
 				<td><label for="zipcode">Zipcode</label></td>
 				<td><input type="text" id="zipcode" value="${user.zipcode}"></td>
 			</tr>
+			
+			<tr>
+			
+			</tr>
 		</table>
 	</center>
 </body>

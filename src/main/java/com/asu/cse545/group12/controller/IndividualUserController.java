@@ -2,6 +2,7 @@ package com.asu.cse545.group12.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -69,7 +70,7 @@ public class IndividualUserController {
 		return "credit";
 	}
 	*/
-	@RequestMapping(value = "/externalsearchtrans", method =RequestMethod.GET)
+	@RequestMapping(value = "/externalsearchtrans")
 	public ModelAndView getsearchForm(HttpServletRequest request) {
 		//logs debug message
 		if(logger.isDebugEnabled()){
@@ -110,6 +111,11 @@ public class IndividualUserController {
 		modelView.addObject("transactions", transactionsList);
 		modelView.addObject("form", new Searchform());
 		modelView.setViewName("externalsearchtrans");
+		Iterator it =transactionsList.listIterator();
+		while(it.hasNext())
+		{
+		System.out.println("transactionlist"+it.next());
+		}
 		return modelView;
 	}
 }

@@ -155,7 +155,12 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/**"
 			access="permitAll" />
-
+		<security:intercept-url pattern="/external*"
+			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+		<security:intercept-url pattern="/regularEmprequest*"
+			access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+		<security:intercept-url pattern="/regularrequest*"
+			access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
 		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
 	</security:http>
 	<security:authentication-manager>

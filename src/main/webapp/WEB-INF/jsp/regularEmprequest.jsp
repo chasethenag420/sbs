@@ -32,6 +32,10 @@
 				<form:label class="control-label" path="authorization.requestType">RequestType</form:label>
 				<form:input class="controls" path="authorization.requestType" />
 			</div>
+			<div class="control-group">
+				<form:label class="control-label" path="authorization.requestDescription">Request Description</form:label>
+				<form:input class="controls" path="authorization.requestDescription" />
+			</div>
 
 			<div class="control-group">
 				<div class="controls">
