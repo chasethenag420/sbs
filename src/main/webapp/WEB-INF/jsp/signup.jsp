@@ -54,6 +54,7 @@ label {
    //Created / Generates the captcha function    
     function DrawCaptcha()
     {
+    	document.getElementById("txtCaptcha").readOnly = false;
     	document.getElementById("submitbutton").disabled = true;
         var a = Math.ceil(Math.random() * 10)+ '';
         var b = Math.ceil(Math.random() * 10)+ '';       
@@ -64,6 +65,7 @@ label {
         var g = Math.ceil(Math.random() * 10)+ '';  
         var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' '+ f + ' ' + g;
         document.getElementById("txtCaptcha").value = code;
+        document.getElementById("txtCaptcha").readOnly = true;
         document.getElementById("txtInput").value = '';
     }
 
