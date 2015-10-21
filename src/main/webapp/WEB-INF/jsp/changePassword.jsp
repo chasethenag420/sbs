@@ -13,10 +13,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <!--  Virtual keyboard code starts here -->
-<link href="web_resources/theme/css/keyboard.css" rel="stylesheet">
+<link href="web_resources/theme/css/jquery-ui.min.css" rel="stylesheet"> 
+	<script src="web_resources/theme/js/jquery.min.js"></script>
+	<script src="web_resources/theme/js/jquery-ui.min.js"></script>
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+
+	<!-- keyboard widget css & script (required) -->
+	<link href="web_resources/theme/css/keyboard.css" rel="stylesheet">
 	<script src="web_resources/theme/js/jquery.keyboard.js"></script>
+
+	<!-- keyboard extensions (optional) -->
 	<script src="web_resources/theme/js/jquery.mousewheel.js"></script>
 	
+	<!-- initialize keyboard (required) -->
 	<script>
 		$(function(){
 		$("input[id^='keyboard']").keyboard();
