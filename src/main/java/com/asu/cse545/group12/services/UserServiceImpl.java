@@ -197,5 +197,14 @@ public class UserServiceImpl implements UserService {
 		return userDao.updateRow(user);
 	}
 	
+//	public static void main(String[] args)
+//	{
+//		HashGenerator hashGenerator = new HashGenerator();
+//		System.out.println(hashGenerator.getHashedPassword("323455"));
+//		System.out.println(hashGenerator.getHashedPassword("323456"));
+//		System.out.println(hashGenerator.getHashedPassword("323457"));	
+//		System.out.println(hashGenerator.getHashedPassword("323458"));	
+//		System.out.println(hashGenerator.getHashedPassword("323459"));	
+//	}
 }
 
