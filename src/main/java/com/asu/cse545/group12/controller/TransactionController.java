@@ -101,6 +101,7 @@ public class TransactionController {
 			logger.debug("Credit Amount:");
 		}
 		TransactionInputValidator transactionInputValidator = new TransactionInputValidator();
+		transactionInputValidator.setRequest(request);
 		transactionInputValidator.validate(form, result);
 
 		if (result.hasErrors()) {

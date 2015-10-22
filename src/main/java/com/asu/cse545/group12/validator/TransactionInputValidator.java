@@ -6,17 +6,39 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.TransactionForm;
 import com.asu.cse545.group12.domain.Users;
+import com.asu.cse545.group12.services.AccountService;
+import com.asu.cse545.group12.services.UserService;
 
 import org.springframework.validation.ValidationUtils;
 
 
 public class TransactionInputValidator implements Validator{
+	
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	AccountService accountService;
+	
+	private HttpServletRequest request;
+	
+	
+
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
 
 	public boolean supports(Class aClass) {
 		//just validate credit inputs
@@ -34,7 +56,22 @@ public class TransactionInputValidator implements Validator{
 				if("".equals(form.getToAccount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "toAccount","not-integer", "Account cannot be empty.");
 				else
+				{
 					toAccountNumber= Integer.parseInt(form.getToAccount());
+					Users user = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+					Account account = accountService.getAccount(toAccountNumber);
+					if(account == null)
+					{
+						errors.rejectValue("toAccount", "not-integer", "To Account does not exist.");
+					}
+					
+					if(user.getUserId() != account.getUserId())
+					{
+						errors.rejectValue("toAccount", "not-integer", "To Account does not belong to you.");
+					}
+					
+					
+				}
 
 			}
 			catch(Exception e)
@@ -67,7 +104,21 @@ public class TransactionInputValidator implements Validator{
 				if("".equals(form.getFromAccount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromAccount","not-integer", "Account cannot be empty.");
 				else
+				{
 					fromAccount= Integer.parseInt(form.getFromAccount());
+					Users user = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+					Account account = accountService.getAccount(fromAccount);
+					if(account == null)
+					{
+						errors.rejectValue("fromAccount", "not-integer", "From Account does not exist.");
+					}
+					
+					if(user.getUserId() != account.getUserId())
+					{
+						errors.rejectValue("fromAccount", "not-integer", "From Account does not belong to you.");
+					}
+					
+				}
 
 			}
 			catch(Exception e)
@@ -99,7 +150,16 @@ public class TransactionInputValidator implements Validator{
 				if("".equals(form.getToAccount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "toAccount","not-integer", "Account cannot be empty.");
 				else
+				{
 					toAccountNumber= Integer.parseInt(form.getToAccount());
+					Users user = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+					Account account = accountService.getAccount(toAccountNumber);
+					if(account == null)
+					{
+						errors.rejectValue("fromAccount", "not-integer", "To Account does not exist.");
+					}
+					
+				}
 			}
 			catch(Exception e)
 			{
@@ -112,7 +172,20 @@ public class TransactionInputValidator implements Validator{
 				if("".equals(form.getFromAccount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromAccount","not-integer", "Account cannot be empty.");
 				else
+				{
 					fromAccount= Integer.parseInt(form.getFromAccount());
+					Users user = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+					Account account = accountService.getAccount(fromAccount);
+					if(account == null)
+					{
+						errors.rejectValue("fromAccount", "not-integer", "From Account does not exist.");
+					}
+					
+					if(user.getUserId() != account.getUserId())
+					{
+						errors.rejectValue("fromAccount", "not-integer", "From Account does not belong to you.");
+					}
+				}
 			}
 			catch(Exception e)
 			{
@@ -142,7 +215,20 @@ public class TransactionInputValidator implements Validator{
 				if("".equals(form.getToAccount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "toAccount","not-integer", "Account cannot be empty.");
 				else
+				{
 					toAccountNumber= Integer.parseInt(form.getToAccount());
+					Users user = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+					Account account = accountService.getAccount(toAccountNumber);
+					if(account == null)
+					{
+						errors.rejectValue("toAccount", "not-integer", "Account does not exist.");
+					}
+					
+					if(user.getUserId() != account.getUserId())
+					{
+						errors.rejectValue("toAccount", "not-integer", "Account does not belong to you.");
+					}
+				}
 
 			}
 			catch(Exception e)
