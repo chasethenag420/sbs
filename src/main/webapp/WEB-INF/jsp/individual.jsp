@@ -88,7 +88,7 @@
 			else if (menuValue == "addAccount")
 				$('#content').load('externalsearchtrans');
 			else if (menuValue == "transactions")
-				$('#content').load('searchTransaction');
+				$('#content').load('externalsearchtrans');
 			else if (menuValue == "notifications")
 				$('#content').load('notifications');
 			else if (menuValue == "addRequest")

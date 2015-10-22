@@ -171,4 +171,20 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		tx.commit();
 		return authorization.getAuthorizationId();
 	}
+
+	@Override
+	public List<Authorization> getAuthorizednotifications(int fromuser,
+			int touser) {
+		Session session = sessionfactory.openSession(); 
+		String status="APPROVED";
+		String reqType= "view profile";
+		Query query= session.createQuery("from authorization where AUTHORIZED_BY_USERID=:touser and AUTHORIZED_TO_USERID=:fromuser  and REQUEST_TYPE=:reqType");
+		query.setParameter("fromuser", fromuser);
+		query.setParameter("touser", touser);
+		//query.setParameter("status", status);
+		query.setParameter("reqType", reqType);
+		List<Authorization> authlist = query.list();
+		System.out.println(authlist);
+		return authlist;
+	}
 }

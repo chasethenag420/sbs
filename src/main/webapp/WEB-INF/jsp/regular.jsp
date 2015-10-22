@@ -46,6 +46,8 @@
 								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
 						<li id="createRequest"><a href="#"><span
 								class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
+<li id="viewExternalUserProfile"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> View ExternalUserProfile</a></li>
 
 
 
@@ -88,6 +90,9 @@
 				$('#content').load('notifications');
 			else if (menuValue == "createRequest")
 				$('#content').load('regularEmprequest');
+			
+			else if (menuValue == "viewExternalUserProfile")
+				$('#content').load('viewExternalprofile');
 		}
 	</script>
 	<script type="text/javascript">

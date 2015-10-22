@@ -347,6 +347,19 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		return 0;
 	}
 
+	@Override
+	public List<Authorization> getAuthorizedNotifications(int fromuser,
+			int touser) {
+		List<Authorization> authorizationList =authorizationDao.getAuthorizednotifications(fromuser,touser);
+		return authorizationList;
+	}
 
+	@Override
+	public int update(Authorization authorization) {
+		authorizationDao.updateRow(authorization);
+		return 0;
+	}
 
+	
+	
 }

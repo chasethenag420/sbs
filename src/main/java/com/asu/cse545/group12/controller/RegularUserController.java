@@ -3,6 +3,7 @@ package com.asu.cse545.group12.controller;
 import org.apache.log4j.Logger;
 
 import java.util.Date;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,7 @@ import com.asu.cse545.group12.services.AuthorizationService;
 import com.asu.cse545.group12.services.TransactionsService;
 import com.asu.cse545.group12.services.UserService;
 
+
 @Controller
 public class RegularUserController {
 	private static final Logger logger = Logger.getLogger(SignUpController.class);
@@ -70,7 +73,7 @@ public class RegularUserController {
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
 	public ModelAndView getProfile(HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
-			logger.debug("Credit Amount:");
+			logger.debug("profile:");
 		}
 			ModelAndView modelView = new ModelAndView();
 			modelView.setViewName("profile");
@@ -295,5 +298,49 @@ public class RegularUserController {
 		
 		
 	}
-
+	
+	@RequestMapping(value = "/viewExternalprofile")
+	public ModelAndView viewExternalprofile() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Adding security questions");
+		}
+		ModelAndView model = new ModelAndView();
+		
+		model.addObject("form", new Form());
+		model.setViewName("viewExternalprofile");
+		return model;
+	}
+	
+	@RequestMapping(value = "/viewExternalprofileform")
+	public ModelAndView getExternalprofile(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Adding security questions");
+		}
+			ModelAndView model = new ModelAndView();
+			HttpSession session = request.getSession(false);
+			String requesterusername=(String) session.getAttribute("username");
+			Map samplemap = form.getMap();
+			String requestedtousername= (String) samplemap.get("userName");
+			
+			Users requestfromuser = userService.getUserByUserName(requesterusername);
+			int requesterUserId=requestfromuser.getUserId();
+			Users requesttouser = userService.getUserByUserName(requestedtousername);
+			int requesttoUserId=requesttouser.getUserId();
+			
+			List<Authorization> authorizationList = authorizationService.getAuthorizedNotifications(requesterUserId, requesttoUserId);
+			Authorization finalrequest = null;
+			Users user= new Users();
+			if(authorizationList!=null){
+				finalrequest = authorizationList.get(0);
+				 user = userService.getUserByUserName(requestedtousername);
+				finalrequest.setRequestStatus("INACTIVE");
+				authorizationService.update(finalrequest);
+			}
+			model.addObject("user",user);
+			model.setViewName("profile");
+		return model;
+	}
+	
+	
+	
 }

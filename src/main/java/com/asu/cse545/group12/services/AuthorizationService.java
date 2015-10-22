@@ -23,5 +23,8 @@ public interface AuthorizationService {
 	
 	public int regularEmpRequest(Authorization authorization);
 	
-	public List<Authorization> getNotifications(); 
+	public List<Authorization> getNotifications();
+	
+	public int update(Authorization authorization);
+	public List<Authorization> getAuthorizedNotifications(int fromusername,int tousername);
 }

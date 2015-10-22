@@ -122,6 +122,8 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/authorizationrequest*"
 			access="isAuthenticated()" />
+		<security:intercept-url pattern="/viewExternalprofile*"
+			access="permitAll" />
 		<security:intercept-url pattern="/createEmployee*"
 			access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/credit*"
@@ -170,6 +172,14 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/successful*"
 			access="permitAll" />
+
+		<security:intercept-url pattern="/external*"
+			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+		<security:intercept-url pattern="/regularEmprequest*"
+			access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+		 <security:intercept-url pattern="/regularrequest*"
+			access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+
 		<security:intercept-url pattern="/validateSecurityQuestions*"
 			access="permitAll" />
 		<security:intercept-url pattern="/setForgetPassword*"
@@ -177,6 +187,7 @@
 			
 		<security:intercept-url pattern="/**"
 			access="isAuthenticated()" />
+
 
 		<!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
 	</security:http>
