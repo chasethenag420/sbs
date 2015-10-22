@@ -3,6 +3,8 @@ package com.asu.cse545.group12.services;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Autowired
 	AuthorizationDao authorizationDao;
 
+	@Autowired
+	UserService userService;
+	
 	@Autowired
 	UserDao userDao;
 
@@ -134,11 +139,34 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public List<Authorization> getNotifications() {
+	public List<Authorization> getNotifications(Users user) {
 		// TODO Auto-generated method stub
-		return authorizationDao.getNotifications();
-	}
+		if("1".equals(user.getRoleId()))
+		{
+			return authorizationDao.getNotificationsForExternal(user);
+		}
+		else if("2".equals(user.getRoleId()))
+		{
+			return authorizationDao.getNotificationsForMerchant(user);
+		}
+		else if("3".equals(user.getRoleId()))
+		{
+			return authorizationDao.getNotificationsForRegular(user.getRoleId());
+		}
+		else if("4".equals(user.getRoleId()))
+		{
+			return authorizationDao.getNotificationsForManager(user.getRoleId());
+		}
+		else if("4".equals(user.getRoleId()))
+		{
+			return authorizationDao.getNotificationsForAdmin(user.getRoleId());
+		}
+		
+		return null;
 
+//		return authorizationDao.getNotifications();
+	}
+	
 	@Override
 	public int reject(int authorizationId, String userName) {
 		// TODO Auto-generated method stub
@@ -346,6 +374,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		authorizationDao.insertRow(authorization);
 		return 0;
 	}
+
+
 
 
 

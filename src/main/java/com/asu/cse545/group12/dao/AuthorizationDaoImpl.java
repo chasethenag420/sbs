@@ -93,21 +93,91 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		return (Integer) authid;		
 	}
 
+//	@Override
+//	public List<Authorization> getNotifications() 
+//	{
+//		String whereClause = "from authorization where request_status='pending' or request_status= 'forward'";
+//		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+//		Session session = sessionfactory.openSession(); 
+//		Query query = session.createQuery(whereClause);
+//		
+//		pendingEntries = query.list();
+//		
+//		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+//		
+//		return pendingEntries;
+//		
+//	}
+	
 	@Override
-	public List<Authorization> getNotifications() 
+	public List<Authorization> getNotificationsForExternal(Users user) 
 	{
-		String whereClause = "from authorization where request_status='pending' or request_status= 'forward'";
+		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED ---- ALL THE REQUESTS RAISED BY HIM ONLY --- PENDING,FORWARDED AND APPROVED ONES
+		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"'";
+		System.out.println("Ext User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
-		
 		pendingEntries = query.list();
-		
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
-		
 		return pendingEntries;
-		
 	}
+
+	@Override
+	public List<Authorization> getNotificationsForMerchant(Users user) 
+	{
+		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED ---- ALL THE REQUESTS RAISED BY HIM ONLY --- PENDING,FORWARDED AND APPROVED ONES 
+		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"'";
+		System.out.println("Merchant Notif Where clause:" + whereClause);
+		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+		Session session = sessionfactory.openSession(); 
+		Query query = session.createQuery(whereClause);
+		pendingEntries = query.list();
+		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+		return pendingEntries;
+	}
+
+	@Override
+	public List<Authorization> getNotificationsForRegular(Integer roleid)
+	{
+		//WE CAN DEFINE THE TYPE OF REQUESTS THAT CAN BE SEEN BY A REGULAR USER ... AS OF NOW I DEFINED THAT HE CANNOT SEE FORWARDED REQUESTS AND SIGNUP REQUESTS
+		String whereClause = "from authorization where request_status='pending' and request_type not like('Signup'))";
+		System.out.println("Regular User Notif Where clause:" + whereClause);
+		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+		Session session = sessionfactory.openSession(); 
+		Query query = session.createQuery(whereClause);
+		pendingEntries = query.list();
+		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+		return pendingEntries;
+	}
+
+	public List<Authorization> getNotificationsForManager(Integer roleid)
+	{
+		//WE CAN DEFINE THE TYPE OF REQUESTS THAT CAN BE SEEN BY A REGULAR USER ... AS OF NOW I DEFINED THAT HE CAN ALL TYPES OF REQ BUT CANNOT SEE "PII ACCESS" REQUESTED BY GOVT AGENCIES -- ONLY ADMIN CAN SEE THAT REQUESTS
+		String whereClause = "from authorization where request_status='pending' or request_status= 'forward' or request_status= 'complete' or request_status='reject' and request_type not like('PII Access'))";
+		System.out.println("Manager User Notif Where clause:" + whereClause);
+		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+		Session session = sessionfactory.openSession(); 
+		Query query = session.createQuery(whereClause);
+		pendingEntries = query.list();
+		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+		return pendingEntries;
+	}
+	
+	public List<Authorization> getNotificationsForAdmin(Integer roleid)
+	{
+		//WE CAN DEFINE THE TYPE OF REQUESTS THAT CAN BE SEEN BY A REGULAR USER ... AS OF NOW HE CAN SEE PENDING AND FORWARDED, BUT CANNOT SEE COMPLETED OR REJECTED REQUESTS, AND ALSO SEES "PII ACCESS" REQUESTED BY GOVT AGENCIES
+		String whereClause = "from authorization where request_status='pending' or request_status= 'forward' or request_type like('PII Access'))";
+		System.out.println("Admin User Notif Where clause:" + whereClause);
+		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+		Session session = sessionfactory.openSession(); 
+		Query query = session.createQuery(whereClause);
+		pendingEntries = query.list();
+		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+		return pendingEntries;
+	}
+	
+	
 	
 	@Override
 	public Authorization getRowById(int authorizationId) {

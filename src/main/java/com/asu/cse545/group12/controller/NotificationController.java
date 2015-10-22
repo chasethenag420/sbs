@@ -19,6 +19,7 @@ import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.AuthorizationService;
+import com.asu.cse545.group12.services.UserService;
 
 @Controller
 public class NotificationController {
@@ -30,32 +31,40 @@ public class NotificationController {
 
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	UserService userService;
 
 	@RequestMapping(value = "/notifications", method = RequestMethod.GET)
-	public ModelAndView getNotificationPage() {
+	public ModelAndView getNotificationPage(HttpServletRequest request) {
 		// logs debug message
 		if (logger.isDebugEnabled()) {
 			logger.debug("Notification page is requested");
 		}
 
+		HttpSession session = request.getSession(false);
+		String username=(String)session.getAttribute("username");
+		
+		Users user = new Users();
+		user=userService.getUserByUserName(username);
+
 		ModelAndView notificationView = new ModelAndView();
 
-		// ********************************************************************************
-		// GET THE VALUES FROM THE getNotifications() method from the
-		// AuthorizationDao
-		// ********************************************************************************
-		// notificationView.addObject("notificationRows",
-		// authorizationService.getNotifications());
 		notificationView.addObject("form", new Form());
-		notificationView.addObject("notificationRows", authorizationService.getNotifications());
+		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
 		notificationView.setViewName("notifications");
 		return notificationView;
 	}
 
 	@RequestMapping(value = "approvenotification", method = RequestMethod.POST)
 	public ModelAndView approveRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		
 		HttpSession session = request.getSession(false);
 		String username=(String)session.getAttribute("username");
+		
+		Users user = new Users();
+		user=userService.getUserByUserName(username);
+		
 		Map<String, String> formMap=form.getMap();
 		Integer authorizationId= Integer.parseInt(formMap.get("authorizationId"));
 		if(logger.isDebugEnabled()){
@@ -74,7 +83,7 @@ public class NotificationController {
 		// with authorization Object()
 		// ********************************************************************************
 		authorizationService.approve(authorizationId, username);
-		notificationView.addObject("notificationRows", authorizationService.getNotifications());
+		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
 		notificationView.addObject("authorizationId", new Integer(0));
 		notificationView.setViewName(getViewName(username));
 		
@@ -85,6 +94,10 @@ public class NotificationController {
 	public ModelAndView rejectRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
+		
+		Users user = new Users();
+		user=userService.getUserByUserName(username);
+		
 		// logs debug message
 		if (logger.isDebugEnabled()) {
 			logger.debug("Notificatio Reject page is requested");
@@ -97,7 +110,7 @@ public class NotificationController {
 		// GET THE VALUES FROM THE getNotifications() method from the
 		// AuthorizationDao
 		// ********************************************************************************
-		notificationView.addObject("notificationRows", authorizationService.getNotifications());
+		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
 		authorizationService.reject(authorizationId, username);
 		notificationView.setViewName(getViewName(username));
 		return notificationView;
@@ -107,6 +120,10 @@ public class NotificationController {
 	public ModelAndView forwardRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
+		
+		Users user = new Users();
+		user=userService.getUserByUserName(username);
+		
 		// logs debug message
 		if (logger.isDebugEnabled()) {
 			logger.debug("Notification Forward page is requested");
@@ -117,7 +134,7 @@ public class NotificationController {
 		// GET THE VALUES FROM THE getNotifications() method from the
 		// AuthorizationDao
 		// ********************************************************************************
-		notificationView.addObject("notificationRows", authorizationService.getNotifications());
+		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
 		notificationView.setViewName(getViewName(username));
 		return notificationView;
 	}

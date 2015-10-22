@@ -2,6 +2,8 @@ package com.asu.cse545.group12.services;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Users;
@@ -23,5 +25,6 @@ public interface AuthorizationService {
 	
 	public int regularEmpRequest(Authorization authorization);
 	
-	public List<Authorization> getNotifications(); 
+	public List<Authorization> getNotifications(Users user);
+
 }
