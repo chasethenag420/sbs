@@ -17,8 +17,8 @@
 <body>
 <center>
  <div style="color: teal; font-size: 30px">Search Transactions</div>
-  <form:form id="externalsearchtrans"   modelAttribute="form" method="post"
-   action="externalsearchtransform">
+  <form:form name="externalsearchtrans" id="externalsearchtrans"   modelAttribute="form" method="post"
+   onsubmit="return OnSubmitForm();">
     <input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
    <center>
@@ -78,7 +78,7 @@
    </form:form>
   
  </center>
- <!--  <script type="text/javascript">
+ <script type="text/javascript">
 		function OnSubmitForm() {
 			if (document.pressed == 'Submit') {
 				document.externalsearchtrans.action = "externalsearchtransform";
@@ -87,6 +87,6 @@
 			}
 			return true;
 		}
-	</script>-->
+	</script>
 </body>
 </html>

@@ -29,7 +29,7 @@ label {
 </head>
 
 <body>
-<<<<<<< HEAD
+
 	<center>
 		<table>
 			<tr>
