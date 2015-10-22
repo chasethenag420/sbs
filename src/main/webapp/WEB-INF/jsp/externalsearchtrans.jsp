@@ -13,11 +13,14 @@
 	rel="stylesheet">
 
 <title>Search Transactions</title>
+
 <body>
 <center>
  <div style="color: teal; font-size: 30px">Search Transactions</div>
-  <form:form id="externalsearchtrans"   modelAttribute="form" method="post" 
-   action="externalsearchtransform">
+  <form:form name="externalsearchtrans" id="externalsearchtrans"   modelAttribute="form" method="post"
+   onsubmit="return OnSubmitForm();">
+    <input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
    <center>
    
 			<div class="control-group">
@@ -37,10 +40,15 @@
 				<form:errors class="alert alert-danger" path="fromDate" />
 			</div>
 			<div class="control-group">
-				<div class="controls">
-					<input class="btn  btn-primary " type="submit" value="Submit" /> 
-				</div>
+				<input type="submit" 
+							onclick="document.pressed=this.value" value="Cancel" />
 			</div>
+			<div class="control-group">
+				<input type="submit"
+							onclick="document.pressed=this.value" value="Submit" />
+			</div>
+			
+			
    </center>
    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 				<center>
@@ -70,5 +78,15 @@
    </form:form>
   
  </center>
+ <script type="text/javascript">
+		function OnSubmitForm() {
+			if (document.pressed == 'Submit') {
+				document.externalsearchtrans.action = "externalsearchtransform";
+			} else if (document.pressed == 'Cancel') {
+				document.creditForm.action = "goBack";
+			}
+			return true;
+		}
+	</script>
 </body>
 </html>

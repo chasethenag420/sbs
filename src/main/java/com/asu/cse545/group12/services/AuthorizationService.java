@@ -27,4 +27,9 @@ public interface AuthorizationService {
 	
 	public List<Authorization> getNotifications(Users user);
 
+//	public List<Authorization> getNotifications();
+	
+	public int update(Authorization authorization);
+	
+	public List<Authorization> getAuthorizedNotifications(int fromusername,int tousername);
 }
