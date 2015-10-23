@@ -60,22 +60,38 @@
     </title>
     <script type="text/javascript">
       function validate() {
-          if (document.f.j_username.value == ""
-                  && document.f.j_password.value == "") {
+    	 
+    	  var whitePattern = "^[a-zA-Z0-9]*$";
+    	  //var name = '#(username)'.val();
+    	  var uname = document.forms["f"]["username"].value;
+    	  var pass = 	document.forms["f"]["password"].value;
+    	  	
+    	  	if(uname.length > 3 || pass.length > 3){
+    	  		alert('Length error');
+    	  		return false;
+    	  	}
+    		if(!uname.match(/^[a-zA-Z0-9]*$/) || !pass.match(/^[a-zA-Z0-9]*$/)){
+    			alert('Error');
+    			return false;
+    		}
+    	    	 
+          if (document.forms["f"]["username"].value == ""
+                  && document.forms["f"]["password"].value == "") {
               alert("${noUser} & ${noPass}");
               document.f.j_username.focus();
               return false;
           }
-          if (document.f.j_username.value == "") {
+          if (document.forms["f"]["username"].value == "") {
               alert("${noUser}");
               document.f.j_username.focus();
               return false;
           }
-          if (document.f.j_password.value == "") {
+          if (document.forms["f"]["password"].value == "") {
               alert("${noPass}");
               document.f.j_password.focus();
               return false;
           }
+          
       }
     </script>
     <style type="text/css">
@@ -155,15 +171,19 @@
           </label>
           <span class="col-sm-8"> 
           <input id="keyboard" class="form-control" type='text' name='username' value=''>
+
           </span> 
           <br> <br> 
           <label class="col-sm-4">
             <spring:message	code="label.form.loginPass"> </spring:message>
           </label>
-          <span class="col-sm-8"> 
-          <input class="form-control"
+
+          <span class="col-sm-8"> <input class="form-control"
             id="keyboard" type='password' name='password' />
           </span> <br> <br>
+
+          <span class="col-sm-8"> <input class="form-control"
+            id="keyboard" type='password' name='password' />
 
 		  <span class="col-sm-8">
 				<table>
@@ -192,7 +212,7 @@
 					</tr>
 				</table>
 		  </span> <br> 	<br>	
-
+		  
 		  <input id='submitbutton' class="btn btn-primary" name="submit"
           type="submit"
           value=<spring:message code="label.form.submit"></spring:message> />

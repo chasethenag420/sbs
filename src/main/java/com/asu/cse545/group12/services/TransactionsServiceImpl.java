@@ -12,6 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.asu.cse545.group12.hashing.HashGenerator;
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.AuthorizationDao;
 import com.asu.cse545.group12.dao.TransactionDao;
@@ -44,7 +45,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 	@Autowired
 	UserDao userDao;
 
-	public int doCredit(int accountNumber, int amount, String description) {
+	public int doCredit(int accountNumber, double amount, String description) {
 		boolean creditStatus = accountService.isBalanceValid(accountNumber, amount, "credit");
 		if (creditStatus == true) {
 			Account account = accountService.getAccount(accountNumber);
@@ -52,20 +53,20 @@ public class TransactionsServiceImpl implements TransactionsService {
 			transaction.setAccountNumber(accountNumber);
 			transaction.setAmount(amount);
 			transaction.setCreationTimestamp(Calendar.getInstance().getTime());
-			transaction.setTransactionStatus("submitted");
+			transaction.setTransactionStatus(Const.SUBMITTED);
 			transaction.setUserId(account.getUserId());
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setSeverity("critical");
-			transaction.setTransactionType("credit");
+			transaction.setTransactionType(Const.CREDIT_REQUEST);
 			transaction.setTransactionDescription(description);
 			int transactionId = transactionDao.insertRow(transaction);
 
 			Authorization authorization = new Authorization();
 			authorization.setAuthorizedToUserId(account.getUserId());
-			authorization.setRequestStatus("submitted");
+			authorization.setRequestStatus(Const.SUBMITTED);
 			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 			authorization.setRequestDescription("Approval for amount credit");
-			authorization.setRequestType("Credit");
+			authorization.setRequestType(Const.CREDIT_REQUEST);
 			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
 
@@ -74,7 +75,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 		return 0;
 	}
 
-	public int doDebit(int accountNumber, int amount, String description) {
+	public int doDebit(int accountNumber, double amount, String description) {
 		boolean debitStatus = accountService.isBalanceValid(accountNumber, amount, "debit");
 		if (debitStatus == true) {
 			Account account = accountService.getAccount(accountNumber);
@@ -82,20 +83,20 @@ public class TransactionsServiceImpl implements TransactionsService {
 			transaction.setAccountNumber(accountNumber);
 			transaction.setAmount(amount);
 			transaction.setCreationTimestamp(Calendar.getInstance().getTime());
-			transaction.setTransactionStatus("submitted");
+			transaction.setTransactionStatus(Const.SUBMITTED);
 			transaction.setUserId(account.getUserId());
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setSeverity("critical");
-			transaction.setTransactionType("debit");
+			transaction.setTransactionType(Const.DEBIT_REQUEST);
 			transaction.setTransactionDescription(description);
 			int transactionId = transactionDao.insertRow(transaction);
 
 			Authorization authorization = new Authorization();
 			authorization.setAuthorizedToUserId(account.getUserId());
-			authorization.setRequestStatus("submitted");
+			authorization.setRequestStatus(Const.SUBMITTED);
 			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 			authorization.setRequestDescription("Approval for amount debit");
-			authorization.setRequestType("Debit");
+			authorization.setRequestType(Const.DEBIT_REQUEST);
 			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
 
@@ -130,7 +131,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 		boolean debitStatus = false;
 		if (accountService.isValidAccountNumber(toAccountNumber)
 				&& accountService.isValidAccountNumber(fromAccountNumber)) {
-			debitStatus = accountService.isBalanceValid(fromAccountNumber, amount, "debit");
+			debitStatus = accountService.isBalanceValid(fromAccountNumber, amount, Const.DEBIT_REQUEST);
 			if (debitStatus == true) {
 				Account fromAccount = accountService.getAccount(fromAccountNumber);
 				Account toAccount = accountService.getAccount(toAccountNumber);
@@ -141,16 +142,16 @@ public class TransactionsServiceImpl implements TransactionsService {
 				debitTransaction.setAmount(amount);
 				debitTransaction.setCreationTimestamp(Calendar.getInstance().getTime());
 				if (amount > 1000) {
-					debitTransaction.setTransactionStatus("submitted");
+					debitTransaction.setTransactionStatus(Const.SUBMITTED);
 					debitTransaction.setSeverity("critical");
 				} else {
-					debitTransaction.setTransactionStatus("complete");
+					debitTransaction.setTransactionStatus(Const.APPROVED);
 					debitTransaction.setSeverity("non-critical");
 					accountService.doDebit(fromAccountNumber, amount);
 				}
 				debitTransaction.setUserId(fromAccount.getUserId());
 				debitTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
-				debitTransaction.setTransactionType("debit");
+				debitTransaction.setTransactionType(Const.DEBIT_REQUEST);
 				debitTransaction.setTransactionDescription(description+"\n Transfer to "+toAccountNumber);
 				int debitTransactionId = transactionDao.insertRow(debitTransaction);
 
@@ -162,24 +163,24 @@ public class TransactionsServiceImpl implements TransactionsService {
 				creditTransaction.setCreationTimestamp(Calendar.getInstance().getTime());
 				if (amount > 1000) {
 					creditTransaction.setSeverity("critical");
-					creditTransaction.setTransactionStatus("submitted");
+					creditTransaction.setTransactionStatus(Const.SUBMITTED);
 				} else {
 					creditTransaction.setSeverity("non-critical");
-					creditTransaction.setTransactionStatus("complete");
+					creditTransaction.setTransactionStatus(Const.APPROVED);
 					accountService.doCredit(toAccountNumber, amount);
 				}
 				creditTransaction.setUserId(toAccount.getUserId());
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
-				creditTransaction.setTransactionType("credit");
+				creditTransaction.setTransactionType(Const.CREDIT_REQUEST);
 				debitTransaction.setTransactionDescription("\n Transfer from "+fromAccountNumber);
 				int creditTransactionId = transactionDao.insertRow(creditTransaction);
 
 				// create transfer
 				Transfer transfer = new Transfer();
 				if (amount > 1000) {
-					transfer.setTransactionStatus("submitted");
+					transfer.setTransactionStatus(Const.SUBMITTED);
 				} else {
-					transfer.setTransactionStatus("complete");
+					transfer.setTransactionStatus(Const.APPROVED);
 				}
 				transfer.setUserFromTransactionid(debitTransactionId);
 				transfer.setUserToTransactionid(creditTransactionId);
@@ -196,10 +197,10 @@ public class TransactionsServiceImpl implements TransactionsService {
 				if (amount > 1000) {
 					Authorization authorization = new Authorization();
 					authorization.setAuthorizedToUserId(fromAccount.getUserId());
-					authorization.setRequestStatus("submitted");
+					authorization.setRequestStatus(Const.SUBMITTED);
 					authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 					authorization.setRequestDescription("Approval for amount transfer");
-					authorization.setRequestType("Transfer");
+					authorization.setRequestType(Const.TRANSFER_REQUEST);
 					authorization.setTransactionId(debitTransactionId);
 					authorizationDao.insertRow(authorization);
 				}

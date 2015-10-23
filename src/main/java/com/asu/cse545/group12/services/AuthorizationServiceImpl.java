@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.apache.log4j.Logger;
 
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.AuthorizationDao;
 import com.asu.cse545.group12.dao.TransactionDao;
@@ -50,31 +51,29 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		// TODO Auto-generated method stub
 		Authorization authorization = authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
 		// based on type of transaction trigger relavent action
-		if ("Signup".equalsIgnoreCase(authorization.getRequestType())) {
+		if (Const.SIGNUP_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("complete");
+			authorization.setRequestStatus(Const.APPROVED);
 			
 			//*************************************************************************************************************/
 			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
-	
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
-			requestor.setUserStatus("active");
+			requestor.setUserStatus(Const.ACTIVE);
 			userDao.updateRow(requestor);
 			// create an account for this user by default checkings
 			accountService.insertRow(requestor.getUserId());
-		} else if ("Credit".equalsIgnoreCase(authorization.getRequestType())) {
+		} else if (Const.CREDIT_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("complete");
+			authorization.setRequestStatus(Const.APPROVED);
 			
 			//*************************************************************************************************************/
 			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
-			
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************requestor: " + requestor.toString());
@@ -86,16 +85,16 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
 			accountService.doCredit(account.getAccountNumber(), transaction.getAmount());
-			transaction.setTransactionStatus("complete");
+			transaction.setTransactionStatus(Const.APPROVED);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
 			transactionDao.updateRow(transaction);
 		}
 
-		else if ("Debit".equalsIgnoreCase(authorization.getRequestType())) {
+		else if (Const.DEBIT_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("complete");
+			authorization.setRequestStatus(Const.APPROVED);
 
 			//*************************************************************************************************************/
 			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
@@ -109,16 +108,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
 			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
-			transaction.setTransactionStatus("complete");
+			transaction.setTransactionStatus(Const.APPROVED);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
 			transactionDao.updateRow(transaction);
 		}
-
-		else if ("Transfer".equalsIgnoreCase(authorization.getRequestType())) {
+		else if (Const.TRANSFER_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("complete");
+			authorization.setRequestStatus(Const.APPROVED);
 
 			//*************************************************************************************************************/
 			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
@@ -133,7 +131,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
 			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
-			transaction.setTransactionStatus("complete");
+			transaction.setTransactionStatus(Const.APPROVED);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
 			transactionDao.updateRow(transaction);
@@ -149,7 +147,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				}
 				
 				accountService.doCredit(creditAccount.getAccountNumber(), creditTransaction.getAmount());
-				creditTransaction.setTransactionStatus("complete");
+				creditTransaction.setTransactionStatus(Const.APPROVED);
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				creditTransaction.setModifiedByUserid(approver.getUserId());
 				transactionDao.updateRow(creditTransaction);
@@ -196,10 +194,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 		Authorization authorization = authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
 		// based on type of transaction trigger relavent action
-		if ("Signup".equalsIgnoreCase(authorization.getRequestType())) {
+<<<<<<< HEAD
+		if (Const.SIGNUP_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("rejected");
+			authorization.setRequestStatus(Const.REJECT);
 			
 			//*************************************************************************************************************/
 			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
@@ -207,12 +206,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			//*************************************************************************************************************/
 
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
-			requestor.setUserStatus("inactive");
+			requestor.setUserStatus(Const.INACTIVE);
 			userDao.updateRow(requestor);
-		} else if ("Credit".equalsIgnoreCase(authorization.getRequestType())) {
+		} else if (Const.CREDIT_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("rejected");			
+			authorization.setRequestStatus(Const.REJECT);			
 
 			//*************************************************************************************************************/
 			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
@@ -230,16 +229,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
 			accountService.doCredit(account.getAccountNumber(), transaction.getAmount());
-			transaction.setTransactionStatus("rejected");
+			transaction.setTransactionStatus(Const.REJECT);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
 			transactionDao.updateRow(transaction);
 		}
-
-		else if ("Debit".equalsIgnoreCase(authorization.getRequestType())) {
+		else if (Const.DEBIT_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("rejected");
+			authorization.setRequestStatus(Const.REJECT);
 
 			//*************************************************************************************************************/
 			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
@@ -253,16 +251,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
 			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
-			transaction.setTransactionStatus("rejected");
+			transaction.setTransactionStatus(Const.REJECT);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
 			transactionDao.updateRow(transaction);
 		}
-
-		else if ("Transfer".equalsIgnoreCase(authorization.getRequestType())) {
+		else if (Const.TRANSFER_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("rejected");
+			authorization.setRequestStatus(Const.REJECT);
 
 			//*************************************************************************************************************/
 			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
@@ -277,7 +274,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
 			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
-			transaction.setTransactionStatus("rejected");
+			transaction.setTransactionStatus(Const.REJECT);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
 			transactionDao.updateRow(transaction);
@@ -293,7 +290,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				}
 				
 				accountService.doCredit(creditAccount.getAccountNumber(), creditTransaction.getAmount());
-				creditTransaction.setTransactionStatus("rejected");
+				creditTransaction.setTransactionStatus(Const.REJECT);
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				creditTransaction.setModifiedByUserid(approver.getUserId());
 				transactionDao.updateRow(creditTransaction);
@@ -311,17 +308,17 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		Authorization authorization = authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
 		authorization.setAssignedToRole("");
 		// based on type of transaction trigger relavent action
-		if ("Signup".equals(authorization.getRequestType())) {
+		if (Const.SIGNUP_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("rejected");
+			authorization.setRequestStatus(Const.REJECT);
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
-			requestor.setUserStatus("inactive");
+			requestor.setUserStatus(Const.INACTIVE);
 			userDao.updateRow(requestor);
-		} else if ("Credit".equals(authorization.getRequestType())) {
+		} else if (Const.CREDIT_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("rejected");
+			authorization.setRequestStatus(Const.REJECT);
 
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			if (logger.isDebugEnabled()) {
@@ -334,16 +331,16 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
 			accountService.doCredit(account.getAccountNumber(), transaction.getAmount());
-			transaction.setTransactionStatus("rejected");
+			transaction.setTransactionStatus(Const.REJECT);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
 			transactionDao.updateRow(transaction);
 		}
 
-		else if ("Debit".equals(authorization.getRequestType())) {
+		else if (Const.DEBIT_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("rejected");
+			authorization.setRequestStatus(Const.REJECT);
 
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			Account account = accountService.getAccount(requestor.getUserName());
@@ -352,16 +349,16 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
 			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
-			transaction.setTransactionStatus("rejected");
+			transaction.setTransactionStatus(Const.REJECT);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
 			transactionDao.updateRow(transaction);
 		}
 
-		else if ("Transfer".equals(authorization.getRequestType())) {
+		else if (Const.TRANSFER_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus("rejected");
+			authorization.setRequestStatus(Const.REJECT);
 
 			// for debit
 			Users requestor1 = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
@@ -371,7 +368,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
 			
-			transaction.setTransactionStatus("rejected");
+			transaction.setTransactionStatus(Const.REJECT);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
 			transactionDao.updateRow(transaction);
@@ -387,7 +384,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				}
 				
 				accountService.doCredit(creditAccount.getAccountNumber(), creditTransaction.getAmount());
-				creditTransaction.setTransactionStatus("rejected");
+				creditTransaction.setTransactionStatus(Const.REJECT);
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				creditTransaction.setModifiedByUserid(approver.getUserId());
 				transactionDao.updateRow(creditTransaction);
@@ -400,11 +397,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public int signupInsertRow(Users user) {
 		Authorization authorizationRequest = new Authorization();
 		authorizationRequest.setAuthorizedToUserId(user.getUserId());
-		authorizationRequest.setRequestStatus("pending");
+		authorizationRequest.setRequestStatus(Const.PENDING);
 		authorizationRequest.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 		authorizationRequest.setRequestDescription("Approval for account creation");
-		authorizationRequest.setRequestType("signup");
-		
+		authorizationRequest.setRequestType(Const.SIGNUP_REQUEST);
 		return authorizationDao.insertRow(authorizationRequest);
 	}
 

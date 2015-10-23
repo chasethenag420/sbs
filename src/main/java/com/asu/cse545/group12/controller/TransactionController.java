@@ -120,7 +120,7 @@ public class TransactionController {
 		} else {
 
 			Integer toAccountNumber= Integer.parseInt(form.getToAccount());
-			Integer amount= Integer.parseInt(form.getAmount());
+			Double amount= Double.parseDouble(form.getAmount());
 			String transactionId = ""+transactionservice.doCredit(toAccountNumber, amount, form.getDescription());
 			ModelAndView modelView = new ModelAndView();
 
