@@ -17,7 +17,7 @@ public class Transactions {
 	private int transactionId;
 	
 	
-	@Pattern(regexp="^[a-zA-Z0-9äöüÄÖÜ]*$", message="Enter correct username")
+	//@Pattern(regexp="^[a-zA-Z0-9äöüÄÖÜ]*$", message="Enter correct username")
 	@Column(name = "USERID")
 	private int  userId;
 	
