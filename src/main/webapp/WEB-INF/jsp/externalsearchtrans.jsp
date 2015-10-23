@@ -41,17 +41,14 @@
 				<form:errors class="alert alert-danger" path="fromDate" />
 			</div>
 			<div class="control-group">
-				<input type="submit" onclick="document.pressed=this.value"
+				
+					<input class="btn" type="submit" onclick="document.pressed=this.value"
+					value="Submit" />
+					<input class="btn" type="submit" onclick="document.pressed=this.value"
 					value="Cancel" />
 			</div>
-			<div class="control-group">
-				<input type="submit" onclick="document.pressed=this.value"
-					value="Submit" />
-			</div>
 
 
-
-			<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 			<table border="1"  bgcolor="black">
 				<col width="230">

@@ -15,9 +15,9 @@
 <title>Search Transactions</title>
 <body>
 	<center>
-	<br>
-	<div style="color: teal; font-size: 30px">Search Transactions</div>
-  <br>
+		<br>
+		<div style="color: teal; font-size: 30px">Search Transactions</div>
+		<br>
 
 		<form class="form-horizontal" id="searchTransaction" method="post"
 			action="">
@@ -25,27 +25,23 @@
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 
+			<table width="700px" height="150px" cellspacing="10">
+				<tr>
+					<td style="white-space: nowrap"><form:label
+							path="user.firstName">First Name</form:label></td>
+					<td><form:input path="user.firstName" /> <form:errors
+							class="alert alert-danger" path="user.firstName" /></td>
+				</tr>
+				<tr>
+					<td style="white-space: nowrap"><form:label
+							path="account.accountNumber">Account Number</form:label></td>
+					<td><form:input path="account.accountNumber" /> <form:errors
+							class="alert alert-danger" path="account.accountNumber" /></td>
+				</tr>
+			</table>
 
-			<div class="control-group">
-				<form:label class="control-label" type="date" path="user.firstName">First Name</form:label>
-				<form:input class="controls" path="user.firstName" />
-				<form:errors class="alert alert-danger" path="user.firstName" />
-			</div>
-			<div class="control-group">
-				<form:label class="control-label" type="date"
-					path="account.accountNumber">Account Number</form:label>
-				<form:input class="controls" path="account.accountNumber" />
-				<form:errors class="alert alert-danger" path="account.accountNumber" />
-			</div>
-
-			<div class="control-group">
-				<div class="controls">
-					<input class="btn  btn " type="submit" id="search"
-						value="Submit" /> 
-					<input class="btn  btn " type="submit" id="cancel"
-						value="Cancel" /> 
-				</div>
-			</div>
+			<input class="btn" type="submit" id="search" value="Submit" /> <input
+				class="btn " type="submit" id="cancel" value="Cancel" />
 		</form>
 	</center>
 

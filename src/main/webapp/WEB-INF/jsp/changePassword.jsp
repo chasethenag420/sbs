@@ -46,8 +46,9 @@
 		<br /> <br />
 		<form:form name="changePasswordForm" id="changePasswordForm" method="post" modelAttribute="form" onsubmit="return OnSubmitForm();">
 			<center>
+			<c:if test="${!empty errorMessage}">
 				<div class="alert alert-danger">${errorMessage}</div>
-
+			</c:if>
 				<table width="700px" height="150px" cellspacing="10">
 					<tr></tr>
 					<!-- <tr>
