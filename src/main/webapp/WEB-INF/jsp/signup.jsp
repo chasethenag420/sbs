@@ -98,9 +98,12 @@ label {
 </head>
 <body onload="DrawCaptcha();">
 
+
+
+
 	<div class="container">
 		
-		<form class="form-horizontal" id="signUpForm" method="post" action="signUp">
+		<form class="form-horizontal" id="signUpForm" name="signUpForm" method="post" action="signUp" onsubmit="return signup_validate();">
 		<fieldset>
 		<legend>Registration Form</legend>
 				
@@ -108,6 +111,7 @@ label {
 
 					<form:label class="control-label " path="user.userName">Username</form:label>
 					<form:input id="keyboard" class="controls " path="user.userName" />
+
 					<form:errors class="alert alert-danger" path="user.userName" />
 
 				</div>
@@ -115,20 +119,22 @@ label {
 				<div class="control-group">
 					<form:label  class="control-label" path="user.password">Password</form:label>
 					<form:input id="keyboard"  class="controls" type="password" path="user.password" />
+
 					<form:errors class="alert alert-danger" path="user.password" />
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.firstName">First Name</form:label>
-					<form:input class="controls" path="user.firstName" />
+					<form:input class="controls" path="user.firstName" id = "fname"/>
 					<form:errors class="alert alert-danger" path="user.firstName" />
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.middleName">Middle(M I)</form:label>
 					<form:input  class="controls" path="user.middleName" />
+
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.lastName">Last Name</form:label>
-					<form:input class="controls" path="user.lastName" />
+					<form:input class="controls" path="user.lastName" id="lname" />
 					<form:errors class="alert alert-danger" path="user.lastName" />
 				</div>
 				<div class="control-group">
@@ -142,7 +148,7 @@ label {
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="userpii.ssn">SSN</form:label>
-					<form:input type="number" class="controls" path="userpii.ssn" />
+					<form:input type="number" class="controls" path="userpii.ssn" id="ssn"/>
 					<form:errors class="alert alert-danger" path="userpii.ssn" />
 
 				</div>
@@ -150,37 +156,38 @@ label {
 				<div class="control-group">
 					<form:label class="control-label" path="userpii.DateOfBirth">Date of Birth</form:label>
 					<form:input  type="date" class="controls" path="userpii.DateOfBirth" />
+
 					<form:errors class="alert alert-danger" path="userpii.DateOfBirth" />
 
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.address">Address</form:label>
-					<form:textarea class="controls" rows="3" cols="30" path="user.address" />
+					<form:textarea class="controls" rows="3" cols="30" path="user.address" id="address"/>
 					<form:errors class="alert alert-danger" path="user.address" />
 
 				</div>
 				
 				<div class="control-group">
 					<form:label class="control-label" path="user.city">City</form:label>
-					<form:input class="controls" path="user.city" />
+					<form:input class="controls" path="user.city" id="city" />
 					<form:errors class="alert alert-danger" path="user.city" />
 				</div>
 				
 				<div class="control-group">
 					<form:label class="control-label" path="user.state">State</form:label>
-					<form:input class="controls" path="user.state" />
+					<form:input class="controls" path="user.state" id="state"/>
 					<form:errors class="alert alert-danger" path="user.state" />
 				</div>
 				
 				<div class="control-group">
 					<form:label class="control-label" path="user.country">Country</form:label>
-					<form:input class="controls" path="user.country" />
+					<form:input class="controls" path="user.country" id="country"/>
 					<form:errors class="alert alert-danger" path="user.country" />
 
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.zipcode">ZIP</form:label>
-					<form:input class="controls" path="user.zipcode" />
+					<form:input class="controls" path="user.zipcode" id="zip" />
 					<form:errors class="alert alert-danger" path="user.zipcode" />
 
 				</div>
@@ -198,12 +205,12 @@ label {
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.phoneNumber">Phone Number</form:label>
-					<form:input class="controls" path="user.phoneNumber" />
+					<form:input class="controls" path="user.phoneNumber" id="phno" />
 					<form:errors class="alert alert-danger" path="user.phoneNumber" />
 				</div>
 				<div class="control-group">
 					<form:label class="control-label" path="user.emailId">Email</form:label>
-					<form:input class="controls" type="email" path="user.emailId" />
+					<form:input class="controls" type="email" path="user.emailId" id="email"/>
 					<form:errors class="alert alert-danger" path="user.emailId" />
 				</div>
 
@@ -248,5 +255,62 @@ label {
 			</fieldset>
 		</form>
 	</div>
+	<script type="text/javascript">
+      function signup_validate() {
+    	 //alert('validating');
+    	  var whitePattern = "^[a-zA-Z0-9]*$";
+    	  //var name = '#(username)'.val();
+    	  var uname = document.forms["signUpForm"]["username"].value;
+    	  var pass = 	document.forms["signUpForm"]["password"].value;
+    	  var fname = document.forms["signUpForm"]["fname"].value;
+    	  var mname = document.forms["signUpForm"]["mname"].value;
+    	  var lname = document.forms["signUpForm"]["lname"].value;
+    	  var ssn = document.forms["signUpForm"]["ssn"].value;
+    	  var dob = document.forms["signUpForm"]["dob"].value;
+    	  var address = document.forms["signUpForm"]["address"].value;
+    	  var city = document.forms["signUpForm"]["city"].value;
+    	  var state = document.forms["signUpForm"]["state"].value;
+    	  var country = document.forms["signUpForm"]["country"].value;
+    	  var zip = document.forms["signUpForm"]["zip"].value;
+    	  var phno = document.forms["signUpForm"]["phno"].value;
+    	  var email = document.forms["signUpForm"]["email"].value;
+    	//  alert ('all params received');
+    	var flag=0;
+    	if (uname == "" && pass == "") {
+            alert("NO USERNAME AND PASSWORD");
+            flag=1;
+            return false;
+        } 
+    	  if(uname.length > 10){
+    	  		alert('Length error');
+    	  		flag=1;
+    	  }
+    	  if(!pass.match(/^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z])$/)|| pass.length > 40){
+    		  alert('Password does not comply to the rules');
+    		  return false; 
+    	  }
+    		  
+    		if(!uname.match(/^[a-zA-Z0-9]*$/) || !fname.match(/^[a-zA-Z0-9]*$/) || !mname.match(/^[a-zA-Z0-9]*$/) || !lname.match(/^[a-zA-Z0-9]*$/) || !ssn.match(/^[a-zA-Z0-9]*$/) || !address.match(/^[a-zA-Z0-9]*$/) || !city.match(/^[a-zA-Z0-9]*$/) || !state.match(/^[a-zA-Z0-9]*$/) || !country.match(/^[a-zA-Z0-9]*$/) || !zip.match(/^[a-zA-Z0-9]*$/) || !phno.match(/^[a-zA-Z0-9]*$/)){
+    			alert('Error');
+    			flag=1;
+    		}
+    	    	 
+          
+          if (uname == "") {
+              alert("No username");
+              flag=1;
+              return false;
+          }
+          if (pass == "") {
+              alert("No password");
+              flag=1;
+              return false; 
+          }
+          if(flag==0)
+        	  return true;
+          else
+        	  return false;
+      }
+    </script>
 </body>
 </html>
