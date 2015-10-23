@@ -71,20 +71,18 @@
 
 					</tr>
 
-
-					<tr>
-						<td><input type="submit"
-							onclick="document.pressed=this.value" value="Submit" /></td>
-						<td><input type="submit"
-							onclick="document.pressed=this.value" value="Cancel" /></td>
-						<td><input type="hidden" name="${_csrf.parameterName}"
-							value="${_csrf.token}" /></td>
-					</tr>
 				</table>
+				<br>
+				<input type="submit" class="btn"
+							onclick="document.pressed=this.value" value="Submit" />
+							<input type="submit" class="btn"
+							onclick="document.pressed=this.value" value="Cancel" />
 				<div>
 					<h2>${successfulMessage}</h2>
 				</div>
 			</center>
+			<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 		</form:form>
 
 	</center>

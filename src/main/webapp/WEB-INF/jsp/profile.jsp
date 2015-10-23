@@ -30,68 +30,11 @@ label {
 
 <body>
 
-	<center>
-		<table>
-			<tr>
-				<td><label for="username">Username </label></td>
-				<td><input type="text" id="username" value="${user.userName}"></td>
-			</tr>
-			<tr>
-				<td><label for="FirstName">FirstName </label></td>
-				<td><input type="text" id="FirstName" value="${user.firstName}"></td>
-			</tr>
-			<tr>
-				<td><label for="LastName">LastName </label></td>
-				<td><input type="text" id="LastName" value="${user.lastName}"></td>
-			</tr>
-			<tr>
-				<td><label for="MiddleName">MiddleName </label></td>
-				<td><input type="text" id="MiddleName" value="${user.middleName}"></td>
-			</tr>
-			<tr>
-				<td><label for="gender">Gender </label></td>
-				<td><input type="text" id="gender" value="${user.gender}"></td>
-			</tr>
-				
-				<tr>
-				<td><label for="Emailid">EmailId</label></td>
-				<td><input type="text" id="Emailid" value="${user.emailId}"></td>
-			</tr>
-			<tr>
-				<td><label for="phoneNum">phoneNumber</label></td>
-				<td><input type="text" id="phoneNum" value="${user.phoneNumber}"></td>
-			</tr>
-			<tr>
-				<td><label for="address">Address</label></td>
-				<td><input type="text" id="address" value="${user.address}"></td>
-			</tr>
-			<tr>
-				<td><label for="city">City</label></td>
-				<td><input type="text" id="city" value="${user.city}"></td>
-			</tr>
-			<tr>
-				<td><label for="state">State</label></td>
-				<td><input type="text" id="state" value="${user.state}"></td>
-			</tr>
-			<tr>
-				<td><label for="country">Country</label></td>
-				<td><input type="text" id="country" value="${user.country}"></td>
-			</tr>
-			<tr>
-				<td><label for="zipcode">Zipcode</label></td>
-				<td><input type="text" id="zipcode" value="${user.zipcode}"></td>
-			</tr>
-			
-			<tr>
-			
-			</tr>
-		</table>
-	</center>
 
 	<div class="container">
 
 		<form class="form-horizontal" name="profileForm" id="profileForm" method="post" onsubmit="return OnSubmitForm();">
-			<fieldset>
+			<fieldset >
 				<legend>User Profile</legend>
 				<br /> <br /> <br />
 				<center>
@@ -99,90 +42,70 @@ label {
 					<table>
 						<tr>
 							<td><label for="username">Username </label></td>
-							<td><input type="text" id="username"
+							<td><input type="text" id="username"  disabled
 								value="${user.userName}"></td>
 						</tr>
 						<tr>
 							<td><label for="FirstName">FirstName </label></td>
 							<td><input type="text" id="FirstName"
-								value="${user.firstName}"></td>
+								value="${user.firstName}"  disabled></td>
 						</tr>
 						<tr>
 							<td><label for="LastName">LastName </label></td>
 							<td><input type="text" id="LastName"
-								value="${user.lastName}"></td>
+								value="${user.lastName}"  disabled></td>
 						</tr>
 						<tr>
 							<td><label for="MiddleName">MiddleName </label></td>
 							<td><input type="text" id="MiddleName"
-								value="${user.middleName}"></td>
+								value="${user.middleName}"  disabled></td>
 						</tr>
 						<tr>
 							<td><label for="gender">Gender </label></td>
-							<td><input type="text" id="gender" value="${user.gender}"></td>
+							<td><input type="text" id="gender" value="${user.gender} " disabled></td>
 						</tr>
 
 						<tr>
 							<td><label for="Emailid">EmailId</label></td>
-							<td><input type="text" id="Emailid" value="${user.emailId}"></td>
+							<td><input type="text" id="Emailid" value="${user.emailId}"  disabled></td>
 						</tr>
 						<tr>
 							<td><label for="phoneNum">phoneNumber</label></td>
 							<td><input type="text" id="phoneNum"
-								value="${user.phoneNumber}"></td>
+								value="${user.phoneNumber}"  disabled></td>
 						</tr>
 						<tr>
 							<td><label for="address">Address</label></td>
-							<td><input type="text" id="address" value="${user.address}"></td>
+							<td><input type="text" id="address" value="${user.address}"  disabled></td>
 						</tr>
 						<tr>
 							<td><label for="city">City</label></td>
-							<td><input type="text" id="city" value="${user.city}"></td>
+							<td><input type="text" id="city" value="${user.city}"  disabled></td>
 						</tr>
 						<tr>
 							<td><label for="state">State</label></td>
-							<td><input type="text" id="state" value="${user.state}"></td>
+							<td><input type="text" id="state" value="${user.state}"  disabled></td>
 						</tr>
 						<tr>
 							<td><label for="country">Country</label></td>
-							<td><input type="text" id="country" value="${user.country}"></td>
+							<td><input type="text" id="country" value="${user.country}" disabled></td>
 						</tr>
 						<tr>
 							<td><label for="zipcode">Zipcode</label></td>
-							<td><input type="text" id="zipcode" value="${user.zipcode}"></td>
+							<td><input type="text" id="zipcode" value="${user.zipcode}" disabled></td>
 						</tr>
-						<tr>
-							<td><input type="submit"
-								onclick="document.pressed=this.value" value="Back" /></td>
-						</tr>
-						<tr>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-						</tr>
-						<tr>
-							<td><input type="submit"
-								onclick="document.pressed=this.value"
-								value="Set Security Questions" /></td>
-						</tr>
-						<tr>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-						</tr>
-						<tr>
-							<td><input type="submit"
-								onclick="document.pressed=this.value" value="Change Password" /></td>
-							<td><input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" /></td>
-						</tr>
-
+	
 					</table>
+					<br>
+					<input class="btn" type="submit"
+								onclick="document.pressed=this.value"
+								value="Set Security Questions" />
+					<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
+					<input class="btn"  type="submit"
+								onclick="document.pressed=this.value" value="Back" />
+								<input class="btn" type="submit"
+								onclick="document.pressed=this.value" value="Change Password" />
 				</center>
 			</fieldset>
 		</form>
