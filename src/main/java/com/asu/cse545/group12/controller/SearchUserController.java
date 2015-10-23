@@ -1,6 +1,7 @@
 package com.asu.cse545.group12.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.asu.cse545.group12.dao.UserDao;
+import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.AuthorizationService;
@@ -106,6 +108,85 @@ public class SearchUserController {
 		}
 		return modelView;
 	}
+	
+	@RequestMapping(value="raiseInternalRequest",method=RequestMethod.POST)
+	public ModelAndView getRaiseRequestForm(@ModelAttribute("form") Form form, HttpServletRequest request){
+		ModelAndView model = new ModelAndView();
+		Map<String, String> formMap = form.getMap();
+		request.getSession(false).setAttribute("raiseInternalRequestuserId",formMap.get("userId") );
+		model.addObject("user", new Users());
+		model.addObject("authorization", new Authorization());
+		model.setViewName("regularEmprequest");
+		return model;
+	}
+	
+
+	@RequestMapping(value = "regularrequest")
+	public ModelAndView getInteralEmplRequest(@ModelAttribute("authorization") Authorization authorization,HttpServletRequest request) {
+		if(logger.isDebugEnabled()){
+			logger.debug("create request");
+		}
+		ModelAndView modelView = new ModelAndView();
+		Integer userId=Integer.parseInt((String)request.getSession(false).getAttribute("raiseInternalRequestuserId"));
+		Users usermain = userservice.getUserByUserId(userId);
+		HttpSession session = request.getSession(false);
+		String reuqesterusername=(String) session.getAttribute("username");
+		Users requesteruser = userservice.getUserByUserName(reuqesterusername);
+		int requesteruserid = requesteruser.getUserId();
+		if(logger.isDebugEnabled()){
+			logger.debug("requesteruserid: "+requesteruserid);
+			logger.debug("requestedto: "+userId);
+		}
+		authorization.setAuthorizedByUserId(userId);
+		authorization.setAuthorizedToUserId(requesteruserid);
+
+		authorization.setRequestStatus("Pending");
+		authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
+		authorizationService.regularEmpRequest(authorization);	
+		// need to write the message that request was successful.
+		modelView.addObject("message", "Request created successfully");
+		modelView.setViewName(getViewName(reuqesterusername));
+
+		return modelView;
+
+	}
+	
+	@RequestMapping(value = "/viewExternalprofileform",method=RequestMethod.POST)
+	public ModelAndView getExternalprofile(@ModelAttribute("form") Form form, HttpServletRequest request) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("viewExternalprofileform");
+		}
+		ModelAndView model = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		String requesterusername=(String) session.getAttribute("username");
+		Map<String, String> formMap = form.getMap();
+		Integer userId= Integer.parseInt(formMap.get("userId"));
+
+		Users requestfromuser = userservice.getUserByUserName(requesterusername);				
+		int requesterUserId=requestfromuser.getUserId();
+		
+		Users requesttouser = userDao.getUserByUserId(userId);
+		int requesttoUserId=requesttouser.getUserId();
+
+		List<Authorization> authorizationList = authorizationService.getAuthorizedNotifications(requesterUserId, requesttoUserId, "VIEWPROFILE","APPROVED");
+		Authorization finalrequest = null;
+		
+		if(authorizationList!=null && !authorizationList.isEmpty()){
+			
+			finalrequest = authorizationList.get(0);
+			Users user = userservice.getUserByUserName(requestfromuser.getUserName());
+			finalrequest.setRequestStatus("INACTIVE");
+			authorizationService.update(finalrequest);
+			model.addObject("user",user);
+		}else{
+			model.addObject("message", "You are not authorized View. Raise a request");
+			model.addObject("user",null);
+		}
+		
+		model.setViewName("viewExternalprofile");
+		return model;
+	}
+
 
 	@RequestMapping(value = "/modifyUserForm",method=RequestMethod.POST)
 	public ModelAndView modifyUser(@ModelAttribute("form") Form form,HttpServletRequest request) {
@@ -179,6 +260,24 @@ public class SearchUserController {
 		modelView.addObject("message", "Deleted SuccessFully");
 		modelView.setViewName("searchuser");
 		return modelView;
+	}
+	
+	private String getViewName(String username){
+
+		int roleId = userDao.getUserByUserName(username).getRoleId();
+		// for individual user
+		if (roleId == 1) {
+			return "individual";
+		} else if (roleId == 2) {
+			return "merchant";
+		} else if (roleId == 3) {
+			return "regular";
+		} else if (roleId == 4) {
+			return "manager";
+		} else if (roleId == 5) {
+			return "admin";
+		} else
+			return "404";
 	}
 
 }

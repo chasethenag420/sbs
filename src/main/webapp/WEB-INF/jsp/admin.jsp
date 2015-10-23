@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="web_resources/theme/css/main.css" rel="stylesheet">
-<<link href="web_resources/theme/css/bootstrap.min.css" rel="stylesheet">
+<link href="web_resources/theme/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- jQuery library -->
 
@@ -29,38 +29,41 @@
 			<h1>Admin User</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
-<form:form class="form-horizontal" id='adminForm' method='POST'>
-	<input type="hidden" name="${_csrf.parameterName}"
-		value="${_csrf.token}" />
-		<div class="row">
-			<div class="col-md-3 column margintop20">
-				<ul class="nav nav-pills nav-stacked">
-					<li id="home" class="active"><a 
-						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
-							Home</a></li>
-					<li id="userProfile"><a href="profile"><span
-							class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
-					<li id="createEmployee"><a href="createEmployee"><span
-							class="glyphicon glyphicon-chevron-right"></span> Create Employee</a></li>
-					<li id="modifyEmployee"><a  href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Modify Employee</a></li>
-					<li id="deleteEmployee"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Delete Employee</a></li>
-					<li id="systemLog"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> System Log</a></li>
-					<li id="piiInformation"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Get PII</a></li>
-					<li id="notifications"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
-					<li id="logout"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
-				</ul>
+		<center>
+			<br>
+			<h2>${message}</h2>
+		</center>
+
+		<form:form class="form-horizontal" id='adminForm' method='POST'>
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<div class="row">
+				<div class="col-md-3 column margintop20">
+					<ul class="nav nav-pills nav-stacked">
+						<li id="home" class="active"><a , href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
+						<li id="userProfile"><a href="profile"><span
+								class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
+						<li id="createEmployee"><a href="createEmployee"><span
+								class="glyphicon glyphicon-chevron-right"></span> Create
+								Employee</a></li>
+						<li id="searchuser"><a href="searchuser"><span
+								class="glyphicon glyphicon-chevron-right"></span> Search
+								Employee</a></li>
+						<li id="systemLog"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> System Log</a></li>
+						<li id="piiInformation"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Get PII</a></li>
+						<li id="notifications"><a href="notifications"><span
+								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
+						<li id="logout"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
+					</ul>
+				</div>
+
 			</div>
-			<div id="content" class="col-md-9 column margintop20">
-				<%-- <jsp:include page="credit.jsp"/> --%>
-			</div>
-		</div>
 		</form:form>
+		</center>
 	</div>
 
 	<!-- jQuery -->
@@ -71,41 +74,9 @@
 
 	<!-- Menu Toggle Script -->
 	<script>
-		$(".nav li").on("click", function() {
-			$(".nav li").removeClass("active");
-			$(this).addClass("active");
-			changeContent();
+		$('#logout').click(function() {
+			$('#adminForm').attr("action", "logout").submit()
 		});
-
-		function changeContent() {
-			var menuValue = $(".active").attr('id');
-			/* if (menuValue == "viewProfile")
-				$('#content').load('credit');
-			else if (menuValue == "createEmployee")
-				$('#content').load('createEmployee');
-			else if (menuValue == "modifyEmployee")
-				$('#content').load('transfer');
-			else if (menuValue == "deleteEmployee")
-				$('#content').load('transfer');
-			else if (menuValue == "systemLog")
-				$('#content').load('transfer');
-			else if (menuValue == "piiInformation")
-				$('#content').load('transfer');
-			else if (menuValue == "notifications")
-				$('#content').load('notifications'); */
-		}
-	/* 	$(function(){
-			alert($(location).attr('hash'));
-		}) */
-		<%-- alert("<%=request.getSession(false).getAttribute("tab")%>");
-		$(document).on("load", function(event){
-			<% String tabId=(String)request.getSession(false).getAttribute("tab");%>
-			tabId
-		}) --%>
 	</script>
-
-    <script>
-      $('#logout').click(function(){$('#adminForm').attr("action","logout").submit()});
-    </script>
 </body>
 </html>

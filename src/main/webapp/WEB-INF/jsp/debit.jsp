@@ -17,11 +17,9 @@
 </head>
 <body>
 	<center>
-		<br />
-		<br />
+		<br /> <br />
 		<div style="color: teal; font-size: 30px">Debit Amount</div>
-		<br />
-		<br />
+		<br /> <br />
 		<form:form name="debitForm" id="debitForm" method="post"
 			modelAttribute="form" onsubmit="return OnSubmitForm();">
 			<table width="700px" height="150px">
@@ -46,20 +44,19 @@
 					</td>
 					<td><form:input path="description" /></td>
 				</tr>
-				<tr>
-					<form:input type="hidden" path="transactionType" value="debit" />
-					<td><input type="submit" onclick="document.pressed=this.value"
-						value="Submit" /></td>
-					<td><input type="submit" onclick="document.pressed=this.value"
-						value="Cancel" /></td>
-					<td><input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" /></td>
 
-				</tr>
 			</table>
+			<form:input type="hidden" path="transactionType" value="debit" />
+
+			<input type="submit" class="btn"
+				onclick="document.pressed=this.value" value="Submit" />
+			<input type="submit" class="btn"
+				onclick="document.pressed=this.value" value="Cancel" />
 			<div>
 				<h2>${successfulMessage}</h2>
 			</div>
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
 		</form:form>
 	</center>
 

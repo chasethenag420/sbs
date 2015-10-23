@@ -19,44 +19,53 @@
 </head>
 <body>
 	<center>
-		<br />
-		<br />
+		<br /> <br />
 		<div style="color: teal; font-size: 30px">Forget Password</div>
-		<br />
-		<br />
-		<form:form name="securityQuestionsForm" id="securityQuestionsForm" method="post" modelAttribute="form" onsubmit="return OnSubmitForm();">
+		<br /> <br />
+		<form:form name="securityQuestionsForm" id="securityQuestionsForm"
+			method="post" modelAttribute="form" onsubmit="return OnSubmitForm();">
 			<center>
-				<div class="alert alert-danger"> ${errorMessage}</div>
-			
+				<c:if test="${!empty errorMessage}">
+					<div class="alert alert-danger">${errorMessage}</div>
+				</c:if>
+
 				<table width="700px" height="150px" cellspacing="10">
 					<tr>
-						<td style="white-space: nowrap">Question 1: ${form.map.question1}</td>
+						<td style="white-space: nowrap">Question 1:
+							${form.map.question1}</td>
 						<td><form:input path="map['answer1']" /></td>
 					</tr>
 					<tr></tr>
-					
+
 					<tr>
-						<td style="white-space: nowrap">Question 2: ${form.map.question2}</td>
-	
+						<td style="white-space: nowrap">Question 2:
+							${form.map.question2}</td>
+
 						<td><form:input path="map['answer2']" /></td>
 					</tr>
 					<tr></tr>
-					
+
 					<tr>
-						<td style="white-space: nowrap">Question 3: ${form.map.question3}</td>
+						<td style="white-space: nowrap">Question 3:
+							${form.map.question3}</td>
 						<td><form:input path="map['answer3']" /></td>
 					</tr>
 					<tr></tr>
 				</table>
-				<form:input type="hidden" path="map['question1']" value="${form.map.question1}"/>
-						<form:input type="hidden" path="map['question2']" value="${form.map.question2}"/>
-						<form:input type="hidden" path="map['question3']" value="${form.map.question3}"/>
-						<form:input type="hidden" path="map['username']" value="${form.map.username}"/>
-						<form:input type="hidden" path="map['email']" value="${form.map.email}"/>
+				<form:input type="hidden" path="map['question1']"
+					value="${form.map.question1}" />
+				<form:input type="hidden" path="map['question2']"
+					value="${form.map.question2}" />
+				<form:input type="hidden" path="map['question3']"
+					value="${form.map.question3}" />
+				<form:input type="hidden" path="map['username']"
+					value="${form.map.username}" />
+				<form:input type="hidden" path="map['email']"
+					value="${form.map.email}" />
 				<input type="submit" class="btn"
-							onclick="document.pressed=this.value" value="Submit" />
-							<input type="submit" class="btn"
-							onclick="document.pressed=this.value" value="Cancel" />
+					onclick="document.pressed=this.value" value="Submit" /> <input
+					type="submit" class="btn" onclick="document.pressed=this.value"
+					value="Cancel" />
 				<div>
 					<h2>${successfulMessage}</h2>
 				</div>

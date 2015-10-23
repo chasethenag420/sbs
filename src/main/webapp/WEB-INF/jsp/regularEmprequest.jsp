@@ -15,38 +15,41 @@
 <title>raise Request</title>
 </head>
 <body>
-<br>
+	<br>
 	<center>
 
-	<div style="color: teal; font-size: 30px">Raise Request</div>
-  <br>
+		<div style="color: teal; font-size: 30px">Raise Request</div>
+		<br>
 		<form class="form-horizontal" id="regularEmprequest" method="post">
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 			<center>
-				<div class="control-group">
-					<form:label class="control-label" path="user.userName">Username</form:label>
-					<form:input class="controls" path="user.userName" />
-					<form:errors class="alert alert-danger" path="user.userName" />
-				</div>
-
-				<div class="control-group">
-					<form:label class="control-label" path="authorization.requestType">RequestType</form:label>
-					<form:input class="controls" path="authorization.requestType" />
-				</div>
-				<div class="control-group">
-					<form:label class="control-label"
-						path="authorization.requestDescription">Request Description</form:label>
-					<form:input class="controls"
-						path="authorization.requestDescription" />
-				</div>
-
-				<div class="control-group">
-					<div class="controls">
-						<input class="btn  btn-primary " id="submit" type="submit" value="Submit" />
-						<input class="btn" type="submit" id="cancel" value="Cancel" />
-					</div>
-				</div>
+				<table width="700px" height="150px" cellspacing="10">
+					<tr>
+						<td style="white-space: nowrap"><form:label
+								path="authorization.requestType">RequestType</form:label></td>
+						<td><form:select class="controls"
+								path="authorization.requestType">
+								<form:option value="-1" label="--- Select ---" />
+								<form:option value="view profile" label="View Profile" />
+								<form:option value="modify profile" label="Modify Profile" />
+								<form:option value="delete profile" label="Delete Profile" />
+								<form:option value="view transaction" label="View Transaction" />
+								<form:option value="modify transaction"
+									label="Modify Transaction" />
+								<form:option value="delete transaction"
+									label="Delete Transaction" />
+							</form:select></td>
+					</tr>
+					<tr>
+						<td style="white-space: nowrap"><form:label
+								path="authorization.requestDescription">Request Description</form:label>
+						</td>
+						<td><form:input path="authorization.requestDescription" /></td>
+					</tr>
+				</table>
+				<input class="btn" id="submit" type="submit" value="Submit" /> <input
+					class="btn" type="submit" id="cancel" value="Cancel" />
 			</center>
 
 		</form>

@@ -44,24 +44,23 @@
 					<tr>
 						<td style="white-space: nowrap"><form:label path="fromDate">From Date</form:label>
 						</td>
-						<td><form:input type = "date" path="fromDate" /></td>
+						<td><form:input type="date" path="fromDate" /></td>
 						<td><form:errors class="alert alert-danger" path="fromDate" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label path="toDate">To Date</form:label>
 						</td>
-						<td><form:input type = "date" path="toDate" /></td>
+						<td><form:input type="date" path="toDate" /></td>
 						<td><form:errors class="alert alert-danger" path="toDate" /></td>
 					</tr>
-					<tr>
-						<form:input type="hidden" path="transactionType" value="bankStatement" />
-						<td><input type="submit"
-							onclick="document.pressed=this.value" value="Create PDF" /></td>
-						<td><input type="submit"
-							onclick="document.pressed=this.value" value="Cancel" /></td>
-					</tr>
 				</table>
-				
+				<form:input type="hidden" path="transactionType"
+					value="bankStatement" />
+				<input type="submit" class="btn"
+					onclick="document.pressed=this.value" value="Create PDF" /> <input
+					type="submit" class="btn" onclick="document.pressed=this.value"
+					value="Cancel" />
+
 			</center>
 		</form:form>
 

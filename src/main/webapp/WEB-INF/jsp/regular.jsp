@@ -29,7 +29,10 @@
 			<h1>Regular Employee</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
-
+		<br>
+		<center>
+			<h2>${message}</h2>
+		</center>
 		<form:form class="form-horizontal" id='regularForm' method='POST'>
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
@@ -39,23 +42,20 @@
 						<li id="home" class="active"><a , href="#"><span
 								class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
 						<li id="userProfile"><a href="profile"><span
-							class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
+								class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
 						<li id="transactions"><a href="searchTransaction"><span
 								class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
 						<li id="notifications"><a href="notifications"><span
 								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
 						<li id="createRequest"><a href="regularEmprequest"><span
 								class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
-<!-- <li id="viewExternalUserProfile"><a href="viewExternalprofile"><span
-								class="glyphicon glyphicon-chevron-right"></span> View ExternalUserProfile</a></li>
-
-
-
-						<li id="modifyUser"><a href="#"><span
-								class="glyphicon glyphicon-chevron-right"></span> ModifyUser</a></li> -->
+						<li id="viewExternalUserProfile"><a
+							href="viewExternalprofile"><span
+								class="glyphicon glyphicon-chevron-right"></span> View External
+								User</a></li>
 						<li id="searchuser"><a href="searchuser"><span
-                class="glyphicon glyphicon-chevron-right"></span> Search User</a></li>
-                
+								class="glyphicon glyphicon-chevron-right"></span> Search User</a></li>
+
 						<li id="logout"><a href="#"><span
 								class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
 					</ul>
@@ -66,6 +66,7 @@
 			</div>
 
 		</form:form>
+
 	</div>
 
 	<!-- jQuery -->
@@ -75,31 +76,7 @@
 	<script src="web_resources/theme/js/bootstrap.min.js"></script>
 
 	<!-- Menu Toggle Script -->
-	<script>
-/* 		$(".nav li").on("click", function() {
-			$(".nav li").removeClass("active");
-			$(this).addClass("active");
-			changeContent();
-		});
- 
-		function changeContent() {
-			var menuValue = $(".active").attr('id');
-			if (menuValue == "profile")
-				$('#content').load('profile');
-
-			else if (menuValue == "transactions")
-				$('#content').load('searchTransaction');
-			else if (menuValue == "notifications")
-				$('#content').load('notifications');
-			else if (menuValue == "createRequest")
-				$('#content').load('regularEmprequest');
-			
-			else if (menuValue == "viewExternalUserProfile")
-				$('#content').load('viewExternalprofile');
-		} */
-	</script>
 	<script type="text/javascript">
-
 		$('#logout').click(function() {
 			$('#regularForm').attr("action", "logout").submit()
 		});
