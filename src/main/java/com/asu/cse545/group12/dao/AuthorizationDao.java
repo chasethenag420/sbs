@@ -18,7 +18,7 @@ public interface AuthorizationDao {
 
 	public int forward(Authorization authorization);
 	
-	public List<Authorization> getNotifications(); 
+	//public List<Authorization> getNotifications(); 
 	
 	public List<Authorization> getAuthorizednotifications(int fromuser , int touser);
 
@@ -28,4 +28,15 @@ public interface AuthorizationDao {
 	public Authorization getAuthorizationByAuthorizationId(int authorizationId);
 	
 	public Authorization getAuthorizationByTransactionId(int transactionId);
+
+	public List<Authorization> getNotificationsForExternal(Users user);
+
+	public List<Authorization> getNotificationsForMerchant(Users user);
+	
+	public List<Authorization> getNotificationsForRegular(Integer roleid);
+	
+	public List<Authorization> getNotificationsForManager(Integer roleid);
+	
+	public List<Authorization> getNotificationsForAdmin(Integer roleid);
+	
 }
