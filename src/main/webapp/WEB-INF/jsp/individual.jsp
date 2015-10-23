@@ -24,6 +24,11 @@
 			<h1>Individual User</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
+		<center>
+		<br>
+		<h2>${message}</h2>
+				</center>
+		
 		<form:form class="form-horizontal" id='individualForm' method='POST'>
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />

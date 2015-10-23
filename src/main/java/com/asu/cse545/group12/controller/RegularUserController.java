@@ -155,47 +155,6 @@ public class RegularUserController {
 
 
 
-
-	@RequestMapping(value = "/regularEmprequest", method = RequestMethod.GET)
-	public ModelAndView setInteralEmplRequest(/*@ModelAttribute("authorization") Authorization authorization ,@ModelAttribute("user") Users user*/) {
-		if(logger.isDebugEnabled()){
-			logger.debug("create request");
-		}
-		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("user", new Users());
-		modelView.addObject("authorization", new Authorization());
-		modelView.setViewName("regularEmprequest");
-		return modelView;
-
-	}
-
-	@RequestMapping(value = "regularrequest")
-	public ModelAndView getInteralEmplRequest(@ModelAttribute("authorization") Authorization authorization ,@ModelAttribute("user") Users user,HttpServletRequest request) {
-		if(logger.isDebugEnabled()){
-			logger.debug("create request");
-		}
-		ModelAndView modelView = new ModelAndView();
-
-		modelView.setViewName("regularEmprequest");
-		Users usermain = userService.getUserByUserName(user.getUserName());
-		//System.out.println(usermain);
-		int userId = usermain.getUserId();
-		HttpSession session = request.getSession(false);
-		String reuqesterusername=(String) session.getAttribute("username");
-		Users requesteruser = userService.getUserByUserName(reuqesterusername);
-		int requesteruserid = requesteruser.getUserId();
-		System.out.println("requesteruserid"+requesteruserid);
-		System.out.println("requestedto"+userId);
-		authorization.setAuthorizedByUserId(userId);
-		authorization.setAuthorizedToUserId(requesteruserid);
-
-		authorization.setRequestStatus("pending");
-		authorizationService.regularEmpRequest(authorization);	
-		// need to write the message that request was successful.
-		return modelView;
-
-	}
-
 	@RequestMapping(value = "enterSecurityQuestions", method = RequestMethod.POST)
 	public ModelAndView enterSecurityQuestions(HttpServletRequest request) {
 		if (logger.isDebugEnabled()) {
@@ -295,7 +254,7 @@ public class RegularUserController {
 				securityQuestions.setAnswer3(map.get("answer3"));
 				securityQuestionsDao.updateRow(securityQuestions);
 			}	
-			
+
 
 			Form newForm = new Form();
 			newForm.getMapObject().put("question1", questions);
@@ -314,48 +273,6 @@ public class RegularUserController {
 		return modelView;
 
 
-	}
-
-	@RequestMapping(value = "/viewExternalprofile")
-	public ModelAndView viewExternalprofile() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("Adding security questions");
-		}
-		ModelAndView model = new ModelAndView();
-
-		model.addObject("form", new Form());
-		model.setViewName("viewExternalprofile");
-		return model;
-	}
-
-	@RequestMapping(value = "/viewExternalprofileform")
-	public ModelAndView getExternalprofile(@ModelAttribute("form") Form form, HttpServletRequest request) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("Adding security questions");
-		}
-		ModelAndView model = new ModelAndView();
-		HttpSession session = request.getSession(false);
-		String requesterusername=(String) session.getAttribute("username");
-		Map samplemap = form.getMap();
-		String requestedtousername= (String) samplemap.get("userName");
-
-		Users requestfromuser = userService.getUserByUserName(requesterusername);
-		int requesterUserId=requestfromuser.getUserId();
-		Users requesttouser = userService.getUserByUserName(requestedtousername);
-		int requesttoUserId=requesttouser.getUserId();
-
-		List<Authorization> authorizationList = authorizationService.getAuthorizedNotifications(requesterUserId, requesttoUserId);
-		Authorization finalrequest = null;
-		Users user= new Users();
-		if(authorizationList!=null){
-			finalrequest = authorizationList.get(0);
-			user = userService.getUserByUserName(requestedtousername);
-			finalrequest.setRequestStatus("INACTIVE");
-			authorizationService.update(finalrequest);
-		}
-		model.addObject("user",user);
-		model.setViewName("profile");
-		return model;
 	}
 
 

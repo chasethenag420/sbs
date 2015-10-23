@@ -29,34 +29,41 @@
 			<h1>Admin User</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
-<form:form class="form-horizontal" id='adminForm' method='POST'>
-	<input type="hidden" name="${_csrf.parameterName}"
-		value="${_csrf.token}" />
-		<div class="row">
-			<div class="col-md-3 column margintop20">
-				<ul class="nav nav-pills nav-stacked">
-					<li id="home" class="active"><a 
-						, href="#"><span class="glyphicon glyphicon-chevron-right"></span>
-							Home</a></li>
-					<li id="userProfile"><a href="profile"><span
-							class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
-					<li id="createEmployee"><a href="createEmployee"><span
-							class="glyphicon glyphicon-chevron-right"></span> Create Employee</a></li>
-					<li id="searchuser"><a  href="searchuser"><span
-							class="glyphicon glyphicon-chevron-right"></span> Search Employee</a></li>					
-					<li id="systemLog"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> System Log</a></li>
-					<li id="piiInformation"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Get PII</a></li>
-					<li id="notifications"><a href="notifications"><span
-							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
-					<li id="logout"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
-				</ul>
-			</div>
+		<center>
+			<br>
+			<h2>${message}</h2>
+		</center>
 
-		</div>
+		<form:form class="form-horizontal" id='adminForm' method='POST'>
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<div class="row">
+				<div class="col-md-3 column margintop20">
+					<ul class="nav nav-pills nav-stacked">
+						<li id="home" class="active"><a , href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
+						<li id="userProfile"><a href="profile"><span
+								class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
+						<li id="createEmployee"><a href="createEmployee"><span
+								class="glyphicon glyphicon-chevron-right"></span> Create
+								Employee</a></li>
+						<li id="searchuser"><a href="searchuser"><span
+								class="glyphicon glyphicon-chevron-right"></span> Search
+								Employee</a></li>
+						<li id="systemLog"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> System Log</a></li>
+						<li id="piiInformation"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Get PII</a></li>
+						<li id="notifications"><a href="notifications"><span
+								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
+						<li id="logout"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
+					</ul>
+				</div>
+
+			</div>
 		</form:form>
+		</center>
 	</div>
 
 	<!-- jQuery -->
@@ -66,8 +73,10 @@
 	<script src="web_resources/theme/js/bootstrap.min.js"></script>
 
 	<!-- Menu Toggle Script -->
-    <script>
-      $('#logout').click(function(){$('#adminForm').attr("action","logout").submit()});
-    </script>
+	<script>
+		$('#logout').click(function() {
+			$('#adminForm').attr("action", "logout").submit()
+		});
+	</script>
 </body>
 </html>

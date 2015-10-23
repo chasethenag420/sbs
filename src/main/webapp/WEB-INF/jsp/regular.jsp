@@ -29,7 +29,10 @@
 			<h1>Regular Employee</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
-
+		<br>
+		<center>
+			<h2>${message}</h2>
+		</center>
 		<form:form class="form-horizontal" id='regularForm' method='POST'>
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
@@ -46,10 +49,10 @@
 								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
 						<li id="createRequest"><a href="regularEmprequest"><span
 								class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
-						<!-- <li id="viewExternalUserProfile"><a href="viewExternalprofile"><span
-								class="glyphicon glyphicon-chevron-right"></span> View ExternalUserProfile</a></li>
-						<li id="modifyUser"><a href="#"><span
-								class="glyphicon glyphicon-chevron-right"></span> ModifyUser</a></li> -->
+						<li id="viewExternalUserProfile"><a
+							href="viewExternalprofile"><span
+								class="glyphicon glyphicon-chevron-right"></span> View External
+								User</a></li>
 						<li id="searchuser"><a href="searchuser"><span
 								class="glyphicon glyphicon-chevron-right"></span> Search User</a></li>
 
@@ -63,6 +66,7 @@
 			</div>
 
 		</form:form>
+
 	</div>
 
 	<!-- jQuery -->
@@ -73,7 +77,6 @@
 
 	<!-- Menu Toggle Script -->
 	<script type="text/javascript">
-
 		$('#logout').click(function() {
 			$('#regularForm').attr("action", "logout").submit()
 		});

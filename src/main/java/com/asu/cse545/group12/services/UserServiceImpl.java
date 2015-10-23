@@ -27,13 +27,13 @@ public class UserServiceImpl implements UserService {
 	UserDao userDao;
 	@Autowired
 	AccountDao accountDao;
-	
+
 	@Autowired
 	private HashGenerator hashGenerator;
-	
+
 	@Override
 	public int insertRow(Users user) {
-		
+
 		return userDao.insertRow(user);
 	}
 	@Override
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 		sendOTPviaEmail(user);
 		return userDao.insertRow(user);
 	}
-	
+
 	@Override
 	public int insertRowForEmployee(Users user, UserPII userpii){
 
@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
 		if(logger.isDebugEnabled()){
 			logger.debug("UserPII data:"+userpii.toString());
 		}
-		
+
 		return userDao.insertRow(user);
 	}
 	@Override
@@ -111,6 +111,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Users getUserByUserName(String userName){
 		return userDao.getUserByUserName(userName);
+	}
+
+	@Override
+	public Users getUserByUserId(int userId){
+		return userDao.getUserByUserId(userId);
 	}
 	@Override
 	public int updateRow(Users user){
@@ -152,7 +157,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return userDao.getUserByUserId(account.getUserId());
 	}
-	
+
 	//generate OTP
 	public String generateOTP()
 	{
@@ -160,32 +165,32 @@ public class UserServiceImpl implements UserService {
 		if(logger.isDebugEnabled()){
 			logger.debug("New generated OTP: "+uuid.substring(0, 8));
 		}
-    	return uuid.substring(0, 8);
+		return uuid.substring(0, 8);
 	}
-	
-	
+
+
 	//sent the OTP to user email
 	public void sendOTPviaEmail(Users user)
 	{
 		String configFile = "com/asu/cse545/group12/email/mail-config.xml";
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(configFile);
- 
+
 		// @Service("emailService") <-- same annotation you specified in crunchifyEmailAPI.java
 		EmailSenderAPI emailAPI = (EmailSenderAPI) context.getBean("emailSenderService");
 		String toAddr = user.getEmailId();
- 
+
 		// email subject
 		String subject = "Successful Registration";
- 
+
 		// email body
 		String body = "Dear "+user.getFirstName()+" "+user.getLastName()+",\n One Time Password for your account creation. \n\n OTP: "+user.getOTP()+"\n\n You need to input the OTP in the prompt for successful creation of account. \n Have a good day!";
-		
+
 		emailAPI.setToEmailAddress(toAddr);
 		emailAPI.setBody(body);
 		emailAPI.setSubject(subject);
 		emailAPI.sendEmail();
 	}
-	
+
 	@Override
 	public int updateRowForOTP(Users user){
 		String OTP = generateOTP();
@@ -193,21 +198,13 @@ public class UserServiceImpl implements UserService {
 		sendOTPviaEmail(user);
 		return userDao.updateRow(user);
 	}
-	
+
 	@Override
 	public int updateRowForPassword(Users user){
 		user.setPassword(hashGenerator.getHashedPassword(user.getPassword()));
 		return userDao.updateRow(user);
 	}
-	
-//	public static void main(String[] args)
-//	{
-//		HashGenerator hashGenerator = new HashGenerator();
-//		System.out.println(hashGenerator.getHashedPassword("323455"));
-//		System.out.println(hashGenerator.getHashedPassword("323456"));
-//		System.out.println(hashGenerator.getHashedPassword("323457"));	
-//		System.out.println(hashGenerator.getHashedPassword("323458"));	
-//		System.out.println(hashGenerator.getHashedPassword("323459"));	
-//	}
+
+
 }
 
