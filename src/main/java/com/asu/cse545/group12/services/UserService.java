@@ -21,14 +21,5 @@ public interface UserService {
 	public int deActivateUserByUserName(String userName);
 	public int insertRowForEmployee(Users user, UserPII userpii);
 	public int updateRowForOTP(Users user);
-
-
-/*	public List<User> getList();
-
-	
-
-	
-
-	public int deleteRow(int id);*/
-
+	public Users getUserByUserId(int userId);
 }

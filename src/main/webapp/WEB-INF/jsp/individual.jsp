@@ -24,40 +24,45 @@
 			<h1>Individual User</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
-<form:form class="form-horizontal" id='individualForm' method='POST'>
-<input type="hidden" name="${_csrf.parameterName}"
-		value="${_csrf.token}" />
-		<div class="row">
-			<div class="col-md-3 column margintop20">
-				<ul class="nav nav-pills nav-stacked">
-					<li id="home"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span>
-							Home</a></li>
-					<li id="userProfile"><a href="profile"><span
-							class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
-					<li id="credit"><a href="credit"><span
-							class="glyphicon glyphicon-chevron-right"></span> Credit</a></li>
-					<li id="debit"><a  href="debit"><span
-							class="glyphicon glyphicon-chevron-right"></span> Debit</a></li>
-					<li id="transfer"><a href="transfer"><span
-							class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
-					<li id="addAccount"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Add Account</a></li>
-					<li id="transactions"><a href="externalsearchtrans"><span
-							class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
-					<li id="bankStatement"><a href="bankStatement"><span
-							class="glyphicon glyphicon-chevron-right"></span> Bank Statement</a></li>
-					<li id="notifications"><a href="notifications"><span
-							class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
-					<li id="createRequest"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
-					<li id="logout"><a href="#"><span
-							class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
-				</ul>
+		<center>
+		<br>
+		<h2>${message}</h2>
+				</center>
+		
+		<form:form class="form-horizontal" id='individualForm' method='POST'>
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<div class="row">
+				<div class="col-md-3 column margintop20">
+					<ul class="nav nav-pills nav-stacked">
+						<li id="home"><a href="accountDetails"><span
+								class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
+						<li id="userProfile"><a href="profile"><span
+								class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
+						<li id="credit"><a href="credit"><span
+								class="glyphicon glyphicon-chevron-right"></span> Credit</a></li>
+						<li id="debit"><a href="debit"><span
+								class="glyphicon glyphicon-chevron-right"></span> Debit</a></li>
+						<li id="transfer"><a href="transfer"><span
+								class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
+						<li id="addAccount"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Add Account</a></li>
+						<li id="transactions"><a href="externalsearchtrans"><span
+								class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
+						<li id="bankStatement"><a href="bankStatement"><span
+								class="glyphicon glyphicon-chevron-right"></span> Bank Statement</a></li>
+						<li id="notifications"><a href="notifications"><span
+								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
+						<li id="createRequest"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
+						<li id="logout"><a href="#"><span
+								class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
+					</ul>
+				</div>
+				<div id="content" class="col-md-9 column margintop20">
+					<%-- <jsp:include page="accountDetails.jsp"/> --%>
+				</div>
 			</div>
-			<div id="content" class="col-md-9 column margintop20">
-				<%-- <jsp:include page="accountDetails.jsp"/> --%>
-			</div>
-		</div>
 		</form:form>
 	</div>
 
@@ -68,37 +73,11 @@
 	<script src="web_resources/theme/js/bootstrap.min.js"></script>
 
 	<!-- Menu Toggle Script -->
-	<script>
-		$(".nav li").on("click", function() {
-			$(".nav li").removeClass("active");
-			$(this).addClass("active");
-			changeContent();
-		});
 
-		function changeContent() {
-			var menuValue = $(".active").attr('id');
-			if (menuValue == "home")
-				$('#content').load('accountDetails');
-			 if (menuValue == "credit")
-				$('#content').load('credit');
-			else if (menuValue == "debit")
-				$('#content').load('debit');
-			else if (menuValue == "transfer")
-				$('#content').load('transfer');
-			else if (menuValue == "addAccount")
-				$('#content').load('externalsearchtrans');
-			else if (menuValue == "transactions")
-				$('#content').load('externalsearchtrans');
-			else if (menuValue == "notifications")
-				$('#content').load('notifications');
-			else if (menuValue == "addRequest")
-				$('#content').load('transfer'); 
-		}
-		
-	</script>
-	
 	<script type="text/javascript">
-      $('#logout').click(function(){$('#individualForm').attr("action","logout").submit()});
-    </script>
+		$('#logout').click(function() {
+			$('#individualForm').attr("action", "logout").submit()
+		});
+	</script>
 </body>
 </html>

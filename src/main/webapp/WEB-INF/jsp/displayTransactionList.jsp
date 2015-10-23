@@ -45,8 +45,6 @@
 				</div>
 			</div>
 
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
 			<c:if test="${!empty transactions}">
 				<table border="1" cellspacing="40" width="100">
 					<tr>

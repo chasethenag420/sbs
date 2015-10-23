@@ -377,8 +377,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public List<Authorization> getAuthorizedNotifications(int fromuser,
-			int touser) {
-		List<Authorization> authorizationList =authorizationDao.getAuthorizednotifications(fromuser,touser);
+			int touser, String reqType, String requestStatus) {
+		List<Authorization> authorizationList =authorizationDao.getAuthorizednotifications(fromuser,touser,reqType,requestStatus);
 		return authorizationList;
 	}
 

@@ -20,7 +20,7 @@ public interface AuthorizationDao {
 	
 	//public List<Authorization> getNotifications(); 
 	
-	public List<Authorization> getAuthorizednotifications(int fromuser , int touser);
+	public List<Authorization> getAuthorizednotifications(int fromuser , int touser, String reqType, String requestStatus);
 
 	//public int deleteRow(int AccountId);
 	public Authorization getRowById(int authorizationId);

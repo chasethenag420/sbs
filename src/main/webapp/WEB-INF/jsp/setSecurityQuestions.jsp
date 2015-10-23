@@ -26,7 +26,9 @@
 			id="setSecurityQuestionsForm" method="post" modelAttribute="form"
 			onsubmit="return OnSubmitForm();">
 			<center>
-				<div class="alert alert-danger">${errorMessage}</div>
+				<c:if test="${!empty errorMessage}">
+					<div class="alert alert-danger">${errorMessage}</div>
+				</c:if>
 
 				<table width="700px" height="150px" cellspacing="10">
 					<tr>
@@ -58,11 +60,10 @@
 
 
 				</table>
-				<br>
-										<input type="submit" class="btn"
-							onclick="document.pressed=this.value" value="Submit" />
-						<input type="submit" class="btn"
-							onclick="document.pressed=this.value" value="Cancel" />
+				<br> <input type="submit" class="btn"
+					onclick="document.pressed=this.value" value="Submit" /> <input
+					type="submit" class="btn" onclick="document.pressed=this.value"
+					value="Cancel" />
 				<div>
 					<h2>${successfulMessage}</h2>
 				</div>
