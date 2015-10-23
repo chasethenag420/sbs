@@ -42,7 +42,7 @@ public class Transactions {
 	
 	@Pattern(regexp="^[0-9]+\\.?[0-9]*$", message="Enter correct amount")
 	@Column(name = "AMOUNT")
-	private int amount;
+	private double amount;
 	
 	@Column(name = "TRANSFER_ID")
 	private int transferId;
@@ -110,11 +110,11 @@ public class Transactions {
 		this.modifiedTimestamp = modifiedTimestamp;
 	}
 
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 

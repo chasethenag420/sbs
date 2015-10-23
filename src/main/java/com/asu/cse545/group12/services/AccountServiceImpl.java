@@ -54,7 +54,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public boolean doCredit(int accountNumber, int amount){
+	public boolean doCredit(int accountNumber, double amount){
 		if(this.isBalanceValid(accountNumber, amount, "credit")){
 			Account account=this.getAccount(accountNumber);
 			account.setBalance(account.getBalance()+ amount);
@@ -66,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public boolean doDebit(int accountNumber, int amount){
+	public boolean doDebit(int accountNumber, double amount){
 		if(this.isBalanceValid(accountNumber, amount, "debit")){
 			Account account=this.getAccount(accountNumber);
 			account.setBalance(account.getBalance()- amount);
@@ -78,9 +78,9 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public boolean isBalanceValid(int accountNumber, int amount, String type){
+	public boolean isBalanceValid(int accountNumber, double amount, String type){
 		Account account=getAccount(accountNumber);
-		int balance=account.getBalance();
+		double balance=account.getBalance();
 		if("credit".equals(type) && (balance+amount) >=0){
 			return true;
 		}else if("debit".equals(type) && (balance-amount)>=0){

@@ -1,0 +1,16 @@
+package com.asu.cse545.group12.Enumfile;
+
+public enum RequestType {
+	
+	SIGNUP,
+    DEBIT_REQUEST,
+    CREDIT_REQUEST,
+    TRANSFER_REQUEST,
+    VIEW_TRANSACTIONS_REQUEST,
+    MODIFY_TRANSACTIONS_REQUEST,
+    VIEW_USERINFO_REQUEST,
+    UPDATE_USERINFO_REQUEST;
+    
+	
+
+}
