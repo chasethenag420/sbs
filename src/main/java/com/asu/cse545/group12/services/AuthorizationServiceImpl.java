@@ -50,20 +50,31 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		// TODO Auto-generated method stub
 		Authorization authorization = authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
 		// based on type of transaction trigger relavent action
-		if ("Signup".equals(authorization.getRequestType())) {
+		if ("Signup".equalsIgnoreCase(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus("complete");
+			
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
+	
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			requestor.setUserStatus("active");
 			userDao.updateRow(requestor);
 			// create an account for this user by default checkings
 			accountService.insertRow(requestor.getUserId());
-		} else if ("Credit".equals(authorization.getRequestType())) {
+		} else if ("Credit".equalsIgnoreCase(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus("complete");
-
+			
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
+			
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************requestor: " + requestor.toString());
@@ -81,10 +92,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			transactionDao.updateRow(transaction);
 		}
 
-		else if ("Debit".equals(authorization.getRequestType())) {
+		else if ("Debit".equalsIgnoreCase(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus("complete");
+
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
 
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			Account account = accountService.getAccount(requestor.getUserName());
@@ -99,10 +115,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			transactionDao.updateRow(transaction);
 		}
 
-		else if ("Transfer".equals(authorization.getRequestType())) {
+		else if ("Transfer".equalsIgnoreCase(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus("complete");
+
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
 
 			// for debit
 			Users requestor1 = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
@@ -141,25 +162,25 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public List<Authorization> getNotifications(Users user) {
 		// TODO Auto-generated method stub
-		if("1".equals(user.getRoleId()))
+		if("1".equals(user.getRoleId().toString()))
 		{
 			return authorizationDao.getNotificationsForExternal(user);
 		}
-		else if("2".equals(user.getRoleId()))
+		else if("2".equals(user.getRoleId().toString()))
 		{
 			return authorizationDao.getNotificationsForMerchant(user);
 		}
-		else if("3".equals(user.getRoleId()))
+		else if("3".equals(user.getRoleId().toString()))
 		{
-			return authorizationDao.getNotificationsForRegular(user.getRoleId());
+			return authorizationDao.getNotificationsForRegular(user);
 		}
-		else if("4".equals(user.getRoleId()))
+		else if("4".equals(user.getRoleId().toString()))
 		{
-			return authorizationDao.getNotificationsForManager(user.getRoleId());
+			return authorizationDao.getNotificationsForManager(user);
 		}
-		else if("4".equals(user.getRoleId()))
+		else if("5".equals(user.getRoleId().toString()))
 		{
-			return authorizationDao.getNotificationsForAdmin(user.getRoleId());
+			return authorizationDao.getNotificationsForAdmin(user);
 		}
 		
 		return null;
@@ -175,17 +196,28 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 		Authorization authorization = authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
 		// based on type of transaction trigger relavent action
-		if ("Signup".equals(authorization.getRequestType())) {
+		if ("Signup".equalsIgnoreCase(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus("rejected");
+			
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
+
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			requestor.setUserStatus("inactive");
 			userDao.updateRow(requestor);
-		} else if ("Credit".equals(authorization.getRequestType())) {
+		} else if ("Credit".equalsIgnoreCase(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus("rejected");			
+
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
 
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			if (logger.isDebugEnabled()) {
@@ -204,10 +236,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			transactionDao.updateRow(transaction);
 		}
 
-		else if ("Debit".equals(authorization.getRequestType())) {
+		else if ("Debit".equalsIgnoreCase(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus("rejected");
+
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
 
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			Account account = accountService.getAccount(requestor.getUserName());
@@ -222,10 +259,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			transactionDao.updateRow(transaction);
 		}
 
-		else if ("Transfer".equals(authorization.getRequestType())) {
+		else if ("Transfer".equalsIgnoreCase(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus("rejected");
+
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
 
 			// for debit
 			Users requestor1 = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
@@ -358,10 +400,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public int signupInsertRow(Users user) {
 		Authorization authorizationRequest = new Authorization();
 		authorizationRequest.setAuthorizedToUserId(user.getUserId());
-		authorizationRequest.setRequestStatus("Pending");
+		authorizationRequest.setRequestStatus("pending");
 		authorizationRequest.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 		authorizationRequest.setRequestDescription("Approval for account creation");
-		authorizationRequest.setRequestType("Signup");
+		authorizationRequest.setRequestType("signup");
 		
 		return authorizationDao.insertRow(authorizationRequest);
 	}

@@ -89,7 +89,55 @@
       }
     </style>
   </head>
-  <body>
+  
+  <script type="text/javascript">
+
+   //Created / Generates the captcha function    
+    function DrawCaptcha()
+    {
+    	document.getElementById("txtCaptcha").readOnly = false;
+    	document.getElementById("submitbutton").disabled = true;
+        var a = Math.ceil(Math.random() * 10)+ '';
+        var b = Math.ceil(Math.random() * 10)+ '';       
+        var c = Math.ceil(Math.random() * 10)+ '';  
+        var d = Math.ceil(Math.random() * 10)+ '';  
+        var e = Math.ceil(Math.random() * 10)+ '';  
+        var f = Math.ceil(Math.random() * 10)+ '';  
+        var g = Math.ceil(Math.random() * 10)+ '';  
+        var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' '+ f + ' ' + g;
+        document.getElementById("txtCaptcha").value = code;
+        document.getElementById("txtCaptcha").readOnly = true;
+        document.getElementById("txtInput").value = '';
+    }
+
+    // Validate the Entered input aganist the generated security code function   
+    	
+	function ValidCaptcha(){
+        var str1 = removeSpaces(document.getElementById('txtCaptcha').value);
+        var str2 = removeSpaces(document.getElementById('txtInput').value);
+        if (str1 == str2)
+        {	
+        	document.getElementById("submitbutton").disabled = false;
+        	document.getElementById("txtInput").value = '';
+        }
+        else
+        {
+			DrawCaptcha();
+			document.getElementById("txtInput").value = '';
+			document.getElementById("submitbutton").disabled = true;
+		}
+    }
+    // Remove the spaces from the entered and generated code
+    function removeSpaces(string)
+    {
+        return string.split(' ').join('');
+    }
+    
+ 
+</script>
+  
+  
+  <body onload="DrawCaptcha();">
     <c:if test="${param.message != null}">
       <div class="alert alert-info">${param.message}</div>
     </c:if>
@@ -112,9 +160,40 @@
           <label class="col-sm-4">
             <spring:message	code="label.form.loginPass"> </spring:message>
           </label>
-          <span class="col-sm-8"> <input class="form-control"
+          <span class="col-sm-8"> 
+          <input class="form-control"
             id="keyboard" type='password' name='password' />
-          </span> <br> <br> <input class="btn btn-primary" name="submit"
+          </span> <br> <br>
+
+		  <span class="col-sm-8">
+				<table>
+					<tr>
+						<td><b>Captcha</b><br/></td>
+					</tr>
+
+					<tr>
+						<td><input class="form-control col-sm-8" type="text" id="txtCaptcha"
+							style="background-image: url(/sbs/web_resources/img/1.jpg); text-align: center; border: none; font-weight: bold; font-family: Modern" />
+
+							 
+							<input class="btn btn-info btn-xs" type="button" id="btnrefresh" value="Refresh"
+							onclick="DrawCaptcha();" />
+						</td>
+					</tr>
+
+					<tr>
+						<td><input class="form-control" type="text" id="txtInput" /></td>
+					</tr>
+
+					<tr>
+						<td><input class="btn btn-info btn-xs" id="Button1" type="button"
+							value="Validate Captcha to enable Submit"
+							onclick="ValidCaptcha();" /></td>
+					</tr>
+				</table>
+		  </span> <br> 	<br>	
+
+		  <input id='submitbutton' class="btn btn-primary" name="submit"
           type="submit"
           value=<spring:message code="label.form.submit"></spring:message> />
           

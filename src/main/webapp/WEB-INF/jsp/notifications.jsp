@@ -58,9 +58,9 @@ table tr td {
 							<td><c:out value="${eachnotification.requestDescription}" /></td>
 							<td><c:out
 									value="${eachnotification.requestCreationTimeStamp}" /></td>
-							<td><c:out value="${eachnotification.authorizedByUserId}" /></td>
-							<td><c:out value="${eachnotification.requestStatus}" /></td>
 							<td><c:out value="${eachnotification.authorizedToUserId}" /></td>
+							<td><c:out value="${eachnotification.requestStatus}" /></td>
+							<td><c:out value="${eachnotification.authorizedByUserId}" /></td>
 
 
 						</tr>

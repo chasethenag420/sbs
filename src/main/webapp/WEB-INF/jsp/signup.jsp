@@ -209,14 +209,14 @@ label {
 
 				<table>
 					<tr>
-    					<td>Captcha<br /></td>
+						<td><b>Captcha</b><br/></td>
 					</tr>
 					
 					<tr>
     					<td>
         					<input type="text" id="txtCaptcha" style="background-image: url(/sbs/web_resources/img/1.jpg); text-align:center; border:none;
             				font-weight:bold; font-family:Modern" />
-        					<input type="button" id="btnrefresh" value="Refresh" onclick="DrawCaptcha();"/>
+        					<input type="button" class="btn btn-info btn-xs" id="btnrefresh" value="Refresh" onclick="DrawCaptcha();"/>
     					</td>
 					</tr>
 					
@@ -228,7 +228,7 @@ label {
 						
 					<tr>
     					<td>
-        					<input id="Button1" type="button" value="Validate Captcha to enable Submit" onclick="ValidCaptcha();"/>
+        					<input id="Button1" class="btn btn-info btn-xs" type="button" value="Validate Captcha to enable Submit" onclick="ValidCaptcha();"/>
     					</td>
 					</tr>
 				</table>	
