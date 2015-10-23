@@ -159,7 +159,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public List<Authorization> getNotifications(Users user) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 		if("1".equals(user.getRoleId().toString()))
 		{
 			return authorizationDao.getNotificationsForExternal(user);
@@ -194,7 +194,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 		Authorization authorization = authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
 		// based on type of transaction trigger relavent action
-<<<<<<< HEAD
 		if (Const.SIGNUP_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
@@ -425,5 +424,5 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		authorizationDao.updateRow(authorization);
 		return 0;
 	}
-
+	
 }

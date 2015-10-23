@@ -166,8 +166,11 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		String req_status4=Const.REJECT;
 		String req_type =Const.SIGNUP_REQUEST;
 		//WE CAN DEFINE THE TYPE OF REQUESTS THAT CAN BE SEEN BY A REGULAR USER ... AS OF NOW I DEFINED THAT HE CAN ALL TYPES OF REQ BUT CANNOT SEE "PII ACCESS" REQUESTED BY GOVT AGENCIES -- ONLY ADMIN CAN SEE THAT REQUESTS
+
 //		String whereClause = "from authorization where request_type not like('PII Access'))";
-		String whereClause = "from authorization where request_status=:req_status1 or request_status=:req_status2 or request_status=:req_status3 or request_status=:req_status4 and request_type not like('PII Access'))";
+//		String whereClause = "from authorization where request_status=:req_status1 or request_status=:req_status2 or request_status=:req_status3 or request_status=:req_status4 and request_type not like('PII Access'))";
+
+		String whereClause = "from authorization where request_status like 'Pending' or request_status like 'forward' or request_status like 'approve' or request_status like 'reject' or request_status like 'inactive' and request_type not like('PII Access'))";
 		System.out.println("Manager User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
