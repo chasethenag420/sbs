@@ -281,11 +281,11 @@ label {
             flag=1;
             return false;
         } 
-    	  if(uname.length > 10){
-    	  		alert('Length error');
+    	  if(uname.length > 14){
+    	  		alert('Please check the length of username');
     	  		flag=1;
     	  }
-    	  if(!pass.match(/^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z])$/)|| pass.length > 40){
+    	  if(!pass.match(/^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z])$/)|| pass.length > 14){
     		  alert('Password does not comply to the rules');
     		  return false; 
     	  }
