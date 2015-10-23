@@ -13,22 +13,23 @@
 	rel="stylesheet">
 
 <title>Search Transactions</title>
-
 <body>
-<center>
- <div style="color: teal; font-size: 30px">Search Transactions</div>
-  <form:form name="externalsearchtrans" id="externalsearchtrans"   modelAttribute="form" method="post"
-   onsubmit="return OnSubmitForm();">
-    <input type="hidden" name="${_csrf.parameterName}"
+	<center>
+		<br /> <br />
+		<div style="color: teal; font-size: 30px">Search Transactions</div>
+		<form:form name="externalsearchtrans" id="externalsearchtrans"
+			modelAttribute="form" method="post" onsubmit="return OnSubmitForm();">
+			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
-   <center>
-   
+			<br />
+			<br />
+
 			<div class="control-group">
 				<form:label class="control-label" path="accountNumber">Account Number</form:label>
 				<form:input class="controls" path="accountNumber" />
 				<form:errors class="alert alert-danger" path="accountNumber" />
 			</div>
-				
+
 			<div class="control-group">
 				<form:label class="control-label" path="toDate">To Date</form:label>
 				<form:input class="controls" path="toDate" />
@@ -40,50 +41,52 @@
 				<form:errors class="alert alert-danger" path="fromDate" />
 			</div>
 			<div class="control-group">
-				<input type="submit" 
-							onclick="document.pressed=this.value" value="Cancel" />
+				<input type="submit" onclick="document.pressed=this.value"
+					value="Cancel" />
 			</div>
 			<div class="control-group">
-				<input type="submit"
-							onclick="document.pressed=this.value" value="Submit" />
+				<input type="submit" onclick="document.pressed=this.value"
+					value="Submit" />
 			</div>
-			
-			
-   </center>
-   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-				<center>
-				<table border="1" cellspacing="40" width="100">
-						<tr>
-						<th>AccountNumber</th>
-						<th>AccountCreation</th>
-						<th>TransactionType</th>
-						<th>Amount</th>
-						</tr>
-						<c:forEach items="${transactions}" var="item">
-						<tr>
-						
-						
+
+
+
+			<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+			<table border="1"  bgcolor="black">
+				<col width="230">
+				<col width="230">
+				<col width="230">
+				<col width="230">
+				<tr>
+					<th>AccountNumber</th>
+					<th>AccountCreation</th>
+					<th>TransactionType</th>
+					<th>Amount</th>
+				</tr>
+				<c:forEach items="${transactions}" var="item">
+					<tr>
+
+
 						<td width="30"><c:out value="${item.accountNumber}" /></td>
-						
+
 						<td width="80"><c:out value="${item.creationTimestamp}" /></td>
-						
+
 						<td width="30"><c:out value="${item.transactionType}" /></td>
-						
+
 						<td><c:out value="${item.amount}" /></td>
-						
-					</c:forEach>
-				</table>
-				</center>
-  
-   </form:form>
-  
- </center>
- <script type="text/javascript">
+				</c:forEach>
+			</table>
+
+		</form:form>
+
+	</center>
+	<script type="text/javascript">
 		function OnSubmitForm() {
 			if (document.pressed == 'Submit') {
 				document.externalsearchtrans.action = "externalsearchtransform";
 			} else if (document.pressed == 'Cancel') {
-				document.creditForm.action = "goBack";
+				document.externalsearchtrans.action = "goBack";
 			}
 			return true;
 		}

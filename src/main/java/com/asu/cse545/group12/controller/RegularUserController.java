@@ -66,7 +66,7 @@ public class RegularUserController {
 
 	@Autowired
 	TransactionsService transactionService;
-	
+
 	@Autowired
 	SecurityQuestionsDao securityQuestionsDao;
 
@@ -75,62 +75,62 @@ public class RegularUserController {
 		if(logger.isDebugEnabled()){
 			logger.debug("profile:");
 		}
-			ModelAndView modelView = new ModelAndView();
-			modelView.setViewName("profile");
-			HttpSession session = request.getSession(false);
-			String username=(String)session.getAttribute("username");
-			Users user = new Users();
-			user=userService.getUserByUserName(username);
-			System.out.println(user.getUserName());
-			modelView.addObject("user", user);
-		
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("profile");
+		HttpSession session = request.getSession(false);
+		String username=(String)session.getAttribute("username");
+		Users user = new Users();
+		user=userService.getUserByUserName(username);
+		System.out.println(user.getUserName());
+		modelView.addObject("user", user);
+
 		//validate the input data
 		return modelView;
 	}
-	
+
 	@RequestMapping(value="/searchTransaction")
 	public ModelAndView setTransactions() {
 		if(logger.isDebugEnabled()){
 			logger.debug("search Transactions:");
 		}
-			ModelAndView modelView = new ModelAndView();
-			modelView.setViewName("searchTransaction");
-			modelView.addObject("form", new Form());
-			modelView.addObject("account", new Account());
-			modelView.addObject("user", new Users());
-			return modelView;
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("searchTransaction");
+		modelView.addObject("form", new Form());
+		modelView.addObject("account", new Account());
+		modelView.addObject("user", new Users());
+		return modelView;
 	}
-	
-	
-	
-	
+
+
+
+
 	@RequestMapping(value="/searchTransactionform")
 	public ModelAndView getTransactions(@ModelAttribute("user") Users user,@ModelAttribute("account") Account account) {
 		if(logger.isDebugEnabled()){
 			logger.debug("search Transactions:");
 		}
-			ModelAndView modelView = new ModelAndView();
-			modelView.setViewName("searchTransaction");
-			modelView.addObject("form", new Form());
-			System.out.println("accountnum"+account.getAccountNumber());
-			System.out.println("username"+user.getFirstName());
-			transactionByAccNum=transactionService.searchTransactionByInternals(account.getAccountNumber());
-			System.out.println("transactions list"+transactionByAccNum);
-			ListIterator<Transactions> it = transactionByAccNum.listIterator();
-			while(it.hasNext())
-			{
-				if(logger.isDebugEnabled()){
-					logger.debug(it.next());
-				}
-				
-				
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("searchTransaction");
+		modelView.addObject("form", new Form());
+		System.out.println("accountnum"+account.getAccountNumber());
+		System.out.println("username"+user.getFirstName());
+		transactionByAccNum=transactionService.searchTransactionByInternals(account.getAccountNumber());
+		System.out.println("transactions list"+transactionByAccNum);
+		ListIterator<Transactions> it = transactionByAccNum.listIterator();
+		while(it.hasNext())
+		{
+			if(logger.isDebugEnabled()){
+				logger.debug(it.next());
 			}
-			
-			modelView.addObject("transactions", transactionByAccNum);
-			return modelView;
-		
-}
-	
+
+
+		}
+
+		modelView.addObject("transactions", transactionByAccNum);
+		return modelView;
+
+	}
+
 	@RequestMapping(value="/deleteTransaction" ,method = RequestMethod.POST)
 	public ModelAndView approveTransactions(@ModelAttribute("form") Form form) {
 		if(logger.isDebugEnabled()){
@@ -150,59 +150,59 @@ public class RegularUserController {
 		{
 			model.addObject("msg", "successfully deleted the transaction");
 		}
-	return model;
+		return model;
 	}
-	
-	
-	
+
+
+
 
 	@RequestMapping(value = "/regularEmprequest", method = RequestMethod.GET)
 	public ModelAndView setInteralEmplRequest(/*@ModelAttribute("authorization") Authorization authorization ,@ModelAttribute("user") Users user*/) {
 		if(logger.isDebugEnabled()){
 			logger.debug("create request");
 		}
-			ModelAndView modelView = new ModelAndView();
-			modelView.addObject("user", new Users());
-			modelView.addObject("authorization", new Authorization());
-			modelView.setViewName("regularEmprequest");
-			return modelView;
-		
-}
-	
+		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("user", new Users());
+		modelView.addObject("authorization", new Authorization());
+		modelView.setViewName("regularEmprequest");
+		return modelView;
+
+	}
+
 	@RequestMapping(value = "regularrequest")
 	public ModelAndView getInteralEmplRequest(@ModelAttribute("authorization") Authorization authorization ,@ModelAttribute("user") Users user,HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("create request");
 		}
-			ModelAndView modelView = new ModelAndView();
-			
-			modelView.setViewName("regularEmprequest");
-			Users usermain = userService.getUserByUserName(user.getUserName());
-			//System.out.println(usermain);
-			int userId = usermain.getUserId();
-			HttpSession session = request.getSession(false);
-			String reuqesterusername=(String) session.getAttribute("username");
-			Users requesteruser = userService.getUserByUserName(reuqesterusername);
-			int requesteruserid = requesteruser.getUserId();
-			System.out.println("requesteruserid"+requesteruserid);
-			System.out.println("requestedto"+userId);
-			authorization.setAuthorizedByUserId(userId);
-			authorization.setAuthorizedToUserId(requesteruserid);
-			
-			authorization.setRequestStatus("pending");
-			authorizationService.regularEmpRequest(authorization);	
-			// need to write the message that request was successful.
-			return modelView;
-		
-}
-	
+		ModelAndView modelView = new ModelAndView();
+
+		modelView.setViewName("regularEmprequest");
+		Users usermain = userService.getUserByUserName(user.getUserName());
+		//System.out.println(usermain);
+		int userId = usermain.getUserId();
+		HttpSession session = request.getSession(false);
+		String reuqesterusername=(String) session.getAttribute("username");
+		Users requesteruser = userService.getUserByUserName(reuqesterusername);
+		int requesteruserid = requesteruser.getUserId();
+		System.out.println("requesteruserid"+requesteruserid);
+		System.out.println("requestedto"+userId);
+		authorization.setAuthorizedByUserId(userId);
+		authorization.setAuthorizedToUserId(requesteruserid);
+
+		authorization.setRequestStatus("pending");
+		authorizationService.regularEmpRequest(authorization);	
+		// need to write the message that request was successful.
+		return modelView;
+
+	}
+
 	@RequestMapping(value = "enterSecurityQuestions", method = RequestMethod.POST)
 	public ModelAndView enterSecurityQuestions(HttpServletRequest request) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("enter security questions");
 		}
-	
-		
+
+
 		List<String> questions = new ArrayList<String>();
 		questions.add("What is the name of the place your wedding reception was held?");
 		questions.add("What was the name of your elementary / primary school?");
@@ -215,16 +215,16 @@ public class RegularUserController {
 		questions.add("What is your grandmother's (on your mother's side) maiden name?");
 		questions.add("What is your spouse or partner's mother's maiden name?");
 		questions.add("In what town or city did your mother and father meet?");
-		
+
 		Form form = new Form();
 		form.getMapObject().put("question1", questions);
 		form.getMapObject().put("question2", questions);
 		form.getMapObject().put("question3", questions);
-		
+
 		ModelAndView modelView = new ModelAndView();
 		modelView.addObject("form", form);
 		modelView.setViewName("setSecurityQuestions");
-		
+
 		return modelView;
 
 	}
@@ -237,7 +237,7 @@ public class RegularUserController {
 		ModelAndView modelView = new ModelAndView();
 
 		Map<String, String> map = form.getMap();
-		
+
 		List<String> questions = new ArrayList<String>();
 		questions.add("What is the name of the place your wedding reception was held?");
 		questions.add("What was the name of your elementary / primary school?");
@@ -250,11 +250,11 @@ public class RegularUserController {
 		questions.add("What is your grandmother's (on your mother's side) maiden name?");
 		questions.add("What is your spouse or partner's mother's maiden name?");
 		questions.add("In what town or city did your mother and father meet?");
-		
-		
+
+
 		if((map.get("question1").equals(map.get("question2")) || map.get("question2").equals(map.get("question3")) || map.get("question1").equals(map.get("question3"))) && (map.get("answer1").equals("") || map.get("answer2").equals("") || map.get("answer3").equals("")))
 		{
-			
+
 			Form newForm = new Form();
 			newForm.getMapObject().put("question1", questions);
 			newForm.getMapObject().put("question2", questions);
@@ -264,83 +264,100 @@ public class RegularUserController {
 			modelView.setViewName("setSecurityQuestions");
 			return modelView;
 		}
-		
+
 		String username = (String) request.getSession(false).getAttribute("username");
 		Users user = userService.getUserByUserName(username);
 		if(user != null)
 		{
-			SecurityQuestions securityQuestions = new SecurityQuestions();
-			securityQuestions.setUserId(user.getUserId());
-			securityQuestions.setQuestion1(map.get("question1"));
-			securityQuestions.setAnswer1(map.get("answer1"));
-			securityQuestions.setQuestion2(map.get("question2"));
-			securityQuestions.setAnswer2(map.get("answer2"));
-			securityQuestions.setQuestion3(map.get("question3"));
-			securityQuestions.setAnswer3(map.get("answer3"));
+			SecurityQuestions securityQuestions = null;
+
+
+			securityQuestions = securityQuestionsDao.getSecurityQuestionsByUserId(user.getUserId());
+			if(securityQuestions == null)
+			{
+				securityQuestions = new SecurityQuestions();
+				securityQuestions.setUserId(user.getUserId());
+				securityQuestions.setQuestion1(map.get("question1"));
+				securityQuestions.setAnswer1(map.get("answer1"));
+				securityQuestions.setQuestion2(map.get("question2"));
+				securityQuestions.setAnswer2(map.get("answer2"));
+				securityQuestions.setQuestion3(map.get("question3"));
+				securityQuestions.setAnswer3(map.get("answer3"));
+				securityQuestionsDao.insertRow(securityQuestions);
+			}
+			else
+			{
+				securityQuestions.setQuestion1(map.get("question1"));
+				securityQuestions.setAnswer1(map.get("answer1"));
+				securityQuestions.setQuestion2(map.get("question2"));
+				securityQuestions.setAnswer2(map.get("answer2"));
+				securityQuestions.setQuestion3(map.get("question3"));
+				securityQuestions.setAnswer3(map.get("answer3"));
+				securityQuestionsDao.updateRow(securityQuestions);
+			}	
 			
-			securityQuestionsDao.insertRow(securityQuestions);
-			
+
 			Form newForm = new Form();
 			newForm.getMapObject().put("question1", questions);
 			newForm.getMapObject().put("question2", questions);
 			newForm.getMapObject().put("question3", questions);
 			modelView.addObject("", "Every question must be different and answer should not be same for different questions.");
-			
+
 			modelView.addObject("form", newForm);
 			modelView.addObject("successfulMessage", "Successfull! Security Questions are set Successfully.");
 			modelView.setViewName("setSecurityQuestions");
-			
+
 			return modelView;
-			
+
 		}
 		modelView.setViewName("login");
 		return modelView;
-		
-		
+
+
 	}
-	
+
 	@RequestMapping(value = "/viewExternalprofile")
 	public ModelAndView viewExternalprofile() {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Adding security questions");
 		}
 		ModelAndView model = new ModelAndView();
-		
+
 		model.addObject("form", new Form());
 		model.setViewName("viewExternalprofile");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/viewExternalprofileform")
 	public ModelAndView getExternalprofile(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Adding security questions");
 		}
-			ModelAndView model = new ModelAndView();
-			HttpSession session = request.getSession(false);
-			String requesterusername=(String) session.getAttribute("username");
-			Map samplemap = form.getMap();
-			String requestedtousername= (String) samplemap.get("userName");
-			
-			Users requestfromuser = userService.getUserByUserName(requesterusername);
-			int requesterUserId=requestfromuser.getUserId();
-			Users requesttouser = userService.getUserByUserName(requestedtousername);
-			int requesttoUserId=requesttouser.getUserId();
-			
-			List<Authorization> authorizationList = authorizationService.getAuthorizedNotifications(requesterUserId, requesttoUserId);
-			Authorization finalrequest = null;
-			Users user= new Users();
-			if(authorizationList!=null){
-				finalrequest = authorizationList.get(0);
-				 user = userService.getUserByUserName(requestedtousername);
-				finalrequest.setRequestStatus("INACTIVE");
-				authorizationService.update(finalrequest);
-			}
-			model.addObject("user",user);
-			model.setViewName("profile");
+		ModelAndView model = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		String requesterusername=(String) session.getAttribute("username");
+		Map samplemap = form.getMap();
+		String requestedtousername= (String) samplemap.get("userName");
+
+		Users requestfromuser = userService.getUserByUserName(requesterusername);
+		int requesterUserId=requestfromuser.getUserId();
+		Users requesttouser = userService.getUserByUserName(requestedtousername);
+		int requesttoUserId=requesttouser.getUserId();
+
+		List<Authorization> authorizationList = authorizationService.getAuthorizedNotifications(requesterUserId, requesttoUserId);
+		Authorization finalrequest = null;
+		Users user= new Users();
+		if(authorizationList!=null){
+			finalrequest = authorizationList.get(0);
+			user = userService.getUserByUserName(requestedtousername);
+			finalrequest.setRequestStatus("INACTIVE");
+			authorizationService.update(finalrequest);
+		}
+		model.addObject("user",user);
+		model.setViewName("profile");
 		return model;
 	}
-	
-	
-	
+
+
+
 }
