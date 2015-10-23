@@ -244,14 +244,12 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 
 	@Override
 	public List<Authorization> getAuthorizednotifications(int fromuser,
-			int touser) {
+			int touser, String reqType, String requestStatus ) {
 		Session session = sessionfactory.openSession(); 
-		String status="APPROVED";
-		String reqType= "view profile";
-		Query query= session.createQuery("from authorization where AUTHORIZED_BY_USERID=:touser and AUTHORIZED_TO_USERID=:fromuser  and REQUEST_TYPE=:reqType");
+		Query query= session.createQuery("from authorization where AUTHORIZED_BY_USERID=:touser and AUTHORIZED_TO_USERID=:fromuser  and REQUEST_TYPE=:reqType and REQUEST_STATUS=:requestStatus");
 		query.setParameter("fromuser", fromuser);
 		query.setParameter("touser", touser);
-		//query.setParameter("status", status);
+		query.setParameter("requestStatus", requestStatus);
 		query.setParameter("reqType", reqType);
 		List<Authorization> authlist = query.list();
 		System.out.println(authlist);

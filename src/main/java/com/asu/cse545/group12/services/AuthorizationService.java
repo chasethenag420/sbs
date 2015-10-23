@@ -31,5 +31,5 @@ public interface AuthorizationService {
 	
 	public int update(Authorization authorization);
 	
-	public List<Authorization> getAuthorizedNotifications(int fromusername,int tousername);
+	public List<Authorization> getAuthorizedNotifications(int fromusername,int tousername, String reqType, String requestStatus);
 }

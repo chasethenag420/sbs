@@ -33,6 +33,10 @@
 			<h1>Merchant</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
+		<br>
+		<center>
+		<h2>${message}</h2>
+		</center>
 
 		<form:form class="form-horizontal" id='merchantForm' method='POST'>
 			<div class="row">

@@ -27,14 +27,19 @@
 				<table width="700px" height="150px" cellspacing="10">
 					<tr>
 						<td style="white-space: nowrap"><form:label
-								path="user.userName">Username</form:label></td>
-						<td><form:input path="user.userName" /> <form:errors
-								class="alert alert-danger" path="user.userName" /></td>
-					</tr>
-					<tr>
-						<td style="white-space: nowrap"><form:label
 								path="authorization.requestType">RequestType</form:label></td>
-						<td><form:input path="authorization.requestType" /></td>
+						<td><form:select class="controls"
+								path="authorization.requestType">
+								<form:option value="-1" label="--- Select ---" />
+								<form:option value="view profile" label="View Profile" />
+								<form:option value="modify profile" label="Modify Profile" />
+								<form:option value="delete profile" label="Delete Profile" />
+								<form:option value="view transaction" label="View Transaction" />
+								<form:option value="modify transaction"
+									label="Modify Transaction" />
+								<form:option value="delete transaction"
+									label="Delete Transaction" />
+							</form:select></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label

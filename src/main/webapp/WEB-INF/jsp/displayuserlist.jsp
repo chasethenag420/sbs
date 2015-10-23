@@ -67,6 +67,10 @@ table tr td {
 			</c:if>
 			<br>
 			<c:if test="${!empty userList}">
+			<input type="submit" id="requestUser" class="btn btn-success"
+					value="Request User">
+			<input type="submit" id="viewUser" class="btn btn-success"
+					value="View User">
 				<input type="submit" id="modifyUser" class="btn btn-success"
 					value="Modify User">
 				<input type="submit" id="deleteUser" class="btn btn-danger"
@@ -87,6 +91,13 @@ table tr td {
 	<!-- Bootstrap Core JavaScript -->
 	<script src="web_resources/theme/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
+		$('#viewUser').click(function() {
+			$('#displayUserList').attr("action", "viewExternalprofileform");
+		});
+		$('#requestUser').click(function() {
+			$('#displayUserList').attr("action", "raiseInternalRequest");
+		});
+		
 		$('#modifyUser').click(function() {
 			$('#displayUserList').attr("action", "modifyUserForm");
 		});
