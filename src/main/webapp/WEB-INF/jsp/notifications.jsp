@@ -27,6 +27,7 @@ table tr td {
 </head>
 <body>
 	<center>
+	<br>
 		<div style="color: teal; font-size: 30px">Secure Bank System |
 			Notifications</div>
 
@@ -66,7 +67,7 @@ table tr td {
 					</c:forEach>
 
 				</table>
-			</c:if>
+			
 			<input id="approve" type="submit" class="btn btn-success"
 				value="Approve" />
 			<input id="reject" type="submit" class="btn btn-danger"
@@ -74,7 +75,11 @@ table tr td {
 
 			<input id="forward" type="submit" class="btn btn-danger"
 				value="Forward" />
-
+			</c:if>
+			<c:if test="${empty notificationRows}"><br>
+			<h2>You do not have any Notifications</h2><br>
+			</c:if>
+			<input class ="btn"  type="submit" id="cancel" value="Cancel" />
 		</form:form>
 
 
@@ -96,6 +101,9 @@ table tr td {
 		});
 		$('#forward').click(function() {
 			$('#notificationsForm').attr("action", "forwardnotification");
+		});
+		$('#cancel').click(function() {
+			$('#notificationsForm').attr("action", "goBack");
 		});
 	</script>
 

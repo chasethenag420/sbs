@@ -10,19 +10,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-Frame-Options" content="allow">
+<link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
+<link href="web_resources/theme/css/bootstrap-responsive.css"
+	rel="stylesheet">
 <title>
 Search User
 </title>
 </head>
 <body>
  <center>
-
+ <br>
+<h2>${message}</h2>
   <div style="color: teal; font-size: 30px">Search User</div>
-  <form:form id="searchUser"  method="post" modelAttribute="form"
-   action="getuserlist">
+  <br>
+  <form:form id="searchUser"  method="post" modelAttribute="form">
    <input type="hidden" name="${_csrf.parameterName}"
           value="${_csrf.token}" />
-   <center>
    <table  width="700px" height="150px" cellspacing="10">
     <tr>
      <td style="white-space: nowrap"><form:label path="map['accountNumber']"> Account Number</form:label>
@@ -60,15 +63,25 @@ Search User
      <td><form:input path="map['phoneNumber']" />
      </td>
     </tr>
-    <tr> 
-     <td><input type="submit" value="Search" /></td>
-     <td><input type="button" value="Cancel" /></td>
-    </tr>
    </table>
-   </center>
+     <input class ="btn" type="submit" id="search" value="Search" />
+   <input class ="btn"  type="submit" id="cancel" value="Cancel" />
   </form:form>
-  
+
  </center>
+ <!-- jQuery -->
+	<script src="web_resources/theme/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$('#search').click(function() {
+			$('#searchUser').attr("action", "getuserlist");
+		});
+		$('#cancel').click(function() {
+			$('#searchUser').attr("action", "goBack");
+		});
+	</script>
 </body>
 </html>
 

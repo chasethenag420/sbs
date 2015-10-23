@@ -147,6 +147,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Users getUsersByAccountNumber(int accountNumber){
 		Account account=accountDao.getAccountByAccountNumber(accountNumber);
+		if(account==null) {
+			return null;
+		}
 		return userDao.getUserByUserId(account.getUserId());
 	}
 	

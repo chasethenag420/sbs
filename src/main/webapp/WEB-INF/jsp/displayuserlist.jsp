@@ -29,12 +29,12 @@ table tr td {
 	<center>
 		<div style="color: teal; font-size: 30px">Secure Bank System |
 			User List</div>
-
-		<br> <br> <br>
+<br>
+		<h2>${errorMessage}</h2>
 		<form:form class="form-horizontal" id="displayUserList" method="post"
 			modelAttribute="form">
 			<input type="hidden" name="${_csrf.parameterName}"
-          value="${_csrf.token}" />
+				value="${_csrf.token}" />
 			<c:if test="${!empty userList}">
 
 				<table border="1" bgcolor="black" width="auto">
@@ -52,7 +52,8 @@ table tr td {
 						<tr
 							style="background-color: white; color: black; text-align: center;"
 							height="30px">
-							<td><form:radiobutton path="map['userId']" value="${user.userId}" /></td>
+							<td><form:radiobutton path="map['userId']"
+									value="${user.userId}" /></td>
 							<td><c:out value="${user.userName}" /></td>
 							<td><c:out value="${user.firstName}" /></td>
 							<td><c:out value="${user.lastName}" /></td>
@@ -64,13 +65,41 @@ table tr td {
 
 				</table>
 			</c:if>
-	<br><br>
-			<td><input type="submit" class="btn btn-success" value="Modify User"></td>
-			<td><input type="submit" class="btn btn-danger" value="Delete User"></td>
-			<td><input type="submit" class="btn btn-info" value="Request Authorization"></td>
+			<br>
+			<c:if test="${!empty userList}">
+				<input type="submit" id="modifyUser" class="btn btn-success"
+					value="Modify User">
+				<input type="submit" id="deleteUser" class="btn btn-danger"
+					value="Delete User">
+				<input type="submit" id="requestAuthorization" class="btn btn-info"
+					value="Request Authorization">
+			</c:if>
+
+			<input type="submit" id="cancel" class="btn btn-danger"
+				value="Cancel">
 		</form:form>
 
 	</center>
+
+	<!-- jQuery -->
+	<script src="web_resources/theme/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$('#modifyUser').click(function() {
+			$('#displayUserList').attr("action", "modifyUserForm");
+		});
+		$('#deleteUser').click(function() {
+			$('#displayUserList').attr("action", "deleteUser");
+		});
+		$('#cancel').click(function() {
+			$('#displayUserList').attr("action", "goBack");
+		});
+		$('#requestAuthorization').click(function() {
+			$('#displayUserList').attr("action", "requestAuthorization");
+		});
+	</script>
 
 </body>
 </html>

@@ -19,60 +19,50 @@
 </head>
 <body>
 	<center>
-		<br />
-		<br />
+		<br /> <br />
 		<div style="color: teal; font-size: 30px">Set Security Questions</div>
-		<br />
-		<br />
-		<form:form name="setSecurityQuestionsForm" id="setSecurityQuestionsForm" method="post" modelAttribute="form" onsubmit="return OnSubmitForm();">
+		<br /> <br />
+		<form:form name="setSecurityQuestionsForm"
+			id="setSecurityQuestionsForm" method="post" modelAttribute="form"
+			onsubmit="return OnSubmitForm();">
 			<center>
-				<div class="alert alert-danger"> ${errorMessage}</div>
-			
+				<div class="alert alert-danger">${errorMessage}</div>
+
 				<table width="700px" height="150px" cellspacing="10">
 					<tr>
-					<td>Question 1: <form:select path="map['question1']">
+						<td>Question 1: <form:select path="map['question1']">
 								<form:option value="NONE" label="--Select Question --" />
 								<form:options items="${form.mapObject.question1}" />
 							</form:select></td>
-					</tr>
-					
-					<tr>
 						<td><form:input path="map['answer1']" /></td>
 					</tr>
 					<tr>
-					
-					<td>Question 2: <form:select path="map['question2']">
+
+						<td>Question 2: <form:select path="map['question2']">
 								<form:option value="NONE" label="--Select Question --" />
 								<form:options items="${form.mapObject.question2}" />
 							</form:select></td>
-					</tr>
-					
-					<tr>
 						<td><form:input path="map['answer2']" /></td>
 					</tr>
-					
+
 					<tr>
-					
-					<td>Question 3: <form:select path="map['question3']">
+
+						<td>Question 3: <form:select path="map['question3']">
 								<form:option value="NONE" label="--Select Question --" />
 								<form:options items="${form.mapObject.question3}" />
 							</form:select></td>
-					</tr>
-					
-					<tr>
 						<td><form:input path="map['answer3']" /></td>
 					</tr>
 					<tr></tr>
-					
-					
-					<tr>
-						
-						<td><input type="submit"
-							onclick="document.pressed=this.value" value="Submit" /><br/><br/><br/><br/>
-						<input type="submit"
-							onclick="document.pressed=this.value" value="Cancel" /> <td>
-					</tr>
+
+
+
 				</table>
+				<br>
+										<input type="submit" class="btn"
+							onclick="document.pressed=this.value" value="Submit" />
+						<input type="submit" class="btn"
+							onclick="document.pressed=this.value" value="Cancel" />
 				<div>
 					<h2>${successfulMessage}</h2>
 				</div>

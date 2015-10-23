@@ -22,24 +22,25 @@
 		<br /> <br />
 		<div style="color: teal; font-size: 30px">Credit Amount</div>
 		<br /> <br />
-		<form:form id="viewExternalprofile" method="post" 
-			 action="viewExternalprofileform" modelAttribute="form">
+		<form:form id="viewExternalprofile" method="post"
+			action="viewExternalprofileform" modelAttribute="form">
 			<center>
-			<table>
-						<tr>
-						<td style="white-space: nowrap"><form:label path="map['userName']" >UserName</form:label>
-						</td>
-						<td><form:input path="map['userName']" /></td>
-						<td><form:errors class="alert alert-danger" path="map['userName']" /></td>
-					</tr>
+				<table>
 					<tr>
-					<td><input type="submit"
-							onclick="document.pressed=this.value" value="Submit" /></td>
+						<td style="white-space: nowrap"><form:label
+								path="map['userName']">UserName</form:label></td>
+						<td><form:input path="map['userName']" /></td>
+						<td><form:errors class="alert alert-danger"
+								path="map['userName']" /></td>
 					</tr>
-					</table>
+
+				</table>
+				<br>
+				<input type="submit" onclick="document.pressed=this.value"
+					value="Submit" />
 			</center>
-			</form:form>
-			</center>
+		</form:form>
+	</center>
 
 </body>
 </html>

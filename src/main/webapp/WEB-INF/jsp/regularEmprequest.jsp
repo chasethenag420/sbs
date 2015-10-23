@@ -13,37 +13,56 @@
 	rel="stylesheet">
 
 <title>raise Request</title>
+</head>
 <body>
+<br>
 	<center>
 
-
-		<form class="form-horizontal" id="regularEmprequest" method="post"
-			action="regularrequest">
-				<input type="hidden" name="${_csrf.parameterName}"
+	<div style="color: teal; font-size: 30px">Raise Request</div>
+  <br>
+		<form class="form-horizontal" id="regularEmprequest" method="post">
+			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
-			
-			<div class="control-group">
-				<form:label class="control-label" path="user.userName">Username</form:label>
-				<form:input class="controls" path="user.userName" />
-				<form:errors class="alert alert-danger" path="user.userName" />
-			</div>
-
-			<div class="control-group">
-				<form:label class="control-label" path="authorization.requestType">RequestType</form:label>
-				<form:input class="controls" path="authorization.requestType" />
-			</div>
-			<div class="control-group">
-				<form:label class="control-label" path="authorization.requestDescription">Request Description</form:label>
-				<form:input class="controls" path="authorization.requestDescription" />
-			</div>
-
-			<div class="control-group">
-				<div class="controls">
-					<input class="btn  btn-primary " type="submit" value="Submit" /> 
+			<center>
+				<div class="control-group">
+					<form:label class="control-label" path="user.userName">Username</form:label>
+					<form:input class="controls" path="user.userName" />
+					<form:errors class="alert alert-danger" path="user.userName" />
 				</div>
-			</div>
-			
-			</form>
+
+				<div class="control-group">
+					<form:label class="control-label" path="authorization.requestType">RequestType</form:label>
+					<form:input class="controls" path="authorization.requestType" />
+				</div>
+				<div class="control-group">
+					<form:label class="control-label"
+						path="authorization.requestDescription">Request Description</form:label>
+					<form:input class="controls"
+						path="authorization.requestDescription" />
+				</div>
+
+				<div class="control-group">
+					<div class="controls">
+						<input class="btn  btn-primary " id="submit" type="submit" value="Submit" />
+						<input class="btn" type="submit" id="cancel" value="Cancel" />
+					</div>
+				</div>
+			</center>
+
+		</form>
 	</center>
+	<!-- jQuery -->
+	<script src="web_resources/theme/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$('#submit').click(function() {
+			$('#regularEmprequest').attr("action", "regularrequest");
+		});
+		$('#cancel').click(function() {
+			$('#regularEmprequest').attr("action", "goBack");
+		});
+	</script>
 </body>
 </html>

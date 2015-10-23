@@ -15,9 +15,7 @@
 <title>Search Transactions</title>
 <body>
 	<center>
-	<br>
-	<div style="color: teal; font-size: 30px">Search Transactions</div>
-  <br>
+
 
 		<form class="form-horizontal" id="searchTransaction" method="post"
 			action="">
@@ -38,15 +36,48 @@
 				<form:errors class="alert alert-danger" path="account.accountNumber" />
 			</div>
 
+
+
 			<div class="control-group">
 				<div class="controls">
-					<input class="btn  btn " type="submit" id="search"
-						value="Submit" /> 
-					<input class="btn  btn " type="submit" id="cancel"
-						value="Cancel" /> 
+					<input class="btn  btn-primary " type="submit" id="search"
+						value="Submit" /> <a class="btn  btn-primary " type="button">Cancel</a>
 				</div>
 			</div>
-		</form>
+
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<c:if test="${!empty transactions}">
+				<table border="1" cellspacing="40" width="100">
+					<tr>
+						<th>AccountNumber</th>
+						<th>AccountCreation</th>
+						<th>TransactionType</th>
+						<th>Amount</th>
+					</tr>
+					<c:forEach items="${transactions}" var="item">
+						<tr>
+							<td><form:radiobutton path="form.map['transactionId']"
+									value="${item.transactionId}" /></td>
+							<td width="30"><c:out value="${item.accountNumber}" /></td>
+
+							<td width="80"><c:out value="${item.creationTimestamp}" /></td>
+
+							<td width="30"><c:out value="${item.transactionType}" /></td>
+
+							<td><c:out value="${item.amount}" /></td>
+							<td><button type="button" id="deletetransaction" disabled>Delete</button>
+							</td>
+						</tr>
+					</c:forEach>
+
+				</table>
+			</c:if>
+			<input id="delete" type="submit" class="btn btn-danger"
+				value="delete" /> 
+			<input id="modify" type="submit"
+				class="btn btn-danger" value="Modify" />
+	</form>
 	</center>
 
 	<!-- jQuery -->
@@ -58,8 +89,12 @@
 		$('#search').click(function() {
 			$('#searchTransaction').attr("action", "searchTransactionform");
 		});
-		$('#cancel').click(function() {
-			$('#searchTransaction').attr("action", "goBack");
+
+		$('#delete').click(function() {
+			$('#searchTransaction').attr("action", "deleteTransaction");
+		});
+		$('#modify').click(function() {
+			$('#searchTransaction').attr("action", "modifyTransaction");
 		});
 	</script>
 
