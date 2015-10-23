@@ -140,24 +140,25 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public List<Authorization> getNotifications(Users user) {
-		// TODO Auto-generated method stub
-		if("1".equals(user.getRoleId()))
+		// TODO Auto-generated method stub 
+		
+		if("1".equals(user.getRoleId().toString()))
 		{
 			return authorizationDao.getNotificationsForExternal(user);
 		}
-		else if("2".equals(user.getRoleId()))
+		else if("2".equals(user.getRoleId().toString()))
 		{
 			return authorizationDao.getNotificationsForMerchant(user);
 		}
-		else if("3".equals(user.getRoleId()))
+		else if("3".equals(user.getRoleId().toString()))
 		{
 			return authorizationDao.getNotificationsForRegular(user.getRoleId());
 		}
-		else if("4".equals(user.getRoleId()))
+		else if("4".equals(user.getRoleId().toString()))
 		{
 			return authorizationDao.getNotificationsForManager(user.getRoleId());
 		}
-		else if("4".equals(user.getRoleId()))
+		else if("5".equals(user.getRoleId().toString()))
 		{
 			return authorizationDao.getNotificationsForAdmin(user.getRoleId());
 		}
@@ -387,5 +388,5 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		authorizationDao.updateRow(authorization);
 		return 0;
 	}
-
+	
 }
