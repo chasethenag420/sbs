@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
+
 import com.asu.cse545.group12.hashing.HashGenerator;
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Account;
@@ -39,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int insertRow(Users user, UserPII userpii){
 
-		user.setUserStatus("inactive");
+		user.setUserStatus(Const.INACTIVE);
 		user.setOTP("");
 		user.setPassword(hashGenerator.getHashedPassword(user.getPassword()));
 		java.util.Date date = Calendar.getInstance().getTime();
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int insertRowForEmployee(Users user, UserPII userpii){
 
-		user.setUserStatus("active");
+		user.setUserStatus(Const.ACTIVE);
 		user.setPassword(hashGenerator.getHashedPassword(user.getPassword()));
 		java.util.Date date = Calendar.getInstance().getTime();
 		user.setLastModifieddate(date);
@@ -124,13 +126,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int deActivateUserByUserName(String userName){
 		Users user = getUserByUserName(userName);
-		user.setUserStatus("inactive");
+		user.setUserStatus(Const.INACTIVE);
 		return updateRow(user);
 	}
 	@Override
 	public int deActivateUserByUserId(int userId){
 		Users user = userDao.getUserByUserId(userId);
-		user.setUserStatus("inactive");
+		user.setUserStatus(Const.INACTIVE);
 		return updateRow(user);
 	}
 	@Override

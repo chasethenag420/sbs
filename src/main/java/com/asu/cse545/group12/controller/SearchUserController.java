@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
@@ -175,7 +176,7 @@ public class SearchUserController {
 			
 			finalrequest = authorizationList.get(0);
 			Users user = userservice.getUserByUserName(requestfromuser.getUserName());
-			finalrequest.setRequestStatus("INACTIVE");
+			finalrequest.setRequestStatus(Const.INACTIVE);
 			authorizationService.update(finalrequest);
 			model.addObject("user",user);
 		}else{
