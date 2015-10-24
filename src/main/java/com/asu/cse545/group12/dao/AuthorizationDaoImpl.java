@@ -115,7 +115,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	{
 		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED ---- ALL THE REQUESTS RAISED BY HIM ONLY --- PENDING,FORWARDED AND APPROVED ONES
 		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or authorized_by_userid='"+ user.getUserId()+"'";
-		System.out.println("Ext User Notif Where clause:" + whereClause);
+		logger.debug("Ext User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
@@ -144,15 +144,15 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		String req_status=Const.PENDING;
 		String req_type =Const.SIGNUP_REQUEST;
 		String role = Const.REGULARUSER;
-		String whereClause = "from authorization where authorized_to_userid=" + user.getUserId() + " or (request_status=:req_status and assigned_to_role = (select roleid from role where roledescription like :role))";
+		String whereClause = "from authorization where authorized_to_userid=" + user.getUserId() + " or (request_status=:req_status and assigned_to_role = 3)";//(select roleId from role where roledescription like :role))";
 //		String whereClause = "from authorization where request_status like 'Pending' and request_type not like 'Signup'";
 		logger.debug("Regular User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
 		query.setParameter("req_status", req_status);
-		query.setParameter("req_type",req_type);
-		query.setParameter("role", role);
+//		query.setParameter("req_type",req_type);
+//		query.setParameter("role", role);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;

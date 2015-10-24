@@ -110,8 +110,9 @@ public class NotificationController {
 		// GET THE VALUES FROM THE getNotifications() method from the
 		// AuthorizationDao
 		// ********************************************************************************
-		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
 		authorizationService.reject(authorizationId, username);
+		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
+		//authorizationService.reject(authorizationId, username);
 		notificationView.setViewName(getViewName(username));
 		return notificationView;
 	}
@@ -129,12 +130,17 @@ public class NotificationController {
 			logger.debug("Notification Forward page is requested");
 		}
 
+		Map<String, String> formMap = form.getMap();
+		Integer authorizationId = Integer.parseInt(formMap.get("authorizationId"));
+
 		ModelAndView notificationView = new ModelAndView();
 		// ********************************************************************************
 		// GET THE VALUES FROM THE getNotifications() method from the
 		// AuthorizationDao
 		// ********************************************************************************
+		authorizationService.forward(authorizationId, username);
 		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
+		//authorizationService.forward(authorizationId, username);
 		notificationView.setViewName(getViewName(username));
 		return notificationView;
 	}

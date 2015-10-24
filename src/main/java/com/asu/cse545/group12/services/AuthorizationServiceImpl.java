@@ -168,6 +168,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public List<Authorization> getNotifications(Users user) {
 		// TODO Auto-generated method stub 
+		logger.debug("INSIDE THE GET NOTIF WITH USER:" + user.getRoleId());
 		if("1".equals(user.getRoleId().toString()))
 		{
 			return authorizationDao.getNotificationsForExternal(user);
