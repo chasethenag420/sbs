@@ -75,15 +75,12 @@ public class Users implements Serializable {
 	@Column(name = "GENDER")
 	private String gender;
 	
-	@NotNull
+	
     //@NotEmpty(message = "Please enter your Username.")
 	@Column(name = "USERNAME")
 	private String userName;
 	
-	@NotNull
-    //@NotEmpty(message = "Please enter your password.")
-	//@Pattern(regexp="((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,14})", message="Wrong password!")
-    @Size(min = 6, max = 15, message = "Your password must between 6 and 15 characters")
+	
 	@Column(name = "PASSWORD")
 	private String password;
 
@@ -101,9 +98,7 @@ public class Users implements Serializable {
 	@Column(name="LAST_MODIFIED_DATE")
 	private Date lastModifieddate;
 	
-	@NotNull
-	@Pattern(regexp=".+@.+\\..+", message="Please check your email")
-    @NotEmpty(message = "Please enter your Email.")
+	
 	@Column(name = "EMAILID")
 	private String emailId;
 	
@@ -124,7 +119,7 @@ public class Users implements Serializable {
 	@Column(name = "COUNTRY")
 	private String country;
 	
-	@Pattern(regexp="[0-9]+", message="Please enter correct zip")
+	
 	@Column(name = "ZIPCODE")
 	private String zipcode;
 	

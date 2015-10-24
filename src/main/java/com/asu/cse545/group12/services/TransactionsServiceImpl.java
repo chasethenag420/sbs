@@ -46,7 +46,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 	UserDao userDao;
 
 	public int doCredit(int accountNumber, double amount, String description) {
-		boolean creditStatus = accountService.isBalanceValid(accountNumber, amount, "credit");
+		boolean creditStatus = accountService.isBalanceValid(accountNumber, amount, Const.CREDIT_REQUEST);
 		if (creditStatus == true) {
 			Account account = accountService.getAccount(accountNumber);
 			Transactions transaction = new Transactions();
@@ -72,11 +72,11 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 			return transactionId;
 		}
-		return 0;
+		return -1;
 	}
 
 	public int doDebit(int accountNumber, double amount, String description) {
-		boolean debitStatus = accountService.isBalanceValid(accountNumber, amount, "debit");
+		boolean debitStatus = accountService.isBalanceValid(accountNumber, amount, Const.DEBIT_REQUEST);
 		if (debitStatus == true) {
 			Account account = accountService.getAccount(accountNumber);
 			Transactions transaction = new Transactions();
@@ -102,7 +102,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 			return transactionId;
 		}
-		return 0;
+		return -1;
 	}
 
 
@@ -207,7 +207,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				return debitTransactionId;
 			}
 		}
-		return 0;
+		return -1;
 	}
 
 	//sent the OTP to user email

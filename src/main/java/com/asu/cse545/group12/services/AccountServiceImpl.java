@@ -13,8 +13,9 @@ import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-
+@Service("AccountServiceImpl")
 public class AccountServiceImpl implements AccountService {
 
 	private static final Logger logger = Logger.getLogger(AccountServiceImpl.class);
