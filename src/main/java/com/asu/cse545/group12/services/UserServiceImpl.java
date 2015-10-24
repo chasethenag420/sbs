@@ -191,6 +191,7 @@ public class UserServiceImpl implements UserService {
 		emailAPI.setBody(body);
 		emailAPI.setSubject(subject);
 		emailAPI.sendEmail();
+		context.close();
 	}
 
 	@Override

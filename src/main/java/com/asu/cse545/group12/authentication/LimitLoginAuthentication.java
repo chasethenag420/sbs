@@ -25,7 +25,6 @@ public class LimitLoginAuthentication extends DaoAuthenticationProvider{
           throws AuthenticationException {
 
 	  try {
-		  System.out.println("inside try");
 		Authentication auth = super.authenticate(authentication);
 
 		//if reach here, means login success, else an exception will be thrown

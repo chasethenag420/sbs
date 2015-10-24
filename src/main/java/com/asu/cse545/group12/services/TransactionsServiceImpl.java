@@ -235,6 +235,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 		emailAPI.setBody(body);
 		emailAPI.setSubject(subject);
 		emailAPI.sendEmail();
+		context.close();
 	}
 
 	//generate OTP
