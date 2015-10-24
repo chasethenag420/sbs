@@ -109,6 +109,8 @@
     <security:intercept-url pattern="/changeUserPassword*" access="isAuthenticated()" />
     <security:intercept-url pattern="/validateSecurityQuestions*" access="permitAll" />
     <security:intercept-url pattern="/setForgetPassword*" access="permitAll" />
+    <security:intercept-url pattern="/forwardnotification*"	access="hasAnyRole('REGULAR')" />
+    
     <security:intercept-url pattern="/**" access="isAuthenticated()" />
     <!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
   </security:http>

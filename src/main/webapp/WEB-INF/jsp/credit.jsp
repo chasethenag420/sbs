@@ -25,6 +25,9 @@
 		<form:form name="creditForm" id="creditForm" method="post"
 			modelAttribute="form" onsubmit="return OnSubmitForm();">
 			<center>
+				<c:if test="${!empty errorMessage}">
+					<div class="alert alert-danger">${errorMessage}</div>
+				</c:if>
 				<table width="700px" height="150px" cellspacing="10">
 					<tr></tr>
 					<tr>
@@ -53,10 +56,10 @@
 					</tr>
 				</table>
 				<form:input type="hidden" path="transactionType" value="credit" />
-				<input class="btn" type="submit" onclick="document.pressed=this.value"
-					value="Submit" />
-					 <input class="btn" type="submit"
-					onclick="document.pressed=this.value" value="Cancel" />
+				<input class="btn" type="submit"
+					onclick="document.pressed=this.value" value="Submit" /> <input
+					class="btn" type="submit" onclick="document.pressed=this.value"
+					value="Cancel" />
 				<div>
 					<h2>${successfulMessage}</h2>
 				</div>

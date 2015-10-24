@@ -67,7 +67,7 @@ public class UserDaoImpl implements UserDao {
 			logger.debug("User by username: "+username);
 		}
 		if(logger.isDebugEnabled()){
-			//logger.debug("User by username: "+results);
+			logger.debug("User by username: "+results);
 		}
 		session.close();
 		if(results.size()==1){

@@ -20,6 +20,10 @@
 		<br /> <br />
 		<div style="color: teal; font-size: 30px">Debit Amount</div>
 		<br /> <br />
+
+		<c:if test="${!empty errorMessage}">
+			<div class="alert alert-danger">${errorMessage}</div>
+		</c:if>
 		<form:form name="debitForm" id="debitForm" method="post"
 			modelAttribute="form" onsubmit="return OnSubmitForm();">
 			<table width="700px" height="150px">
