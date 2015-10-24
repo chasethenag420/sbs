@@ -146,13 +146,14 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		//WE CAN DEFINE THE TYPE OF REQUESTS THAT CAN BE SEEN BY A REGULAR USER ... AS OF NOW I DEFINED THAT HE CANNOT SEE FORWARDED REQUESTS AND SIGNUP REQUESTS
 //		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or authorized_by_userid='"+ user.getUserId()+"' or request_status like 'pending' or and request_type not like('signup'))";
 //		System.out.println("Regular User Notif Where clause:" + whereClause);          // or authorized_to_userid in (select userid from user where roleid=3)Elec
-		String whereClause = "from authorization where request_status=:req_status and request_type=:req_type)";
+//		String whereClause = "from authorization where request_status=:req_status and request_type=:req_type)";
+		String whereClause = "from authorization where request_status like 'Pending' and request_type not like 'Signup'";
 		System.out.println("Regular User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
-		query.setParameter("req_status", req_status);
-		query.setParameter("req_type",req_type);
+//		query.setParameter("req_status", req_status);
+//		query.setParameter("req_type",req_type);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;
@@ -170,17 +171,17 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 //		String whereClause = "from authorization where request_type not like('PII Access'))";
 //		String whereClause = "from authorization where request_status=:req_status1 or request_status=:req_status2 or request_status=:req_status3 or request_status=:req_status4 and request_type not like('PII Access'))";
 
-		String whereClause = "from authorization where request_status like 'Pending' or request_status like 'forward' or request_status like 'approve' or request_status like 'reject' or request_status like 'inactive' and request_type not like('PII Access'))";
+		String whereClause = "from authorization where request_type not like 'Pii Access'";
 		System.out.println("Manager User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		
 		Query query = session.createQuery(whereClause);
-		query.setParameter("req_status1", req_status1);
-		query.setParameter("req_status2", req_status2);
-		query.setParameter("req_status3", req_status3);
-		query.setParameter("req_status4", req_status4);
-		query.setParameter("req_type", req_type);
+//		query.setParameter("req_status1", req_status1);
+//		query.setParameter("req_status2", req_status2);
+//		query.setParameter("req_status3", req_status3);
+//		query.setParameter("req_status4", req_status4);
+//		query.setParameter("req_type", req_type);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;
@@ -192,13 +193,14 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 //		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or authorized_by_userid='"+ user.getUserId()+"'";
 		String req_status1=Const.PENDING;
 		String req_status2=Const.FORWARD;
-		String whereClause = "from authorization where request_status=:req_status1 or request_status=:req_status2 or request_type like('PII Access'))";
+//		String whereClause = "from authorization where request_status=:req_status1 or request_status=:req_status2 or request_type like('PII Access'))";
+		String whereClause = "from authorization where request_type like 'Pii Access'";
 		System.out.println("Admin User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
-		query.setParameter("req_status1", req_status1);
-		query.setParameter("req_status2", req_status2);
+//		query.setParameter("req_status1", req_status1);
+//		query.setParameter("req_status2", req_status2);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;

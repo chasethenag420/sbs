@@ -52,7 +52,7 @@ public class TransferDaoImpl implements TransferDao {
 		tx.commit();
 		Serializable transferId = session.getIdentifier(transfer); 
 		session.close();
-		return (int) transferId;
+		return (Integer) transferId;
 	}
 	
 	@Override

@@ -50,14 +50,17 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public int approve(int authorizationId, String userName) {
 		// TODO Auto-generated method stub
 		Authorization authorization = authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
-		// based on type of transaction trigger relavent action
+		// based on type of transaction trigger relevant action
 		if (Const.SIGNUP_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus(Const.APPROVED);
 			
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
+			if (logger.isDebugEnabled()) {
+				logger.debug("****************KKKKKKKKKKKKK***************:" );
+			}
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
@@ -154,7 +157,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 
 		}
-		return authorizationDao.approve(authorization);
+		//return authorizationDao.approve(authorization);
+		return 0;
 	}
 
 	@Override
@@ -295,101 +299,37 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				transactionDao.updateRow(creditTransaction);
 			}
 		}
-		return authorizationDao.reject(authorization);
+		//return authorizationDao.reject(authorization);
+		return 0;
 	}
 
 	@Override
 	public int forward (int authorizationId, String userName){
 		// TODO Auto-generated method stub
 		if (logger.isDebugEnabled()) {
-			logger.debug("Reject notification invoked");
+			logger.debug("Forward notification invoked");
 		}
+		Users forwarder = userDao.getUserByUserName(userName);
 		Authorization authorization = authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
-		authorization.setAssignedToRole("");
-		// based on type of transaction trigger relavent action
-		if (Const.SIGNUP_REQUEST.equals(authorization.getRequestType())) {
-			Users approver = userDao.getUserByUserName(userName);
-			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus(Const.REJECT);
-			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
-			requestor.setUserStatus(Const.INACTIVE);
-			userDao.updateRow(requestor);
-		} else if (Const.CREDIT_REQUEST.equals(authorization.getRequestType())) {
-			Users approver = userDao.getUserByUserName(userName);
-			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus(Const.REJECT);
+		//IF THE ROLE IS 3 THEN IT IS FORWARDED TO ROLE 4
+		if(forwarder.getRoleId()==3)
+		{
+			authorization.setAssignedToRole(forwarder.getRoleId()+1);
 
-			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
-			if (logger.isDebugEnabled()) {
-				logger.debug("**********************************requestor: " + requestor.toString());
-			}
-			Account account = accountService.getAccount(requestor.getUserName());
-			if (logger.isDebugEnabled()) {
-				logger.debug("**********************************authorization: " + authorization.toString());
-				logger.debug("**********************************Account: " + account.toString());
-			}
-			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
-			accountService.doCredit(account.getAccountNumber(), transaction.getAmount());
-			transaction.setTransactionStatus(Const.REJECT);
-			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
-			transaction.setModifiedByUserid(approver.getUserId());
-			transactionDao.updateRow(transaction);
 		}
-
-		else if (Const.DEBIT_REQUEST.equals(authorization.getRequestType())) {
-			Users approver = userDao.getUserByUserName(userName);
-			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus(Const.REJECT);
-
-			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
-			Account account = accountService.getAccount(requestor.getUserName());
-			if (logger.isDebugEnabled()) {
-				logger.debug("**********************************TransactionId: " + authorization.getTransactionId());
-			}
-			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
-			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
-			transaction.setTransactionStatus(Const.REJECT);
-			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
-			transaction.setModifiedByUserid(approver.getUserId());
-			transactionDao.updateRow(transaction);
+		else
+		{
+			authorization.setAssignedToRole(forwarder.getRoleId());
 		}
-
-		else if (Const.TRANSFER_REQUEST.equals(authorization.getRequestType())) {
-			Users approver = userDao.getUserByUserName(userName);
-			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus(Const.REJECT);
-
-			// for debit
-			Users requestor1 = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
-			Account account = accountService.getAccount(requestor1.getUserName());
-			if (logger.isDebugEnabled()) {
-				logger.debug("**********************************TransactionId: " + authorization.getTransactionId());
-			}
-			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
-			
-			transaction.setTransactionStatus(Const.REJECT);
-			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
-			transaction.setModifiedByUserid(approver.getUserId());
-			transactionDao.updateRow(transaction);
-
-			// for credit
-			Transfer transfer = transferDao.getTransferByTransferId(transaction.getTransferId());
-			if (transfer != null) {
-				Transactions creditTransaction = transactionDao.getTransactionByTransactionId(transfer.getUserToTransactionid());
-				Account creditAccount = accountService.getAccount(creditTransaction.getAccountNumber());
-				if (logger.isDebugEnabled()) {
-					logger.debug(
-							"**********************************creditTransactionId: " + creditTransaction.getTransactionId());
-				}
-				
-				accountService.doCredit(creditAccount.getAccountNumber(), creditTransaction.getAmount());
-				creditTransaction.setTransactionStatus(Const.REJECT);
-				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
-				creditTransaction.setModifiedByUserid(approver.getUserId());
-				transactionDao.updateRow(creditTransaction);
-			}
-		}
-		return authorizationDao.forward(authorization);
+		
+		authorization.setRequestStatus(Const.FORWARD);
+		//WE CAN PUT THE HEADER IN THE JSP AS "APPROVER ID/FORWARDER ID"
+		authorization.setAuthorizedByUserId(forwarder.getUserId());
+		
+		return authorizationDao.updateRow(authorization);
+		
+		//return 0;
+		//authorizationDao.forward(authorization);
 	}
 
 	@Override

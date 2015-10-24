@@ -64,13 +64,15 @@
     	  var whitePattern = "^[a-zA-Z0-9]*$";
     	  //var name = '#(username)'.val();
     	  var uname = document.forms["f"]["username"].value;
-    	  var pass = 	document.forms["f"]["password"].value;
+    	  var pass = document.forms["f"]["password"].value;
     	  	
-    	  	if(uname.length > 3 || pass.length > 3){
+    	  	if((uname.length < 3 ) || (pass.length < 3))
+    	  	{
     	  		alert('Length error');
     	  		return false;
     	  	}
-    		if(!uname.match(/^[a-zA-Z0-9]*$/) || !pass.match(/^[a-zA-Z0-9]*$/)){
+    		if(!uname.match(/^[a-zA-Z0-9]*$/) || !pass.match(/^[a-zA-Z0-9]*$/))
+    		{
     			alert('Error');
     			return false;
     		}
@@ -181,9 +183,6 @@
           <span class="col-sm-8"> <input class="form-control"
             id="keyboard" type='password' name='password' />
           </span> <br> <br>
-
-          <span class="col-sm-8"> <input class="form-control"
-            id="keyboard" type='password' name='password' />
 
 		  <span class="col-sm-8">
 				<table>
