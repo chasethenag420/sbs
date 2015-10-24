@@ -72,7 +72,7 @@ public class Users implements Serializable {
 
 	@Column(name = "USERNAME")
 	private String userName;
-	
+
 	@Column(name = "PASSWORD")
 	private String password;
 

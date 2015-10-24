@@ -87,7 +87,7 @@
     	  		return false;
     	  	}
     	  	
-    	  	if(!(pass.length >5 && pass.length < 16)){
+    	  	if(!(pass.length > 2 && pass.length < 16)){
     	  		alert('Please check length of your passowrd');
     	  		return false; 
     	  	}

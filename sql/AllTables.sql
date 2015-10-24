@@ -1,12 +1,12 @@
-DROP TABLE IF EXISTS `userpii` cascade;
-DROP TABLE IF EXISTS `role` cascade;
+DROP TABLE IF EXISTS userpii cascade;
 DROP TABLE IF EXISTS `authorization` cascade;
-DROP TABLE IF EXISTS `transfer` cascade;
-DROP TABLE IF EXISTS `transaction` cascade;
-DROP TABLE IF EXISTS `account` cascade;
+DROP TABLE IF EXISTS role cascade;
+DROP TABLE IF EXISTS transfer cascade;
+DROP TABLE IF EXISTS transaction cascade;
+DROP TABLE IF EXISTS account cascade;
 DROP TABLE IF EXISTS `user` cascade;
-DROP TABLE IF EXISTS `accesscontrol` cascade;
-DROP TABLE IF EXISTS `securityquestions` cascade;
+DROP TABLE IF EXISTS accesscontrol cascade;
+DROP TABLE IF EXISTS securityquestions cascade;
 
 CREATE TABLE `accesscontrol` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -89,28 +89,6 @@ CREATE TABLE `transfer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `authorization` (
-  `AUTHORIZATIONID` int(20) NOT NULL AUTO_INCREMENT,
-  `AUTHORIZED_BY_USERID` int(20) NOT NULL,
-  `AUTHORIZED_TO_USERID` int(20) NOT NULL,
-  `TRANSACTION_ID` int(20) DEFAULT NULL,
-  `REQUEST_CREATION_TS` date DEFAULT NULL,
-  `REQUEST_TYPE` varchar(20) DEFAULT NULL,
-  `REQUEST_STATUS` varchar(10) NOT NULL,
-  `ASSIGNED_TO_ROLE` int(20) DEFAULT NULL,
-  `REQUEST_DESCRIPTION` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`AUTHORIZATIONID`),
-  KEY `FK_USERBY` (`AUTHORIZED_TO_USERID`),
-  /*KEY `FK_USERTO` (`AUTHORIZED_TO_USERID`),
-  KEY `FK_TRANSACTION` (`TRANSACTION_ID`),*/
-  CONSTRAINT `authorization_ibfk_1` FOREIGN KEY (`AUTHORIZED_TO_USERID`) REFERENCES `user` (`USERID`)
-  CONSTRAINT `authorization_ibfk_2` FOREIGN KEY (`ASSIGNED_TO_ROLE`) REFERENCES `role` (`ROLEID`)
-  /*CONSTRAINT `authorization_ibfk_2` FOREIGN KEY (`AUTHORIZED_TO_USERID`) REFERENCES `user` (`USERID`),
-  CONSTRAINT `authorization_ibfk_3` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`TRANSACTIONID`)
-  */
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 CREATE TABLE `role` (
   `ROLEID` int(10) NOT NULL,
   `ROLEDESCRIPTION` varchar(100) NOT NULL,
@@ -120,6 +98,29 @@ CREATE TABLE `role` (
   `DELETEFLAG` int(5) NOT NULL,
   PRIMARY KEY (`ROLEID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `authorization` (
+  `AUTHORIZATIONID` int(20) NOT NULL AUTO_INCREMENT,
+  `AUTHORIZED_BY_USERID` int(20) NOT NULL,
+  `AUTHORIZED_TO_USERID` int(20) NOT NULL,
+  `TRANSACTION_ID` int(20) DEFAULT NULL,
+  `REQUEST_CREATION_TS` date DEFAULT NULL,
+  `REQUEST_TYPE` varchar(20) DEFAULT NULL,
+  `REQUEST_STATUS` varchar(10) NOT NULL,
+  `ASSIGNED_TO_ROLE` int(10) DEFAULT NULL,
+  `REQUEST_DESCRIPTION` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`AUTHORIZATIONID`),
+  KEY `FK_USERBY` (`AUTHORIZED_TO_USERID`),
+  /*KEY `FK_USERTO` (`AUTHORIZED_TO_USERID`),
+  KEY `FK_TRANSACTION` (`TRANSACTION_ID`),*/
+  CONSTRAINT `authorization_ibfk_1` FOREIGN KEY (`AUTHORIZED_TO_USERID`) REFERENCES `user` (`USERID`),
+  CONSTRAINT `authorization_ibfk_2` FOREIGN KEY (`ASSIGNED_TO_ROLE`) REFERENCES `role` (`ROLEID`)
+  /*CONSTRAINT `authorization_ibfk_2` FOREIGN KEY (`AUTHORIZED_TO_USERID`) REFERENCES `user` (`USERID`),
+  CONSTRAINT `authorization_ibfk_3` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`TRANSACTIONID`)
+  */
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 CREATE TABLE `userpii` (
@@ -200,8 +201,5 @@ insert into userpii values(42,'$2a$10$2/2tL8ekcyIQnxu9VIXCMO0OT2fgXNcHMIb2GbhQUE
 #==========================
 #admin1,admin1,423455,gzilpe@asu.edu
 
-insert into user values(88,'Admin',null,'User1','Male','Admin1','$2a$10$/TvqjAWhG1b29.acd30lWulOrsIHMXyJMPDwJwBu7tdyM8YdyoDPa',5,'Active','2015-10-14','2015-10-17','gzilpe@asu.edu','7278787878','hhhhh','Hyd','AP','India','321987','','0');
+insert into user values(88,'Admin',null,'User1','Male','Adminus1','$2a$10$iw923zlUcrEPI8opFRpqe.TLoSd17xQgLoAyCtjXa3nhQYtu2E566',5,'Active','2015-10-14','2015-10-17','gzilpe@asu.edu','7278787878','hhhhh','Hyd','AP','India','321987','','0');
 insert into userpii values(88,'$2a$10$rFWtm2LwUUfkM/JJTIBjqOTPMyQBR9XSXbY4arXNija7Ue50sCSoi','1987-01-01');
-
-
-
