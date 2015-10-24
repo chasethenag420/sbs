@@ -114,9 +114,22 @@ public class TransactionInputValidator implements Validator{
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromAccount","not-integer", "Account cannot be empty.");
 				else
 				{
+					if (logger.isDebugEnabled()) {
+						logger.debug("****************Debit Transaction : Testing "+form.getFromAccount() );
+					}
 					fromAccount= Integer.parseInt(form.getFromAccount());
+					if (logger.isDebugEnabled()) {
+						logger.debug("****************Debit Transaction : Testing "+fromAccount );
+					}
 					Users user = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+					if (logger.isDebugEnabled()) {
+						logger.debug("****************Debit Transaction : User+"+user.getUserId() );
+					}
 					Account account = accountService.getAccount(fromAccount);
+					
+					if (logger.isDebugEnabled()) {
+						logger.debug("****************Debit Transaction : account+"+account.toString() );
+					}
 					if(account == null)
 					{
 						errors.rejectValue("fromAccount", "not-integer", "From Account does not exist.");

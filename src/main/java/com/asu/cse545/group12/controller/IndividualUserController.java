@@ -32,6 +32,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.stereotype.Service;
 
+import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
@@ -50,10 +51,10 @@ import com.asu.cse545.group12.validator.CreateExternalUserValidator;
 public class IndividualUserController {
 	private static final Logger logger = Logger.getLogger(IndividualUserController.class);
 
-	
+
 	@Autowired
 	TransactionsService transactionService;
-	
+
 	@Autowired
 	UserService userService;
 	@Autowired
@@ -63,13 +64,13 @@ public class IndividualUserController {
 	public String getCredit( ModelMap map) {
 
 		logger.debug("Individual controller: getCredit");
-		
+
 		map.addAttribute("toAccountNumber", 67457745);
 		map.addAttribute("amount", 0);
 		map.addAttribute("transferDescription", "heloo");
 		return "credit";
 	}
-	*/
+	 */
 	@RequestMapping(value = "/externalsearchtrans")
 	public ModelAndView getsearchForm(HttpServletRequest request) {
 		//logs debug message
@@ -79,24 +80,10 @@ public class IndividualUserController {
 		ModelAndView modelView = new ModelAndView();
 		modelView.addObject("form", new Searchform());
 		modelView.setViewName("externalsearchtrans");
-		/*HttpSession session = request.getSession(false);
-		String username=(String)session.getAttribute("username");
-		Users user = userService.getUserByUserName(username);
-		Integer userId = user.getUserId();
-		
-		List<Account> accountlist =accountService.getAccounts(userId);
-		Map<String,Integer> accountNumlist =  new LinkedHashMap();
-		ListIterator<Account> it = accountlist.listIterator();
-		while(it.hasNext())
-		{
-			Integer accnum=it.next().getAccountNumber();
-			accountNumlist.put(accnum.toString(), accnum);
-		}
-		modelView.addObject("accountlist",accountNumlist);
-		*/
+
 		return modelView;
 	}
-	
+
 	@RequestMapping(value="externalsearchtransform")
 	public ModelAndView creditAmount(@ModelAttribute("searchform") Searchform searchform) {
 		if(logger.isDebugEnabled()){
@@ -107,15 +94,45 @@ public class IndividualUserController {
 		Integer accountNum=searchform.getAccountNumber();
 		Date toDate = searchform.getToDate();
 		Date fromDate = searchform.getFromDate();
-	   transactionsList=transactionService.searchTransactionByExternals(accountNum, toDate, fromDate);
+		transactionsList=transactionService.searchTransactionByExternals(accountNum, toDate, fromDate);
 		modelView.addObject("transactions", transactionsList);
 		modelView.addObject("form", new Searchform());
 		modelView.setViewName("externalsearchtrans");
 		Iterator it =transactionsList.listIterator();
 		while(it.hasNext())
 		{
-		System.out.println("transactionlist"+it.next());
+			System.out.println("transactionlist"+it.next());
 		}
+		return modelView;
+	}
+
+	@RequestMapping(value="addAccount")
+	public ModelAndView addAccount() {
+		if(logger.isDebugEnabled()){
+			logger.debug("adding saving account to user account");
+		}
+
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("addAccount");
+		return modelView;
+	}
+
+	@RequestMapping(value="addUserAccount")
+	public ModelAndView addUserAccount(HttpServletRequest request) {
+		if(logger.isDebugEnabled()){
+			logger.debug("adding saving account to user account");
+		}
+		Users user = userService.getUserByUserName((String) request.getSession(false).getAttribute("username"));
+		ModelAndView modelView = new ModelAndView();
+		if(user == null)
+		{
+			modelView.addObject("errorMessage", "User does not exist. Login again");
+			modelView.setViewName("login");
+			return modelView;
+		}
+
+		modelView.addObject("successfulMessage", "Your request of creating Saving Account is forwarded to bank official.\n Wait for 5-6 business to activate the account.");
+		modelView.setViewName("successful");
 		return modelView;
 	}
 }
