@@ -38,12 +38,9 @@ public class Users implements Serializable {
 
 	@Id
 	@Column(name="USERID")
-	//@NotEmpty(message = "Please enter your username.")
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Integer userId;	
 
-	@NotNull
-    @NotEmpty(message = "Please enter your Firstname.")
 	@Column(name = "FIRSTNAME")
 	private String firstName;
 	
@@ -59,32 +56,25 @@ public class Users implements Serializable {
 	public Integer getNumAttempts() {
 		return numAttempts;
 	}
-	//@Column(name = "FAILED_ATTEMPTS")
+
 	public void setNumAttempts(Integer numAttempts) {
 		this.numAttempts = numAttempts;
 	}
 
 
-	@NotNull
-    @NotEmpty(message = "Please enter your Lastname.")
 	@Column(name = "LASTNAME")
 	private String lastName;
 	
-	@NotNull
-    @NotEmpty(message = "Please enter your Gender.")	
+	
 	@Column(name = "GENDER")
 	private String gender;
 	
-	
-    //@NotEmpty(message = "Please enter your Username.")
 	@Column(name = "USERNAME")
 	private String userName;
 	
-	@NotNull
 	@Column(name = "PASSWORD")
 	private String password;
 
-	@NotNull
 	@Column(name = "ROLEID")
 	private Integer roleId;
 	
@@ -98,12 +88,9 @@ public class Users implements Serializable {
 	@Column(name="LAST_MODIFIED_DATE")
 	private Date lastModifieddate;
 	
-	
 	@Column(name = "EMAILID")
 	private String emailId;
 	
-	@NotNull
-    @NotEmpty(message = "Please enter your Phone Number.")
 	@Column(name = "PHONENUM")
 	private String phoneNumber;
 	
@@ -118,7 +105,6 @@ public class Users implements Serializable {
 	
 	@Column(name = "COUNTRY")
 	private String country;
-	
 	
 	@Column(name = "ZIPCODE")
 	private String zipcode;

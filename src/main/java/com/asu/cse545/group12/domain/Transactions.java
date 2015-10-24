@@ -17,7 +17,6 @@ public class Transactions {
 	private int transactionId;
 	
 	
-	
 	@Column(name = "USERID")
 	private int  userId;
 	
@@ -39,7 +38,6 @@ public class Transactions {
 	
 	@Column(name = "MODIFIED_TIMESTAMP")
 	private Date modifiedTimestamp;
-	
 	
 	@Column(name = "AMOUNT")
 	private double amount;
