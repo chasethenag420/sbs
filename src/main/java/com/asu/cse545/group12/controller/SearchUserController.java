@@ -141,7 +141,10 @@ public class SearchUserController {
 		authorization.setAuthorizedByUserId(userId);
 		authorization.setAuthorizedToUserId(requesteruserid);
 
-		authorization.setRequestStatus("Pending");
+		//CHANGE THE ROLE ID TO 0 SO THAT ONLY THE USERS INVOLVED CAN SEE THE NOTIFICATIONS APART FROM MANAGER		
+		authorization.setAssignedToRole(Const.NOROLEID);
+		
+		authorization.setRequestStatus(Const.PENDING);
 		authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 		authorizationService.regularEmpRequest(authorization);	
 		// need to write the message that request was successful.

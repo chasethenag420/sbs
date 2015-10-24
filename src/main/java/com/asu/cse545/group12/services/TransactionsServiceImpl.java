@@ -15,6 +15,7 @@ import com.asu.cse545.group12.hashing.HashGenerator;
 import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.AuthorizationDao;
+import com.asu.cse545.group12.dao.RoleDao;
 import com.asu.cse545.group12.dao.TransactionDao;
 import com.asu.cse545.group12.dao.TransferDao;
 import com.asu.cse545.group12.dao.UserDao;
@@ -44,6 +45,9 @@ public class TransactionsServiceImpl implements TransactionsService {
 	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	RoleDao roleDao;
 
 	public int doCredit(int accountNumber, double amount, String description) {
 		boolean creditStatus = accountService.isBalanceValid(accountNumber, amount, "credit");
@@ -67,6 +71,11 @@ public class TransactionsServiceImpl implements TransactionsService {
 			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 			authorization.setRequestDescription("Approval for amount credit");
 			authorization.setRequestType(Const.CREDIT_REQUEST);
+			
+			//SETTNG THE ROLE ID TO REGULAR USER 
+			int roleid = roleDao.getRoleid(Const.REGULARUSER);
+			authorization.setAssignedToRole(roleid);
+			
 			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
 
@@ -97,6 +106,11 @@ public class TransactionsServiceImpl implements TransactionsService {
 			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 			authorization.setRequestDescription("Approval for amount debit");
 			authorization.setRequestType(Const.DEBIT_REQUEST);
+
+			//SETTNG THE ROLE ID TO REGULAR USER 
+			int roleid = roleDao.getRoleid(Const.REGULARUSER);
+			authorization.setAssignedToRole(roleid);
+
 			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
 
@@ -201,6 +215,11 @@ public class TransactionsServiceImpl implements TransactionsService {
 					authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 					authorization.setRequestDescription("Approval for amount transfer");
 					authorization.setRequestType(Const.TRANSFER_REQUEST);
+					
+					//SETTNG THE ROLE ID TO REGULAR USER 
+					int roleid = roleDao.getRoleid(Const.REGULARUSER);
+					authorization.setAssignedToRole(roleid);
+
 					authorization.setTransactionId(debitTransactionId);
 					authorizationDao.insertRow(authorization);
 				}

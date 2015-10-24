@@ -18,5 +18,12 @@ public class Const {
 		public static String REJECT ="Rejected";
 		public static String FORWARD ="Forwarded";
 		public static String PII_ACCESS ="Pii Access";
+		public static String INDIVIDUALUSER ="individual";
+		public static String MANAGER ="manager";
+		public static String REGULARUSER ="regular";
+		public static String MERCHANT ="merchant";
+		public static String ADMIN ="admin";
+		public static int NOROLEID = 0;
+		
 		
 }
