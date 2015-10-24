@@ -65,34 +65,39 @@
     	  //var name = '#(username)'.val();
     	  var uname = document.forms["f"]["username"].value;
     	  var pass = document.forms["f"]["password"].value;
-    	  	
-    	  	if((uname.length < 3 ) || (pass.length < 3))
-    	  	{
-    	  		alert('Length error');
+    	 
+    	  if (document.forms["f"]["username"].value == ""
+              && document.forms["f"]["password"].value == "") {
+          alert("${noUser} & ${noPass}");
+          document.f.j_username.focus();
+          return false;
+    		}
+      if (document.forms["f"]["username"].value == "") {
+          alert("${noUser}");
+          document.f.j_username.focus();
+          return false;
+      }
+      if (document.forms["f"]["password"].value == "") {
+          alert("${noPass}");
+          document.f.j_password.focus();
+          return false;
+      }
+    	  	if(uname.length > 14)  {
+    	  		alert('Please check length of username');
     	  		return false;
     	  	}
-    		if(!uname.match(/^[a-zA-Z0-9]*$/) || !pass.match(/^[a-zA-Z0-9]*$/))
-    		{
-    			alert('Error');
+    	  	
+    	  	if(!(pass.length >5 && pass.length < 16)){
+    	  		alert('Please check length of your passowrd');
+    	  		return false; 
+    	  	}
+    	  	
+    		if(!uname.match(/^[a-zA-Z0-9]*$/) || !pass.match(/^[a-zA-Z0-9]*$/)){
+    			alert('Error in the pattern');
     			return false;
     		}
     	    	 
-          if (document.forms["f"]["username"].value == ""
-                  && document.forms["f"]["password"].value == "") {
-              alert("${noUser} & ${noPass}");
-              document.f.j_username.focus();
-              return false;
-          }
-          if (document.forms["f"]["username"].value == "") {
-              alert("${noUser}");
-              document.f.j_username.focus();
-              return false;
-          }
-          if (document.forms["f"]["password"].value == "") {
-              alert("${noPass}");
-              document.f.j_password.focus();
-              return false;
-          }
+          
           
       }
     </script>
