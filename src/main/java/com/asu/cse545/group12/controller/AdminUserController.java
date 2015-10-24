@@ -60,11 +60,14 @@ public class AdminUserController {
 
 		CreateExternalUserValidator validator = new CreateExternalUserValidator();
 		//validator.validate(user, result);
+		logger.debug("******************************createEmployeeUser: ");
 		if (result.hasErrors()) {
+			logger.debug("******************************createEmployeeUser errored: ");
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
 			modelView.addObject("userpii", userpii);
 			modelView.setViewName("admin");
+			modelView.addObject("message", result.toString());
 			return modelView;
 		} else {		
 
@@ -100,7 +103,6 @@ public class AdminUserController {
 				}
 			}
 			userService.insertRowForEmployee(user,userpii);
-			request.getSession(false).setAttribute("tab", "createEmployee");
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
 			modelView.addObject("userpii", userpii);
@@ -129,6 +131,7 @@ public class AdminUserController {
 				emailAPI.setBody(body);
 				emailAPI.setSubject(subject);
 				emailAPI.sendEmail();
+				context.close();
 	}
 	
 
