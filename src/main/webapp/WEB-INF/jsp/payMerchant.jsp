@@ -18,12 +18,12 @@
 <body>
 	<center>
 		<br /> <br />
-		<div style="color: teal; font-size: 30px">Transfer Amount</div>
+		<div style="color: teal; font-size: 30px">Merchant Payment</div>
 		<br /> <br />
-		<form:form name="transferForm" id="transferForm" method="post"
+		<form:form name="payMerchantForm" id="payMerchantForm" method="post"
 			modelAttribute="form" onsubmit="return OnSubmitForm();">
 			<c:if test="${!empty errorMessage}">
-					<div class="alert alert-danger">${errorMessage}</div>
+				<div class="alert alert-danger">${errorMessage}</div>
 			</c:if>
 			<table width="700px" height="150px">
 				<tr>
@@ -53,7 +53,7 @@
 					<td><form:input path="description" /></td>
 				</tr>
 			</table>
-			<form:input type="hidden" path="transactionType" value="transfer" />
+			<form:input type="hidden" path="transactionType" value="payMerchant" />
 			<input type="submit" class="btn"
 				onclick="document.pressed=this.value" value="Submit" />
 			<input class="btn" type="submit"
@@ -70,9 +70,9 @@
 	<script type="text/javascript">
 		function OnSubmitForm() {
 			if (document.pressed == 'Submit') {
-				document.transferForm.action = "transferAmount";
+				document.payMerchantForm.action = "transferAmount";
 			} else if (document.pressed == 'Cancel') {
-				document.transferForm.action = "goBack";
+				document.payMerchantForm.action = "goBack";
 			}
 			return true;
 		}

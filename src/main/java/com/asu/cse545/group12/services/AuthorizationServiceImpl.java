@@ -346,7 +346,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		authorizationRequest.setRequestType(Const.SIGNUP_REQUEST);
 
 		//SETTNG THE ROLE ID TO MANAGER 
-		int roleid = roleDao.getRoleid(Const.MANAGER);
+		int roleid = 4;//roleDao.getRoleid(Const.MANAGER);
 		authorizationRequest.setAssignedToRole(roleid);
 
 		return authorizationDao.insertRow(authorizationRequest);

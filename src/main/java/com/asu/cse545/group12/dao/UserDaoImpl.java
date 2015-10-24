@@ -73,6 +73,9 @@ public class UserDaoImpl implements UserDao {
 		if(results.size()==1){
 			return (Users)results.get(0);
 		} else {
+			if(logger.isDebugEnabled()){
+				logger.debug("Result size: "+results.size() +"   returning null");
+			}
 			return null;
 		}
 	}

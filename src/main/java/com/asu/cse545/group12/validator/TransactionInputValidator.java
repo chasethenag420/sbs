@@ -77,21 +77,25 @@ public class TransactionInputValidator implements Validator{
 					}
 					
 					
+					
 				}
 
 			}
 			catch(Exception e)
 			{
+				if (logger.isDebugEnabled()) {
+					logger.debug("****************Credit Transaction : Exception\n+"+e.getStackTrace() );
+				}
 				errors.rejectValue("toAccount", "not-integer", "Account Number must be number");
 			}
 
 			try
 			{
-				Integer amount;
+				Double amount;
 				if("".equals(form.getAmount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
 				else
-					amount= Integer.parseInt(form.getAmount());
+					amount= Double.parseDouble(form.getAmount());
 
 			}
 			catch(Exception e)
@@ -114,9 +118,21 @@ public class TransactionInputValidator implements Validator{
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromAccount","not-integer", "Account cannot be empty.");
 				else
 				{
+					if (logger.isDebugEnabled()) {
+						logger.debug("****************Debit Transaction : Testing "+form.getFromAccount() );
+					}
 					fromAccount= Integer.parseInt(form.getFromAccount());
+					if (logger.isDebugEnabled()) {
+						logger.debug("****************Debit Transaction : Testing "+fromAccount );
+					}
+					logger.debug("****************Debit Transaction : User: "+userService );
 					Users user = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+						logger.debug("****************Debit Transaction : User+"+user );
 					Account account = accountService.getAccount(fromAccount);
+					
+					if (logger.isDebugEnabled()) {
+						logger.debug("****************Debit Transaction : account+"+account.toString() );
+					}
 					if(account == null)
 					{
 						errors.rejectValue("fromAccount", "not-integer", "From Account does not exist.");
@@ -132,16 +148,20 @@ public class TransactionInputValidator implements Validator{
 			}
 			catch(Exception e)
 			{
+				if (logger.isDebugEnabled()) {
+					e.printStackTrace();
+					logger.debug("****************Debit Transaction : Exception\n+" );
+				}
 				errors.rejectValue("fromAccount", "not-integer", "Account Number must be number");
 			}
 
 			try
 			{
-				Integer amount;
+				Double amount;
 				if("".equals(form.getAmount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
 				else
-					amount= Integer.parseInt(form.getAmount());
+					amount= Double.parseDouble(form.getAmount());
 			}
 			catch(Exception e)
 			{
@@ -165,7 +185,7 @@ public class TransactionInputValidator implements Validator{
 					Account account = accountService.getAccount(toAccountNumber);
 					if(account == null)
 					{
-						errors.rejectValue("fromAccount", "not-integer", "To Account does not exist.");
+						errors.rejectValue("toAccount", "not-integer", "To Account does not exist.");
 					}
 					
 				}
@@ -202,11 +222,11 @@ public class TransactionInputValidator implements Validator{
 			}
 			try
 			{
-				Integer amount;
+				Double amount;
 				if("".equals(form.getAmount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
 				else
-					amount= Integer.parseInt(form.getAmount());
+					amount= Double.parseDouble(form.getAmount());
 			}
 			catch(Exception e)
 			{
@@ -300,6 +320,79 @@ public class TransactionInputValidator implements Validator{
 			{
 				errors.rejectValue("toDate", "not-Date", "Illegale Date Format");
 			}
+		}
+		
+		else if(form.getTransactionType().equals("payMerchant"))
+		{
+			try
+			{
+				Integer toAccountNumber;
+				if("".equals(form.getToAccount()))
+					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "toAccount","not-integer", "Account cannot be empty.");
+				else
+				{
+					toAccountNumber= Integer.parseInt(form.getToAccount());
+					Users user = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+					Account account = accountService.getAccount(toAccountNumber);
+					if(account == null)
+					{
+						errors.rejectValue("toAccount", "not-integer", "To Account does not exist.");
+					}
+					int userId = account.getUserId();
+					Users toUser = userService.getUserByUserId(userId);
+					if(toUser != null && toUser.getRoleId() != 2)
+					{
+						errors.rejectValue("toAccount", "not-integer", "To Account does not belong to any Merchant.");
+					}
+					
+					
+				}
+			}
+			catch(Exception e)
+			{
+				errors.rejectValue("toAccount", "not-integer", "Account Number must be number");
+			}
+
+			try
+			{
+				Integer fromAccount;
+				if("".equals(form.getFromAccount()))
+					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromAccount","not-integer", "Account cannot be empty.");
+				else
+				{
+					fromAccount= Integer.parseInt(form.getFromAccount());
+					Users user = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+					Account account = accountService.getAccount(fromAccount);
+					if(account == null)
+					{
+						errors.rejectValue("fromAccount", "not-integer", "From Account does not exist.");
+					}
+					
+					if(user.getUserId() != account.getUserId())
+					{
+						errors.rejectValue("fromAccount", "not-integer", "From Account does not belong to you.");
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				errors.rejectValue("fromAccount", "not-integer", "Account Number must be number");
+			}
+			try
+			{
+				Double amount;
+				if("".equals(form.getAmount()))
+					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
+				else
+					amount= Double.parseDouble(form.getAmount());
+			}
+			catch(Exception e)
+			{
+				errors.rejectValue("amount", "not-integer", "Amount must be number");
+			}
+
+
+
 		}
 	}
 

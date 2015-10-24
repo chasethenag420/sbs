@@ -172,7 +172,14 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/successful*"
 			access="permitAll" />
-
+		<security:intercept-url pattern="/payMerchant*"
+			access="hasAnyRole('INDIVIDUAL')" />
+		<security:intercept-url pattern="/submitMerchantPayment*"
+			access="hasAnyRole('INDIVIDUAL')" />
+		<security:intercept-url pattern="/addUserAccount*"
+			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+		<security:intercept-url pattern="/addAccount*"
+			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
 		<security:intercept-url pattern="/external*"
 			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
 		<security:intercept-url pattern="/regularEmprequest*"
@@ -218,6 +225,7 @@
 	<bean id="userLoginDetailsDao" class="com.asu.cse545.group12.dao.UserloginDetailsDaoImpl" />
 	<bean id="userDetailsService" class="com.asu.cse545.group12.services.SbsUserDetailsService" />
 	<bean id="SecurityQuestionsDaoImpl" class="com.asu.cse545.group12.dao.SecurityQuestionsDaoImpl" />
+	<bean id="TransactionInputValidator" class="com.asu.cse545.group12.validator.TransactionInputValidator" />
 
 	<bean id="authenticationProvider"
 		class="com.asu.cse545.group12.authentication.LimitLoginAuthentication">

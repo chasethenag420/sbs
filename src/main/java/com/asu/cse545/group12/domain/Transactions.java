@@ -17,7 +17,7 @@ public class Transactions {
 	private int transactionId;
 	
 	
-	//@Pattern(regexp="^[a-zA-Z0-9äöüÄÖÜ]*$", message="Enter correct username")
+	
 	@Column(name = "USERID")
 	private int  userId;
 	
@@ -40,7 +40,7 @@ public class Transactions {
 	@Column(name = "MODIFIED_TIMESTAMP")
 	private Date modifiedTimestamp;
 	
-	@Pattern(regexp="^[0-9]+\\.?[0-9]*$", message="Enter correct amount")
+	
 	@Column(name = "AMOUNT")
 	private double amount;
 	

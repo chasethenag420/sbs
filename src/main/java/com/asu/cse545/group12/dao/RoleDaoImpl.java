@@ -30,7 +30,7 @@ public class RoleDaoImpl implements RoleDao{
 	public int getRoleid(String roledesc) {
 		// TODO Auto-generated method stub
 		List<Role> role;
-		Session session = sessionfactory.getCurrentSession();
+		Session session = sessionfactory.openSession();
 		Criteria cr = session.createCriteria(Role.class);
 		cr.add(Restrictions.eq("roleDescription", roledesc));
 		role = cr.list();
