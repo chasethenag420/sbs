@@ -44,7 +44,7 @@ public class Authorization{
 	private String requestStatus;
 	
 	@Column(name="ASSIGNED_TO_ROLE")
-	private String assignedToRole;
+	private int assignedToRole;
 	
 	@Column(name="REQUEST_DESCRIPTION")
 	private String requestDescription;
@@ -92,10 +92,10 @@ public class Authorization{
 		this.requestStatus = requestStatus;
 	}
 
-	public String getAssignedToRole() {
+	public int getAssignedToRole() {
 		return assignedToRole;
 	}
-	public void setAssignedToRole(String assignedToRole) {
+	public void setAssignedToRole(int assignedToRole) {
 		this.assignedToRole = assignedToRole;
 	}
 	public String getRequestDescription() {

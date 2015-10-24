@@ -13,6 +13,7 @@ public class HashGenerator {
 //    public static void main(String[] args)
 //    {
 //    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//    	System.out.println(passwordEncoder.matches("manager5", "$2a$10$.IssZ.C7opRE/dNg8ByLRuPHNPtBRhmJfxw1c9.WdpArd9VDeeRym"));
+//    	System.out.println(passwordEncoder.encode("Adminus1"));
+//    	System.out.println(passwordEncoder.matches("Adminus1", "$2a$10$PTsKNwRINd4mTA/JYuzPcOM3mX8HGdt4rS/h4S3oeu862fIcTSv6W"));
 //    }
 }

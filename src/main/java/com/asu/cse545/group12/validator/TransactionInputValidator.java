@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -15,6 +16,7 @@ import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.TransactionForm;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.AccountService;
+import com.asu.cse545.group12.services.AuthorizationServiceImpl;
 import com.asu.cse545.group12.services.UserService;
 
 import org.springframework.validation.ValidationUtils;
@@ -22,6 +24,7 @@ import org.springframework.validation.ValidationUtils;
 
 public class TransactionInputValidator implements Validator{
 	
+	private static final Logger logger = Logger.getLogger(TransactionInputValidator.class);
 	@Autowired
 	UserService userService;
 	
@@ -50,6 +53,9 @@ public class TransactionInputValidator implements Validator{
 
 		if(form.getTransactionType().equals("credit"))
 		{
+			if (logger.isDebugEnabled()) {
+				logger.debug("****************Credit Transaction type Identifed***************:" );
+			}
 			try
 			{
 				Integer toAccountNumber;
@@ -98,6 +104,9 @@ public class TransactionInputValidator implements Validator{
 		}
 		else if(form.getTransactionType().equals("debit"))
 		{
+			if (logger.isDebugEnabled()) {
+				logger.debug("****************Debit Transaction type Identifed***************:" );
+			}
 			try
 			{
 				Integer fromAccount;

@@ -31,7 +31,7 @@ public class UserPiiDaoImpl implements UserPiiDao{
 		tx.commit();
 		Serializable userId = session.getIdentifier(userpii);
 		session.close();
-		return (int) userId;
+		return (Integer) userId;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class UserPiiDaoImpl implements UserPiiDao{
 		tx.commit();
 		Serializable userId = session.getIdentifier(userpii);
 		session.close();
-		return (int) userId;
+		return (Integer) userId;
 		
 	}
 	

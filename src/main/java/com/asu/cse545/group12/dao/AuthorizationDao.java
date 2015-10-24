@@ -33,10 +33,10 @@ public interface AuthorizationDao {
 
 	public List<Authorization> getNotificationsForMerchant(Users user);
 	
-	public List<Authorization> getNotificationsForRegular(Integer roleid);
+	public List<Authorization> getNotificationsForRegular(Users user);
 	
-	public List<Authorization> getNotificationsForManager(Integer roleid);
+	public List<Authorization> getNotificationsForManager(Users user);
 	
-	public List<Authorization> getNotificationsForAdmin(Integer roleid);
+	public List<Authorization> getNotificationsForAdmin(Users user);
 	
 }

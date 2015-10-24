@@ -207,6 +207,9 @@ public class UserServiceImpl implements UserService {
 		return userDao.updateRow(user);
 	}
 
+	public static void main(String[] args){
+		
+	}
 
 }
 

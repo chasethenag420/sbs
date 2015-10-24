@@ -114,7 +114,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	public List<Authorization> getNotificationsForExternal(Users user) 
 	{
 		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED ---- ALL THE REQUESTS RAISED BY HIM ONLY --- PENDING,FORWARDED AND APPROVED ONES
-		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"'";
+		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or authorized_by_userid='"+ user.getUserId()+"'";
 		System.out.println("Ext User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
@@ -128,7 +128,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	public List<Authorization> getNotificationsForMerchant(Users user) 
 	{
 		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED ---- ALL THE REQUESTS RAISED BY HIM ONLY --- PENDING,FORWARDED AND APPROVED ONES 
-		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"'";
+		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or authorized_by_userid='"+ user.getUserId()+"'";
 		System.out.println("Merchant Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
@@ -139,24 +139,27 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	}
 
 	@Override
-	public List<Authorization> getNotificationsForRegular(Integer roleid)
+	public List<Authorization> getNotificationsForRegular(Users user)
 	{
 		String req_status=Const.PENDING;
 		String req_type =Const.SIGNUP_REQUEST;
 		//WE CAN DEFINE THE TYPE OF REQUESTS THAT CAN BE SEEN BY A REGULAR USER ... AS OF NOW I DEFINED THAT HE CANNOT SEE FORWARDED REQUESTS AND SIGNUP REQUESTS
-		String whereClause = "from authorization where request_status=:req_status and request_type=:req_type)";
+//		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or authorized_by_userid='"+ user.getUserId()+"' or request_status like 'pending' or and request_type not like('signup'))";
+//		System.out.println("Regular User Notif Where clause:" + whereClause);          // or authorized_to_userid in (select userid from user where roleid=3)Elec
+//		String whereClause = "from authorization where request_status=:req_status and request_type=:req_type)";
+		String whereClause = "from authorization where request_status like 'Pending' and request_type not like 'Signup'";
 		System.out.println("Regular User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
-		query.setParameter("req_status", req_status);
-		query.setParameter("req_type",req_type);
+//		query.setParameter("req_status", req_status);
+//		query.setParameter("req_type",req_type);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;
 	}
 
-	public List<Authorization> getNotificationsForManager(Integer roleid)
+	public List<Authorization> getNotificationsForManager(Users user)
 	{
 		String req_status1=Const.PENDING;
 		String req_status2=Const.FORWARD;
@@ -164,34 +167,40 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		String req_status4=Const.REJECT;
 		String req_type =Const.SIGNUP_REQUEST;
 		//WE CAN DEFINE THE TYPE OF REQUESTS THAT CAN BE SEEN BY A REGULAR USER ... AS OF NOW I DEFINED THAT HE CAN ALL TYPES OF REQ BUT CANNOT SEE "PII ACCESS" REQUESTED BY GOVT AGENCIES -- ONLY ADMIN CAN SEE THAT REQUESTS
-		String whereClause = "from authorization where request_status=:req_status1 or request_status=:req_status2 or request_status=:req_status3 or request_status=:req_status4 and request_type not like('PII Access'))";
+
+//		String whereClause = "from authorization where request_type not like('PII Access'))";
+//		String whereClause = "from authorization where request_status=:req_status1 or request_status=:req_status2 or request_status=:req_status3 or request_status=:req_status4 and request_type not like('PII Access'))";
+
+		String whereClause = "from authorization where request_type not like 'Pii Access'";
 		System.out.println("Manager User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		
 		Query query = session.createQuery(whereClause);
-		query.setParameter("req_status1", req_status1);
-		query.setParameter("req_status2", req_status2);
-		query.setParameter("req_status3", req_status3);
-		query.setParameter("req_status4", req_status4);
-		query.setParameter("req_type", req_type);
+//		query.setParameter("req_status1", req_status1);
+//		query.setParameter("req_status2", req_status2);
+//		query.setParameter("req_status3", req_status3);
+//		query.setParameter("req_status4", req_status4);
+//		query.setParameter("req_type", req_type);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;
 	}
 	
-	public List<Authorization> getNotificationsForAdmin(Integer roleid)
+	public List<Authorization> getNotificationsForAdmin(Users user)
 	{
 		//WE CAN DEFINE THE TYPE OF REQUESTS THAT CAN BE SEEN BY A REGULAR USER ... AS OF NOW HE CAN SEE PENDING AND FORWARDED, BUT CANNOT SEE COMPLETED OR REJECTED REQUESTS, AND ALSO SEES "PII ACCESS" REQUESTED BY GOVT AGENCIES
+//		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or authorized_by_userid='"+ user.getUserId()+"'";
 		String req_status1=Const.PENDING;
 		String req_status2=Const.FORWARD;
-		String whereClause = "from authorization where request_status=:req_status1 or request_status=:req_status2 or request_type like('PII Access'))";
+//		String whereClause = "from authorization where request_status=:req_status1 or request_status=:req_status2 or request_type like('PII Access'))";
+		String whereClause = "from authorization where request_type like 'Pii Access'";
 		System.out.println("Admin User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
-		query.setParameter("req_status1", req_status1);
-		query.setParameter("req_status2", req_status2);
+//		query.setParameter("req_status1", req_status1);
+//		query.setParameter("req_status2", req_status2);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;

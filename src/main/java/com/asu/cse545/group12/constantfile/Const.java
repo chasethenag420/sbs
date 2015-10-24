@@ -16,7 +16,7 @@ public class Const {
 		public static String SUBMITTED ="Submitted";
 		public static String PENDING ="Pending";
 		public static String REJECT ="Rejected";
-		public static String FORWARD ="Forward";
+		public static String FORWARD ="Forwarded";
 		public static String PII_ACCESS ="Pii Access";
 		
 }
