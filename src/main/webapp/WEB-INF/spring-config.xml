@@ -172,7 +172,10 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/successful*"
 			access="permitAll" />
-
+		<security:intercept-url pattern="/addUserAccount*"
+			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+		<security:intercept-url pattern="/addAccount*"
+			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
 		<security:intercept-url pattern="/external*"
 			access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
 		<security:intercept-url pattern="/regularEmprequest*"
