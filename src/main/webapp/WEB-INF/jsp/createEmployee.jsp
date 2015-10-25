@@ -61,29 +61,32 @@ label {
 
 			<form class="form-horizontal" id="createEmployeeForm"
 				name="createEmployeeForm" method="post" action="signUp"
-				data-parsley-validate>
+				>
 				<legend>Create Employee</legend>
 
-				<table class="table table-striped">
+				<table class="table table-striped" style="width: auto;">
 					<tr>
 						<td style="white-space: nowrap"><form:label for="fname"
 								path="user.firstName">First Name</form:label></td>
 						<td><form:input path="user.firstName" id="fname" name="fname"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" data-parsley-length="[1, 15]"/>
-							<form:errors class="alert alert-danger" path="user.firstName" /></td>
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+"
+								data-parsley-length="[1, 15]" /> <form:errors
+								class="alert alert-danger" path="user.firstName" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label for="mname"
 								path="user.middleName">Middle(M I)</form:label></td>
 						<td><form:input path="user.middleName" id="mname"
-								name="mname" data-parsley-pattern="[a-zA-Z]*" data-parsley-length="[0, 15]" /></td>
+								name="mname" data-parsley-pattern="[a-zA-Z]*"
+								data-parsley-length="[0, 15]" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label
 								path="user.lastName">Last Name</form:label></td>
 						<td><form:input path="user.lastName" id="lname"
 								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" />
-							<form:errors class="alert alert-danger" path="user.lastName" data-parsley-length="[1, 15]"/></td>
+							<form:errors class="alert alert-danger" path="user.lastName"
+								data-parsley-length="[1, 15]" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label for="gender"
@@ -97,7 +100,7 @@ label {
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label for="ssn"
-								path="userpii.ssn">SSN</form:label></td>
+								path="user.userpii.ssn">SSN</form:label></td>
 						<td><form:input type="number" name="ssn" path="userpii.ssn"
 								id="ssn" data-parsley-required="true" data-parsley-type="digits"
 								data-parsley-length="[9, 9]"
@@ -107,13 +110,13 @@ label {
 
 					<tr>
 						<td style="white-space: nowrap"><form:label for="dob"
-								path="userpii.DateOfBirth">Date of Birth</form:label></td>
+								path="user.userpii.DateOfBirth">Date of Birth</form:label></td>
 						<td><form:input name="dob" type="text"
 								data-parsley-trigger="change" placeholder="MM/DD/YYYY"
 								data-date-format="MM/DD/YYYY" data-date-minDate="01/01/1900"
 								data-parsley-mindate="01/01/1900" data-parsley-required="true"
-								path="userpii.DateOfBirth" /> <form:errors
-								class="alert alert-danger" path="userpii.DateOfBirth" /></td>
+								path="user.userpii.DateOfBirth" /> <form:errors
+								class="alert alert-danger" path="user.userpii.DateOfBirth" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label for="address"
@@ -129,16 +132,18 @@ label {
 						<td style="white-space: nowrap"><form:label for="city"
 								path="user.city">City</form:label></td>
 						<td><form:input path="user.city" id="city" name="city"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" data-parsley-length="[1, 15"]/>
-							<form:errors class="alert alert-danger" path="user.city" /></td>
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+"
+								data-parsley-length="[1, 15]"/> <form:errors
+								class="alert alert-danger" path="user.city" /></td>
 					</tr>
 
 					<tr>
 						<td style="white-space: nowrap"><form:label for="state"
 								path="user.state">State</form:label></td>
 						<td><form:input name="state" path="user.state" id="state"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" data-parsley-length="[1, 15"] />
-							<form:errors class="alert alert-danger" path="user.state" /></td>
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+"
+								data-parsley-length="[1, 15]" /> <form:errors
+								class="alert alert-danger" path="user.state" /></td>
 					</tr>
 
 					<tr>
@@ -146,8 +151,8 @@ label {
 								path="user.country">Country</form:label></td>
 						<td><form:input name="country" path="user.country"
 								id="country" data-parsley-required="true"
-								data-parsley-pattern="[a-zA-Z]+" data-parsley-length="[1, 15"]/> <form:errors
-								class="alert alert-danger" path="user.country" /></td>
+								data-parsley-pattern="[a-zA-Z]+" data-parsley-length="[1, 15]"/>
+							<form:errors class="alert alert-danger" path="user.country" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label for="zip"
@@ -185,7 +190,8 @@ label {
 						<td style="white-space: nowrap"><form:label for="email"
 								path="user.emailId">Email</form:label></td>
 						<td><form:input type="email" name="email"
-								data-parsley-type="email" path="user.emailId" id="email"  data-parsley-length="[1, 25"]/> <form:errors
+								data-parsley-type="email" path="user.emailId" id="email"
+								data-parsley-length="[1, 25]"/> <form:errors
 								class="alert alert-danger" path="user.emailId" /></td>
 					</tr>
 				</table>
@@ -208,8 +214,8 @@ label {
 	<script src="web_resources/theme/js/parsley.min.js"></script>
 
 	<!-- initialize keyboard (required) -->
-	
-		window.ParsleyValidator.addValidator(
+	<script type="text/javascript">
+		window.Parsley.addValidator(
 				'mindate',
 				function(value, requirement) {
 					// is valid date?
@@ -219,12 +225,12 @@ label {
 					return isNaN(timestamp) ? false : timestamp > minTs;
 				}, 32).addMessage('en', 'mindate',
 				'This date should be greater than %s');
-	</script>
-	<script type="text/javascript">
 		$('#submitbutton').click(function() {
+			$('#signUpForm').parsley().validate();
 			$('#createEmployeeForm').attr("action", "createEmployeeUser");
 		});
 		$('#cancel').click(function() {
+			$('#createEmployeeForm').parsley().destroy();
 			$('#createEmployeeForm').attr("action", "goBack");
 		});
 	</script>

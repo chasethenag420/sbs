@@ -27,6 +27,8 @@ table tr td {
 </head>
 <body>
 	<center>
+	<br>
+	<br>
 		<div style="color: teal; font-size: 30px">Secure Bank System |
 			User List</div>
 <br>
@@ -37,10 +39,8 @@ table tr td {
 				value="${_csrf.token}" />
 			<c:if test="${!empty userList}">
 
-				<table border="1" bgcolor="black" width="auto">
-					<tr
-						style="background-color: teal; color: white; text-align: center;"
-						height="40px">
+				<table class="table table-striped" style="width: auto;">
+					<tr>
 						<td><b></b></td>
 						<td><b>User Name</b></td>
 						<td><b>First Name</b></td>
@@ -49,9 +49,7 @@ table tr td {
 						<td><b>Email Id</b></td>
 					</tr>
 					<c:forEach items="${userList}" var="user">
-						<tr
-							style="background-color: white; color: black; text-align: center;"
-							height="30px">
+						<tr>
 							<td><form:radiobutton path="map['userId']"
 									value="${user.userId}" /></td>
 							<td><c:out value="${user.userName}" /></td>
@@ -75,8 +73,6 @@ table tr td {
 					value="Modify User">
 				<input type="submit" id="deleteUser" class="btn btn-danger"
 					value="Delete User">
-				<input type="submit" id="requestAuthorization" class="btn btn-info"
-					value="Request Authorization">
 			</c:if>
 
 			<input type="submit" id="cancel" class="btn btn-danger"
@@ -106,9 +102,6 @@ table tr td {
 		});
 		$('#cancel').click(function() {
 			$('#displayUserList').attr("action", "goBack");
-		});
-		$('#requestAuthorization').click(function() {
-			$('#displayUserList').attr("action", "requestAuthorization");
 		});
 	</script>
 

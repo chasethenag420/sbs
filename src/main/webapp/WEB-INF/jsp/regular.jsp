@@ -47,12 +47,6 @@
 								class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
 						<li id="notifications"><a href="notifications"><span
 								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
-						<li id="createRequest"><a href="regularEmprequest"><span
-								class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
-						<li id="viewExternalUserProfile"><a
-							href="viewExternalprofile"><span
-								class="glyphicon glyphicon-chevron-right"></span> View External
-								User</a></li>
 						<li id="searchuser"><a href="searchuser"><span
 								class="glyphicon glyphicon-chevron-right"></span> Search User</a></li>
 

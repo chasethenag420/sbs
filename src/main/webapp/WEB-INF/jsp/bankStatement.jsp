@@ -16,6 +16,34 @@
 <link href="web_resources/theme/css/bootstrap-responsive.css"
 	rel="stylesheet">
 <title><spring:message code="title.credit"></spring:message></title>
+<style type="text/css">
+.wrapper {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto
+}
+
+label {
+	padding-left: 0 !important
+}
+
+.invalid-form-error-message {
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.invalid-form-error-message.filled {
+	border-left: 2px solid red;
+}
+
+.parsley-errors-list li {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border: 1px solid #EED3D7;
+	margin: 5px;
+}
+</style>
+
 </head>
 <body>
 	<center>
@@ -23,58 +51,82 @@
 		<div style="color: teal; font-size: 30px">Bank Account Statement</div>
 		<br /> <br />
 		<form:form name="bankStatement" id="bankStatement" method="post"
-			action="downloadPDF" modelAttribute="form"
-			onsubmit="return OnSubmitForm();">
-			<center>
-				<table width="700px" height="150px" cellspacing="10">
-					<tr></tr>
-					<tr>
-						<td style="white-space: nowrap"><form:label path="toAccount">To Account Number</form:label>
-						</td>
+			 modelAttribute="form"
+			>
+			<table class="table table-striped" style="width: auto;">
+				<tr></tr>
+				<tr>
+					<td style="white-space: nowrap"><form:label for="toAccount"
+							path="toAccount">To Account Number</form:label></td>
 
 
-						<td><form:select path="toAccount">
-								<form:option value="NONE" label="--Select Account --" />
-								<form:options items="${accounts}" />
-							</form:select></td>
-						<td><form:errors class="alert alert-danger" path="toAccount" /></td>
+					<td><form:select path="toAccount" name="toAccount"
+							data-parsley-required="true">
+							<form:option value="" label="--Select Account --" />
+							<form:options items="${accounts}" />
+						</form:select></td>
+					<td><form:errors class="alert alert-danger" path="toAccount" /></td>
 
 
-					</tr>
-					<tr>
-						<td style="white-space: nowrap"><form:label path="fromDate">From Date</form:label>
-						</td>
-						<td><form:input type="date" path="fromDate" /></td>
-						<td><form:errors class="alert alert-danger" path="fromDate" /></td>
-					</tr>
-					<tr>
-						<td style="white-space: nowrap"><form:label path="toDate">To Date</form:label>
-						</td>
-						<td><form:input type="date" path="toDate" /></td>
-						<td><form:errors class="alert alert-danger" path="toDate" /></td>
-					</tr>
-				</table>
-				<form:input type="hidden" path="transactionType"
-					value="bankStatement" />
-				<input type="submit" class="btn"
-					onclick="document.pressed=this.value" value="Create PDF" /> <input
-					type="submit" class="btn" onclick="document.pressed=this.value"
-					value="Cancel" />
+				</tr>
+				<tr>
+					<td style="white-space: nowrap"><form:label for="fromdate"
+							path="fromDate">From Date</form:label></td>
+					<td><form:input type="text" path="fromDate" name="fromdate"
+							data-parsley-trigger="change" placeholder="MM/DD/YYYY"
+							data-date-format="MM/DD/YYYY" data-date-minDate="01/01/1900"
+							data-parsley-mindate="01/01/1900" data-parsley-required="true" /></td>
+					<td><form:errors class="alert alert-danger" path="fromDate" /></td>
+				</tr>
+				<tr>
+					<td style="white-space: nowrap"><form:label for="todate"
+							path="toDate">To Date</form:label></td>
+					<td><form:input type="text" path="toDate" name="todate"
+							data-parsley-trigger="change" placeholder="MM/DD/YYYY"
+							data-date-format="MM/DD/YYYY" data-date-minDate="01/01/1900"
+							data-parsley-mindate="01/01/1900" data-parsley-required="true" /></td>
+					<td><form:errors class="alert alert-danger" path="toDate" /></td>
+				</tr>
+			</table>
+			<form:input type="hidden" path="transactionType"
+				value="bankStatement" /> 
+			<input type="submit" class="btn" id="createPDF"
+				 value="Create PDF" />
+			<input type="submit" class="btn" id="cancel"
+				value="Cancel" />
 
-			</center>
 		</form:form>
 
 	</center>
-
+	<script src="web_resources/theme/js/jquery.min.js"></script>
+	<script src="web_resources/theme/js/jquery-ui.min.js"></script>
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	<script src="web_resources/theme/js/parsley.min.js"></script>
 	<script type="text/javascript">
-		function OnSubmitForm() {
-			if (document.pressed == 'Create PDF') {
-				document.bankStatement.action = "downloadPDF";
-			} else if (document.pressed == 'Cancel') {
-				document.bankStatement.action = "goBack";
+		$('#createPDF').click(function() {
+			$('#bankStatement').parsley().validate();
+			if (true == $('#bankStatement').parsley().isValid()) {
+				$('#bankStatement').attr("action", "downloadPDF");
+			} else {
+				return false;
 			}
-			return true;
-		}
+		});
+
+		$('#cancel').click(function() {
+			$('#bankStatement').parsley().destroy();
+			$('#bankStatement').attr("action", "goBack");
+
+		});
+		window.Parsley.addValidator(
+				'mindate',
+				function(value, requirement) {
+					// is valid date?
+					var timestamp = Date.parse(value), minTs = Date
+							.parse(requirement);
+
+					return isNaN(timestamp) ? false : timestamp > minTs;
+				}, 32).addMessage('en', 'mindate',
+				'This date should be greater than %s');
 	</script>
 
 </body>

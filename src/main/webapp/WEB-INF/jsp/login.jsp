@@ -152,7 +152,7 @@ label {
 				data-parsley-validate>
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />
-				<table class="table table-striped">
+				<table class="table table-striped " style="width: auto;">
 					<tr>
 						<td style="white-space: nowrap"><label for="username"
 							class="col-sm-4"> <spring:message

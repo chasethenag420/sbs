@@ -46,8 +46,6 @@
 								class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
 						<li id="addAccount"><a href="payMerchant"><span
 								class="glyphicon glyphicon-chevron-right"></span> Pay Merchant</a></li>
-						<li id="addAccount"><a href="addAccount"><span
-								class="glyphicon glyphicon-chevron-right"></span> Add Account</a></li>
 						<li id="transactions"><a href="externalsearchtrans"><span
 								class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
 						<li id="bankStatement"><a href="bankStatement"><span
