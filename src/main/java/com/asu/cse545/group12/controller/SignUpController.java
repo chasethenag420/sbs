@@ -66,6 +66,9 @@ public class SignUpController {
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
+			Form form = new Form();
+			form.getMap().put("confirmPassword", new String(""));
+			modelView.addObject("form", form);
 			modelView.addObject("userpii", userpii);
 			modelView.setViewName("signup");
 			return modelView;
