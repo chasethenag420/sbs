@@ -39,7 +39,7 @@ table tr td {
 
 			<c:if test="${!empty accountsRows}">
 
-				<table border="1" bgcolor="black">
+				<table class="table table-striped" style="width: auto;">
 					<col width="230">
 					<col width="230">
 					<col width="230">

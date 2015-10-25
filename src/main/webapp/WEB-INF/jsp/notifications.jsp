@@ -13,21 +13,38 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Secure Bank System | Notification</title>
 
-<style>
-table tr td:empty {
-	width: 50px;
+<style type="text/css">
+.wrapper {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto
 }
 
-table tr td {
-	padding-top: 10px;
-	padding-bottom: 10px;
+label {
+	padding-left: 0 !important
+}
+
+.invalid-form-error-message {
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.invalid-form-error-message.filled {
+	border-left: 2px solid red;
+}
+
+.parsley-errors-list li {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border: 1px solid #EED3D7;
+	margin: 5px;
 }
 </style>
 
 </head>
 <body>
 	<center>
-	<br>
+		<br>
 		<div style="color: teal; font-size: 30px">Secure Bank System |
 			Notifications</div>
 
@@ -35,11 +52,10 @@ table tr td {
 		<form:form class="form-horizontal" id="notificationsForm" action=""
 			method="post" modelAttribute="form">
 			<c:if test="${!empty notificationRows}">
-
-				<table border="1" bgcolor="black" width="auto">
-					<tr
-						style="background-color: teal; color: white; text-align: center;"
-						height="40px">
+				<label for="notification"><b>Notifications</b></label>
+				<p>
+				<table class="table table-striped" style="width: auto;">
+					<tr>
 						<td><b>&nbsp;</b></td>
 						<td><b>Request Type</b></td>
 						<td><b>Request Description</b></td>
@@ -49,10 +65,9 @@ table tr td {
 						<td><b>Approver UserId</b></td>
 					</tr>
 					<c:forEach items="${notificationRows}" var="eachnotification">
-						<tr
-							style="background-color: white; color: black; text-align: center;"
-							height="30px">
+						<tr>
 							<td><form:radiobutton path="map['authorizationId']"
+									data-parsley-required="true" name="notification"
 									value="${eachnotification.authorizationId}" /></td>
 							<td><c:out value="${eachnotification.requestType}" /></td>
 							<td><c:out value="${eachnotification.requestDescription}" /></td>
@@ -67,19 +82,18 @@ table tr td {
 					</c:forEach>
 
 				</table>
-			
-			<input id="approve" type="submit" class="btn btn-success"
-				value="Approve" />
-			<input id="reject" type="submit" class="btn btn-danger"
-				value="Reject" />
-
-			<input id="forward" type="submit" class="btn btn-danger"
-				value="Forward" />
+				</p>
+				<input id="approve" type="submit" class="btn btn-success"
+					value="Approve" />
+				<input id="reject" type="submit" class="btn btn-danger"
+					value="Reject" />
 			</c:if>
-			<c:if test="${empty notificationRows}"><br>
-			<h2>You do not have any Notifications</h2><br>
+			<c:if test="${empty notificationRows}">
+				<br>
+				<h2>You do not have any Notifications</h2>
+				<br>
 			</c:if>
-			<input class ="btn"  type="submit" id="cancel" value="Cancel" />
+			<input class="btn" type="submit" id="cancel" value="Cancel" />
 		</form:form>
 
 
@@ -91,18 +105,26 @@ table tr td {
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	<script src="web_resources/theme/js/parsley.min.js"></script>
 
 	<script type="text/javascript">
 		$('#approve').click(function() {
-			$('#notificationsForm').attr("action", "approvenotification");
+			if (true == $('#notificationsForm').parsley().isValid()) {
+				$('#notificationsForm').attr("action", "approvenotification");
+			} else {
+				return false;
+			}
+
 		});
 		$('#reject').click(function() {
-			$('#notificationsForm').attr("action", "rejectnotification");
-		});
-		$('#forward').click(function() {
-			$('#notificationsForm').attr("action", "forwardnotification");
+			if (true == $('#notificationsForm').parsley().isValid()) {
+				$('#notificationsForm').attr("action", "rejectnotification");
+			} else {
+				return false;
+			}
 		});
 		$('#cancel').click(function() {
+			$('#notificationsForm').parsley().destroy();
 			$('#notificationsForm').attr("action", "goBack");
 		});
 	</script>

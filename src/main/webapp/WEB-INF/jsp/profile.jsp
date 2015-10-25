@@ -42,7 +42,7 @@ label {
 				<br /> <br /> <br />
 				<center>
 					<c:if test="${!empty user}">
-						<table>
+						<table class="table table-striped" style="width: auto;">
 							<tr>
 								<td><label for="username">Username </label></td>
 								<td><input type="text" id="username" disabled
@@ -104,16 +104,17 @@ label {
 								<td><input type="text" id="zipcode" value="${user.zipcode}"
 									disabled></td>
 							</tr>
+							<tr><td colspan="2"><input
+						class="btn" type="submit" onclick="document.pressed=this.value"
+						value="Back" />  &nbsp;&nbsp;<input class="btn" type="submit"
+						onclick="document.pressed=this.value"
+						value="Set Security Questions" />  &nbsp;&nbsp; <input class="btn" type="submit"
+						onclick="document.pressed=this.value" value="Change Password" /></td></tr>
 
 						</table>
 					</c:if>
-					<br> <input class="btn" type="submit"
-						onclick="document.pressed=this.value"
-						value="Set Security Questions" /> <input type="hidden"
-						name="${_csrf.parameterName}" value="${_csrf.token}" /> <input
-						class="btn" type="submit" onclick="document.pressed=this.value"
-						value="Back" /> <input class="btn" type="submit"
-						onclick="document.pressed=this.value" value="Change Password" />
+					<br> <input type="hidden"
+						name="${_csrf.parameterName}" value="${_csrf.token}" /> 
 				</center>
 			</fieldset>
 		</form>

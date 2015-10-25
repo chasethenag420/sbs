@@ -13,80 +13,131 @@
 	rel="stylesheet">
 
 <title>Search Transactions</title>
+<style type="text/css">
+.wrapper {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto
+}
+
+label {
+	padding-left: 0 !important
+}
+
+.invalid-form-error-message {
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.invalid-form-error-message.filled {
+	border-left: 2px solid red;
+}
+
+.parsley-errors-list li {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border: 1px solid #EED3D7;
+	margin: 5px;
+}
+</style>
 <body>
 	<center>
 		<br /> <br />
-		<div style="color: teal; font-size: 30px">Search Transactions</div>
-		<form:form name="externalsearchtrans" id="externalsearchtrans"
-			modelAttribute="form" method="post" onsubmit="return OnSubmitForm();">
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
-			<br />
-			<br />
+		<div style="color: teal; font-size: 30px">
+			Search Transactions
+			</td>
+			</tr>
+			<form:form name="externalsearchtrans" id="externalsearchtrans"
+				modelAttribute="form" method="post">
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
+				<br />
+				<br />
+				<table class="table table-striped" style="width: auto;">
 
-			<div class="control-group">
-				<form:label class="control-label" path="accountNumber">Account Number</form:label>
-				<form:input class="controls" path="accountNumber" />
-				<form:errors class="alert alert-danger" path="accountNumber" />
-			</div>
-
-			<div class="control-group">
-				<form:label class="control-label" path="toDate">To Date</form:label>
-				<form:input class="controls" path="toDate" />
-				<form:errors class="alert alert-danger" path="toDate" />
-			</div>
-			<div class="control-group">
-				<form:label class="control-label" path="fromDate">From Date</form:label>
-				<form:input class="controls" path="fromDate" />
-				<form:errors class="alert alert-danger" path="fromDate" />
-			</div>
-			<div class="control-group">
-				
-					<input class="btn" type="submit" onclick="document.pressed=this.value"
-					value="Submit" />
-					<input class="btn" type="submit" onclick="document.pressed=this.value"
-					value="Cancel" />
-			</div>
-
-
-
-			<table border="1"  bgcolor="black">
-				<col width="230">
-				<col width="230">
-				<col width="230">
-				<col width="230">
 				<tr>
-					<th>AccountNumber</th>
-					<th>AccountCreation</th>
-					<th>TransactionType</th>
-					<th>Amount</th>
+					<td><form:label path="accountNumber">Account Number</form:label></td>
+					<td><form:input path="accountNumber"
+							data-parsley-required="true" data-parsley-type="digits"
+							data-parsley-length="[1, 10]"
+							data-parsley-length-message="Should be between 1 to 10 digits" />
+						<form:errors class="alert alert-danger" path="accountNumber" /></td>
 				</tr>
-				<c:forEach items="${transactions}" var="item">
+
+				<tr>
+					<td><form:label path="toDate" for="todate">To Date</form:label></td>
+					<td><form:input path="toDate" name="todate"
+							data-parsley-trigger="change" placeholder="MM/DD/YYYY"
+							data-date-format="MM/DD/YYYY" data-date-minDate="01/01/1900"
+							data-parsley-mindate="01/01/1900" data-parsley-required="true" />
+						<form:errors class="alert alert-danger" path="toDate" /></td>
+				</tr>
+				<tr>
+					<td><form:label path="fromDate" for="fromdate">From Date</form:label></td>
+					<td><form:input path="fromDate" name="fromdate"
+							data-parsley-trigger="change" placeholder="MM/DD/YYYY"
+							data-date-format="MM/DD/YYYY" data-date-minDate="01/01/1900"
+							data-parsley-mindate="01/01/1900" data-parsley-required="true" />
+						<form:errors class="alert alert-danger" path="fromDate" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input class="btn" type="submit" id="submit"
+						value="Submit" /> <input class="btn" type="submit" id="cancel"
+						value="Cancel" /></td>
+				</tr>
+				</table>
+
+
+				<table class="table table-striped" style="width: auto;">
+
 					<tr>
+						<th>AccountNumber</th>
+						<th>AccountCreation</th>
+						<th>TransactionType</th>
+						<th>Amount</th>
+					</tr>
+					<c:forEach items="${transactions}" var="item">
+						<tr>
+							<td><c:out value="${item.accountNumber}" /></td>
 
+							<td><c:out value="${item.creationTimestamp}" /></td>
 
-						<td width="30"><c:out value="${item.accountNumber}" /></td>
+							<td><c:out value="${item.transactionType}" /></td>
 
-						<td width="80"><c:out value="${item.creationTimestamp}" /></td>
+							<td><c:out value="${item.amount}" /></td>
+					</c:forEach>
+				</table>
 
-						<td width="30"><c:out value="${item.transactionType}" /></td>
-
-						<td><c:out value="${item.amount}" /></td>
-				</c:forEach>
-			</table>
-
-		</form:form>
-
+			</form:form>
 	</center>
+	<script src="web_resources/theme/js/jquery.min.js"></script>
+	<script src="web_resources/theme/js/jquery-ui.min.js"></script>
+	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	<script src="web_resources/theme/js/parsley.min.js"></script>
 	<script type="text/javascript">
-		function OnSubmitForm() {
-			if (document.pressed == 'Submit') {
-				document.externalsearchtrans.action = "externalsearchtransform";
-			} else if (document.pressed == 'Cancel') {
-				document.externalsearchtrans.action = "goBack";
-			}
-			return true;
-		}
+		$('#submit').click(
+				function() {
+					$('#externalsearchtrans').parsley().validate();
+					if (true == $('#externalsearchtrans').parsley().isValid()) {
+						$('#externalsearchtrans').attr("action",
+								"externalsearchtransform");
+					} else {
+						return false;
+					}
+				});
+
+		$('#cancel').click(function() {
+			$('#externalsearchtrans').parsley().destroy();
+			$('#externalsearchtrans').attr("action", "goBack");
+
+		});
+		window.Parsley.addValidator('mindate', function(value, requirement) {
+			// is valid date?
+			var timestamp = Date.parse(value), minTs = Date.parse(requirement);
+
+			return isNaN(timestamp) ? false : timestamp > minTs;
+		}, 32).addMessage('en', 'mindate',
+				'This date should be greater than %s');
 	</script>
 </body>
 </html>

@@ -57,10 +57,10 @@ label {
 		<div class="container">
 
 			<form class="form-horizontal" id="signUpForm" name="signUpForm"
-				method="post" action="signUp" data-parsley-validate>
+				method="post" action="signUp" >
 				<legend>Registration Form</legend>
 
-				<table class="table table-striped">
+				<table class="table table-striped " style="width: auto;">
 					<tr>
 						<td style="white-space: nowrap"><form:label for="username"
 								path="user.userName">Username</form:label></td>
@@ -87,7 +87,7 @@ label {
 						<td style="white-space: nowrap"><label for="confirmPassword">Confirm
 								Password</label></td>
 						<td><input id="confirmPassword" name="confirmPassword"
-							type="password" required data-parsley-type="alphanum"
+							type="password" data-parsley-required="true" data-parsley-type="alphanum"
 							data-parsley-length="[6, 15]" data-parsley-equalto="#password"
 							data-parsley-equalto-message="Paswords didnt match"
 							data-parsley-length-message="Confirm Password should be between 6 to 15 characters" />
@@ -99,20 +99,20 @@ label {
 						<td style="white-space: nowrap"><form:label for="fname"
 								path="user.firstName">First Name</form:label></td>
 						<td><form:input path="user.firstName" id="fname" name="fname"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+" data-parsley-length="[1, 15"] />
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+" data-parsley-length="[1, 15]" />
 							<form:errors class="alert alert-danger" path="user.firstName" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label for="mname"
 								path="user.middleName">Middle(M I)</form:label></td>
 						<td><form:input path="user.middleName" id="mname"
-								name="mname" data-parsley-pattern="[a-zA-Z ]*" data-parsley-length="[0, 15"]/></td>
+								name="mname" data-parsley-pattern="[a-zA-Z ]*" data-parsley-length="[0, 15]"/></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label
 								path="user.lastName">Last Name</form:label></td>
 						<td><form:input path="user.lastName" id="lname"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+" data-parsley-length="[1, 15"] />
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+" data-parsley-length="[1, 15]" />
 							<form:errors class="alert alert-danger" path="user.lastName" /></td>
 					</tr>
 					<tr>
@@ -150,7 +150,7 @@ label {
 								path="user.address">Address</form:label></td>
 						<td><form:textarea rows="3" cols="30" name="address"
 								path="user.address" id="address" data-parsley-required="true"
-								data-parsley-pattern="[a-zA-Z0-9 ]+"
+								data-parsley-pattern="[a-zA-Z0-9 #]+"
 								data-parsley-length="[5, 50]"
 								data-parsley-length-message="Address should be between 5 to 50 characters" />
 							<form:errors class="alert alert-danger" path="user.address" /></td>
@@ -160,7 +160,7 @@ label {
 						<td style="white-space: nowrap"><form:label for="city"
 								path="user.city">City</form:label></td>
 						<td><form:input path="user.city" id="city" name="city"
-								data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+" data-parsley-length="[1, 15"]/>
+								data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+" data-parsley-length="[1, 15]"/>
 							<form:errors class="alert alert-danger" path="user.city" /></td>
 					</tr>
 
@@ -168,7 +168,7 @@ label {
 						<td style="white-space: nowrap"><form:label for="state"
 								path="user.state">State</form:label></td>
 						<td><form:input name="state" path="user.state" id="state"
-								data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+" data-parsley-length="[1, 15"]/>
+								data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+" data-parsley-length="[1, 15]"/>
 							<form:errors class="alert alert-danger" path="user.state" /></td>
 					</tr>
 
@@ -177,7 +177,7 @@ label {
 								path="user.country">Country</form:label></td>
 						<td><form:input name="country" path="user.country"
 								id="country" data-parsley-required="true"
-								data-parsley-pattern="[a-z A-Z]+"  data-parsley-length="[1, 15"]/> <form:errors
+								data-parsley-pattern="[a-z A-Z]+"  data-parsley-length="[1, 15]"/> <form:errors
 								class="alert alert-danger" path="user.country" /></td>
 					</tr>
 					<tr>
@@ -215,7 +215,7 @@ label {
 						<td style="white-space: nowrap"><form:label for="email"
 								path="user.emailId">Email</form:label></td>
 						<td><form:input type="email" name="email"
-								data-parsley-type="email" path="user.emailId" id="email" data-parsley-length="[1, 25"] /> <form:errors
+								data-parsley-type="email" path="user.emailId" id="email" data-parsley-length="[1, 25]" /> <form:errors
 								class="alert alert-danger" path="user.emailId" /></td>
 					</tr>
 
