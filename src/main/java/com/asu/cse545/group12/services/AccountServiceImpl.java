@@ -4,14 +4,18 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Users;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-
+@Service("AccountServiceImpl")
 public class AccountServiceImpl implements AccountService {
 
 	private static final Logger logger = Logger.getLogger(AccountServiceImpl.class);
@@ -54,8 +58,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public boolean doCredit(int accountNumber, int amount){
-		if(this.isBalanceValid(accountNumber, amount, "credit")){
+	public boolean doCredit(int accountNumber, double amount){
+		if(this.isBalanceValid(accountNumber, amount, Const.CREDIT_REQUEST)){
 			Account account=this.getAccount(accountNumber);
 			account.setBalance(account.getBalance()+ amount);
 			account.setModifiedTimeStamp(Calendar.getInstance().getTime());
@@ -66,8 +70,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public boolean doDebit(int accountNumber, int amount){
-		if(this.isBalanceValid(accountNumber, amount, "debit")){
+	public boolean doDebit(int accountNumber, double amount){
+		if(this.isBalanceValid(accountNumber, amount, Const.DEBIT_REQUEST)){
 			Account account=this.getAccount(accountNumber);
 			account.setBalance(account.getBalance()- amount);
 			account.setModifiedTimeStamp(Calendar.getInstance().getTime());
@@ -78,12 +82,12 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public boolean isBalanceValid(int accountNumber, int amount, String type){
+	public boolean isBalanceValid(int accountNumber, double amount, String type){
 		Account account=getAccount(accountNumber);
-		int balance=account.getBalance();
-		if("credit".equals(type) && (balance+amount) >=0){
+		double balance=account.getBalance();
+		if(Const.CREDIT_REQUEST.equals(type) && (balance+amount) >=0){
 			return true;
-		}else if("debit".equals(type) && (balance-amount)>=0){
+		}else if(Const.DEBIT_REQUEST.equals(type) && (balance-amount)>=0){
 			return true;
 		}
 		return false;

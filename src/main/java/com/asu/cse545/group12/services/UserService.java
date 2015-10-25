@@ -6,7 +6,7 @@ import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
 
 public interface UserService {
-	public int insertRow(Users user, UserPII userpii);
+	
 	public int insertRow(Users user);
 	public boolean isUserEnabled(Users user);
 	public Users getUserByUserName(String username);
@@ -19,7 +19,7 @@ public interface UserService {
 	public int updateRowForPassword(Users user);
 	public int deActivateUserByUserId(int userId);
 	public int deActivateUserByUserName(String userName);
-	public int insertRowForEmployee(Users user, UserPII userpii);
+	public int insertRowForEmployee(Users user);
 	public int updateRowForOTP(Users user);
 	public Users getUserByUserId(int userId);
 }

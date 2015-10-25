@@ -45,50 +45,47 @@ label {
 <body>
 	<center>
 		<br /> <br />
-		<div style="color: teal; font-size: 30px">Transfer Amount</div>
+		<div style="color: teal; font-size: 30px">Submit Merchant Payment</div>
 		<br /> <br />
-		<form:form name="transferForm" id="transferForm" method="post"
-			modelAttribute="form" >
+		<form:form name="payMerchantForm" id="payMerchantForm" method="post"
+			modelAttribute="form">
 			<c:if test="${!empty errorMessage}">
-					<div class="alert alert-danger">${errorMessage}</div>
+				<div class="alert alert-danger">${errorMessage}</div>
 			</c:if>
 			<table class="table table-striped" style="width: auto;">
 				<tr>
-					<td style="white-space: nowrap"><form:label  for="fromAccount" path="fromAccount">From Account Number</form:label>
+					<td style="white-space: nowrap"><form:label for="fromAccount" path="fromAccount">From Account Number</form:label>
 					</td>
-					<td><form:select path="fromAccount"
-								data-parsley-required="true" name="fromAccount">
+					<td><form:select path="fromAccount" name="fromAccount" data-parsley-required="true">
 							<form:option value="" label="--Select Account --" />
 							<form:options items="${accounts}" />
 						</form:select></td>
-					<td><form:errors class="alert alert-danger"  path="fromAccount" /></td>
+					<td><form:errors class="alert alert-danger" path="fromAccount" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label for="toAccount" path="toAccount">To Account Number</form:label>
 					</td>
-					<td><form:input path="toAccount" /></td>
-					<td><form:errors class="alert alert-danger" path="toAccount" data-parsley-required="true" name="toAccount"/></td>
+					<td><form:input path="toAccount" name="toAccount" data-parsley-length="[1,10]" data-parsley-required="true" data-parsley-type="digits"/></td>
+					<td><form:errors class="alert alert-danger" path="toAccount" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label for="amount" path="amount">Amount</form:label>
 					</td>
-					<td><form:input path="amount"  data-parsley-required="true"
-								data-parsley-type="digits" data-parsley-length="[1, 5]"
-								data-parsley-length-message="Should be max 5 digits"
-								name="amount"/></td>
+					<td><form:input path="amount" name="amount" data-parsley-required="true" data-parsley-type="digits"/></td>
 					<td><form:errors class="alert alert-danger" path="amount" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label for="description" path="description">Transfer Description</form:label>
 					</td>
-					<td><form:input path="description" name="description"
-								data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+"
+					<td><form:input path="description" data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+"
 								data-parsley-length="[1, 50]"/></td>
 				</tr>
 			</table>
-			<form:input type="hidden" path="transactionType" value="transfer" />
-			<input type="submit" class="btn" id="submit" value="Submit" />
-			<input class="btn" type="submit" id="cancel" value="Cancel" />
+			<form:input type="hidden" path="transactionType" value="payMerchant" />
+			<input type="submit" class="btn"
+				id="submit" value="Submit" />
+			<input class="btn" type="submit"
+				id="cancel" value="Cancel" />
 			<div>
 				<h2>${successfulMessage}</h2>
 			</div>
@@ -99,24 +96,25 @@ label {
 
 <script src="web_resources/theme/js/jquery.min.js"></script>
 	<script src="web_resources/theme/js/parsley.min.js"></script>
+
 	<script type="text/javascript">
-		
 		$('#submit').click(function() {
-			$('#transferForm').parsley().validate();
-			if (true == $('#transferForm').parsley().isValid()) {
-				$('#transferForm').parsley().destroy();
-				$('#transferForm').attr("action", "transferAmount");
+			$('#payMerchantForm').parsley().validate();
+			if (true == $('#payMerchantForm').parsley().isValid()) {
+				$('#payMerchantForm').parsley().destroy();
+				$('#payMerchantForm').attr("action", "submitMerchantPayment");
 			} else {
 				return false;
 			}
 		});
 
 		$('#cancel').click(function() {
-			$('#transferForm').parsley().destroy();
-			$('#transferForm').attr("action", "goBack");
+			$('#payMerchantForm').parsley().destroy();
+			$('#payMerchantForm').attr("action", "goBack");
 
 		});
 	</script>
+
 </body>
 </html>
 

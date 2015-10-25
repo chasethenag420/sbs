@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
@@ -140,7 +141,10 @@ public class SearchUserController {
 		authorization.setAuthorizedByUserId(userId);
 		authorization.setAuthorizedToUserId(requesteruserid);
 
-		authorization.setRequestStatus("Pending");
+		//CHANGE THE ROLE ID TO 0 SO THAT ONLY THE USERS INVOLVED CAN SEE THE NOTIFICATIONS APART FROM MANAGER		
+		authorization.setAssignedToRole(Const.NOROLEID);
+		
+		authorization.setRequestStatus(Const.PENDING);
 		authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
 		authorizationService.regularEmpRequest(authorization);	
 		// need to write the message that request was successful.
@@ -175,7 +179,7 @@ public class SearchUserController {
 			
 			finalrequest = authorizationList.get(0);
 			Users user = userservice.getUserByUserName(requestfromuser.getUserName());
-			finalrequest.setRequestStatus("INACTIVE");
+			finalrequest.setRequestStatus(Const.INACTIVE);
 			authorizationService.update(finalrequest);
 			model.addObject("user",user);
 		}else{

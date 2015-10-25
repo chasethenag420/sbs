@@ -46,7 +46,7 @@
 			</div>
 
 			<c:if test="${!empty transactions}">
-				<table border="1" cellspacing="40" width="100">
+				<table class="table table-striped" style="width: auto;">
 					<tr>
 						<th>AccountNumber</th>
 						<th>AccountCreation</th>

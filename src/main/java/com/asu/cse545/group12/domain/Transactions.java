@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
 @Entity(name="transaction")
 public class Transactions {
 	
@@ -16,7 +17,6 @@ public class Transactions {
 	private int transactionId;
 	
 	
-
 	@Column(name = "USERID")
 	private int  userId;
 	
@@ -39,8 +39,9 @@ public class Transactions {
 	@Column(name = "MODIFIED_TIMESTAMP")
 	private Date modifiedTimestamp;
 	
+
 	@Column(name = "AMOUNT")
-	private int amount;
+	private double amount;
 	
 	@Column(name = "TRANSFER_ID")
 	private int transferId;
@@ -108,11 +109,11 @@ public class Transactions {
 		this.modifiedTimestamp = modifiedTimestamp;
 	}
 
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 

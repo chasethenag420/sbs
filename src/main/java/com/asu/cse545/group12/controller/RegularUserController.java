@@ -113,7 +113,6 @@ public class RegularUserController {
 		modelView.setViewName("searchTransaction");
 		modelView.addObject("form", new Form());
 		System.out.println("accountnum"+account.getAccountNumber());
-		System.out.println("username"+user.getFirstName());
 		transactionByAccNum=transactionService.searchTransactionByInternals(account.getAccountNumber());
 		System.out.println("transactions list"+transactionByAccNum);
 		ListIterator<Transactions> it = transactionByAccNum.listIterator();

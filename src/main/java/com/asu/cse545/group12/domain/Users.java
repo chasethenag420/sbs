@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -40,8 +41,6 @@ public class Users implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Integer userId;	
 
-	@NotNull
-    @NotEmpty(message = "Please enter your Firstname.")
 	@Column(name = "FIRSTNAME")
 	private String firstName;
 	
@@ -57,34 +56,26 @@ public class Users implements Serializable {
 	public Integer getNumAttempts() {
 		return numAttempts;
 	}
-	//@Column(name = "FAILED_ATTEMPTS")
+
 	public void setNumAttempts(Integer numAttempts) {
 		this.numAttempts = numAttempts;
 	}
 
 
-	@NotNull
-    @NotEmpty(message = "Please enter your Lastname.")
 	@Column(name = "LASTNAME")
 	private String lastName;
 	
-	@NotNull
-    @NotEmpty(message = "Please enter your Gender.")	
+	
 	@Column(name = "GENDER")
 	private String gender;
-	
-	//@NotNull
-    //@NotEmpty//(message = "Please enter your Username.")
+
 	@Column(name = "USERNAME")
 	private String userName;
-	
-	//@NotNull
-    //@NotEmpty//(message = "Please enter your password.")
-   // @Size(min = 6, max = 15, message = "Your password must between 6 and 15 characters")
+
+
 	@Column(name = "PASSWORD")
 	private String password;
 
-	@NotNull
 	@Column(name = "ROLEID")
 	private Integer roleId;
 	
@@ -97,13 +88,11 @@ public class Users implements Serializable {
 
 	@Column(name="LAST_MODIFIED_DATE")
 	private Date lastModifieddate;
-	@NotNull
-    @NotEmpty(message = "Please enter your Email.")
+	
+
 	@Column(name = "EMAILID")
 	private String emailId;
 	
-	@NotNull
-    @NotEmpty(message = "Please enter your Phone Number.")
 	@Column(name = "PHONENUM")
 	private String phoneNumber;
 	
@@ -119,6 +108,7 @@ public class Users implements Serializable {
 	@Column(name = "COUNTRY")
 	private String country;
 	
+
 	@Column(name = "ZIPCODE")
 	private String zipcode;
 	

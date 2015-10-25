@@ -36,13 +36,13 @@ label {
 			<h2>${message}</h2>
 		</c:if>
 		<form class="form-horizontal" name="viewExternalProfileForm" id="viewExternalProfileForm"
-			method="post">
+			method="post" onsubmit="return OnSubmitForm();">
 			<fieldset>
 				<legend>User Profile</legend>
 				<br /> <br /> <br />
 				<center>
 					<c:if test="${!empty user}">
-						<table>
+						<table class="table table-striped" style="width: auto;">
 							<tr>
 								<td><label for="username">Username </label></td>
 								<td><input type="text" id="username" disabled
@@ -104,13 +104,16 @@ label {
 								<td><input type="text" id="zipcode" value="${user.zipcode}"
 									disabled></td>
 							</tr>
+							<tr>
 
 						</table>
+						
 					</c:if>
-					<br>  <input type="hidden"
-						name="${_csrf.parameterName}" value="${_csrf.token}" /> <input
+					<input
 						class="btn" type="submit" onclick="document.pressed=this.value"
-						value="Back" /> 
+						value="Back" />
+					<br>  <input type="hidden"
+						name="${_csrf.parameterName}" value="${_csrf.token}" /> 
 				</center>
 			</fieldset>
 		</form>
@@ -119,8 +122,9 @@ label {
 	<script type="text/javascript">
 		function OnSubmitForm() {
 			if (document.pressed == 'Back') {
-				document.profileForm.action = "goBack";
+				document.viewExternalProfileForm.action = "goBack";
 			}
+			
 			return true;
 		}
 	</script>

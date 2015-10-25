@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -54,42 +55,53 @@ public class SignUpController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	AuthorizationService  authorizationService;
 
-	@RequestMapping( value= "/signUp",method = RequestMethod.POST)
-	public ModelAndView registerUser(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model) {
+	@Autowired
+	CreateExternalUserValidator validator;
 
-		CreateExternalUserValidator validator = new CreateExternalUserValidator();
-		validator.validate(user, result);
+	@RequestMapping( value= "/signUp",method = RequestMethod.POST)
+	public ModelAndView registerUser(@Valid @ModelAttribute("user") Users user, BindingResult result, Model model) {
+
+		if(logger.isDebugEnabled()){
+			logger.debug("**********************Signup form: "+validator);
+
+		}
+
+		Map map = new HashMap();
+		map.put("user", user);
+		map.put("type", "signup");
+		validator.validate(map, result);
+
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
-			modelView.addObject("userpii", userpii);
+			Form form = new Form();
+			form.getMap().put("confirmPassword", new String(""));
+			modelView.addObject("form", form);
 			modelView.setViewName("signup");
 			return modelView;
 		} else {		
 
-			userService.insertRow(user,userpii);
+			userService.insertRow(user);
 			ModelAndView modelView = new ModelAndView();
 			Form form = new Form();
 			form.getMap().put("email", new String(user.getEmailId()));
 			form.getMap().put("OTP", new String(""));
 			form.getMap().put("username", new String(user.getUserName()));
-			
+
 			modelView.addObject("form", form);
 			modelView.setViewName("signUpOTP");
-			//authorizationService.signupInsertRow(user);
-			//return new ModelAndView("successfulSignUp");
 			return modelView;
 		}
 	}
-	
-	
+
+
 	@RequestMapping(value = "/enterSignupOTP",method = RequestMethod.POST)
 	public ModelAndView enterSignUpOTP(@ModelAttribute("form") Form form, BindingResult result, HttpServletRequest request) {
-		
+
 		Map<String, String> formMap = form.getMap();
 		String OTP  = formMap.get("OTP");
 		String username = formMap.get("username");
@@ -115,27 +127,41 @@ public class SignUpController {
 
 			return modelView;
 		}
-		
+
 	}
-	
-	
+
+
 	@RequestMapping(value = "/sendOTPAgain",method = RequestMethod.POST)
 	public ModelAndView sendOTPAgain(@ModelAttribute("form") Form form, BindingResult result, HttpServletRequest request) {
-		
+
 		ModelAndView modelView = new ModelAndView();
-		
+
 		Map<String, String> formMap = form.getMap();
 		String username = formMap.get("username");
 		Users user = userService.getUserByUserName(username);
-		
+
 		userService.updateRowForOTP(user);
 		form.getMap().put("email", new String(user.getEmailId()));
 		form.getMap().put("OTP", new String(""));
 		modelView.addObject("form", form);
 		modelView.setViewName("signUpOTP");
-		
+
 		return modelView;
-		
+
+	}
+
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		try
+		{
+			binder.registerCustomEditor(Date.class, new CustomDateEditor(
+					dateFormat, false));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 }

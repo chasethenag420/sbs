@@ -11,7 +11,7 @@
 <link href="web_resources/theme/css/bootstrap-responsive.css"
 	rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Secure Bank System | Notification</title>
+<title>Secure Bank System | Account Details</title>
 
 <style>
 table tr td:empty {
@@ -22,13 +22,14 @@ table tr td {
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+
 </style>
 
 </head>
 <body>
 	<center>
-	<br>
-			
+		<br>
+
 		<div style="color: teal; font-size: 30px">Account Details</div>
 		<form:form id="accountDetailsForm" method="post">
 
@@ -38,7 +39,7 @@ table tr td {
 
 			<c:if test="${!empty accountsRows}">
 
-				<table border="1" bgcolor="black">
+				<table class="table table-striped" style="width: auto;">
 					<col width="230">
 					<col width="230">
 					<col width="230">

@@ -2,6 +2,9 @@ package com.asu.cse545.group12.controller;
 
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +40,8 @@ public class AdminUserController {
 	@Autowired
 	UserService userService;
 	
-	
+	@Autowired
+	CreateExternalUserValidator validator;
 	
 	@RequestMapping(value = "/createEmployee", method = RequestMethod.GET)
 	public ModelAndView getSignUpForm(@ModelAttribute("userpii") UserPII userpii,@Valid  @ModelAttribute("user") Users user,BindingResult result) {
@@ -49,7 +53,6 @@ public class AdminUserController {
 		logger.debug("userpii "+userpii.toString());
 		logger.debug("user "+user.toString());
 		modelView.addObject("user", new Users());
-		modelView.addObject("userpii", new UserPII());
 		modelView.setViewName("createEmployee");
 
 		return modelView;
@@ -58,13 +61,19 @@ public class AdminUserController {
 	@RequestMapping( value= "createEmployeeUser", method = RequestMethod.POST)
 	public ModelAndView registerEmployee(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model, HttpServletRequest request) {
 
-		CreateExternalUserValidator validator = new CreateExternalUserValidator();
-		//validator.validate(user, result);
+
+		Map map = new HashMap();
+		map.put("user", user);
+		map.put("type", "createEmployee");
+		validator.validate(map, result);
+		
+		logger.debug("******************************createEmployeeUser: ");
 		if (result.hasErrors()) {
+			logger.debug("******************************createEmployeeUser errored: ");
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
-			modelView.addObject("userpii", userpii);
-			modelView.setViewName("admin");
+			modelView.setViewName("createEmployee");
+			//modelView.addObject("message", result.toString());
 			return modelView;
 		} else {		
 
@@ -74,6 +83,13 @@ public class AdminUserController {
 			String username = firstName.charAt(0)+lastName;
 			username = username.toLowerCase();
 			int counter = 1;
+			int i=0;
+			//restriction on username and password is that it should be of 6 length
+			if(username.length()<6)
+			{
+				for(; i< (6-username.length()); i++)
+					username +=(i+1);
+			}
 			while(true)
 			{
 				Users existingUser = userService.getUserByUserName(username);
@@ -81,6 +97,8 @@ public class AdminUserController {
 				if(existingUser == null)
 				{
 					//set same username to username and password
+					
+					
 					user.setUserName(username);
 					user.setPassword(username);
 					userpii.setUser(user);
@@ -99,11 +117,11 @@ public class AdminUserController {
 					counter++;
 				}
 			}
-			userService.insertRowForEmployee(user,userpii);
-			request.getSession(false).setAttribute("tab", "createEmployee");
+			userService.insertRowForEmployee(user);
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
 			modelView.addObject("userpii", userpii);
+			modelView.addObject("message", "User is created successfully and account credentials have been emailed to user");
 			modelView.setViewName("admin");
 			return modelView;
 		}
@@ -129,6 +147,7 @@ public class AdminUserController {
 				emailAPI.setBody(body);
 				emailAPI.setSubject(subject);
 				emailAPI.sendEmail();
+				context.close();
 	}
 	
 

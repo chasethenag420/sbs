@@ -33,7 +33,7 @@ public class Account{
 	private int activeFlag;
 	
 	@Column(name="BALANCE")
-	private int balance;
+	private double balance;
 	
 	@Column(name="CREATION_DATE")
 	private Date creationDate;
@@ -65,10 +65,10 @@ public class Account{
 	public void setActiveFlag(int activeFlag) {
 		this.activeFlag = activeFlag;
 	}
-	public int getBalance() {
+	public double getBalance() {
 		return balance;
 	}
-	public void setBalance(int balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 	public Date getCreationDate() {

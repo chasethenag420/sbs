@@ -27,8 +27,7 @@
 		<center>
 		<br>
 		<h2>${message}</h2>
-				</center>
-		
+		</center>
 		<form:form class="form-horizontal" id='individualForm' method='POST'>
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
@@ -45,8 +44,8 @@
 								class="glyphicon glyphicon-chevron-right"></span> Debit</a></li>
 						<li id="transfer"><a href="transfer"><span
 								class="glyphicon glyphicon-chevron-right"></span> Transfer</a></li>
-						<li id="addAccount"><a href="#"><span
-								class="glyphicon glyphicon-chevron-right"></span> Add Account</a></li>
+						<li id="addAccount"><a href="payMerchant"><span
+								class="glyphicon glyphicon-chevron-right"></span> Pay Merchant</a></li>
 						<li id="transactions"><a href="externalsearchtrans"><span
 								class="glyphicon glyphicon-chevron-right"></span> Transactions</a></li>
 						<li id="bankStatement"><a href="bankStatement"><span
@@ -57,11 +56,13 @@
 								class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
 						<li id="logout"><a href="#"><span
 								class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
+								
 					</ul>
 				</div>
 				<div id="content" class="col-md-9 column margintop20">
 					<%-- <jsp:include page="accountDetails.jsp"/> --%>
 				</div>
+
 			</div>
 		</form:form>
 	</div>
