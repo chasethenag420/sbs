@@ -14,6 +14,33 @@
 <link href="web_resources/theme/css/bootstrap-responsive.css"
 	rel="stylesheet">
 <title>Search User</title>
+<style type="text/css">
+.wrapper {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto
+}
+
+label {
+	padding-left: 0 !important
+}
+
+.invalid-form-error-message {
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.invalid-form-error-message.filled {
+	border-left: 2px solid red;
+}
+
+.parsley-errors-list li {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border: 1px solid #EED3D7;
+	margin: 5px;
+}
+</style>
 </head>
 <body>
 	<center>
@@ -24,36 +51,50 @@
 		<form:form id="searchUser" method="post" modelAttribute="form">
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
-			<table width="700px" height="150px" cellspacing="10">
+			<table class="table table-striped" style="width: auto;">
 				<tr>
-					<td style="white-space: nowrap"><form:label
+					<td style="white-space: nowrap"><form:label for="accountnum"
 							path="map['accountNumber']"> Account Number</form:label></td>
-					<td><form:input path="map['accountNumber']" /></td>
+					<td><form:input path="map['accountNumber']" name="accountnum"
+							data-parsley-length="[1,10]" data-parsley-required="true"
+							data-parsley-type="digits" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label
-							path="map['userName']">User Name</form:label></td>
-					<td><form:input path="map['userName']" /></td>
+							path="map['userName']" for="username">User Name</form:label></td>
+					<td><form:input path="map['userName']" name="username"
+							 data-parsley-required="true"
+							data-parsley-type="alphanum" data-parsley-length="[6, 15]"
+							data-parsley-length-message="Username should be between 6 to 15 characters" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label
-							path="map['firstName']">First Name</form:label></td>
-					<td><form:input path="map['firstName']" /></td>
+							path="map['firstName']" for="fname">First Name</form:label></td>
+					<td><form:input path="map['firstName']" name="fname"
+							data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+"
+							data-parsley-length="[1, 15]" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label
-							path="map['lastName']">Last Name</form:label></td>
-					<td><form:input path="map['lastName']" /></td>
+							path="map['lastName']" for="lname">Last Name</form:label></td>
+					<td><form:input path="map['lastName']" name="lname"
+							data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+"
+							data-parsley-length="[1, 15]" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label
-							path="map['emailId']">Email Id</form:label></td>
-					<td><form:input path="map['emailId']" /></td>
+							path="map['emailId']" for="email">Email Id</form:label></td>
+					<td><form:input path="map['emailId']" name="email" data-parsley-required="true"
+							data-parsley-type="email" id="email"
+							data-parsley-length="[1, 25]" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label
-							path="map['phoneNumber']">Phone Number</form:label></td>
-					<td><form:input path="map['phoneNumber']" /></td>
+							path="map['phoneNumber']" for="phonenumber">Phone Number</form:label></td>
+					<td><form:input path="map['phoneNumber']" name="phonenumber"
+							data-parsley-required="true" data-parsley-type="digits"
+							data-parsley-length="[10, 10]"
+							data-parsley-length-message="Should be 10 digits" /></td>
 				</tr>
 			</table>
 			<input class="btn" type="submit" id="search" value="Search" />
@@ -62,15 +103,25 @@
 
 	</center>
 	<!-- jQuery -->
-	<script src="web_resources/theme/js/jquery.js"></script>
+	<script src="web_resources/theme/js/jquery.min.js"></script>
+
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	<script src="web_resources/theme/js/parsley.min.js"></script>
 	<script type="text/javascript">
 		$('#search').click(function() {
-			$('#searchUser').attr("action", "getuserlist");
+
+			$('#searchUser').parsley().validate();
+			if (true == $('#searchUser').parsley().isValid()) {
+				$('#searchUser').parsley().destroy();
+				$$('#searchUser').attr("action", "getuserlist");
+			} else {
+				return false;
+			}
 		});
 		$('#cancel').click(function() {
+			$('#searchUser').parsley().destroy();
 			$('#searchUser').attr("action", "goBack");
 		});
 	</script>

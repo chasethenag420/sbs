@@ -13,29 +13,52 @@
 	rel="stylesheet">
 
 <title>Search Transactions</title>
+<style type="text/css">
+.wrapper {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto
+}
+
+label {
+	padding-left: 0 !important
+}
+
+.invalid-form-error-message {
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.invalid-form-error-message.filled {
+	border-left: 2px solid red;
+}
+
+.parsley-errors-list li {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border: 1px solid #EED3D7;
+	margin: 5px;
+}
+</style>
 <body>
 	<center>
 		<br>
 		<div style="color: teal; font-size: 30px">Search Transactions</div>
 		<br>
 
-		<form class="form-horizontal" id="searchTransaction" method="post"
-			action="">
+		<form class="form-horizontal" name="searchTransaction"
+			id="searchTransaction" method="post">
 
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 
-			<table width="700px" height="150px" cellspacing="10">
+			<table class="table table-striped" style="width: auto;">
 				<tr>
 					<td style="white-space: nowrap"><form:label
-							path="user.firstName">First Name</form:label></td>
-					<td><form:input path="user.firstName" /> <form:errors
-							class="alert alert-danger" path="user.firstName" /></td>
-				</tr>
-				<tr>
-					<td style="white-space: nowrap"><form:label
-							path="account.accountNumber">Account Number</form:label></td>
-					<td><form:input path="account.accountNumber" /> <form:errors
+							path="account.accountNumber" for="toAccount">Account Number</form:label></td>
+					<td><form:input path="account.accountNumber" name="toAccount"
+							data-parsley-length="[1,10]" data-parsley-required="true"
+							data-parsley-type="digits" /> <form:errors
 							class="alert alert-danger" path="account.accountNumber" /></td>
 				</tr>
 			</table>
@@ -46,16 +69,28 @@
 	</center>
 
 	<!-- jQuery -->
-	<script src="web_resources/theme/js/jquery.js"></script>
+	<script src="web_resources/theme/js/jquery.min.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	<script src="web_resources/theme/js/parsley.min.js"></script>
 	<script type="text/javascript">
-		$('#search').click(function() {
-			$('#searchTransaction').attr("action", "searchTransactionform");
-		});
+		$('#search').click(
+				function() {
+					$('#searchTransaction').parsley().validate();
+					if (true == $('#searchTransaction').parsley().isValid()) {
+						$('#searchTransaction').parsley().destroy();
+						$('#searchTransaction').attr("action",
+								"searchTransactionform");
+					} else {
+						return false;
+					}
+				});
+
 		$('#cancel').click(function() {
+			$('#searchTransaction').parsley().destroy();
 			$('#searchTransaction').attr("action", "goBack");
+
 		});
 	</script>
 

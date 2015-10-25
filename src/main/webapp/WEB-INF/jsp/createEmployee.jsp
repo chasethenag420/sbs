@@ -101,11 +101,11 @@ label {
 					<tr>
 						<td style="white-space: nowrap"><form:label for="ssn"
 								path="user.userpii.ssn">SSN</form:label></td>
-						<td><form:input type="number" name="ssn" path="userpii.ssn"
+						<td><form:input type="number" name="ssn" path="user.userpii.ssn"
 								id="ssn" data-parsley-required="true" data-parsley-type="digits"
 								data-parsley-length="[9, 9]"
 								data-parsley-length-message="Should be 9 digits" /> <form:errors
-								class="alert alert-danger" path="userpii.ssn" /></td>
+								class="alert alert-danger" path="user.userpii.ssn" /></td>
 					</tr>
 
 					<tr>
@@ -189,7 +189,7 @@ label {
 					<tr>
 						<td style="white-space: nowrap"><form:label for="email"
 								path="user.emailId">Email</form:label></td>
-						<td><form:input type="email" name="email"
+						<td><form:input type="email" name="email" data-parsley-required="true"
 								data-parsley-type="email" path="user.emailId" id="email"
 								data-parsley-length="[1, 25]"/> <form:errors
 								class="alert alert-danger" path="user.emailId" /></td>

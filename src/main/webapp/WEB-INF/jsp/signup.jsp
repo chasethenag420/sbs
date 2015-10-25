@@ -111,7 +111,7 @@ label {
 					<tr>
 						<td style="white-space: nowrap"><form:label
 								path="user.lastName">Last Name</form:label></td>
-						<td><form:input path="user.lastName" id="lname"
+						<td><form:input path="user.lastName" id="lname" name="lname"
 								data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+" data-parsley-length="[1, 15]" />
 							<form:errors class="alert alert-danger" path="user.lastName" /></td>
 					</tr>
@@ -205,7 +205,7 @@ label {
 					<tr>
 						<td style="white-space: nowrap"><form:label for="phonenumber"
 								path="user.phoneNumber">Phone Number</form:label></td>
-						<td><form:input path="user.phoneNumber" id="phno"
+						<td><form:input path="user.phoneNumber" id="phno" name="phonenumber"
 								data-parsley-required="true" data-parsley-type="digits"
 								data-parsley-length="[10, 10]"
 								data-parsley-length-message="Should be 10 digits" /> <form:errors
@@ -214,7 +214,7 @@ label {
 					<tr>
 						<td style="white-space: nowrap"><form:label for="email"
 								path="user.emailId">Email</form:label></td>
-						<td><form:input type="email" name="email"
+						<td><form:input type="email" name="email" data-parsley-required="true"
 								data-parsley-type="email" path="user.emailId" id="email" data-parsley-length="[1, 25]" /> <form:errors
 								class="alert alert-danger" path="user.emailId" /></td>
 					</tr>
