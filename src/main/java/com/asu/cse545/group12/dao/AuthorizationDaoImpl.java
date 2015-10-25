@@ -161,7 +161,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	public List<Authorization> getNotificationsForManager(Users user)
 	{
 		String req_type1=Const.PII_ACCESS;
-		String whereClause = "from authorization where authorized_to_userid=" + user.getUserId() +" or request_type not like :req_type1";
+		String whereClause = "from authorization where (authorized_to_userid=" + user.getUserId() +" or assigned_to_role = 4)  and request_type not like :req_type1";
 		logger.debug("Manager User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
@@ -176,12 +176,12 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	{
 		String role=Const.ADMIN;
 //		String whereClause = "from authorization where request_type like 'Pii Access'";
-		String whereClause = "from authorization where authorized_to_userid=" + user.getUserId() + " or assigned_to_role = (select roleid from role where roledescription like :role)";
+		String whereClause = "from authorization where authorized_to_userid=" + user.getUserId() + " or assigned_to_role = 5";//(select roleid from role where roledescription like :role)";
 		logger.debug("Admin User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
-		query.setParameter("role", role);
+		//query.setParameter("role", role);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;

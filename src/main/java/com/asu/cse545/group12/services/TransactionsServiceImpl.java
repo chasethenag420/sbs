@@ -186,7 +186,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				creditTransaction.setUserId(toAccount.getUserId());
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				creditTransaction.setTransactionType(Const.CREDIT_REQUEST);
-				debitTransaction.setTransactionDescription("\n Transfer from "+fromAccountNumber);
+				creditTransaction.setTransactionDescription("\n Transfer from "+fromAccountNumber);
 				int creditTransactionId = transactionDao.insertRow(creditTransaction);
 
 				// create transfer
@@ -274,5 +274,82 @@ public class TransactionsServiceImpl implements TransactionsService {
 		
 		return result;
 	}
+	
+	@Override
+	public int payMerchant(int fromAccountNumber, int toAccountNumber, int amount, String description, String customerDetails) 
+	{
+		boolean debitStatus = false;
+		if (accountService.isValidAccountNumber(toAccountNumber)
+				&& accountService.isValidAccountNumber(fromAccountNumber)) {
+			debitStatus = accountService.isBalanceValid(fromAccountNumber, amount, Const.DEBIT_REQUEST);
+			if (debitStatus == true) {
+				Account fromAccount = accountService.getAccount(fromAccountNumber);
+				Account toAccount = accountService.getAccount(toAccountNumber);
 
+				// create transaction for debit
+				Transactions debitTransaction = new Transactions();
+				debitTransaction.setAccountNumber(fromAccountNumber);
+				debitTransaction.setAmount(amount);
+				debitTransaction.setCreationTimestamp(Calendar.getInstance().getTime());
+				
+					debitTransaction.setTransactionStatus(Const.SUBMITTED);
+					debitTransaction.setSeverity("critical");
+				
+				debitTransaction.setUserId(fromAccount.getUserId());
+				debitTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
+				debitTransaction.setTransactionType(Const.DEBIT_REQUEST);
+				debitTransaction.setTransactionDescription(description+"\n Transfer to "+toAccountNumber);
+				int debitTransactionId = transactionDao.insertRow(debitTransaction);
+
+
+				// create transaction for credit
+				Transactions creditTransaction = new Transactions();
+				creditTransaction.setAccountNumber(toAccountNumber);
+				creditTransaction.setAmount(amount);
+				creditTransaction.setCreationTimestamp(Calendar.getInstance().getTime());
+				
+					creditTransaction.setSeverity("critical");
+					creditTransaction.setTransactionStatus(Const.SUBMITTED);
+				
+				creditTransaction.setUserId(toAccount.getUserId());
+				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
+				creditTransaction.setTransactionType(Const.CREDIT_REQUEST);
+				creditTransaction.setTransactionDescription("\n Transfer from "+fromAccountNumber);
+				int creditTransactionId = transactionDao.insertRow(creditTransaction);
+
+				// create transfer
+				Transfer transfer = new Transfer();
+				
+					transfer.setTransactionStatus(Const.SUBMITTED);
+				
+				transfer.setUserFromTransactionid(debitTransactionId);
+				transfer.setUserToTransactionid(creditTransactionId);
+				int transferId = transferDao.insertRow(transfer);
+
+				// set transferId in both transactions
+				debitTransaction.setTransferId(transferId);
+				creditTransaction.setTransferId(transferId);
+				transactionDao.updateRow(debitTransaction);
+				transactionDao.updateRow(creditTransaction);
+
+				// create authorization for amount >1000. authorization has only
+				// fromAccount information
+				
+					Authorization authorization = new Authorization();
+					authorization.setAuthorizedToUserId(fromAccount.getUserId());
+					authorization.setAuthorizedByUserId(toAccount.getUserId());
+					authorization.setRequestStatus(Const.SUBMITTED);
+					authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
+					authorization.setRequestDescription("Merchant Payment: Approval for amount transfer from the customer: "+customerDetails);
+					authorization.setRequestType(Const.TRANSFER_REQUEST);
+					authorization.setTransactionId(debitTransactionId);
+					authorization.setAssignedToRole(0);
+					authorizationDao.insertRow(authorization);
+					
+				
+				return debitTransactionId;
+			}
+		}
+		return -1;
+	}
 }
