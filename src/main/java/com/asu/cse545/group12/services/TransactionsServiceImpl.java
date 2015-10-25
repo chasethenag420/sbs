@@ -72,9 +72,10 @@ public class TransactionsServiceImpl implements TransactionsService {
 			authorization.setRequestDescription("Approval for amount credit");
 			authorization.setRequestType(Const.CREDIT_REQUEST);
 			
+			//nothing will be assigned to regular user
 			//SETTNG THE ROLE ID TO REGULAR USER 
-			int roleid = roleDao.getRoleid(Const.REGULARUSER);
-			authorization.setAssignedToRole(roleid);
+			//int roleid = roleDao.getRoleid(Const.REGULARUSER);
+			//authorization.setAssignedToRole(roleid);
 			
 			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
@@ -107,9 +108,10 @@ public class TransactionsServiceImpl implements TransactionsService {
 			authorization.setRequestDescription("Approval for amount debit");
 			authorization.setRequestType(Const.DEBIT_REQUEST);
 
+			//nothing will be assigned to regular user
 			//SETTNG THE ROLE ID TO REGULAR USER 
-			int roleid = roleDao.getRoleid(Const.REGULARUSER);
-			authorization.setAssignedToRole(roleid);
+			//int roleid = roleDao.getRoleid(Const.REGULARUSER);
+			//authorization.setAssignedToRole(roleid);
 
 			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
@@ -216,9 +218,10 @@ public class TransactionsServiceImpl implements TransactionsService {
 					authorization.setRequestDescription("Approval for amount transfer");
 					authorization.setRequestType(Const.TRANSFER_REQUEST);
 					
+					//nothing will be assigned to regular user
 					//SETTNG THE ROLE ID TO REGULAR USER 
-					int roleid = roleDao.getRoleid(Const.REGULARUSER);
-					authorization.setAssignedToRole(roleid);
+					//int roleid = roleDao.getRoleid(Const.REGULARUSER);
+					//authorization.setAssignedToRole(roleid);
 
 					authorization.setTransactionId(debitTransactionId);
 					authorizationDao.insertRow(authorization);
@@ -343,7 +346,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 					authorization.setRequestDescription("Merchant Payment: Approval for amount transfer from the customer: "+customerDetails);
 					authorization.setRequestType(Const.TRANSFER_REQUEST);
 					authorization.setTransactionId(debitTransactionId);
-					authorization.setAssignedToRole(0);
+					authorization.setAssignedToRole(Const.NOROLEID);
 					authorizationDao.insertRow(authorization);
 					
 				

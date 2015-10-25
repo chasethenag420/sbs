@@ -36,4 +36,6 @@ public interface AuthorizationService {
 	public Authorization getAuthorizationByAuthorizationId(int authorizationId);
 	
 	public int approveTransferByMerchant(int authorizationId, String userName);
+	
+	public List<Authorization> getApprovedPendingNotifications(Users user);
 }

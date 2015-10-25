@@ -58,14 +58,14 @@ label {
 						<td><form:select name="regrequestType"
 								path="authorization.requestType" data-parsley-required="true">
 								<form:option value="" label="--- Select ---" />
-								<form:option value="view profile" label="View Profile" />
-								<form:option value="modify profile" label="Modify Profile" />
-								<form:option value="delete profile" label="Delete Profile" />
-								<form:option value="view transaction" label="View Transaction" />
-								<form:option value="modify transaction"
+								<form:option value="View Profile" label="View Profile" />
+								<form:option value="Modify Profile" label="Modify Profile" />
+								<form:option value="Delete User" label="Delete User" />
+								<form:option value="View Transaction" label="View Transaction" />
+								<form:option value="Modify Transaction"
 									label="Modify Transaction" />
-								<form:option value="delete transaction"
-									label="Delete Transaction" />
+								<form:option value="Cancel Transaction"
+									label="Cancel Transaction" />
 							</form:select></td>
 					</tr>
 					<tr>

@@ -23,16 +23,16 @@ import com.asu.cse545.group12.domain.Users;
 public class AuthorizationDaoImpl implements AuthorizationDao {
 
 	private static final Logger logger = Logger.getLogger(AuthorizationDaoImpl.class);
-	
+
 	@Autowired
 	SessionFactory sessionfactory;
-	
-	
+
+
 	//*************************************************************************************************
 	//              IN all this methods the Authorization ID will be the input , 
 	//										Update the Flags based on the Authorization ID
 	//*************************************************************************************************
-	
+
 	@Override
 	@Transactional
 	public int insertRow(Authorization authorization) {
@@ -50,7 +50,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		session.close();  
 		return (Integer) authid; 
 	}
-	
+
 	@Override
 	public int approve(Authorization authorization)
 	{
@@ -79,7 +79,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		session.close();  
 		return (Integer) authid;		
 	}
-	
+
 	@Override
 	public int forward(Authorization authorization)
 	{
@@ -94,31 +94,33 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		return (Integer) authid;		
 	}
 
-//	@Override
-//	public List<Authorization> getNotifications() 
-//	{
-//		String whereClause = "from authorization where request_status='pending' or request_status= 'forward'";
-//		List<Authorization> pendingEntries = new ArrayList<Authorization>();
-//		Session session = sessionfactory.openSession(); 
-//		Query query = session.createQuery(whereClause);
-//		
-//		pendingEntries = query.list();
-//		
-//		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
-//		
-//		return pendingEntries;
-//		
-//	}
-	
+	//	@Override
+	//	public List<Authorization> getNotifications() 
+	//	{
+	//		String whereClause = "from authorization where request_status='pending' or request_status= 'forward'";
+	//		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+	//		Session session = sessionfactory.openSession(); 
+	//		Query query = session.createQuery(whereClause);
+	//		
+	//		pendingEntries = query.list();
+	//		
+	//		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+	//		
+	//		return pendingEntries;
+	//		
+	//	}
+
 	@Override
 	public List<Authorization> getNotificationsForExternal(Users user) 
 	{
-		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED ---- ALL THE REQUESTS RAISED BY HIM ONLY --- PENDING,FORWARDED AND APPROVED ONES
-		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or authorized_by_userid='"+ user.getUserId()+"'";
+		String req_status=Const.PENDING;
+		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED ---- ALL THE REQUESTS RAISED TO HIM ONLY --- ONLY PENDING
+		String whereClause = "from authorization where authorized_by_userid='"+ user.getUserId()+"' and request_status=:req_status";
 		logger.debug("Ext User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
+		query.setParameter("req_status", req_status);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;
@@ -127,12 +129,14 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	@Override
 	public List<Authorization> getNotificationsForMerchant(Users user) 
 	{
-		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED ---- ALL THE REQUESTS RAISED BY HIM ONLY --- PENDING,FORWARDED AND APPROVED ONES 
-		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or authorized_by_userid='"+ user.getUserId()+"'";
-		logger.debug("Merchant Notif Where clause:" + whereClause);
+		String req_status=Const.PENDING;
+		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED ---- ALL THE REQUESTS RAISED TO HIM ONLY --- ONLY PENDING
+		String whereClause = "from authorization where authorized_by_userid='"+ user.getUserId()+"' and request_status=:req_status";
+		logger.debug("Ext User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
+		query.setParameter("req_status", req_status);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;
@@ -145,14 +149,14 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		String req_type =Const.SIGNUP_REQUEST;
 		String role = Const.REGULARUSER;
 		String whereClause = "from authorization where authorized_to_userid=" + user.getUserId() + " or (request_status=:req_status and assigned_to_role = 3)";//(select roleId from role where roledescription like :role))";
-//		String whereClause = "from authorization where request_status like 'Pending' and request_type not like 'Signup'";
+		//		String whereClause = "from authorization where request_status like 'Pending' and request_type not like 'Signup'";
 		logger.debug("Regular User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
 		Query query = session.createQuery(whereClause);
 		query.setParameter("req_status", req_status);
-//		query.setParameter("req_type",req_type);
-//		query.setParameter("role", role);
+		//		query.setParameter("req_type",req_type);
+		//		query.setParameter("role", role);
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;
@@ -161,7 +165,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	public List<Authorization> getNotificationsForManager(Users user)
 	{
 		String req_type1=Const.PII_ACCESS;
-		String whereClause = "from authorization where (authorized_to_userid=" + user.getUserId() +" or assigned_to_role = 4)  and request_type not like :req_type1";
+		String whereClause = "from authorization where  (assigned_to_role = 4 and REQUEST_STATUS ='"+Const.PENDING+"')  and request_type not like :req_type1";
 		logger.debug("Manager User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
@@ -171,12 +175,13 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;
 	}
-	
+
 	public List<Authorization> getNotificationsForAdmin(Users user)
 	{
 		String role=Const.ADMIN;
-//		String whereClause = "from authorization where request_type like 'Pii Access'";
-		String whereClause = "from authorization where authorized_to_userid=" + user.getUserId() + " or assigned_to_role = 5";//(select roleid from role where roledescription like :role)";
+		//		String whereClause = "from authorization where request_type like 'Pii Access'";
+		//only show authorization assigned to admin and which are pending
+		String whereClause = "from authorization where assigned_to_role = 5 and REQUEST_STATUS ='"+Const.PENDING+"'";//(select roleid from role where roledescription like :role)";
 		logger.debug("Admin User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
@@ -186,17 +191,17 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;
 	}
-	
+
 	@Override
 	public Authorization getRowById(int authorizationId) {
 		// TODO Auto-generated method stub
-			Session session = sessionfactory.openSession();
-			Authorization authorization= session.load(Authorization.class, authorizationId);
-			return authorization;
-		
+		Session session = sessionfactory.openSession();
+		Authorization authorization= session.load(Authorization.class, authorizationId);
+		return authorization;
+
 	}
-	
-	
+
+
 	@Override
 	public Authorization getAuthorizationByAuthorizationId(int authorizationId){
 		Session session = sessionfactory.openSession();
@@ -220,7 +225,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 
 	@Override
 	public Authorization getAuthorizationByTransactionId(int transactionId) {
-		
+
 		Session session = sessionfactory.openSession();
 		Query query = session.createQuery("from authorization where TRANSACTION_ID =:transactionId ");
 		query.setParameter("transactionId", transactionId);
@@ -238,7 +243,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 			return null;
 		}
 	}
-	
+
 	@Override
 	@Transactional
 	public int updateRow(Authorization authorization) {
@@ -264,5 +269,73 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		System.out.println(authlist);
 		return authlist;
 	}
-	
+
+	@Override
+	public List<Authorization> getApprovedPendingNotificationsForManager(Users user) {
+		String req_type1=Const.PII_ACCESS;
+		//authorization only created by manager and approved by manager
+		String whereClause = "from authorization where (authorized_to_userid=" + user.getUserId() +")or (assigned_to_role = 4 and REQUEST_STATUS ='"+Const.APPROVED+"')  and request_type not like :req_type1";
+		logger.debug("Manager User Notif Where clause:" + whereClause);
+		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+		Session session = sessionfactory.openSession(); 
+		Query query = session.createQuery(whereClause);
+		query.setParameter("req_type1", req_type1);
+		pendingEntries = query.list();
+		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+		return pendingEntries;
+	}
+
+	@Override
+	public List<Authorization> getApprovedPendingNotificationsForAdmin(Users user) {
+		String role=Const.ADMIN;
+		//only show authorization created by admin and approved by admin
+		String whereClause = "from authorization where (authorized_to_userid=" + user.getUserId() +") or (assigned_to_role = 5 and REQUEST_STATUS ='"+Const.APPROVED+"')";//(select roleid from role where roledescription like :role)";
+		logger.debug("Admin User Notif Where clause:" + whereClause);
+		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+		Session session = sessionfactory.openSession(); 
+		Query query = session.createQuery(whereClause);
+		//query.setParameter("role", role);
+		pendingEntries = query.list();
+		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+		return pendingEntries;
+	}
+
+	@Override
+	public List<Authorization> getApprovedPendingNotificationsForRegular(Users user) {
+
+		return null;
+	}
+
+	@Override
+	public List<Authorization> getApprovedPendingNotificationsForMerchant(Users user) {
+		String req_status=Const.APPROVED;
+		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED (PENDING or APPROVED) ---- ALL THE REQUESTS RAISED TO HIM ONLY (APPROVED ONLY)
+		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or (authorized_by_userid='"+ user.getUserId()+"' and request_status=:req_status)";
+		logger.debug("Ext User Notif Where clause:" + whereClause);
+		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+		Session session = sessionfactory.openSession(); 
+		Query query = session.createQuery(whereClause);
+		query.setParameter("req_status", req_status);
+		pendingEntries = query.list();
+		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+		return pendingEntries;
+	}
+
+	@Override
+	public List<Authorization> getApprovedPendingNotificationsForExternal(Users user) {
+		String req_status=Const.APPROVED;
+		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED (PENDING or APPROVED) ---- ALL THE REQUESTS RAISED TO HIM ONLY (APPROVED ONLY)
+		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or (authorized_by_userid='"+ user.getUserId()+"' and request_status=:req_status)";
+		logger.debug("Ext User Notif Where clause:" + whereClause);
+		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+		Session session = sessionfactory.openSession(); 
+		Query query = session.createQuery(whereClause);
+		query.setParameter("req_status", req_status);
+		pendingEntries = query.list();
+		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+		return pendingEntries;
+	}
+
+
+
 }

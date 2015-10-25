@@ -28,14 +28,24 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public int insertRow(int userId) {
 
-		Account account = new Account();
-		account.setAccountType("checking");
-		account.setActiveFlag(1);
-		account.setBalance(0);
-		account.setCreationDate(Calendar.getInstance().getTime());
-		account.setModifiedTimeStamp(Calendar.getInstance().getTime());
-		account.setUserId(userId);
-		return accountdao.insertRow(account);
+		//create checking
+		Account checkingAccount = new Account();
+		checkingAccount.setAccountType("checking");
+		checkingAccount.setActiveFlag(1);
+		checkingAccount.setBalance(0);
+		checkingAccount.setCreationDate(Calendar.getInstance().getTime());
+		checkingAccount.setModifiedTimeStamp(Calendar.getInstance().getTime());
+		checkingAccount.setUserId(userId);
+		accountdao.insertRow(checkingAccount);
+		//create saving
+		Account savingAccount = new Account();
+		savingAccount.setAccountType("saving");
+		savingAccount.setActiveFlag(1);
+		savingAccount.setBalance(0);
+		savingAccount.setCreationDate(Calendar.getInstance().getTime());
+		savingAccount.setModifiedTimeStamp(Calendar.getInstance().getTime());
+		savingAccount.setUserId(userId);
+		return accountdao.insertRow(savingAccount);
 	}
 
 	@Override

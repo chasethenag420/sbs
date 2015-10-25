@@ -54,6 +54,7 @@ public class NotificationController {
 
 		notificationView.addObject("form", new Form());
 		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
+		notificationView.addObject("approvedNotificationRows", authorizationService.getApprovedPendingNotifications(user));
 		notificationView.setViewName("notifications");
 		return notificationView;
 	}

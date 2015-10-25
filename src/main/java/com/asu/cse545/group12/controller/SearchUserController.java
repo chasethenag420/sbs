@@ -129,7 +129,7 @@ public class SearchUserController {
 		}
 		ModelAndView modelView = new ModelAndView();
 		Integer userId=Integer.parseInt((String)request.getSession(false).getAttribute("raiseInternalRequestuserId"));
-		Users usermain = userservice.getUserByUserId(userId);
+		
 		HttpSession session = request.getSession(false);
 		String reuqesterusername=(String) session.getAttribute("username");
 		Users requesteruser = userservice.getUserByUserName(reuqesterusername);
