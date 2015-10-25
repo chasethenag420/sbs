@@ -68,10 +68,10 @@ public class Users implements Serializable {
 	
 	@Column(name = "GENDER")
 	private String gender;
-	
 
 	@Column(name = "USERNAME")
 	private String userName;
+
 
 	@Column(name = "PASSWORD")
 	private String password;

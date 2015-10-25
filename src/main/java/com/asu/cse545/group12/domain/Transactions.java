@@ -17,7 +17,6 @@ public class Transactions {
 	private int transactionId;
 	
 	
-
 	@Column(name = "USERID")
 	private int  userId;
 	
