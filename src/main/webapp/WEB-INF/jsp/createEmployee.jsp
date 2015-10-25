@@ -52,7 +52,7 @@ label {
 
 
 </head>
-<body onload="DrawCaptcha();">
+<body>
 	<center>
 		<c:if test="${!empty message}">
 			<div class="alert alert-danger">${message}</div>
@@ -69,21 +69,21 @@ label {
 						<td style="white-space: nowrap"><form:label for="fname"
 								path="user.firstName">First Name</form:label></td>
 						<td><form:input path="user.firstName" id="fname" name="fname"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" />
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" data-parsley-length="[1, 15]"/>
 							<form:errors class="alert alert-danger" path="user.firstName" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label for="mname"
 								path="user.middleName">Middle(M I)</form:label></td>
 						<td><form:input path="user.middleName" id="mname"
-								name="mname" data-parsley-pattern="[a-zA-Z]" /></td>
+								name="mname" data-parsley-pattern="[a-zA-Z]*" data-parsley-length="[0, 15]" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label
 								path="user.lastName">Last Name</form:label></td>
 						<td><form:input path="user.lastName" id="lname"
 								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" />
-							<form:errors class="alert alert-danger" path="user.lastName" /></td>
+							<form:errors class="alert alert-danger" path="user.lastName" data-parsley-length="[1, 15]"/></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label for="gender"
@@ -129,7 +129,7 @@ label {
 						<td style="white-space: nowrap"><form:label for="city"
 								path="user.city">City</form:label></td>
 						<td><form:input path="user.city" id="city" name="city"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" />
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" data-parsley-length="[1, 15"]/>
 							<form:errors class="alert alert-danger" path="user.city" /></td>
 					</tr>
 
@@ -137,7 +137,7 @@ label {
 						<td style="white-space: nowrap"><form:label for="state"
 								path="user.state">State</form:label></td>
 						<td><form:input name="state" path="user.state" id="state"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" />
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" data-parsley-length="[1, 15"] />
 							<form:errors class="alert alert-danger" path="user.state" /></td>
 					</tr>
 
@@ -146,7 +146,7 @@ label {
 								path="user.country">Country</form:label></td>
 						<td><form:input name="country" path="user.country"
 								id="country" data-parsley-required="true"
-								data-parsley-pattern="[a-zA-Z]+" /> <form:errors
+								data-parsley-pattern="[a-zA-Z]+" data-parsley-length="[1, 15"]/> <form:errors
 								class="alert alert-danger" path="user.country" /></td>
 					</tr>
 					<tr>
@@ -167,8 +167,9 @@ label {
 						<td><form:select name="roleid" path="user.roleId"
 								data-parsley-required="true">
 								<form:option value="" label="--- Select ---" />
-								<form:option value="1" label="Individual" />
-								<form:option value="2" label="Organization/Merchant" />
+								<form:option value="3" label="Regular" />
+								<form:option value="4" label="Manager" />
+								<form:option value="5" label="Admin" />
 							</form:select> <form:errors class="alert alert-danger" path="user.roleId" /></td>
 					</tr>
 					<tr>
@@ -184,29 +185,8 @@ label {
 						<td style="white-space: nowrap"><form:label for="email"
 								path="user.emailId">Email</form:label></td>
 						<td><form:input type="email" name="email"
-								data-parsley-type="email" path="user.emailId" id="email" /> <form:errors
+								data-parsley-type="email" path="user.emailId" id="email"  data-parsley-length="[1, 25"]/> <form:errors
 								class="alert alert-danger" path="user.emailId" /></td>
-					</tr>
-
-
-					<tr>
-						<td><b>Captcha</b></td>
-						<td><input type="text" id="txtInput" /> &nbsp;&nbsp;<input
-							type="text" id="txtCaptcha"
-							style="background-image: url(/sbs/web_resources/img/1.jpg); text-align: center; border: none; font-weight: bold; font-family: Modern" />
-
-
-						</td>
-
-					</tr>
-
-					<tr>
-						<td>&nbsp;</td>
-						<td><input type="button" class="btn btn-info btn-xs"
-							id="btnrefresh" value="Refresh" onclick="DrawCaptcha();" />&nbsp;
-							&nbsp;<input id="Button1" class="btn btn-info btn-xs"
-							type="button" value="Validate Captcha to enable Submit"
-							onclick="ValidCaptcha();" /></td>
 					</tr>
 				</table>
 				<input id='submitbutton' class="btn " type="submit" value="Submit" />
@@ -228,59 +208,7 @@ label {
 	<script src="web_resources/theme/js/parsley.min.js"></script>
 
 	<!-- initialize keyboard (required) -->
-	<script>
-		$(function() {
-			$('#username').keyboard();
-			$('#password').keyboard();
-			$('#confirmPassword').keyboard();
-
-		});
-		$('#submitbutton').on('click', function() {
-			$('#signUpForm').parsley().validate();
-			if (true == $('#signUpForm').parsley().isValid()) {
-			} else {
-				$('#submitbutton').attr('disabled', 'disabled');
-			}
-		});
-	</script>
-	<!-- Keyboard Code end -->
-	<script type="text/javascript">
-		//Created / Generates the captcha function    
-		function DrawCaptcha() {
-			document.getElementById("txtCaptcha").readOnly = false;
-			document.getElementById("submitbutton").disabled = true;
-			var a = Math.ceil(Math.random() * 10) + '';
-			var b = Math.ceil(Math.random() * 10) + '';
-			var c = Math.ceil(Math.random() * 10) + '';
-			var d = Math.ceil(Math.random() * 10) + '';
-			var e = Math.ceil(Math.random() * 10) + '';
-			var f = Math.ceil(Math.random() * 10) + '';
-			var g = Math.ceil(Math.random() * 10) + '';
-			var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' '
-					+ f + ' ' + g;
-			document.getElementById("txtCaptcha").value = code;
-			document.getElementById("txtCaptcha").readOnly = true;
-			document.getElementById("txtInput").value = '';
-		}
-
-		// Validate the Entered input aganist the generated security code function   
-
-		function ValidCaptcha() {
-			var str1 = removeSpaces(document.getElementById('txtCaptcha').value);
-			var str2 = removeSpaces(document.getElementById('txtInput').value);
-			if (str1 == str2) {
-				document.getElementById("submitbutton").disabled = false;
-				document.getElementById("txtInput").value = '';
-			} else {
-				DrawCaptcha();
-				document.getElementById("txtInput").value = '';
-				document.getElementById("submitbutton").disabled = true;
-			}
-		}
-		// Remove the spaces from the entered and generated code
-		function removeSpaces(string) {
-			return string.split(' ').join('');
-		}
+	
 		window.ParsleyValidator.addValidator(
 				'mindate',
 				function(value, requirement) {
