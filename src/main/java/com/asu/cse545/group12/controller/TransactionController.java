@@ -68,7 +68,7 @@ public class TransactionController {
 
 	@Autowired
 	AuthorizationDao authorizationDao;
-	
+
 	@Autowired
 	TransactionInputValidator transactionInputValidator;
 
@@ -113,12 +113,12 @@ public class TransactionController {
 		for (Account account : accountService.getAccounts(user.getUserId())) {
 			accountNumbers.add(""+account.getAccountNumber());
 		}
-		
+
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("form", form);
-			
-			
+
+
 			modelView.addObject("accounts", accountNumbers);
 			modelView.setViewName("credit");
 			return modelView;
@@ -126,9 +126,9 @@ public class TransactionController {
 
 			Integer toAccountNumber = Integer.parseInt(form.getToAccount());
 			Double amount =  Double.parseDouble(form.getAmount());
-			
+
 			String transactionId = ""+transactionservice.doCredit(toAccountNumber, amount, form.getDescription());
-			
+
 			if ("-1".equals(transactionId)) {
 				ModelAndView modelView = new ModelAndView();
 				modelView.addObject("accounts", accountNumbers);
@@ -144,7 +144,7 @@ public class TransactionController {
 
 			//sent the OTP
 			transactionservice.sendOTPviaEmail(user);
-			
+
 			//create data for OTP page
 			Form basicform = new Form();
 			basicform.getMap().put("email", new String(user.getEmailId()));
@@ -225,7 +225,7 @@ public class TransactionController {
 
 			//sent the OTP
 			transactionservice.sendOTPviaEmail(user);
-			
+
 			//create data for OTP page
 
 			Form basicform = new Form();
@@ -279,7 +279,7 @@ public class TransactionController {
 		for (Account account : accountService.getAccounts(user.getUserId())) {
 			accountNumbers.add(""+account.getAccountNumber());
 		}
-		
+
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("accounts", accountNumbers);
@@ -292,7 +292,7 @@ public class TransactionController {
 			Integer amount= Integer.parseInt(form.getAmount());
 			Integer fromAccountNumber= Integer.parseInt(form.getFromAccount());
 			String transactionId = ""+transactionservice.doTransfer(fromAccountNumber, toAccountNumber, amount, form.getDescription());
-			
+
 			if ("-1".equals(transactionId)) {
 				ModelAndView modelView = new ModelAndView();
 				modelView.addObject("accounts", accountNumbers);
@@ -301,7 +301,7 @@ public class TransactionController {
 				modelView.setViewName("transfer");
 				return modelView;
 			} 
-			
+
 			ModelAndView modelView = new ModelAndView();
 
 			//save the transaction id in the session so that we can use it in later in OTP page
@@ -309,7 +309,7 @@ public class TransactionController {
 
 			//sent the OTP
 			transactionservice.sendOTPviaEmail(user);
-			
+
 			//create data for OTP page
 			Form basicform = new Form();
 			basicform.getMap().put("email", new String(user.getEmailId()));
@@ -319,7 +319,7 @@ public class TransactionController {
 			modelView.addObject("form", basicform);
 			modelView.setViewName("transactionOTP");
 			return modelView;
-			
+
 		} 
 
 	}
@@ -371,7 +371,7 @@ public class TransactionController {
 		String transactionID = (String) request.getSession().getAttribute("transactionID");
 
 		ModelAndView modelView = new ModelAndView();
-		
+
 		//System.out.println("***************************************************************** OTP: "+OTP+" username:"+username+ "opt from user: "+user.getOTP());
 		if(logger.isDebugEnabled()){
 			logger.debug("**********************OTP:"+OTP);
@@ -386,7 +386,7 @@ public class TransactionController {
 				Transactions transaction = transactionDao.getTransactionByTransactionId(Integer.parseInt(transactionID));
 				transaction.setTransactionStatus("pending");
 				transactionDao.updateRow(transaction);
-				
+
 				//update authorization
 				Authorization authorization = authorizationDao.getAuthorizationByTransactionId(Integer.parseInt(transactionID));
 				authorization.setRequestStatus("pending");
@@ -397,40 +397,52 @@ public class TransactionController {
 					modelView.addObject("successfulMessage", "Successful! The debit request is sent to bank official. Wait for approval.");
 
 			}
-			else if(transactionType.equals("transfer"))
+			else if(transactionType.equals("transfer") || transactionType.equals("payMerchant"))
 			{
-				
+
 				//update transaction
 				Transactions debitTransaction = transactionDao.getTransactionByTransactionId(Integer.parseInt(transactionID));
 				debitTransaction.setTransactionStatus("pending");
 				transactionDao.updateRow(debitTransaction);
-				
-				
+
+
 				//update transfer
 				Transfer transfer = transferService.getTransferByTransferId(debitTransaction.getTransferId());
 				transfer.setTransactionStatus("pending");
 				transferService.updateRow(transfer);
-				
+
 				//update credit transaction
 				int creditTransactionId = transfer.getUserToTransactionid();
 				Transactions creditTransaction = transactionDao.getTransactionByTransactionId(creditTransactionId);
 				creditTransaction.setTransactionStatus("pending");
 				transactionDao.updateRow(creditTransaction);
-				
-				
+
+
 				//update authorization
 				//if amount of debit transaction is > 1000, then only there is authorization in the table
-				if(debitTransaction.getAmount() > 1000)
+				if(transactionType.equals("transfer"))
+				{
+					if(debitTransaction.getAmount() > 1000)
+					{
+						Authorization authorization = authorizationDao.getAuthorizationByTransactionId(Integer.parseInt(transactionID));
+						authorization.setRequestStatus("pending");
+						authorizationDao.updateRow(authorization);
+
+						modelView.addObject("successfulMessage", "Successful! The transfer request is sent to bank official. Wait for approval.");
+					}
+					else
+						modelView.addObject("successfulMessage", "Successful! The transfer is done from account: "+debitTransaction.getAccountNumber()+" to account: "+creditTransaction.getAccountNumber());
+				}
+				//don't check amount for payMerchant
+				else if (transactionType.equals("payMerchant"))
 				{
 					Authorization authorization = authorizationDao.getAuthorizationByTransactionId(Integer.parseInt(transactionID));
 					authorization.setRequestStatus("pending");
 					authorizationDao.updateRow(authorization);
-				}
-				if(debitTransaction.getAmount()>1000)
 					modelView.addObject("successfulMessage", "Successful! The transfer request is sent to bank official. Wait for approval.");
-				else
-					modelView.addObject("successfulMessage", "Successful! The transfer is done from account: "+debitTransaction.getAccountNumber()+" to account: "+creditTransaction.getAccountNumber());
-				
+				}
+
+
 			}
 			request.getSession().removeAttribute("transactionId");
 			modelView.setViewName("successful");
@@ -443,7 +455,7 @@ public class TransactionController {
 			form.getMap().put("email", new String(user.getEmailId()));
 			form.getMap().put("OTP", new String(""));
 			modelView.addObject("form", form);
-			
+
 			modelView.setViewName("transactionOTP");
 			modelView.addObject("errorMessage", "OTP does not match.");
 
@@ -501,54 +513,57 @@ public class TransactionController {
 		}
 		//validate the input data
 
-		TransactionInputValidator transactionInputValidator = new TransactionInputValidator();
+		transactionInputValidator.setRequest(request);
 		transactionInputValidator.validate(form, result);
+
+		String username = (String) request.getSession(false).getAttribute("username");
+		Users user = userDao.getUserByUserName(username);
+
+		List<String> accountNumbers = new ArrayList<String>();
+		for (Account account : accountService.getAccounts(user.getUserId())) {
+			accountNumbers.add(""+account.getAccountNumber());
+		}
+
 
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
-			
-			String username = (String) request.getSession().getAttribute("username");
-			Users user = userDao.getUserByUserName(username);
-			List<String> accountNumbers = new ArrayList<String>();
-			for (Account account : accountService.getAccounts(user.getUserId())) {
-				accountNumbers.add(""+account.getAccountNumber());
-			}
-			
 			modelView.addObject("accounts", accountNumbers);
-			
-			
 			modelView.addObject("form", form);
-			modelView.setViewName("transfer");
+			modelView.setViewName("payMerchant");
 			return modelView;
 		} else {
 
 			Integer toAccountNumber= Integer.parseInt(form.getToAccount());
 			Integer amount= Integer.parseInt(form.getAmount());
 			Integer fromAccountNumber= Integer.parseInt(form.getFromAccount());
-			String transactionId = ""+transactionservice.doTransfer(fromAccountNumber, toAccountNumber, amount, form.getDescription());
+			String customerDetails = user.getFirstName()+" "+user.getLastName()+" Account Number: "+fromAccountNumber;
+			String transactionId = ""+transactionservice.payMerchant(fromAccountNumber, toAccountNumber, amount, form.getDescription(), customerDetails);
 
-			
+			if ("-1".equals(transactionId)) {
+				ModelAndView modelView = new ModelAndView();
+				modelView.addObject("accounts", accountNumbers);
+				modelView.addObject("errorMessage", "Insufficient balance in the account");
+				modelView.addObject("form", form);
+				modelView.setViewName("payMerchant");
+				return modelView;
+			} 
 			ModelAndView modelView = new ModelAndView();
-
-			String username = (String) request.getSession().getAttribute("username");
-			Users user = userDao.getUserByUserName(username);
-
 			//save the transaction id in the session so that we can use it in later in OTP page
 			request.getSession().setAttribute("transactionID", transactionId);
 
 			//sent the OTP
 			transactionservice.sendOTPviaEmail(user);
-			
+
 			//create data for OTP page
 			Form basicform = new Form();
 			basicform.getMap().put("email", new String(user.getEmailId()));
 			basicform.getMap().put("OTP", new String(""));
-			basicform.getMap().put("transactionType", new String("transfer"));
+			basicform.getMap().put("transactionType", new String("payMerchant"));
 
 			modelView.addObject("form", basicform);
 			modelView.setViewName("transactionOTP");
 			return modelView;
-			
+
 		} 
 
 	}

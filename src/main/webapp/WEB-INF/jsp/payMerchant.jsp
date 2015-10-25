@@ -18,7 +18,7 @@
 <body>
 	<center>
 		<br /> <br />
-		<div style="color: teal; font-size: 30px">Merchant Payment</div>
+		<div style="color: teal; font-size: 30px">Submit Merchant Payment</div>
 		<br /> <br />
 		<form:form name="payMerchantForm" id="payMerchantForm" method="post"
 			modelAttribute="form" onsubmit="return OnSubmitForm();">
@@ -70,7 +70,7 @@
 	<script type="text/javascript">
 		function OnSubmitForm() {
 			if (document.pressed == 'Submit') {
-				document.payMerchantForm.action = "transferAmount";
+				document.payMerchantForm.action = "submitMerchantPayment";
 			} else if (document.pressed == 'Cancel') {
 				document.payMerchantForm.action = "goBack";
 			}

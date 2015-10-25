@@ -91,6 +91,8 @@
     <security:intercept-url pattern="/searchUser*" access="hasAnyRole('REGULAR','MANAGER','ADMIN')" />
     <security:intercept-url pattern="/signUpOTP*" access="permitAll" />
     <security:intercept-url pattern="/transfer*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+    <security:intercept-url pattern="/payMerchant*" access="hasAnyRole('INDIVIDUAL')" />
+    <security:intercept-url pattern="/submitMerchantPayment*" access="hasAnyRole('INDIVIDUAL')" />
     <security:intercept-url pattern="/successfulSignUp*" access="permitAll" />
     <security:intercept-url pattern="/enterSignupOTP*" access="permitAll" />
     <security:intercept-url pattern="/notifications*" access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />
@@ -110,7 +112,6 @@
     <security:intercept-url pattern="/validateSecurityQuestions*" access="permitAll" />
     <security:intercept-url pattern="/setForgetPassword*" access="permitAll" />
     <security:intercept-url pattern="/forwardnotification*"	access="hasAnyRole('REGULAR')" />
-    
     <security:intercept-url pattern="/**" access="isAuthenticated()" />
     <!-- <intercept-url pattern="/**" access="isAuthenticated()" /> authentication-success-handler-ref="myAuthenticationSuccessHandler" -->
   </security:http>
@@ -135,7 +136,9 @@
   <bean id="userLoginDetailsDao" class="com.asu.cse545.group12.dao.UserloginDetailsDaoImpl" />
   <bean id="userDetailsService" class="com.asu.cse545.group12.services.SbsUserDetailsService" />
   <bean id="SecurityQuestionsDaoImpl" class="com.asu.cse545.group12.dao.SecurityQuestionsDaoImpl" />
-  <bean id="authenticationProvider" class="com.asu.cse545.group12.authentication.LimitLoginAuthentication">
+  <bean id="TransactionInputValidator" class="com.asu.cse545.group12.validator.TransactionInputValidator" />
+  <bean id="authenticationProvider" class="com.asu.cse545.group12.authentication.LimitLoginAuthentication" >
+  
     <property name="userDetailsService" ref="userDetailsService" />
     <property name="passwordEncoder" ref="encoder" />
   </bean>
@@ -143,4 +146,5 @@
     <constructor-arg name="strength" value="10" />
   </bean>
   <bean id="hashGenerator" class="com.asu.cse545.group12.hashing.HashGenerator" />
+
 </beans>

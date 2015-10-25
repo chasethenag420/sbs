@@ -60,17 +60,7 @@ public class IndividualUserController {
 	@Autowired
 	AccountService accountService;
 	List<Transactions> transactionsList = new ArrayList<Transactions>();
-	/*@RequestMapping( value= "credit")
-	public String getCredit( ModelMap map) {
-
-		logger.debug("Individual controller: getCredit");
-
-		map.addAttribute("toAccountNumber", 67457745);
-		map.addAttribute("amount", 0);
-		map.addAttribute("transferDescription", "heloo");
-		return "credit";
-	}
-	 */
+	
 	@RequestMapping(value = "/externalsearchtrans")
 	public ModelAndView getsearchForm(HttpServletRequest request) {
 		//logs debug message
@@ -135,5 +125,7 @@ public class IndividualUserController {
 		modelView.setViewName("successful");
 		return modelView;
 	}
+	
+	
 }
 

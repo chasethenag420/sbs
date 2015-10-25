@@ -34,7 +34,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	UserDao userDao;
 
@@ -85,12 +85,14 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************requestor: " + requestor.toString());
 			}
-			Account account = accountService.getAccount(requestor.getUserName());
+			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
+			
+			Account account = accountService.getAccount(transaction.getAccountNumber());
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************authorization: " + authorization.toString());
 				logger.debug("**********************************Account: " + account.toString());
 			}
-			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
+			
 			accountService.doCredit(account.getAccountNumber(), transaction.getAmount());
 			transaction.setTransactionStatus(Const.APPROVED);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
@@ -108,12 +110,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 
-			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
-			Account account = accountService.getAccount(requestor.getUserName());
+			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
+			
+			Account account = accountService.getAccount(transaction.getAccountNumber());
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************TransactionId: " + authorization.getTransactionId());
 			}
-			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
+			
 			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
 			transaction.setTransactionStatus(Const.APPROVED);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
@@ -131,12 +134,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			//*************************************************************************************************************/
 
 			// for debit
-			Users requestor1 = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
-			Account account = accountService.getAccount(requestor1.getUserName());
+			
+			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
+			
+			Account account = accountService.getAccount(transaction.getAccountNumber());
+			
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************TransactionId: " + authorization.getTransactionId());
 			}
-			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
+			
 			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
 			transaction.setTransactionStatus(Const.APPROVED);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
@@ -152,7 +158,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 					logger.debug(
 							"**********************************creditTransactionId: " + creditTransaction.getTransactionId());
 				}
-				
+
 				accountService.doCredit(creditAccount.getAccountNumber(), creditTransaction.getAmount());
 				creditTransaction.setTransactionStatus(Const.APPROVED);
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
@@ -189,12 +195,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		{
 			return authorizationDao.getNotificationsForAdmin(user);
 		}
-		
+
 		return null;
 
-//		return authorizationDao.getNotifications();
+		//		return authorizationDao.getNotifications();
 	}
-	
+
 	@Override
 	public int reject(int authorizationId, String userName) {
 		// TODO Auto-generated method stub
@@ -296,7 +302,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 					logger.debug(
 							"**********************************creditTransactionId: " + creditTransaction.getTransactionId());
 				}
-				
+
 				accountService.doCredit(creditAccount.getAccountNumber(), creditTransaction.getAmount());
 				creditTransaction.setTransactionStatus(Const.REJECT);
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
@@ -326,13 +332,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		{
 			authorization.setAssignedToRole(forwarder.getRoleId());
 		}
-		
+
 		authorization.setRequestStatus(Const.FORWARD);
 		//WE CAN PUT THE HEADER IN THE JSP AS "APPROVER ID/FORWARDER ID"
 		authorization.setAuthorizedByUserId(forwarder.getUserId());
-		
+
 		return authorizationDao.updateRow(authorization);
-		
+
 		//return 0;
 		//authorizationDao.forward(authorization);
 	}
@@ -373,5 +379,55 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		authorizationDao.updateRow(authorization);
 		return 0;
 	}
-	
+
+	@Override
+	public Authorization getAuthorizationByAuthorizationId(int authorizationId)
+	{
+		return authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
+	}
+
+	@Override
+	public int approveTransferByMerchant(int authorizationId, String userName)
+	{
+
+		// TODO Auto-generated method stub
+		Authorization authorization = authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
+		// based on type of transaction trigger relevant action
+		if (Const.TRANSFER_REQUEST.equals(authorization.getRequestType())) {
+
+
+			Users approver = userDao.getUserByUserName(userName);
+			authorization.setAuthorizedByUserId(approver.getUserId());
+			authorization.setRequestStatus(Const.APPROVED);
+			authorization.setAssignedToRole(approver.getRoleId());
+
+
+			//create new authorization which will go to the manager
+			Authorization newAuthorization = new Authorization();
+			newAuthorization.setAuthorizedToUserId(approver.getUserId());
+			newAuthorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
+			newAuthorization.setRequestDescription(authorization.getRequestDescription()+"\n Merchant payment from customer approved by merchant "+approver.getFirstName()+" "+approver.getLastName());
+			newAuthorization.setRequestType(Const.TRANSFER_REQUEST);
+			newAuthorization.setRequestStatus(Const.PENDING);
+
+			//SETTNG THE ROLE ID TO Manager USER 
+			int roleid = roleDao.getRoleid(Const.MANAGER);
+			newAuthorization.setAssignedToRole(roleid);
+
+			newAuthorization.setTransactionId(authorization.getTransactionId());
+			authorizationDao.insertRow(newAuthorization);
+
+
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
+
+			return 1;
+		}
+		//return authorizationDao.approve(authorization);
+
+
+		return -1;
+	}
 }

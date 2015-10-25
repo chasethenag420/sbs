@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.UserDao;
+import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.AuthorizationService;
@@ -31,7 +33,7 @@ public class NotificationController {
 
 	@Autowired
 	UserDao userDao;
-	
+
 	@Autowired
 	UserService userService;
 
@@ -44,7 +46,7 @@ public class NotificationController {
 
 		HttpSession session = request.getSession(false);
 		String username=(String)session.getAttribute("username");
-		
+
 		Users user = new Users();
 		user=userService.getUserByUserName(username);
 
@@ -58,35 +60,52 @@ public class NotificationController {
 
 	@RequestMapping(value = "approvenotification", method = RequestMethod.POST)
 	public ModelAndView approveRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
-		
+
 		HttpSession session = request.getSession(false);
 		String username=(String)session.getAttribute("username");
-		
+
 		Users user = new Users();
 		user=userService.getUserByUserName(username);
-		
+
 		Map<String, String> formMap=form.getMap();
+		if(logger.isDebugEnabled()){
+			logger.debug("***************************************************authorizationId in notifications: "+ formMap.get("authorizationId"));
+		}
 		Integer authorizationId= Integer.parseInt(formMap.get("authorizationId"));
 		if(logger.isDebugEnabled()){
 			logger.debug("***************************************************username in notifications: "+ username);
 		}
 		ModelAndView notificationView = new ModelAndView();
-		
+
 		//Integer authorizationId= Integer.parseInt((String)modelMap.get("authorizationId"));
 		//logs debug message
 		if(logger.isDebugEnabled()){
 			logger.debug("Request Approved by:"+ username);
 			logger.debug("Authorization Request Number is:"+ username);
 		}
-		// ********************************************************************************
-		// Have to get the Internal User Who clicked on the APPROVE button along
-		// with authorization Object()
-		// ********************************************************************************
-		authorizationService.approve(authorizationId, username);
+
+		/*
+		 * If the approver is Merchant and authorization is for transfer i.e. merchant payment from customer.
+		 * Then handle the approving differently than usual.
+		 */
+		Authorization authorization =  authorizationService.getAuthorizationByAuthorizationId(authorizationId);
+		if(authorization != null && user.getRoleId() == 2 && authorization.getRequestType().equals(Const.TRANSFER_REQUEST) )
+		{
+			authorizationService.approveTransferByMerchant(authorizationId, username);
+			
+		}
+		else
+		{
+			// ********************************************************************************
+			// Have to get the Internal User Who clicked on the APPROVE button along
+			// with authorization Object()
+			// ********************************************************************************
+			authorizationService.approve(authorizationId, username);
+		}
 		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
 		notificationView.addObject("authorizationId", new Integer(0));
 		notificationView.setViewName(getViewName(username));
-		
+
 		return notificationView;
 	}
 
@@ -94,10 +113,10 @@ public class NotificationController {
 	public ModelAndView rejectRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
-		
+
 		Users user = new Users();
 		user=userService.getUserByUserName(username);
-		
+
 		// logs debug message
 		if (logger.isDebugEnabled()) {
 			logger.debug("Notificatio Reject page is requested");
@@ -121,10 +140,10 @@ public class NotificationController {
 	public ModelAndView forwardRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
-		
+
 		Users user = new Users();
 		user=userService.getUserByUserName(username);
-		
+
 		// logs debug message
 		if (logger.isDebugEnabled()) {
 			logger.debug("Notification Forward page is requested");
@@ -144,7 +163,7 @@ public class NotificationController {
 		notificationView.setViewName(getViewName(username));
 		return notificationView;
 	}
-	
+
 	private String getViewName(String username){
 		int roleId = userDao.getUserByUserName(username).getRoleId();
 		// for individual user

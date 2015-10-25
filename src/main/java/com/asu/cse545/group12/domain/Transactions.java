@@ -39,6 +39,7 @@ public class Transactions {
 	@Column(name = "MODIFIED_TIMESTAMP")
 	private Date modifiedTimestamp;
 	
+
 	@Column(name = "AMOUNT")
 	private double amount;
 	

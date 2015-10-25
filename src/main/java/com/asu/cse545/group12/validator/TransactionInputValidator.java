@@ -23,17 +23,17 @@ import org.springframework.validation.ValidationUtils;
 
 
 public class TransactionInputValidator implements Validator{
-	
+
 	private static final Logger logger = Logger.getLogger(TransactionInputValidator.class);
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	AccountService accountService;
-	
+
 	private HttpServletRequest request;
-	
-	
+
+
 
 	public HttpServletRequest getRequest() {
 		return request;
@@ -70,14 +70,14 @@ public class TransactionInputValidator implements Validator{
 					{
 						errors.rejectValue("toAccount", "not-integer", "To Account does not exist.");
 					}
-					
+
 					if(user.getUserId() != account.getUserId())
 					{
 						errors.rejectValue("toAccount", "not-integer", "To Account does not belong to you.");
 					}
-					
-					
-					
+
+
+
 				}
 
 			}
@@ -127,9 +127,9 @@ public class TransactionInputValidator implements Validator{
 					}
 					logger.debug("****************Debit Transaction : User: "+userService );
 					Users user = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
-						logger.debug("****************Debit Transaction : User+"+user );
+					logger.debug("****************Debit Transaction : User+"+user );
 					Account account = accountService.getAccount(fromAccount);
-					
+
 					if (logger.isDebugEnabled()) {
 						logger.debug("****************Debit Transaction : account+"+account.toString() );
 					}
@@ -137,12 +137,12 @@ public class TransactionInputValidator implements Validator{
 					{
 						errors.rejectValue("fromAccount", "not-integer", "From Account does not exist.");
 					}
-					
+
 					if(user.getUserId() != account.getUserId())
 					{
 						errors.rejectValue("fromAccount", "not-integer", "From Account does not belong to you.");
 					}
-					
+
 				}
 
 			}
@@ -187,7 +187,7 @@ public class TransactionInputValidator implements Validator{
 					{
 						errors.rejectValue("toAccount", "not-integer", "To Account does not exist.");
 					}
-					
+
 				}
 			}
 			catch(Exception e)
@@ -209,7 +209,7 @@ public class TransactionInputValidator implements Validator{
 					{
 						errors.rejectValue("fromAccount", "not-integer", "From Account does not exist.");
 					}
-					
+
 					if(user.getUserId() != account.getUserId())
 					{
 						errors.rejectValue("fromAccount", "not-integer", "From Account does not belong to you.");
@@ -252,7 +252,7 @@ public class TransactionInputValidator implements Validator{
 					{
 						errors.rejectValue("toAccount", "not-integer", "Account does not exist.");
 					}
-					
+
 					if(user.getUserId() != account.getUserId())
 					{
 						errors.rejectValue("toAccount", "not-integer", "Account does not belong to you.");
@@ -292,7 +292,7 @@ public class TransactionInputValidator implements Validator{
 			{
 				errors.rejectValue("fromDate", "not-Date", "Illegale Date Format");
 			}
-			
+
 			try
 			{
 				if("".equals(form.getToDate()))
@@ -321,7 +321,7 @@ public class TransactionInputValidator implements Validator{
 				errors.rejectValue("toDate", "not-Date", "Illegale Date Format");
 			}
 		}
-		
+
 		else if(form.getTransactionType().equals("payMerchant"))
 		{
 			try
@@ -338,14 +338,17 @@ public class TransactionInputValidator implements Validator{
 					{
 						errors.rejectValue("toAccount", "not-integer", "To Account does not exist.");
 					}
-					int userId = account.getUserId();
-					Users toUser = userService.getUserByUserId(userId);
-					if(toUser != null && toUser.getRoleId() != 2)
+					else
 					{
-						errors.rejectValue("toAccount", "not-integer", "To Account does not belong to any Merchant.");
+						int userId = account.getUserId();
+						Users toUser = userService.getUserByUserId(userId);
+						if(toUser != null && toUser.getRoleId() != 2)
+						{
+							errors.rejectValue("toAccount", "not-integer", "To Account does not belong to any Merchant.");
+						}
 					}
-					
-					
+
+
 				}
 			}
 			catch(Exception e)
@@ -367,7 +370,7 @@ public class TransactionInputValidator implements Validator{
 					{
 						errors.rejectValue("fromAccount", "not-integer", "From Account does not exist.");
 					}
-					
+
 					if(user.getUserId() != account.getUserId())
 					{
 						errors.rejectValue("fromAccount", "not-integer", "From Account does not belong to you.");
