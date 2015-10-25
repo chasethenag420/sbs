@@ -242,7 +242,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				logger.debug("**********************************Account: " + account.toString());
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
-			accountService.doCredit(account.getAccountNumber(), transaction.getAmount());
+			
+			//COMMENTED THIS LINE TO STOP UPDATING THE ACCOUNT WITH CREDIT AMOUNT SINCE THE REQ IS REJECTED
+			//accountService.doCredit(account.getAccountNumber(), transaction.getAmount());
 			transaction.setTransactionStatus(Const.REJECT);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
@@ -264,7 +266,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				logger.debug("**********************************TransactionId: " + authorization.getTransactionId());
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
-			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
+
+			//COMMENTED THIS LINE TO STOP UPDATING THE ACCOUNT WITH CREDIT AMOUNT SINCE THE REQ IS REJECTED
+			//accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
 			transaction.setTransactionStatus(Const.REJECT);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
@@ -287,7 +291,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				logger.debug("**********************************TransactionId: " + authorization.getTransactionId());
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
-			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
+
+			//COMMENTED THIS LINE TO STOP UPDATING THE ACCOUNT WITH CREDIT AMOUNT SINCE THE REQ IS REJECTED
+			//accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
+			
 			transaction.setTransactionStatus(Const.REJECT);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
@@ -302,8 +309,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 					logger.debug(
 							"**********************************creditTransactionId: " + creditTransaction.getTransactionId());
 				}
-
-				accountService.doCredit(creditAccount.getAccountNumber(), creditTransaction.getAmount());
+				
+				//COMMENTED THIS LINE TO STOP UPDATING THE ACCOUNT WITH CREDIT AMOUNT SINCE THE REQ IS REJECTED
+				//accountService.doCredit(creditAccount.getAccountNumber(), creditTransaction.getAmount());
+				
 				creditTransaction.setTransactionStatus(Const.REJECT);
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				creditTransaction.setModifiedByUserid(approver.getUserId());
