@@ -100,6 +100,7 @@ label {
 		$('#submit').click(function() {
 			$('#debitForm').parsley().validate();
 			if (true == $('#debitForm').parsley().isValid()) {
+				$('#debitForm').parsley().destroy();
 				$('#debitForm').attr("action", "debitAmount");
 			} else {
 				return false;

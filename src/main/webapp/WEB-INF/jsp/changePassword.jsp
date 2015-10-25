@@ -130,6 +130,7 @@ label {
 		$('#submit').click(function() {
 			$('#changePasswordForm').parsley().validate();
 			if (true == $('#changePasswordForm').parsley().isValid()) {
+				$('#changePasswordForm').parsley().destroy();
 				$('#changePasswordForm').attr("action", "setNewPassword");
 			} else {
 				return false;

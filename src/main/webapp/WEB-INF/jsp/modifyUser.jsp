@@ -163,6 +163,7 @@ label {
 	<script type="text/javascript">
 		$('#update').click(function() {
 			if (true == $('#modifyUserForm').parsley().isValid()) {
+				$('#modifyUserForm').parsley().destroy();
 				$('#modifyUserForm').attr("action", "modifyUserFormDetails");
 			} else {
 				return false;

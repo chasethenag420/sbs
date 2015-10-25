@@ -92,6 +92,8 @@ label {
 		$('#f').parsley().validate();
 
 		if (true != $('#f').parsley().isValid()) {
+			$('#f').parsley().destroy();			
+		}else{
 			$('#submitbutton').attr('disabled', 'disabled');
 		}
 	});

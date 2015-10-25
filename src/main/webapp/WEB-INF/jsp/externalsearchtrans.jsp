@@ -119,6 +119,7 @@ label {
 				function() {
 					$('#externalsearchtrans').parsley().validate();
 					if (true == $('#externalsearchtrans').parsley().isValid()) {
+						$('#externalsearchtrans').parsley().destroy();
 						$('#externalsearchtrans').attr("action",
 								"externalsearchtransform");
 					} else {

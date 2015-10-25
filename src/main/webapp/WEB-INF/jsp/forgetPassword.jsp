@@ -94,6 +94,7 @@ label {
 		$('#submit').click(function() {
 			$('#forgetPasswordForm').parsley().validate();
 			if (true == $('#forgetPasswordForm').parsley().isValid()) {
+				$('#forgetPasswordForm').parsley().destroy();
 				$('#forgetPasswordForm').attr("action", "setForgetPassword");
 			} else {
 				return false;
