@@ -53,7 +53,6 @@ public class AdminUserController {
 		logger.debug("userpii "+userpii.toString());
 		logger.debug("user "+user.toString());
 		modelView.addObject("user", new Users());
-		modelView.addObject("userpii", new UserPII());
 		modelView.setViewName("createEmployee");
 
 		return modelView;
@@ -65,7 +64,6 @@ public class AdminUserController {
 
 		Map map = new HashMap();
 		map.put("user", user);
-		map.put("userpii", userpii);
 		map.put("type", "createEmployee");
 		validator.validate(map, result);
 		
@@ -74,9 +72,8 @@ public class AdminUserController {
 			logger.debug("******************************createEmployeeUser errored: ");
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
-			modelView.addObject("userpii", userpii);
-			modelView.setViewName("admin");
-			modelView.addObject("message", result.toString());
+			modelView.setViewName("createEmployee");
+			//modelView.addObject("message", result.toString());
 			return modelView;
 		} else {		
 
@@ -86,6 +83,13 @@ public class AdminUserController {
 			String username = firstName.charAt(0)+lastName;
 			username = username.toLowerCase();
 			int counter = 1;
+			int i=0;
+			//restriction on username and password is that it should be of 6 length
+			if(username.length()<6)
+			{
+				for(; i< (6-username.length()); i++)
+					username +=(i+1);
+			}
 			while(true)
 			{
 				Users existingUser = userService.getUserByUserName(username);
@@ -93,6 +97,8 @@ public class AdminUserController {
 				if(existingUser == null)
 				{
 					//set same username to username and password
+					
+					
 					user.setUserName(username);
 					user.setPassword(username);
 					userpii.setUser(user);
@@ -111,10 +117,11 @@ public class AdminUserController {
 					counter++;
 				}
 			}
-			userService.insertRowForEmployee(user,userpii);
+			userService.insertRowForEmployee(user);
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
 			modelView.addObject("userpii", userpii);
+			modelView.addObject("message", "User is created successfully and account credentials have been emailed to user");
 			modelView.setViewName("admin");
 			return modelView;
 		}

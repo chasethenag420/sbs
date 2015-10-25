@@ -95,7 +95,13 @@ public class TransactionInputValidator implements Validator{
 				if("".equals(form.getAmount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
 				else
+				{
 					amount= Double.parseDouble(form.getAmount());
+					if(! (amount>0.0))
+					{
+						errors.rejectValue("amount","not-integer", "Amount cannot be 0 or less than 0");
+					}
+				}
 
 			}
 			catch(Exception e)
@@ -161,7 +167,13 @@ public class TransactionInputValidator implements Validator{
 				if("".equals(form.getAmount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
 				else
+				{
 					amount= Double.parseDouble(form.getAmount());
+					if(! (amount>0.0))
+					{
+						errors.rejectValue("amount","not-integer", "Amount cannot be 0 or less than 0");
+					}
+				}
 			}
 			catch(Exception e)
 			{
@@ -226,7 +238,13 @@ public class TransactionInputValidator implements Validator{
 				if("".equals(form.getAmount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
 				else
+				{
 					amount= Double.parseDouble(form.getAmount());
+					if(! (amount>0.0))
+					{
+						errors.rejectValue("amount","not-integer", "Amount cannot be 0 or less than 0");
+					}
+				}
 			}
 			catch(Exception e)
 			{
@@ -387,7 +405,13 @@ public class TransactionInputValidator implements Validator{
 				if("".equals(form.getAmount()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amount","not-integer", "Amount cannot be empty");
 				else
+				{
 					amount= Double.parseDouble(form.getAmount());
+					if(! (amount>0.0))
+					{
+						errors.rejectValue("amount","not-integer", "Amount cannot be 0 or less than 0");
+					}
+				}
 			}
 			catch(Exception e)
 			{

@@ -33,14 +33,11 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private HashGenerator hashGenerator;
 
+	
 	@Override
-	public int insertRow(Users user) {
+	public int insertRow(Users user){
 
-		return userDao.insertRow(user);
-	}
-	@Override
-	public int insertRow(Users user, UserPII userpii){
-
+		UserPII userpii = user.getUserpii();
 		user.setUserStatus(Const.INACTIVE);
 		user.setOTP("");
 		user.setPassword(hashGenerator.getHashedPassword(user.getPassword()));
@@ -74,8 +71,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int insertRowForEmployee(Users user, UserPII userpii){
+	public int insertRowForEmployee(Users user){
 
+		UserPII userpii = user.getUserpii();
 		user.setUserStatus(Const.ACTIVE);
 		user.setPassword(hashGenerator.getHashedPassword(user.getPassword()));
 		java.util.Date date = Calendar.getInstance().getTime();

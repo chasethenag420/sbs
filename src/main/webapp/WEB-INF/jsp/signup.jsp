@@ -127,23 +127,23 @@ label {
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label for="ssn"
-								path="userpii.ssn">SSN</form:label></td>
-						<td><form:input type="number" name="ssn" path="userpii.ssn"
+								path="user.userpii.ssn">SSN</form:label></td>
+						<td><form:input type="number" name="ssn" path="user.userpii.ssn"
 								id="ssn" data-parsley-required="true" data-parsley-type="digits"
 								data-parsley-length="[9, 9]"
 								data-parsley-length-message="Should be 9 digits" /> <form:errors
-								class="alert alert-danger" path="userpii.ssn" /></td>
+								class="alert alert-danger" path="user.userpii.ssn" /></td>
 					</tr>
 
 					<tr>
 						<td style="white-space: nowrap"><form:label for="dob"
-								path="userpii.DateOfBirth">Date of Birth</form:label></td>
+								path="user.userpii.DateOfBirth">Date of Birth</form:label></td>
 						<td><form:input name="dob" type="text"
 								data-parsley-trigger="change" placeholder="MM/DD/YYYY"
 								data-date-format="MM/DD/YYYY" data-date-minDate="01/01/1900"
 								data-parsley-mindate="01/01/1900" data-parsley-required="true"
-								path="userpii.DateOfBirth" /> <form:errors
-								class="alert alert-danger" path="userpii.DateOfBirth" /></td>
+								path="user.userpii.DateOfBirth" /> <form:errors
+								class="alert alert-danger" path="user.userpii.DateOfBirth" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label for="address"
@@ -274,13 +274,13 @@ label {
 			$('#confirmPassword').keyboard();
 
 		});
-		$('#submitbutton').on('click', function() {
-			$('#signUpForm').parsley().validate();
+ 		$('#submitbutton').on('click', function() {
+			 $('#signUpForm').parsley().validate();
 			if (true == $('#signUpForm').parsley().isValid()) {
 			} else {
 				$('#submitbutton').attr('disabled', 'disabled');
-			}
-		});
+			} 
+		}); 
 	</script>
 	<!-- Keyboard Code end -->
 	<script type="text/javascript">

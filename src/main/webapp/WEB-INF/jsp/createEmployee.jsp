@@ -60,8 +60,7 @@ label {
 		<div class="container">
 
 			<form class="form-horizontal" id="createEmployeeForm"
-				name="createEmployeeForm" method="post" action="signUp"
-				>
+				name="createEmployeeForm" method="post" >
 				<legend>Create Employee</legend>
 
 				<table class="table table-striped" style="width: auto;">
@@ -101,11 +100,11 @@ label {
 					<tr>
 						<td style="white-space: nowrap"><form:label for="ssn"
 								path="user.userpii.ssn">SSN</form:label></td>
-						<td><form:input type="number" name="ssn" path="userpii.ssn"
+						<td><form:input type="number" name="ssn" path="user.userpii.ssn"
 								id="ssn" data-parsley-required="true" data-parsley-type="digits"
 								data-parsley-length="[9, 9]"
 								data-parsley-length-message="Should be 9 digits" /> <form:errors
-								class="alert alert-danger" path="userpii.ssn" /></td>
+								class="alert alert-danger" path="user.userpii.ssn" /></td>
 					</tr>
 
 					<tr>
@@ -226,8 +225,14 @@ label {
 				}, 32).addMessage('en', 'mindate',
 				'This date should be greater than %s');
 		$('#submitbutton').click(function() {
-			$('#signUpForm').parsley().validate();
-			$('#createEmployeeForm').attr("action", "createEmployeeUser");
+			$('#createEmployeeForm').parsley().validate();
+			if (true == $('#createEmployeeForm').parsley().isValid()) {
+				$('#createEmployeeForm').parsley().destroy();
+				$('#createEmployeeForm').attr("action", "createEmployeeUser");
+			} else {
+				return false;
+			}
+			
 		});
 		$('#cancel').click(function() {
 			$('#createEmployeeForm').parsley().destroy();
