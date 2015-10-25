@@ -2,6 +2,9 @@ package com.asu.cse545.group12.controller;
 
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +40,8 @@ public class AdminUserController {
 	@Autowired
 	UserService userService;
 	
-	
+	@Autowired
+	CreateExternalUserValidator validator;
 	
 	@RequestMapping(value = "/createEmployee", method = RequestMethod.GET)
 	public ModelAndView getSignUpForm(@ModelAttribute("userpii") UserPII userpii,@Valid  @ModelAttribute("user") Users user,BindingResult result) {
@@ -58,8 +62,13 @@ public class AdminUserController {
 	@RequestMapping( value= "createEmployeeUser", method = RequestMethod.POST)
 	public ModelAndView registerEmployee(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model, HttpServletRequest request) {
 
-		CreateExternalUserValidator validator = new CreateExternalUserValidator();
-		//validator.validate(user, result);
+
+		Map map = new HashMap();
+		map.put("user", user);
+		map.put("userpii", userpii);
+		map.put("type", "createEmployee");
+		validator.validate(map, result);
+		
 		logger.debug("******************************createEmployeeUser: ");
 		if (result.hasErrors()) {
 			logger.debug("******************************createEmployeeUser errored: ");

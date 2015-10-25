@@ -18,7 +18,7 @@ import com.asu.cse545.group12.domain.Users;
 
 @Controller
 public class LoginController {
-	
+
 	private static final Logger logger = Logger.getLogger(LoginController.class);
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -30,7 +30,7 @@ public class LoginController {
 		}
 		if (error != null) {
 			model.addObject("error", 
-                           getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
+					getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
 
 		return new ModelAndView("login");
@@ -49,13 +49,13 @@ public class LoginController {
 
 		return modelView;
 	} 
-	
+
 
 	private String getErrorMessage(HttpServletRequest request, String string) {
 		// TODO Auto-generated method stub
 		Exception exception = 
-                (Exception) request.getSession().getAttribute(string);
-		
+				(Exception) request.getSession().getAttribute(string);
+
 		String error = "";
 		if (exception instanceof BadCredentialsException) {
 			error = "Invalid username and password!";
@@ -64,11 +64,21 @@ public class LoginController {
 		}else{
 			error = "Invalid username and password!";
 		}
-		
+
 		return error;
 	}
 
-	
+	// for 403 access denied page
+	@RequestMapping(value = "/403", method = RequestMethod.GET)
+	public ModelAndView accesssDenied() {
+
+		ModelAndView model = new ModelAndView();
+		model.setViewName("403");
+		return model;
+
+	}
+
+
 
 }
 

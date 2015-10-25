@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -57,12 +58,20 @@ public class SignUpController {
 	
 	@Autowired
 	AuthorizationService  authorizationService;
+	
+	@Autowired
+	CreateExternalUserValidator validator;
 
 	@RequestMapping( value= "/signUp",method = RequestMethod.POST)
 	public ModelAndView registerUser(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model) {
 
-		CreateExternalUserValidator validator = new CreateExternalUserValidator();
-		validator.validate(user, result);
+		
+		Map map = new HashMap();
+		map.put("user", user);
+		map.put("userpii", userpii);
+		map.put("type", "signup");
+		validator.validate(map, result);
+		
 		if (result.hasErrors()) {
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
