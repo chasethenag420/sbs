@@ -65,13 +65,14 @@
   <mvc:resources mapping="/resources/**" location="/resources/" />
   <security:http pattern="/web_resources/**" security="none" />
   <security:http auto-config="true" use-expressions="true" disable-url-rewriting="true">
-    <security:form-login login-page="/login.html" login-processing-url="/j_spring_security_check" default-target-url="/home.html" authentication-success-handler-ref="authenticationSuccessRedirecthandler" authentication-failure-url="/login.html?error=true" always-use-default-target="true" username-parameter="username" password-parameter="password" />
+  <security:access-denied-handler error-page="/403"/>
+    <security:form-login login-page="/login.html" login-processing-url="/j_spring_security_check" authentication-success-handler-ref="authenticationSuccessRedirecthandler" authentication-failure-url="/login.html?error=true" always-use-default-target="true" username-parameter="username" password-parameter="password" />
     <security:logout logout-url="/logout" delete-cookies="JSESSIONID" success-handler-ref="logOutSuccessRedirecthandler" />
     <security:intercept-url pattern="/j_spring_security_check" access="permitAll" />
     <security:intercept-url pattern="/login*" access="permitAll" />
     <security:intercept-url pattern="/logout*" access="permitAll" />
     <security:intercept-url pattern="/index*" access="permitAll" />
-    <security:intercept-url pattern="/signup*" access="permitAll" />
+    <security:intercept-url pattern="/signup*" access="isAnonymous()" />
     <security:intercept-url pattern="/404*" access="permitAll" />
     <security:intercept-url pattern="/forgetPassword*" access="permitAll" />
     <security:intercept-url pattern="/notifications*" access="isAuthenticated()" />
@@ -137,8 +138,8 @@
   <bean id="userDetailsService" class="com.asu.cse545.group12.services.SbsUserDetailsService" />
   <bean id="SecurityQuestionsDaoImpl" class="com.asu.cse545.group12.dao.SecurityQuestionsDaoImpl" />
   <bean id="TransactionInputValidator" class="com.asu.cse545.group12.validator.TransactionInputValidator" />
+  <bean id="CreateExternalUserValidator" class="com.asu.cse545.group12.validator.CreateExternalUserValidator" />
   <bean id="authenticationProvider" class="com.asu.cse545.group12.authentication.LimitLoginAuthentication" >
-  
     <property name="userDetailsService" ref="userDetailsService" />
     <property name="passwordEncoder" ref="encoder" />
   </bean>
