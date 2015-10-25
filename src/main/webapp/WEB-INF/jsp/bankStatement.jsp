@@ -106,6 +106,7 @@ label {
 		$('#createPDF').click(function() {
 			$('#bankStatement').parsley().validate();
 			if (true == $('#bankStatement').parsley().isValid()) {
+				$('#bankStatement').parsley().destroy();
 				$('#bankStatement').attr("action", "downloadPDF");
 			} else {
 				return false;

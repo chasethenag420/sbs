@@ -62,7 +62,7 @@ label {
 								for="toAccount">To Account Number</form:label></td>
 
 
-						<td><form:select path="toAccount"
+						<td><form:select path="toAccount" 
 								data-parsley-required="true" name="toAccount">
 								<form:option value="" label="--Select Account --" />
 								<form:options items="${accounts}" />
@@ -107,6 +107,7 @@ label {
 		$('#submit').click(function() {
 			$('#creditForm').parsley().validate();
 			if (true == $('#creditForm').parsley().isValid()) {
+				$('#creditForm').parsley().destroy();
 				$('#creditForm').attr("action", "creditAmount");
 			} else {
 				return false;

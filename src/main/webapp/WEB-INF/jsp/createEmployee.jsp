@@ -188,7 +188,7 @@ label {
 					<tr>
 						<td style="white-space: nowrap"><form:label for="email"
 								path="user.emailId">Email</form:label></td>
-						<td><form:input type="email" name="email"
+						<td><form:input type="email" name="email" data-parsley-required="true"
 								data-parsley-type="email" path="user.emailId" id="email"
 								data-parsley-length="[1, 25]"/> <form:errors
 								class="alert alert-danger" path="user.emailId" /></td>

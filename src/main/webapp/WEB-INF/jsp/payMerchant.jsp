@@ -65,7 +65,7 @@ label {
 				<tr>
 					<td style="white-space: nowrap"><form:label for="toAccount" path="toAccount">To Account Number</form:label>
 					</td>
-					<td><form:input path="toAccount" data-parsley-required="true" data-parsley-type="digits"/></td>
+					<td><form:input path="toAccount" name="toAccount" data-parsley-length="[1,10]" data-parsley-required="true" data-parsley-type="digits"/></td>
 					<td><form:errors class="alert alert-danger" path="toAccount" /></td>
 				</tr>
 				<tr>
