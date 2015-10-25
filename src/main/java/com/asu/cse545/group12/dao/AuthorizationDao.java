@@ -38,5 +38,15 @@ public interface AuthorizationDao {
 	public List<Authorization> getNotificationsForManager(Users user);
 	
 	public List<Authorization> getNotificationsForAdmin(Users user);
+
+	public List<Authorization> getApprovedPendingNotificationsForManager(Users user);
+
+	public List<Authorization> getApprovedPendingNotificationsForAdmin(Users user);
+
+	public List<Authorization> getApprovedPendingNotificationsForRegular(Users user);
+
+	public List<Authorization> getApprovedPendingNotificationsForMerchant(Users user);
+
+	public List<Authorization> getApprovedPendingNotificationsForExternal(Users user);
 	
 }
