@@ -16,6 +16,34 @@
 <link href="web_resources/theme/css/bootstrap-responsive.css"
 	rel="stylesheet">
 <title>Security Questions</title>
+<style type="text/css">
+.wrapper {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto
+}
+
+label {
+	padding-left: 0 !important
+}
+
+.invalid-form-error-message {
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.invalid-form-error-message.filled {
+	border-left: 2px solid red;
+}
+
+.parsley-errors-list li {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border: 1px solid #EED3D7;
+	margin: 5px;
+}
+</style>
+
 </head>
 <body>
 	<center>
@@ -23,8 +51,7 @@
 		<div style="color: teal; font-size: 30px">Set Security Questions</div>
 		<br /> <br />
 		<form:form name="setSecurityQuestionsForm"
-			id="setSecurityQuestionsForm" method="post" modelAttribute="form"
-			onsubmit="return OnSubmitForm();">
+			id="setSecurityQuestionsForm" method="post" modelAttribute="form">
 			<center>
 				<c:if test="${!empty errorMessage}">
 					<div class="alert alert-danger">${errorMessage}</div>
@@ -32,28 +59,31 @@
 
 				<table width="700px" height="150px" cellspacing="10">
 					<tr>
-						<td>Question 1: <form:select path="map['question1']">
-								<form:option value="NONE" label="--Select Question --" />
+						<td><label for="question1">Question 1: </label><form:select name="question1" path="map['question1']" data-parsley-required="true">
+								<form:option value="" label="--Select Question --" />
 								<form:options items="${form.mapObject.question1}" />
 							</form:select></td>
-						<td><form:input path="map['answer1']" /></td>
+						<td><label for="answer1"></label><form:input path="map['answer1']" name="answer1" data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+"
+								data-parsley-length="[1, 20]" /></td>
 					</tr>
 					<tr>
 
-						<td>Question 2: <form:select path="map['question2']">
-								<form:option value="NONE" label="--Select Question --" />
+						<td><label for="question1">Question 2:  </label><form:select path="map['question2']" name="question2" data-parsley-required="true">
+								<form:option value="" label="--Select Question --" />
 								<form:options items="${form.mapObject.question2}" />
 							</form:select></td>
-						<td><form:input path="map['answer2']" /></td>
+						<td><label for="answer2"></label><form:input path="map['answer2']" name="answer2" data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+"
+								data-parsley-length="[1, 20]"/></td>
 					</tr>
 
 					<tr>
 
-						<td>Question 3: <form:select path="map['question3']">
-								<form:option value="NONE" label="--Select Question --" />
+						<td><label for="question3">Question 3:  </label><form:select path="map['question3']" name="question3" data-parsley-required="true">
+								<form:option value="" label="--Select Question --" />
 								<form:options items="${form.mapObject.question3}" />
 							</form:select></td>
-						<td><form:input path="map['answer3']" /></td>
+						<td><label for="answer3"></label><form:input path="map['answer3']" name="answer3" data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+"
+								data-parsley-length="[1, 20]"/></td>
 					</tr>
 					<tr></tr>
 
@@ -72,15 +102,30 @@
 
 	</center>
 
+	
+		<script src="web_resources/theme/js/jquery.min.js"></script>
+	<script src="web_resources/theme/js/parsley.min.js"></script>
+
 	<script type="text/javascript">
-		function OnSubmitForm() {
-			if (document.pressed == 'Submit') {
-				document.setSecurityQuestionsForm.action = "addSecurityQuestions";
-			} else if (document.pressed == 'Cancel') {
-				document.setSecurityQuestionsForm.action = "goBack";
-			}
-			return true;
-		}
+		$('#submit')
+				.click(
+						function() {
+							$('#setSecurityQuestionsForm').parsley().validate();
+							if (true == $('#setSecurityQuestionsForm').parsley()
+									.isValid()) {
+								$('#setSecurityQuestionsForm').parsley().destroy();
+								$('#setSecurityQuestionsForm').attr("action",
+										"addSecurityQuestions");
+							} else {
+								return false;
+							}
+						});
+
+		$('#cancel').click(function() {
+			$('#setSecurityQuestionsForm').parsley().destroy();
+			$('#setSecurityQuestionsForm').attr("action", "goBack");
+
+		});
 	</script>
 
 </body>

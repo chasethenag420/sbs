@@ -101,6 +101,7 @@ label {
 		$('#submit').click(function() {
 			$('#payMerchantForm').parsley().validate();
 			if (true == $('#payMerchantForm').parsley().isValid()) {
+				$('#payMerchantForm').parsley().destroy();
 				$('#payMerchantForm').attr("action", "submitMerchantPayment");
 			} else {
 				return false;

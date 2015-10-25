@@ -49,7 +49,7 @@ label {
 			Notifications</div>
 
 		<br> <br> <br>
-		<form:form class="form-horizontal" id="notificationsForm" action=""
+		<form:form class="form-horizontal" id="notificationsForm" 
 			method="post" modelAttribute="form">
 			<c:if test="${!empty notificationRows}">
 				<label for="notification"><b>Notifications</b></label>
@@ -110,6 +110,7 @@ label {
 	<script type="text/javascript">
 		$('#approve').click(function() {
 			if (true == $('#notificationsForm').parsley().isValid()) {
+				$('#notificationsForm').parsley().destroy();
 				$('#notificationsForm').attr("action", "approvenotification");
 			} else {
 				return false;
@@ -118,6 +119,7 @@ label {
 		});
 		$('#reject').click(function() {
 			if (true == $('#notificationsForm').parsley().isValid()) {
+				$('#notificationsForm').parsley().destroy();
 				$('#notificationsForm').attr("action", "rejectnotification");
 			} else {
 				return false;

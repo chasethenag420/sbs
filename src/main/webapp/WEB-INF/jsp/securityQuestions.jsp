@@ -16,6 +16,35 @@
 <link href="web_resources/theme/css/bootstrap-responsive.css"
 	rel="stylesheet">
 <title>Security Questions</title>
+
+<style type="text/css">
+.wrapper {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto
+}
+
+label {
+	padding-left: 0 !important
+}
+
+.invalid-form-error-message {
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.invalid-form-error-message.filled {
+	border-left: 2px solid red;
+}
+
+.parsley-errors-list li {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border: 1px solid #EED3D7;
+	margin: 5px;
+}
+</style>
+
 </head>
 <body>
 	<center>
@@ -23,32 +52,38 @@
 		<div style="color: teal; font-size: 30px">Forget Password</div>
 		<br /> <br />
 		<form:form name="securityQuestionsForm" id="securityQuestionsForm"
-			method="post" modelAttribute="form" onsubmit="return OnSubmitForm();">
+			method="post" modelAttribute="form">
 			<center>
 				<c:if test="${!empty errorMessage}">
 					<div class="alert alert-danger">${errorMessage}</div>
 				</c:if>
 
-				<table width="700px" height="150px" cellspacing="10">
+				<table class="table table-striped" style="width: auto;">
 					<tr>
-						<td style="white-space: nowrap">Question 1:
-							${form.map.question1}</td>
-						<td><form:input path="map['answer1']" /></td>
+						<td style="white-space: nowrap"><label for="question1">Question
+								1: ${form.map.question1}</label></td>
+						<td><form:input path="map['answer1']" name="question1"
+								data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+"
+								data-parsley-length="[1, 20]" /></td>
 					</tr>
 					<tr></tr>
 
 					<tr>
-						<td style="white-space: nowrap">Question 2:
-							${form.map.question2}</td>
+						<td style="white-space: nowrap"><label for="question2">Question
+								2: ${form.map.question2}</label></td>
 
-						<td><form:input path="map['answer2']" /></td>
+						<td><form:input path="map['answer2']" name="question2"
+								data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+"
+								data-parsley-length="[1, 20]" /></td>
 					</tr>
 					<tr></tr>
 
 					<tr>
-						<td style="white-space: nowrap">Question 3:
-							${form.map.question3}</td>
-						<td><form:input path="map['answer3']" /></td>
+						<td style="white-space: nowrap"><label for="question3">Question
+								3: ${form.map.question3}</label></td>
+						<td><form:input path="map['answer3']" name="question3"
+								data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+"
+								data-parsley-length="[1, 20]" /></td>
 					</tr>
 					<tr></tr>
 				</table>
@@ -62,10 +97,8 @@
 					value="${form.map.username}" />
 				<form:input type="hidden" path="map['email']"
 					value="${form.map.email}" />
-				<input type="submit" class="btn"
-					onclick="document.pressed=this.value" value="Submit" /> <input
-					type="submit" class="btn" onclick="document.pressed=this.value"
-					value="Cancel" />
+				<input type="submit" class="btn" id="submit" value="Submit" /> <input
+					type="submit" class="btn" id="cancel" value="Cancel" />
 				<div>
 					<h2>${successfulMessage}</h2>
 				</div>
@@ -73,18 +106,30 @@
 		</form:form>
 
 	</center>
+	<script src="web_resources/theme/js/jquery.min.js"></script>
+	<script src="web_resources/theme/js/parsley.min.js"></script>
 
 	<script type="text/javascript">
-		function OnSubmitForm() {
-			if (document.pressed == 'Submit') {
-				document.securityQuestionsForm.action = "validateSecurityQuestions";
-			} else if (document.pressed == 'Cancel') {
-				document.securityQuestionsForm.action = "goBack";
-			}
-			return true;
-		}
-	</script>
+		$('#submit')
+				.click(
+						function() {
+							$('#securityQuestionsForm').parsley().validate();
+							if (true == $('#securityQuestionsForm').parsley()
+									.isValid()) {
+								$('#securityQuestionsForm').parsley().destroy();
+								$('#securityQuestionsForm').attr("action",
+										"validateSecurityQuestions");
+							} else {
+								return false;
+							}
+						});
 
+		$('#cancel').click(function() {
+			$('#securityQuestionsForm').parsley().destroy();
+			$('#securityQuestionsForm').attr("action", "goBack");
+
+		});
+	</script>
 </body>
 </html>
 
