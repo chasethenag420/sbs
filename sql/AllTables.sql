@@ -203,3 +203,7 @@ insert into userpii values(42,'$2a$10$2/2tL8ekcyIQnxu9VIXCMO0OT2fgXNcHMIb2GbhQUE
 
 insert into user values(88,'Admin',null,'User1','Male','Adminus1','$2a$10$iw923zlUcrEPI8opFRpqe.TLoSd17xQgLoAyCtjXa3nhQYtu2E566',5,'Active','2015-10-14','2015-10-17','gzilpe@asu.edu','7278787878','hhhhh','Hyd','AP','India','321987','','0');
 insert into userpii values(88,'$2a$10$rFWtm2LwUUfkM/JJTIBjqOTPMyQBR9XSXbY4arXNija7Ue50sCSoi','1987-01-01');
+
+#ACCOUNT
+#===========================
+INSERT INTO `account` VALUES (56,1,'checking',1,188,'2015-10-10','2015-10-24'),(57,2,'checking',1,1274,'2015-10-10','2015-10-24');
