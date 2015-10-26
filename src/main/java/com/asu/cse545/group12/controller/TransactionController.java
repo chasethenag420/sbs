@@ -387,7 +387,7 @@ public class TransactionController {
 
 		ModelAndView modelView = new ModelAndView();
 
-		if(transactionIdForBulkPayments == null || transactionIdForBulkPayments.isEmpty() || transactionIdForBulkPayments.size() == 0)
+		if(merchantBulkPayment && (transactionIdForBulkPayments == null || transactionIdForBulkPayments.isEmpty() || transactionIdForBulkPayments.size() == 0))
 		{
 			modelView = new ModelAndView();
 			form.getMap().put("transactionType", transactionType);
