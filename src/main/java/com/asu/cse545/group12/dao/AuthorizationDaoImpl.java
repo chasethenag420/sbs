@@ -279,7 +279,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	public List<Authorization> getApprovedPendingNotificationsForManager(Users user) {
 		String req_type1=Const.PII_ACCESS;
 		//authorization only created by manager and approved by manager
-		String whereClause = "from authorization where (authorized_to_userid=" + user.getUserId() +")or (assigned_to_role = 4 and REQUEST_STATUS ='"+Const.APPROVED+"')  and request_type not like :req_type1";
+		String whereClause = "from authorization where (authorized_to_userid=" + user.getUserId() +")or (authorized_by_userid='"+ user.getUserId()+"' and REQUEST_STATUS ='"+Const.APPROVED+"')  and request_type not like :req_type1";
 		logger.debug("Manager User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
 		Session session = sessionfactory.openSession(); 
