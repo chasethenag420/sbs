@@ -29,7 +29,7 @@ public class LoginController {
 			logger.debug("Login page is requested");
 		}
 		if (error != null) {
-			model.addObject("error", 
+			model.addObject("error",
 					getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
 
@@ -48,12 +48,12 @@ public class LoginController {
 		modelView.setViewName("signup");
 
 		return modelView;
-	} 
+	}
 
 
 	private String getErrorMessage(HttpServletRequest request, String string) {
 		// TODO Auto-generated method stub
-		Exception exception = 
+		Exception exception =
 				(Exception) request.getSession().getAttribute(string);
 
 		String error = "";

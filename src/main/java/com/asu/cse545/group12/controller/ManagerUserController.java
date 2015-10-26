@@ -36,21 +36,5 @@ public class ManagerUserController {
 	@Autowired
 	UserDao userDao;
 
-	@RequestMapping(value = "/getmodifyuserview",method=RequestMethod.POST)
-	public ModelAndView getModifyUserview(@ModelAttribute("form") Form form,HttpServletRequest request) {
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("Modify User data requested");
-		}
-		ModelAndView modelView = new ModelAndView();
 
-		Map<String, String> formMap=form.getMap();
-		Integer userId= Integer.parseInt(formMap.get("userId"));	
-		Users user = userDao.getUserByUserId(userId);
-		modelView.addObject("user", user);
-		modelView.setViewName("manager");
-		return modelView;
-	}
-
-	
 }

@@ -54,7 +54,7 @@ public class NotificationController {
 
 		notificationView.addObject("form", new Form());
 		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
-		
+
 		logger.debug("**********************************Authorizations: "+authorizationService.getNotifications(user));
 		notificationView.addObject("approvedNotificationRows", authorizationService.getApprovedPendingNotifications(user));
 		notificationView.setViewName("notifications");
@@ -95,7 +95,7 @@ public class NotificationController {
 		if(authorization != null && user.getRoleId() == 2 && authorization.getRequestType().equals(Const.TRANSFER_REQUEST) )
 		{
 			authorizationService.approveTransferByMerchant(authorizationId, username);
-			
+
 		}
 		else
 		{
@@ -139,7 +139,7 @@ public class NotificationController {
 		return notificationView;
 	}
 
-	@RequestMapping(value = "forwardnotification", method = RequestMethod.POST)
+/*	@RequestMapping(value = "forwardnotification", method = RequestMethod.POST)
 	public ModelAndView forwardRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
@@ -165,7 +165,7 @@ public class NotificationController {
 		//authorizationService.forward(authorizationId, username);
 		notificationView.setViewName(getViewName(username));
 		return notificationView;
-	}
+	}*/
 
 	private String getViewName(String username){
 		int roleId = userDao.getUserByUserName(username).getRoleId();
