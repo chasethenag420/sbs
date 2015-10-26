@@ -46,7 +46,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Autowired
 	TransferDao transferDao;
-	
+
 	@Autowired
 	AccessControlDao accessControlDao;
 
@@ -75,7 +75,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			certGen.sendNotificationEmail(userName, attachments);
 			// create an account for this user by default checkings
 			accountService.insertRow(requestor.getUserId());
-			
+
 			//add access control entry for this user
 			AccessControl accessControl = new AccessControl();
 			accessControl.setUserId(requestor.getUserId());
@@ -101,13 +101,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				logger.debug("**********************************requestor: " + requestor.toString());
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
-			
+
 			Account account = accountService.getAccount(transaction.getAccountNumber());
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************authorization: " + authorization.toString());
 				logger.debug("**********************************Account: " + account.toString());
 			}
-			
+
 			accountService.doCredit(account.getAccountNumber(), transaction.getAmount());
 			transaction.setTransactionStatus(Const.APPROVED);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
@@ -126,12 +126,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			//*************************************************************************************************************/
 
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
-			
+
 			Account account = accountService.getAccount(transaction.getAccountNumber());
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************TransactionId: " + authorization.getTransactionId());
 			}
-			
+
 			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
 			transaction.setTransactionStatus(Const.APPROVED);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
@@ -149,15 +149,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			//*************************************************************************************************************/
 
 			// for debit
-			
+
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
-			
+
 			Account account = accountService.getAccount(transaction.getAccountNumber());
-			
+
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************TransactionId: " + authorization.getTransactionId());
 			}
-			
+
 			accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
 			transaction.setTransactionStatus(Const.APPROVED);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
@@ -230,7 +230,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				}
 				accessControlDao.updateRow(accessControl);
 			}
-			                                                      
+
 		}
 		//return authorizationDao.approve(authorization);
 		return 0;
@@ -307,7 +307,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				logger.debug("**********************************Account: " + account.toString());
 			}
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
-			
+
 			//COMMENTED THIS LINE TO STOP UPDATING THE ACCOUNT WITH CREDIT AMOUNT SINCE THE REQ IS REJECTED
 			//accountService.doCredit(account.getAccountNumber(), transaction.getAmount());
 			transaction.setTransactionStatus(Const.REJECT);
@@ -346,7 +346,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
-			
+
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************TransactionId: " + authorization.getTransactionId());
 			}
@@ -354,7 +354,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 			//COMMENTED THIS LINE TO STOP UPDATING THE ACCOUNT WITH CREDIT AMOUNT SINCE THE REQ IS REJECTED
 			//accountService.doDebit(account.getAccountNumber(), transaction.getAmount());
-			
+
 			transaction.setTransactionStatus(Const.REJECT);
 			transaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 			transaction.setModifiedByUserid(approver.getUserId());
@@ -368,10 +368,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 					logger.debug(
 							"**********************************creditTransactionId: " + creditTransaction.getTransactionId());
 				}
-				
+
 				//COMMENTED THIS LINE TO STOP UPDATING THE ACCOUNT WITH CREDIT AMOUNT SINCE THE REQ IS REJECTED
 				//accountService.doCredit(creditAccount.getAccountNumber(), creditTransaction.getAmount());
-				
+
 				creditTransaction.setTransactionStatus(Const.REJECT);
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				creditTransaction.setModifiedByUserid(approver.getUserId());
@@ -498,7 +498,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 		return -1;
 	}
-	
+
 	@Override
 	public List<Authorization> getApprovedPendingNotifications(Users user)
 	{
@@ -528,21 +528,35 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 		return null;
 
-	
+
 	}
-	
+
 	public List<AccessControl> getAccessControlToView(int touser, int roleID )
 	{
 		return authorizationDao.getAccessControlToView(touser, roleID);
 	}
-	
+
 	public List<AccessControl> getAccessControlToModify(int touser, int roleID ) 
 	{
 		return authorizationDao.getAccessControlToModify(touser, roleID);
 	}
-	
+
 	public List<AccessControl> getAccessControlToDelete(int touser, int roleID )
 	{
 		return authorizationDao.getAccessControlToDelete(touser, roleID);
+	}
+	public List<AccessControl> getAccessControlToViewTransaction(int touser, int roleID ) {
+		return authorizationDao.getAccessControlToViewTransaction(touser, roleID);
+	}
+
+	public List<AccessControl> getAccessControlToModifyTransaction(int touser, int roleID ) {
+		return authorizationDao.getAccessControlToModifyTransaction(touser, roleID);
+	}
+
+	public List<AccessControl> getAccessControlToDeleteTransaction(int touser, int roleID ) {
+		return authorizationDao.getAccessControlToDeleteTransaction(touser, roleID);
+	}
+	public Authorization getAuthorizationByTransactionId(int transactionId){
+		return authorizationDao.getAuthorizationByTransactionId(transactionId);
 	}
 }

@@ -44,8 +44,7 @@ table tr td {
 					<col width="230">
 					<col width="230">
 					<tr
-						style="background-color: teal; color: white; text-align: center;"
-						height="40px">
+						>
 
 						<td><b>Account Number</b></td>
 						<td><b>Account Type</b></td>

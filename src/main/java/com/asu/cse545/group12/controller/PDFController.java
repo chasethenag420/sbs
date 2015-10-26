@@ -54,6 +54,9 @@ public class PDFController {
 
 	@Autowired
 	TransactionDao transactionDao;
+	
+	@Autowired
+	TransactionInputValidator transactionInputValidator;
 
 	@RequestMapping(value = "/bankStatement", method = RequestMethod.GET)
 	public ModelAndView getCreditForm(HttpServletRequest request) {
@@ -86,7 +89,7 @@ public class PDFController {
 
 
 		//convert the string dates
-		TransactionInputValidator transactionInputValidator = new TransactionInputValidator();
+		transactionInputValidator.setRequest(request);
 		transactionInputValidator.validate(form, result);
 
 		if (result.hasErrors()) {

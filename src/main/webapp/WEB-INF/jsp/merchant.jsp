@@ -46,8 +46,8 @@
 								class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
 						<li id="userProfile"><a href="profile"><span
 								class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
-						<li id="submitPayment"><a href="#"><span
-								class="glyphicon glyphicon-chevron-right"></span> Submit Payment</a></li>
+						<li id="submitPayment"><a href="merchantBulkDebit"><span
+								class="glyphicon glyphicon-chevron-right"></span> Bulk Debit</a></li>
 						<li id="credit"><a href="credit"><span
 								class="glyphicon glyphicon-chevron-right"></span> Credit</a></li>
 						<li id="debit"><a href="debit"><span

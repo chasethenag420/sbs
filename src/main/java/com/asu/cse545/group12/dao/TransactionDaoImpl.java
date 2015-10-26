@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.log4j.Logger;
 
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Transactions;
 
@@ -105,13 +106,17 @@ public class TransactionDaoImpl implements TransactionDao {
 			Date frmDate = format.parse(fromDate);
 
 			Date enDate = format.parse(toDate);
+			
 
 			Session session = sessionfactory.openSession();
-			Query query = session.createQuery("from transaction where accountNumber =:accountNumber and (TRANSACTION_STATUS ='pending' or TRANSACTION_STATUS= 'complete') and CREATION_TIMESTAMP BETWEEN  :stDate AND :edDate");
+			Query query = session.createQuery("from transaction where accountNumber =:accountNumber and (TRANSACTION_STATUS ='"+Const.PENDING+"' or TRANSACTION_STATUS= '"+Const.APPROVED+"' or TRANSACTION_STATUS= '"+Const.REJECT+"') and CREATION_TIMESTAMP BETWEEN  :stDate AND :edDate");
 			query.setParameter("stDate", frmDate);
 			query.setParameter("edDate", enDate);
 			query.setParameter("accountNumber", accountNum);
 			List results = query.list();
+			if(logger.isDebugEnabled()){
+				logger.debug("***************************** Transactions between dates : "+results.size());
+			}
 			session.close();
 			return results;
 		} catch (ParseException e) {

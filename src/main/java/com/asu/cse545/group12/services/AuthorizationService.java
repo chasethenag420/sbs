@@ -31,6 +31,7 @@ public interface AuthorizationService {
 //	public List<Authorization> getNotifications();
 	
 	public int update(Authorization authorization);
+	public Authorization getAuthorizationByTransactionId(int transactionId);
 	
 	public List<Authorization> getAuthorizedNotifications(int fromusername,int tousername, String reqType, String requestStatus);
 	
@@ -45,4 +46,10 @@ public interface AuthorizationService {
 	public List<AccessControl> getAccessControlToModify(int touser, int roleID ) ;
 	
 	public List<AccessControl> getAccessControlToDelete(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToViewTransaction(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToModifyTransaction(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToDeleteTransaction(int touser, int roleID ) ;
 }

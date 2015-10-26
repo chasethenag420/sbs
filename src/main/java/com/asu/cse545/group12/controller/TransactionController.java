@@ -370,8 +370,37 @@ public class TransactionController {
 		String username = (String) request.getSession().getAttribute("username");
 		Users user = userDao.getUserByUserName(username);
 		String transactionID = (String) request.getSession().getAttribute("transactionID");
+		boolean merchantBulkPayment = false;
+		List<Integer> transactionIdForBulkPayments = new ArrayList<Integer>(); 
+		if(transactionID.contains(","))
+		{
+			merchantBulkPayment = true;
+			String [] list = transactionID.split(",");
+			for(int i=0; i<list.length; i++)
+			{
+				if("".equals(list[i]))
+					continue;
+				transactionIdForBulkPayments.add(Integer.parseInt(list[i]));
+			}
+
+		}
 
 		ModelAndView modelView = new ModelAndView();
+
+		if(merchantBulkPayment && (transactionIdForBulkPayments == null || transactionIdForBulkPayments.isEmpty() || transactionIdForBulkPayments.size() == 0))
+		{
+			modelView = new ModelAndView();
+			form.getMap().put("transactionType", transactionType);
+			form.getMap().put("email", new String(user.getEmailId()));
+			form.getMap().put("OTP", new String(""));
+			modelView.addObject("form", form);
+
+			modelView.setViewName("transactionOTP");
+			modelView.addObject("errorMessage", "We are unable to process this transaction. Please initiate transaction again.");
+
+			return modelView;
+		}
+
 
 		//System.out.println("***************************************************************** OTP: "+OTP+" username:"+username+ "opt from user: "+user.getOTP());
 		if(logger.isDebugEnabled()){
@@ -401,50 +430,95 @@ public class TransactionController {
 			}
 			else if(transactionType.equals(Const.TRANSFER_REQUEST) || transactionType.equals(Const.PAY_MERCHANT_REQUEST))
 			{
-
-				//update transaction
-				Transactions debitTransaction = transactionDao.getTransactionByTransactionId(Integer.parseInt(transactionID));
-				debitTransaction.setTransactionStatus(Const.PENDING);
-				transactionDao.updateRow(debitTransaction);
-
-
-				//update transfer
-				Transfer transfer = transferService.getTransferByTransferId(debitTransaction.getTransferId());
-				transfer.setTransactionStatus(Const.PENDING);
-				transferService.updateRow(transfer);
-
-				//update credit transaction
-				int creditTransactionId = transfer.getUserToTransactionid();
-				Transactions creditTransaction = transactionDao.getTransactionByTransactionId(creditTransactionId);
-				creditTransaction.setTransactionStatus(Const.PENDING);
-				transactionDao.updateRow(creditTransaction);
-
-
-				//update authorization
-				//if amount of debit transaction is > 1000, then only there is authorization in the table
-				if(transactionType.equals(Const.TRANSFER_REQUEST))
+				//handle the merchant bulk payment differently
+				if(merchantBulkPayment)
 				{
-					if(debitTransaction.getAmount() > 1000)
+					String messages= "";
+					for(int i=0; i<transactionIdForBulkPayments.size(); i++)
+					{
+						//update transaction
+						Transactions debitTransaction = transactionDao.getTransactionByTransactionId(transactionIdForBulkPayments.get(i));
+						debitTransaction.setTransactionStatus(Const.PENDING);
+						transactionDao.updateRow(debitTransaction);
+
+
+						//update transfer
+						Transfer transfer = transferService.getTransferByTransferId(debitTransaction.getTransferId());
+						transfer.setTransactionStatus(Const.PENDING);
+						transferService.updateRow(transfer);
+
+						//update credit transaction
+						int creditTransactionId = transfer.getUserToTransactionid();
+						Transactions creditTransaction = transactionDao.getTransactionByTransactionId(creditTransactionId);
+						creditTransaction.setTransactionStatus(Const.PENDING);
+						transactionDao.updateRow(creditTransaction);
+
+
+						//update authorization
+						//if amount of debit transaction is > 1000, then only there is authorization in the table
+						if(transactionType.equals(Const.TRANSFER_REQUEST))
+						{
+							if(debitTransaction.getAmount() > 1000)
+							{
+								Authorization authorization = authorizationDao.getAuthorizationByTransactionId(Integer.parseInt(transactionID));
+								authorization.setRequestStatus(Const.PENDING);
+								authorizationDao.updateRow(authorization);
+								messages = messages+"\n "+ "Successful! The transfer request is sent to bank official. Wait for approval.";
+							}
+							else
+								messages = messages+"\n "+ "Successful! The transfer is done from account: "+debitTransaction.getAccountNumber()+" to account: "+creditTransaction.getAccountNumber();
+								
+						}
+					}
+					modelView.addObject("successfulMessage", messages);
+					
+				}
+				else
+				{
+
+					//update transaction
+					Transactions debitTransaction = transactionDao.getTransactionByTransactionId(Integer.parseInt(transactionID));
+					debitTransaction.setTransactionStatus(Const.PENDING);
+					transactionDao.updateRow(debitTransaction);
+
+
+					//update transfer
+					Transfer transfer = transferService.getTransferByTransferId(debitTransaction.getTransferId());
+					transfer.setTransactionStatus(Const.PENDING);
+					transferService.updateRow(transfer);
+
+					//update credit transaction
+					int creditTransactionId = transfer.getUserToTransactionid();
+					Transactions creditTransaction = transactionDao.getTransactionByTransactionId(creditTransactionId);
+					creditTransaction.setTransactionStatus(Const.PENDING);
+					transactionDao.updateRow(creditTransaction);
+
+
+					//update authorization
+					//if amount of debit transaction is > 1000, then only there is authorization in the table
+					if(transactionType.equals(Const.TRANSFER_REQUEST))
+					{
+						if(debitTransaction.getAmount() > 1000)
+						{
+							Authorization authorization = authorizationDao.getAuthorizationByTransactionId(Integer.parseInt(transactionID));
+							authorization.setRequestStatus(Const.PENDING);
+							authorizationDao.updateRow(authorization);
+
+							modelView.addObject("successfulMessage", "Successful! The transfer request is sent to bank official. Wait for approval.");
+						}
+						else
+							modelView.addObject("successfulMessage", "Successful! The transfer is done from account: "+debitTransaction.getAccountNumber()+" to account: "+creditTransaction.getAccountNumber());
+					}
+					//don't check amount for payMerchant
+					else if (transactionType.equals(Const.PAY_MERCHANT_REQUEST))
 					{
 						Authorization authorization = authorizationDao.getAuthorizationByTransactionId(Integer.parseInt(transactionID));
 						authorization.setRequestStatus(Const.PENDING);
 						authorizationDao.updateRow(authorization);
-
 						modelView.addObject("successfulMessage", "Successful! The transfer request is sent to bank official. Wait for approval.");
 					}
-					else
-						modelView.addObject("successfulMessage", "Successful! The transfer is done from account: "+debitTransaction.getAccountNumber()+" to account: "+creditTransaction.getAccountNumber());
-				}
-				//don't check amount for payMerchant
-				else if (transactionType.equals(Const.PAY_MERCHANT_REQUEST))
-				{
-					Authorization authorization = authorizationDao.getAuthorizationByTransactionId(Integer.parseInt(transactionID));
-					authorization.setRequestStatus(Const.PENDING);
-					authorizationDao.updateRow(authorization);
-					modelView.addObject("successfulMessage", "Successful! The transfer request is sent to bank official. Wait for approval.");
-				}
 
-
+				}
 			}
 			request.getSession().removeAttribute("transactionId");
 			modelView.setViewName("successful");
@@ -666,6 +740,30 @@ public class TransactionController {
 
 
 			Integer fromAccountNumber= Integer.parseInt(fromAccount);
+
+
+			//check if there is balance for these bulk transaction
+			Double totalAmount = 0.0;
+			for(int i=0; i<5; i++)
+			{
+				if("".equals(toAccountList.get(i)))
+				{
+					continue;
+				}
+
+				totalAmount += Double.parseDouble(amountList.get(i));
+
+			}
+			if(!(accountService.isBalanceValid(fromAccountNumber, totalAmount, Const.DEBIT_REQUEST)))
+			{
+				ModelAndView modelView = new ModelAndView();
+				modelView.addObject("accounts", accountNumbers);
+				modelView.addObject("errorMessage", "Insufficient balance in the account to do bulk debit transactions");
+				modelView.addObject("form", form);
+				modelView.setViewName("merchantBulkDebit");
+				return modelView;
+			}
+
 			String transactionId="";
 			int emptyToAccountCount = 0;
 			for(int i=0; i<5; i++)
@@ -679,7 +777,7 @@ public class TransactionController {
 				{
 					ModelAndView modelView = new ModelAndView();
 					modelView.addObject("accounts", accountNumbers);
-					modelView.addObject("errorMessage", "Enter at least one To Account");
+					modelView.addObject("errorMessage", "Enter at least one debit transaction details");
 					modelView.addObject("form", form);
 					modelView.setViewName("merchantBulkDebit");
 					return modelView;
@@ -688,15 +786,8 @@ public class TransactionController {
 				Double amount= Double.parseDouble(amountList.get(i));
 				String newTransactionId = ""+transactionservice.doTransfer(fromAccountNumber, toAccountNumber, amount, descriptionList.get(i));
 
-				if ("-1".equals(newTransactionId)) {
-					ModelAndView modelView = new ModelAndView();
-					modelView.addObject("accounts", accountNumbers);
-					modelView.addObject("errorMessage", "Insufficient balance in the account");
-					modelView.addObject("form", form);
-					modelView.setViewName("merchantBulkDebit");
-					return modelView;
-				}
-				transactionId = transactionId+newTransactionId;
+				if (!("-1".equals(newTransactionId)))
+					transactionId = transactionId+","+newTransactionId;
 			}
 			ModelAndView modelView = new ModelAndView();
 
@@ -712,7 +803,7 @@ public class TransactionController {
 			Form basicform = new Form();
 			basicform.getMap().put("email", new String(user.getEmailId()));
 			basicform.getMap().put("OTP", new String(""));
-			basicform.getMap().put("transactionType", new String("debit"));
+			basicform.getMap().put("transactionType", new String(Const.TRANSFER_REQUEST));
 
 			modelView.addObject("form", basicform);
 			modelView.setViewName("transactionOTP");
