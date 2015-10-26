@@ -56,4 +56,10 @@ public interface AuthorizationDao {
 	
 	public List<AccessControl> getAccessControlToDelete(int touser, int roleID ) ;
 	
+	public List<AccessControl> getAccessControlToViewTransaction(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToModifyTransaction(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToDeleteTransaction(int touser, int roleID ) ;
+	
 }

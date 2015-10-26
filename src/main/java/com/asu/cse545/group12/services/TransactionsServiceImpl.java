@@ -272,10 +272,13 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 	@Override
 	public int deleteTransaction(int transactionId) {
-		
-		int result =transactionDao.deleteTransaction(transactionId);
-		
-		return result;
+		Transactions transaction = transactionDao.getTransactionByTransactionId(transactionId);
+		if(transaction!=null){
+			if(Const.PENDING.equals(transaction.getTransactionStatus())){
+				return transactionDao.deleteTransaction(transactionId);
+			}
+		}		
+		return -1;
 	}
 	
 	@Override
