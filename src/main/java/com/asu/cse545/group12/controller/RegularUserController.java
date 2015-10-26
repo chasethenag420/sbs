@@ -133,7 +133,7 @@ public class RegularUserController {
 			modelView.setViewName("displayTransactionList");
 		}else{
 			modelView.addObject("message", "No transactions found");
-		}		
+		}
 		return modelView;
 
 	}
@@ -154,7 +154,7 @@ public class RegularUserController {
 			Integer transactionId = Integer.parseInt(formMap.get("transactionId"));
 
 			Transactions transaction =  transactionDao.getTransactionByTransactionId(transactionId);
-			List<AccessControl> accessControl= authorizationService.getAccessControlToViewTransaction(transaction.getUserId(),3); 
+			List<AccessControl> accessControl= authorizationService.getAccessControlToViewTransaction(transaction.getUserId(),3);
 
 			if(transaction!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{
@@ -183,7 +183,7 @@ public class RegularUserController {
 			Integer transactionId = Integer.parseInt(formMap.get("transactionId"));
 
 			Transactions transaction =  transactionDao.getTransactionByTransactionId(transactionId);
-			List<AccessControl> accessControl= authorizationService.getAccessControlToDeleteTransaction(transaction.getUserId(),3); 
+			List<AccessControl> accessControl= authorizationService.getAccessControlToDeleteTransaction(transaction.getUserId(),3);
 
 			if(transaction!=null && Const.PENDING.equals(transaction.getTransactionStatus()) && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{	transaction.setTransactionStatus(Const.REJECT);
@@ -215,7 +215,7 @@ public class RegularUserController {
 			Map<String, String> formMap=form.getMap();
 			Integer transactionId = Integer.parseInt(formMap.get("transactionId"));
 			Transactions transaction =  transactionDao.getTransactionByTransactionId(transactionId);
-			List<AccessControl> accessControl= authorizationService.getAccessControlToModifyTransaction(transaction.getUserId(),3); 
+			List<AccessControl> accessControl= authorizationService.getAccessControlToModifyTransaction(transaction.getUserId(),3);
 			if( transaction!=null && Const.PENDING.equals(transaction.getTransactionStatus()) && transaction!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{
 				request.getSession(false).setAttribute("modifytransactionId",formMap.get("transactionId") );
@@ -244,15 +244,15 @@ public class RegularUserController {
 		try{
 			Integer transactionId = Integer.parseInt((String)request.getSession(false).getAttribute("modifytransactionId"));
 			Transactions transactionDB =  transactionDao.getTransactionByTransactionId(transactionId);
-			List<AccessControl> accessControl= authorizationService.getAccessControlToModifyTransaction(transactionDB.getUserId(),3); 
+			List<AccessControl> accessControl= authorizationService.getAccessControlToModifyTransaction(transactionDB.getUserId(),3);
 			if(transactionDB!=null && Const.PENDING.equals(transactionDB.getTransactionStatus()) && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
-			{				
+			{
 				transactionDB.setAmount(transaction.getAmount());
 				String type="";
 				if(Const.CREDIT_REQUEST.equals(transactionDB.getTransactionType())){
 					type=Const.CREDIT_REQUEST;
 				}else{
-					type=Const.DEBIT_REQUEST;					
+					type=Const.DEBIT_REQUEST;
 				}
 				if(accountService.isBalanceValid(transactionDB.getAccountNumber(),transactionDB.getAmount(),type)){
 					transactionDao.updateRow(transactionDB);
@@ -368,7 +368,7 @@ public class RegularUserController {
 				securityQuestions.setQuestion3(map.get("question3"));
 				securityQuestions.setAnswer3(map.get("answer3"));
 				securityQuestionsDao.updateRow(securityQuestions);
-			}	
+			}
 
 
 			Form newForm = new Form();

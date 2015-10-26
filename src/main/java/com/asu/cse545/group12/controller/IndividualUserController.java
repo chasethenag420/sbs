@@ -60,7 +60,7 @@ public class IndividualUserController {
 	@Autowired
 	AccountService accountService;
 	List<Transactions> transactionsList = new ArrayList<Transactions>();
-	
+
 	@RequestMapping(value = "/externalsearchtrans")
 	public ModelAndView getsearchForm(HttpServletRequest request) {
 		//logs debug message
@@ -96,36 +96,5 @@ public class IndividualUserController {
 		return modelView;
 	}
 
-	@RequestMapping(value="addAccount")
-	public ModelAndView addAccount() {
-		if(logger.isDebugEnabled()){
-			logger.debug("adding saving account to user account");
-		}
-
-		ModelAndView modelView = new ModelAndView();
-		modelView.setViewName("addAccount");
-		return modelView;
-	}
-
-	@RequestMapping(value="addUserAccount")
-	public ModelAndView addUserAccount(HttpServletRequest request) {
-		if(logger.isDebugEnabled()){
-			logger.debug("adding saving account to user account");
-		}
-		Users user = userService.getUserByUserName((String) request.getSession(false).getAttribute("username"));
-		ModelAndView modelView = new ModelAndView();
-		if(user == null)
-		{
-			modelView.addObject("errorMessage", "User does not exist. Login again");
-			modelView.setViewName("login");
-			return modelView;
-		}
-
-		modelView.addObject("successfulMessage", "Your request of creating Saving Account is forwarded to bank official.\n Wait for 5-6 business to activate the account.");
-		modelView.setViewName("successful");
-		return modelView;
-	}
-	
-	
 }
 
