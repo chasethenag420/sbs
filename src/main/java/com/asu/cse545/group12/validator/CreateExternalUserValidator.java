@@ -185,7 +185,7 @@ public class CreateExternalUserValidator implements Validator{
 			{
 				if(!(middleName.length()>=0 && middleName.length()<16))
 				{
-					errors.rejectValue("middleName", "not-string", "Length of Middle Name must be between 1 and 15");
+					errors.rejectValue("middleName", "not-string", "Length of Middle Name must be between 0 and 15");
 				}
 			}
 
