@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.TransactionForm;
@@ -65,7 +66,7 @@ public class TransactionInputValidator implements Validator{
 
 		if("TransactionForm".equalsIgnoreCase(typeOfForm))
 		{
-			if(form.getTransactionType().equals("credit"))
+			if(form.getTransactionType().equalsIgnoreCase(Const.CREDIT_REQUEST))
 			{
 				if (logger.isDebugEnabled()) {
 					logger.debug("****************Credit Transaction type Identifed***************:" );
@@ -126,7 +127,7 @@ public class TransactionInputValidator implements Validator{
 
 
 			}
-			else if(form.getTransactionType().equals("debit"))
+			else if(form.getTransactionType().equalsIgnoreCase(Const.DEBIT_REQUEST))
 			{
 				if (logger.isDebugEnabled()) {
 					logger.debug("****************Debit Transaction type Identifed***************:" );
@@ -197,7 +198,7 @@ public class TransactionInputValidator implements Validator{
 
 
 			}
-			else if(form.getTransactionType().equals("transfer"))
+			else if(form.getTransactionType().equalsIgnoreCase(Const.TRANSFER_REQUEST))
 			{
 				try
 				{
@@ -354,7 +355,7 @@ public class TransactionInputValidator implements Validator{
 				}
 			}
 
-			else if(form.getTransactionType().equals("payMerchant"))
+			else if(form.getTransactionType().equalsIgnoreCase(Const.PAY_MERCHANT_REQUEST))
 			{
 				try
 				{
@@ -440,59 +441,64 @@ public class TransactionInputValidator implements Validator{
 		{
 			Map<String, String> formMap = basicForm.getMap();
 			String fromAccount1  = formMap.get("fromAccount");
-			
+
 			String toAccount1  = formMap.get("toAccount1");
 			String amount1  = formMap.get("amount1");
 			String description1  = formMap.get("description1");
-			
+
 			String toAccount2  = formMap.get("toAccount2");
 			String amount2  = formMap.get("amount2");
 			String description2  = formMap.get("description2");
-			
+
 			String toAccount3  = formMap.get("toAccount3");
 			String amount3  = formMap.get("amount3");
 			String description3  = formMap.get("description3");
-			
+
 			String toAccount4  = formMap.get("toAccount4");
 			String amount4  = formMap.get("amount4");
 			String description4  = formMap.get("description4");
-			
+
 			String toAccount5  = formMap.get("toAccount5");
 			String amount5  = formMap.get("amount5");
 			String description5  = formMap.get("description5");
-			
+
 			List<String> toAccountList = new ArrayList<String>();
 			List<String> amountList = new ArrayList<String>();
 			List<String> descriptionList = new ArrayList<String>();
-			
+
 			toAccountList.add(toAccount1);
 			toAccountList.add(toAccount2);
 			toAccountList.add(toAccount3);
 			toAccountList.add(toAccount4);
 			toAccountList.add(toAccount5);
-			
+
 			amountList.add(amount1);
 			amountList.add(amount2);
 			amountList.add(amount3);
 			amountList.add(amount4);
 			amountList.add(amount5);
-			
+
 			descriptionList.add(description1);
 			descriptionList.add(description2);
 			descriptionList.add(description3);
 			descriptionList.add(description4);
 			descriptionList.add(description5);
-			
+
 			//validate from account
 			try
 			{
+				if (logger.isDebugEnabled()) {
+					logger.debug("*************** Merchant Bulk Payment validation trace  : From account1: "+fromAccount1 );
+					logger.debug("*************** Merchant Bulk Payment validation trace  : To account1: "+toAccount1 );
+					logger.debug("*************** Merchant Bulk Payment validation trace  : amount: "+amount1 );
+				}
 				Integer fromAccount;
 				if("".equals(fromAccount1))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "map['fromAccount']","not-integer", "Account cannot be empty.");
 				else
 				{
 					if (logger.isDebugEnabled()) {
-						logger.debug("****************Debit Transaction : Testing "+form.getFromAccount() );
+						logger.debug("****************Debit Transaction : Testing " );
 					}
 					fromAccount= Integer.parseInt(fromAccount1);
 					if (logger.isDebugEnabled()) {
@@ -554,7 +560,7 @@ public class TransactionInputValidator implements Validator{
 							errors.rejectValue("map['toAccount"+(i+1)+"']", "not-integer", "To Account does not exist.");
 						}
 
-						
+
 					}
 
 				}
@@ -569,14 +575,21 @@ public class TransactionInputValidator implements Validator{
 				try
 				{
 					Double amount;
-					if("".equals(amountList.get(i)))
-						ValidationUtils.rejectIfEmptyOrWhitespace(errors, "map['amount"+(i+1)+"']","not-integer", "Amount cannot be empty");
+					if("".equals(toAccountList.get(i)))
+					{
+						//don't do validation of amount if to account is empty
+					}
 					else
 					{
-						amount= Double.parseDouble(form.getAmount());
-						if(! (amount>0.0))
+						if("".equals(amountList.get(i)))
+							ValidationUtils.rejectIfEmptyOrWhitespace(errors, "map['amount"+(i+1)+"']","not-integer", "Amount cannot be empty");
+						else
 						{
-							errors.rejectValue("map['amount"+(i+1)+"']","not-integer", "Amount cannot be 0 or less than 0");
+							amount= Double.parseDouble(amountList.get(i));
+							if(! (amount>0.0))
+							{
+								errors.rejectValue("map['amount"+(i+1)+"']","not-integer", "Amount cannot be 0 or less than 0");
+							}
 						}
 					}
 
