@@ -271,7 +271,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		query.setParameter("requestStatus", requestStatus);
 		query.setParameter("reqType", reqType);
 		List<Authorization> authlist = query.list();
-		System.out.println(authlist);
+		
 		return authlist;
 	}
 
@@ -360,7 +360,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		query.setParameter("touser", touser);
 		query.setParameter("roleID", roleID);
 		List<AccessControl> authlist = query.list();
-		System.out.println(authlist);
+		
 		return authlist;
 	}
 	
@@ -372,7 +372,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		query.setParameter("touser", touser);
 		query.setParameter("roleID", roleID);
 		List<AccessControl> authlist = query.list();
-		System.out.println(authlist);
+		
 		return authlist;
 	}
 	
@@ -384,7 +384,40 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		query.setParameter("touser", touser);
 		query.setParameter("roleID", roleID);
 		List<AccessControl> authlist = query.list();
-		System.out.println(authlist);
+		
+		return authlist;
+	}
+	
+	public List<AccessControl> getAccessControlToViewTransaction(int touser, int roleID ) {
+		Session session = sessionfactory.openSession(); 
+
+		Query query= session.createQuery(" from accesscontrol where USERID=:touser and VIEWTRANSACTION=:roleID");
+		query.setParameter("touser", touser);
+		query.setParameter("roleID", roleID);
+		List<AccessControl> authlist = query.list();
+		
+		return authlist;
+	}
+	
+	public List<AccessControl> getAccessControlToModifyTransaction(int touser, int roleID ) {
+		Session session = sessionfactory.openSession(); 
+
+		Query query= session.createQuery(" from accesscontrol where USERID=:touser and MODIFYTRANSACTION=:roleID");
+		query.setParameter("touser", touser);
+		query.setParameter("roleID", roleID);
+		List<AccessControl> authlist = query.list();
+		
+		return authlist;
+	}
+	
+	public List<AccessControl> getAccessControlToDeleteTransaction(int touser, int roleID ) {
+		Session session = sessionfactory.openSession(); 
+
+		Query query= session.createQuery(" from accesscontrol where USERID=:touser and CANCELTRANSACTION=:roleID");
+		query.setParameter("touser", touser);
+		query.setParameter("roleID", roleID);
+		List<AccessControl> authlist = query.list();
+		
 		return authlist;
 	}
 
