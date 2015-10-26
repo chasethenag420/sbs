@@ -174,6 +174,7 @@ label {
 								<form:option value="3" label="Regular" />
 								<form:option value="4" label="Manager" />
 								<form:option value="5" label="Admin" />
+								<form:option value="6" label="Government Agency" />
 							</form:select> <form:errors class="alert alert-danger" path="user.roleId" /></td>
 					</tr>
 					<tr>

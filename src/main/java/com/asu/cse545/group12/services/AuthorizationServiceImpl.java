@@ -1,9 +1,25 @@
 package com.asu.cse545.group12.services;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.apache.log4j.Logger;
 
@@ -21,6 +37,9 @@ import com.asu.cse545.group12.domain.Transactions;
 import com.asu.cse545.group12.domain.Transfer;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.pki.CertificateGeneration;
+import com.asu.cse545.group12.email.EmailSenderAPI;
+import com.asu.cse545.group12.hashing.HashGenerator;
+import com.asu.cse545.group12.pdf.CreatePDFForPIIInformation;
 
 @Service
 public class AuthorizationServiceImpl implements AuthorizationService {
@@ -49,6 +68,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Autowired
 	AccessControlDao accessControlDao;
+
+	@Autowired
+	HashGenerator hashGenerator;
+
+	@Autowired
+	CreatePDFForPIIInformation pdfInformation;
+
 
 	@Override
 	public int approve(int authorizationId, String userName) {
@@ -301,11 +327,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			if (logger.isDebugEnabled()) {
 				logger.debug("**********************************requestor: " + requestor.toString());
 			}
-			Account account = accountService.getAccount(requestor.getUserName());
-			if (logger.isDebugEnabled()) {
-				logger.debug("**********************************authorization: " + authorization.toString());
-				logger.debug("**********************************Account: " + account.toString());
-			}
+
 			Transactions transaction = transactionDao.getTransactionByTransactionId(authorization.getTransactionId());
 
 			//COMMENTED THIS LINE TO STOP UPDATING THE ACCOUNT WITH CREDIT AMOUNT SINCE THE REQ IS REJECTED
@@ -559,4 +581,106 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public Authorization getAuthorizationByTransactionId(int transactionId){
 		return authorizationDao.getAuthorizationByTransactionId(transactionId);
 	}
+
+	@Override
+	public int approvePIINotification(int authorizationId, String userName, HttpServletRequest request, HttpServletResponse response) {
+		Authorization authorization = authorizationDao.getAuthorizationByAuthorizationId(authorizationId);
+		if (authorization != null && Const.PII_ACCESS.equals(authorization.getRequestType())) {
+			Users approver = userDao.getUserByUserName(userName);
+			authorization.setAuthorizedByUserId(approver.getUserId());
+			authorization.setRequestStatus(Const.APPROVED);
+			authorization.setAssignedToRole(approver.getRoleId());
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
+			if (logger.isDebugEnabled()) {
+				logger.debug("****************approvePIINotification:" );
+			}
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
+
+			//retrive SSN
+			try{
+				//authorization description is having SSN information
+				if(!("".equalsIgnoreCase(authorization.getRequestDescription())) && authorization.getRequestDescription().length()==9)
+				{
+					Users governmentUser = userService.getUserByUserId(authorization.getAuthorizedToUserId());
+
+					BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+					String hashedSSN = authorization.getRequestDescription();//passwordEncoder.encode(authorization.getRequestDescription());
+
+					Users foundUser = null;
+					List<Users> tempUserList = userService.getAllExternalUsers();
+					if(tempUserList!=null)
+					{
+						for(Users user: tempUserList)
+						{
+							logger.debug("****************approvePIINotification: SSN "+user.getUserpii().getSsn() );
+							if(passwordEncoder.matches(hashedSSN, user.getUserpii().getSsn()))
+							{
+								foundUser = user;
+								logger.debug("****************approvePIINotification: Found user" );
+								break;
+							}
+						}
+					}
+					if(foundUser != null)
+					{
+						final ServletContext servletContext = request.getSession().getServletContext();
+						final File tempDirectory = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+						final String temperotyFilePath = tempDirectory.getAbsolutePath();
+
+						String fileName = ""+foundUser.getFirstName()+"-"+foundUser.getLastName()+"-"+authorization.getRequestDescription()+".pdf";
+						response.setContentType("application/pdf");
+						response.setHeader("Content-disposition", "attachment; filename="+ fileName);
+						String username = "";
+
+
+						pdfInformation.createPDF(temperotyFilePath+"\\"+fileName, foundUser);
+
+						//FileInputStream inputStream = new FileInputStream(temperotyFilePath+"\\"+fileName);
+
+						FileSystemResource file = new FileSystemResource(temperotyFilePath+"\\"+fileName);
+						sendPIIEmail(governmentUser, foundUser, file);	
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+		} 
+
+		return authorizationId;
+
+	}
+
+
+	
+
+	//sent the OTP to user email
+	@Override
+	public void sendPIIEmail(Users governmentUser, Users piiUser, FileSystemResource file )
+	{
+
+		String configFile = "com/asu/cse545/group12/email/mail-config.xml";
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(configFile);
+
+		// @Service("emailService") <-- same annotation you specified in crunchifyEmailAPI.java
+		EmailSenderAPI emailAPI = (EmailSenderAPI) context.getBean("emailSenderService");
+		String toAddr = governmentUser.getEmailId();
+
+		// email subject
+		String subject = "PII Information of "+piiUser.getFirstName()+" "+piiUser.getLastName();
+		String attachmentName = ""+piiUser.getFirstName()+"-"+piiUser.getLastName()+"-PII.pdf";
+		// email body
+		String body = "Dear "+governmentUser.getFirstName()+" "+governmentUser.getLastName()+",\n\n Please find attached PDF. \n Have a good day!";
+
+		emailAPI.setToEmailAddress(toAddr);
+		emailAPI.setBody(body);
+		emailAPI.setSubject(subject);
+		emailAPI.sendEmail(attachmentName, file);
+		context.close();
+	}
 }
+

@@ -22,4 +22,5 @@ public interface UserDao {
 	public List<Users> getUsersByPhoneNumber(String phoneNumber);
 	public List<Users> getUsersByEmailId(String emailId);
 	public Users getUserByInformation(String username, String email);
+	public List<Users> getAllExternalUsers();
 }

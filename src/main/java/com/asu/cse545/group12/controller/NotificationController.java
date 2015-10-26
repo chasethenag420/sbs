@@ -3,6 +3,7 @@ package com.asu.cse545.group12.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -62,8 +63,10 @@ public class NotificationController {
 	}
 
 	@RequestMapping(value = "approvenotification", method = RequestMethod.POST)
-	public ModelAndView approveRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
-
+	public ModelAndView approveRequest(@ModelAttribute("form") Form form, HttpServletRequest request, HttpServletResponse response) {
+		if(logger.isDebugEnabled()){
+			logger.debug("***************************************************approvenotification: ");
+		}
 		HttpSession session = request.getSession(false);
 		String username=(String)session.getAttribute("username");
 
@@ -103,7 +106,15 @@ public class NotificationController {
 			// Have to get the Internal User Who clicked on the APPROVE button along
 			// with authorization Object()
 			// ********************************************************************************
-			authorizationService.approve(authorizationId, username);
+			
+			if(user != null && user.getRoleId()==5 && authorization != null && authorization.getRequestType().equalsIgnoreCase(Const.PII_ACCESS))
+			{
+				authorizationService.approvePIINotification(authorizationId, username, request, response);
+			}
+			else
+			{
+				authorizationService.approve(authorizationId, username);
+			}
 		}
 		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
 		notificationView.addObject("authorizationId", new Integer(0));

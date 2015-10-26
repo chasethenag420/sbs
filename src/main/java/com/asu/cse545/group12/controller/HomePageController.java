@@ -108,4 +108,16 @@ public class HomePageController {
 
 		return modelView;
 	}
+	
+	@RequestMapping(value = "/government", method = RequestMethod.GET)
+	public ModelAndView getGovernmentHomePage() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("Government Home Page requested");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("government");
+
+		return modelView;
+	}
 }

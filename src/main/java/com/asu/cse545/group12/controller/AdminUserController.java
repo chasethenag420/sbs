@@ -2,7 +2,10 @@ package com.asu.cse545.group12.controller;
 
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,10 +28,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.asu.cse545.group12.constantfile.Const;
+import com.asu.cse545.group12.dao.AuthorizationDao;
+import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
+import com.asu.cse545.group12.domain.Form;
+import com.asu.cse545.group12.domain.TransactionForm;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.email.EmailSenderAPI;
+import com.asu.cse545.group12.services.AuthorizationService;
 import com.asu.cse545.group12.services.UserService;
 import com.asu.cse545.group12.validator.CreateExternalUserValidator;
 
@@ -39,6 +48,9 @@ public class AdminUserController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	AuthorizationDao  authorizationDao;
 	
 	@Autowired
 	CreateExternalUserValidator validator;
@@ -148,6 +160,76 @@ public class AdminUserController {
 				emailAPI.setSubject(subject);
 				emailAPI.sendEmail();
 				context.close();
+	}
+	
+	
+	@RequestMapping(value = "/demandPIIInformation", method = RequestMethod.GET)
+	public ModelAndView getCreditForm(HttpServletRequest request) {
+
+		
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("demandPIIInformation Screen is executed!");
+		}
+		ModelAndView modelView = new ModelAndView();
+
+		modelView.addObject("form", new Form());
+		modelView.setViewName("demandPIIInformation");
+		return modelView;
+	}
+
+	@RequestMapping(value = "createPIIInformationRequest", method = RequestMethod.POST)
+	public ModelAndView createPIIInformationRequest(@Valid @ModelAttribute("form") Form form, BindingResult result, HttpServletRequest request) {
+		if(logger.isDebugEnabled()){
+			logger.debug("creditPIIInformationRequest:");
+		}
+		
+		Map<String, String> formMap = form.getMap();
+		String ssn = formMap.get("ssn");
+		if(logger.isDebugEnabled()){
+			logger.debug("************************8 SSN"+ssn);
+		}
+		String username = (String) request.getSession().getAttribute("username");
+		Integer SSN1;
+		try
+		{
+			 SSN1= Integer.parseInt(ssn);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			ModelAndView modelView = new ModelAndView();
+			modelView.addObject("form", form);
+			modelView.setViewName("demandPIIInformation");
+			return modelView;
+		}
+		
+		Users user = userService.getUserByUserName(username);
+		if(user != null)
+		{
+			Authorization authorization = new Authorization();
+			authorization.setAuthorizedToUserId(user.getUserId());
+			authorization.setAssignedToRole(5);
+			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
+			authorization.setRequestDescription(""+SSN1);
+			authorization.setRequestType(Const.PII_ACCESS);
+			authorization.setRequestStatus(Const.PENDING);
+			authorization.setTransactionId(0);
+			authorizationDao.insertRow(authorization);
+			
+			ModelAndView modelView = new ModelAndView();
+			modelView.addObject("form", new Form());
+			modelView.setViewName("demandPIIInformation");
+			modelView.addObject("successfulMessage", "Request for accessing the PII information is sent");
+			return modelView;
+		}
+		else
+		{
+			ModelAndView modelView = new ModelAndView();
+			modelView.setViewName("login");
+			return modelView;
+		}
+		
+
 	}
 	
 

@@ -22,4 +22,5 @@ public interface UserService {
 	public int insertRowForEmployee(Users user);
 	public int updateRowForOTP(Users user);
 	public Users getUserByUserId(int userId);
+	public List<Users> getAllExternalUsers();
 }

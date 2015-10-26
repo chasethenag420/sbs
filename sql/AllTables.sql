@@ -150,6 +150,7 @@ CREATE TABLE `securityquestions` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
+insert into role values(6,'government',0,0,0,0);
 insert into role values(5,'admin',1,1,1,1);
 insert into role values(4,'manager',1,1,1,1);
 insert into role values(3,'regular',1,1,0,0);

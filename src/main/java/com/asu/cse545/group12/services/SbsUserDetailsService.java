@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("SbsUserDetailsService")
 @Transactional
 public class SbsUserDetailsService implements UserDetailsService {
-	
+
 	@Autowired
 	UserDao userDao;
 	@Autowired
@@ -35,7 +35,7 @@ public class SbsUserDetailsService implements UserDetailsService {
 	private static final Logger logger = Logger.getLogger(SbsUserDetailsService.class);
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
+
 		boolean accountNonExpired = true;
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
@@ -43,7 +43,7 @@ public class SbsUserDetailsService implements UserDetailsService {
 			logger.debug("User username: "+username);
 
 		}
-		
+
 		try {
 			Users user = userDao.getUserByUserName(username);
 			boolean enabled = service.isUserEnabled(user);
@@ -80,6 +80,8 @@ public class SbsUserDetailsService implements UserDetailsService {
 			roles.add("ROLE_MANAGER");
 		} else if ("admin".equals(role)) {
 			roles.add("ROLE_ADMIN");
+		} else if ("government".equals(role)) {
+			roles.add("ROLE_GOVERNMENT");
 		}
 		return roles;
 	}
