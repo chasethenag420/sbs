@@ -52,7 +52,7 @@ label {
 
 		<h3>Notifications: Pending Approval</h3>
 				<br> <br>
-				<form:form class="form-horizontal" id="notificationsForm"
+				<form:form class="form-horizontal" name="notificationsForm" id="notificationsForm"
 					method="post" modelAttribute="form">
 					<c:if test="${!empty notificationRows}">
 						<label for="notification"><b>Notifications</b></label>
@@ -137,6 +137,7 @@ label {
 
 	<script type="text/javascript">
 		$('#approve').click(function() {
+			$('#notificationsForm').parsley().validate();
 			if (true == $('#notificationsForm').parsley().isValid()) {
 				$('#notificationsForm').parsley().destroy();
 				$('#notificationsForm').attr("action", "approvenotification");
@@ -146,6 +147,7 @@ label {
 
 		});
 		$('#reject').click(function() {
+			$('#notificationsForm').parsley().validate();
 			if (true == $('#notificationsForm').parsley().isValid()) {
 				$('#notificationsForm').parsley().destroy();
 				$('#notificationsForm').attr("action", "rejectnotification");

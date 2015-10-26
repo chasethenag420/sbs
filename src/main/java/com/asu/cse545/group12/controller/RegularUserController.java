@@ -54,7 +54,7 @@ import com.asu.cse545.group12.services.UserService;
 
 @Controller
 public class RegularUserController {
-	private static final Logger logger = Logger.getLogger(SignUpController.class);
+	private static final Logger logger = Logger.getLogger(RegularUserController.class);
 
 	@Autowired
 	UserService userService;
@@ -95,9 +95,7 @@ public class RegularUserController {
 		}
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("searchTransaction");
-		modelView.addObject("form", new Form());
 		modelView.addObject("account", new Account());
-		modelView.addObject("user", new Users());
 		return modelView;
 	}
 
@@ -111,21 +109,17 @@ public class RegularUserController {
 		}
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("searchTransaction");
-		modelView.addObject("form", new Form());
+		modelView.addObject("account", new Account());
 		System.out.println("accountnum"+account.getAccountNumber());
 		transactionByAccNum=transactionService.searchTransactionByInternals(account.getAccountNumber());
 		System.out.println("transactions list"+transactionByAccNum);
-		ListIterator<Transactions> it = transactionByAccNum.listIterator();
-		while(it.hasNext())
-		{
-			if(logger.isDebugEnabled()){
-				logger.debug(it.next());
-			}
-
-
-		}
-
-		modelView.addObject("transactions", transactionByAccNum);
+		if(transactionByAccNum!=null && !transactionByAccNum.isEmpty()){
+			modelView.addObject("transactions", transactionByAccNum);
+			modelView.addObject("form", new Form());
+			modelView.setViewName("displayTransactionList");
+		}else{
+			modelView.addObject("message", "No transactions found");
+		}		
 		return modelView;
 
 	}

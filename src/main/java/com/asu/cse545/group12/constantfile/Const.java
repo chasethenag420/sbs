@@ -5,6 +5,7 @@ import javax.persistence.Column;
 public class Const {
 		
 		public static String DEBIT_REQUEST ="Debit";
+		public static String PAY_MERCHANT_REQUEST ="Pay Merchant";
 		public static String CREDIT_REQUEST ="Credit";
 		public static String TRANSFER_REQUEST ="Transfer";
 		public static String SIGNUP_REQUEST ="Signup";

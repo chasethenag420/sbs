@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.controller.LoginController;
+import com.asu.cse545.group12.domain.AccessControl;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Users;
@@ -148,13 +150,16 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		String req_status=Const.PENDING;
 		String req_type =Const.SIGNUP_REQUEST;
 		String role = Const.REGULARUSER;
-		String whereClause = "from authorization where authorized_to_userid=" + user.getUserId() + " or (request_status=:req_status and assigned_to_role = 3)";//(select roleId from role where roledescription like :role))";
+		//String whereClause = "from authorization where authorized_to_userid=" + user.getUserId() + " or (request_status=:req_status and assigned_to_role = 3)";//(select roleId from role where roledescription like :role))";
+		logger.debug("*****************************PENDING ENTRIES SIZE IS:trace");
+		String whereClause ="select a.* from authorization a,accesscontrol ac where a.AUTHORIZED_TO_USERID=ac.USERID and a.request_status='Pending' and (  (ac.VIEWTRANSACTION=3 and a.REQUEST_TYPE in( 'Credit','Debit','Transfer' )  )  or (ac.MODIFYTRANSACTION=3 and a.REQUEST_TYPE in( 'Credit','Debit','Transfer' ) ) or (ac.CANCELTRANSACTION=3 and a.REQUEST_TYPE in( 'Credit','Debit','Transfer' )  ) or (ac.VIEWPROFILE=3 and a.REQUEST_TYPE='View Profile' ) or (ac.MODIFYEXTERNALUSER=3 and a.REQUEST_TYPE='Modify Profile' ) or (ac.DELETEEXTERNALUSER=3 and a.REQUEST_TYPE='Delete User' ))";
 		//		String whereClause = "from authorization where request_status like 'Pending' and request_type not like 'Signup'";
 		logger.debug("Regular User Notif Where clause:" + whereClause);
 		List<Authorization> pendingEntries = new ArrayList<Authorization>();
-		Session session = sessionfactory.openSession(); 
-		Query query = session.createQuery(whereClause);
-		query.setParameter("req_status", req_status);
+		Session session = sessionfactory.openSession();
+		SQLQuery query = session.createSQLQuery(whereClause);
+		query.addEntity("authorization", Authorization.class);
+		//query.setParameter("req_status", req_status);
 		//		query.setParameter("req_type",req_type);
 		//		query.setParameter("role", role);
 		pendingEntries = query.list();
@@ -303,7 +308,17 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 	@Override
 	public List<Authorization> getApprovedPendingNotificationsForRegular(Users user) {
 
-		return null;
+		String req_status=Const.APPROVED;
+		//CAN SEE ONLY THE REQUESTS WHICH HE RAISED (PENDING or APPROVED) ---- ALL THE REQUESTS RAISED TO HIM ONLY (APPROVED ONLY)
+		String whereClause = "from authorization where authorized_to_userid='"+ user.getUserId()+"' or (authorized_by_userid='"+ user.getUserId()+"' and request_status=:req_status)";
+		logger.debug("Ext User Notif Where clause:" + whereClause);
+		List<Authorization> pendingEntries = new ArrayList<Authorization>();
+		Session session = sessionfactory.openSession(); 
+		Query query = session.createQuery(whereClause);
+		query.setParameter("req_status", req_status);
+		pendingEntries = query.list();
+		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
+		return pendingEntries;
 	}
 
 	@Override
@@ -334,6 +349,43 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 		pendingEntries = query.list();
 		logger.debug("PENDING ENTRIES SIZE IS:" + pendingEntries.size());
 		return pendingEntries;
+	}
+	
+	
+	@Override
+	public List<AccessControl> getAccessControlToView(int touser, int roleID ) {
+		Session session = sessionfactory.openSession(); 
+
+		Query query= session.createQuery(" from accesscontrol where USERID=:touser and VIEWPROFILE=:roleID");
+		query.setParameter("touser", touser);
+		query.setParameter("roleID", roleID);
+		List<AccessControl> authlist = query.list();
+		System.out.println(authlist);
+		return authlist;
+	}
+	
+	@Override
+	public List<AccessControl> getAccessControlToModify(int touser, int roleID ) {
+		Session session = sessionfactory.openSession(); 
+
+		Query query= session.createQuery(" from accesscontrol where USERID=:touser and MODIFYEXTERNALUSER=:roleID");
+		query.setParameter("touser", touser);
+		query.setParameter("roleID", roleID);
+		List<AccessControl> authlist = query.list();
+		System.out.println(authlist);
+		return authlist;
+	}
+	
+	@Override
+	public List<AccessControl> getAccessControlToDelete(int touser, int roleID ) {
+		Session session = sessionfactory.openSession(); 
+
+		Query query= session.createQuery(" from accesscontrol where USERID=:touser and DELETEEXTERNALUSER=:roleID");
+		query.setParameter("touser", touser);
+		query.setParameter("roleID", roleID);
+		List<AccessControl> authlist = query.list();
+		System.out.println(authlist);
+		return authlist;
 	}
 
 

@@ -526,4 +526,19 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	
 	}
+	
+	public List<AccessControl> getAccessControlToView(int touser, int roleID )
+	{
+		return authorizationDao.getAccessControlToView(touser, roleID);
+	}
+	
+	public List<AccessControl> getAccessControlToModify(int touser, int roleID ) 
+	{
+		return authorizationDao.getAccessControlToModify(touser, roleID);
+	}
+	
+	public List<AccessControl> getAccessControlToDelete(int touser, int roleID )
+	{
+		return authorizationDao.getAccessControlToDelete(touser, roleID);
+	}
 }

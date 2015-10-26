@@ -80,7 +80,7 @@ label {
 				</tr>
 
 			</table>
-			<form:input type="hidden" path="transactionType" value="debit" />
+			<form:input type="hidden" path="transactionType" value="Debit" />
 
 			<input type="submit" class="btn"
 				id="submit" value="Submit" />

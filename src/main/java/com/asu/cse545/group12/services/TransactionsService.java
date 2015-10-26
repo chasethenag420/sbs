@@ -12,9 +12,9 @@ public interface TransactionsService {
 	public int doCredit(int accountNumber, double amount, String description);
 	public int doDebit(int accountNumber, double amount, String description);
 	public List<Transactions> searchTransactionByInternals(int accountNumber);
-	public int doTransfer(int fromAccountNumber, int toAccountNumber, int amount, String description);
+	public int doTransfer(int fromAccountNumber, int toAccountNumber, double amount, String description);
 	public void sendOTPviaEmail(Users user);
 	public List<Transactions> searchTransactionByExternals(Integer accountNum, Date toDate, Date fromDate);
 	public int deleteTransaction(int transactionId);
-	public int payMerchant(int fromAccountNumber, int toAccountNumber, int amount, String description, String customerDetails);
+	public int payMerchant(int fromAccountNumber, int toAccountNumber, double amount, String description, String customerDetails);
 }
