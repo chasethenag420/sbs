@@ -13,7 +13,7 @@
 		<hibernate.version>5.0.1.Final</hibernate.version>
 		<log4j.version>1.2.17</log4j.version>
 		<jdk.version>1.7</jdk.version>
-		<java.home>/usr/lib/jvm/default-java</java.home>
+		<jre.home>/usr/lib/jvm/default-java/jre</jre.home>
 		<context.path>SecureBankSystem</context.path>
 		<spring.security.version>4.0.2.RELEASE</spring.security.version>
 	</properties>
@@ -129,7 +129,7 @@
 		  <artifactId>rt.jar</artifactId>
 		  <version>${jdk.version}</version>
 		  <scope>system</scope>
-		  <systemPath>${java.home}/lib/rt.jar</systemPath>
+		  <systemPath>${jre.home}/lib/rt.jar</systemPath>
 		</dependency>
 
 
