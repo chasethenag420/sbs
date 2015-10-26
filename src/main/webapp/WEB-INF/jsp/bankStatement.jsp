@@ -57,7 +57,7 @@ label {
 				<tr></tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label for="toAccount"
-							path="toAccount">To Account Number</form:label></td>
+							path="toAccount">Account Number</form:label></td>
 
 
 					<td><form:select path="toAccount" name="toAccount"

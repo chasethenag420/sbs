@@ -58,11 +58,13 @@ public class SearchUserController {
 	}
 
 	@RequestMapping(value = "/getuserlist",method=RequestMethod.POST)
-	public ModelAndView searchUser(@ModelAttribute("form") Form form) {
+	public ModelAndView searchUser(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		//logs debug message
 		if(logger.isDebugEnabled()){
 			logger.debug("Modify User data requested");
 		}
+
+		Users loginUser = userservice.getUserByUserName((String)request.getSession(false).getAttribute("username"));
 		Map<String, String> formMap=form.getMap();
 		List<Users> userList = null;
 		if(!Utils.isEmpty(formMap.get("accountNumber"))){
@@ -76,11 +78,23 @@ public class SearchUserController {
 			Users user = userservice.getUserByUserName(formMap.get("userName"));
 			if(user!=null)
 			{
+				userList=new ArrayList<Users>();
 				//only return if the user is external user
-				if(user.getRoleId() == 1 || user.getRoleId() == 2)
+				if(loginUser != null && loginUser.getRoleId() == 5)
 				{
-					userList=new ArrayList<Users>();
-					userList.add(user);
+					//for admin give only internal bank employee
+					if(user.getRoleId() == 3 || user.getRoleId() == 4 || user.getRoleId() == 5)
+					{
+						userList.add(user);
+					}
+				}
+				//for manager and regular user, give external users only
+				else
+				{
+					if(user.getRoleId() == 1 || user.getRoleId() == 2)
+					{
+						userList.add(user);
+					}
 				}
 			}
 		}else if(!Utils.isEmpty(formMap.get("firstName"))){
@@ -89,9 +103,18 @@ public class SearchUserController {
 				userList=new ArrayList<Users>();
 				for(int i=0; i<tempUserList.size(); i++)
 				{
-					//only return if the user is external user
-					if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
-						userList.add(tempUserList.get(i));
+					if(loginUser != null && loginUser.getRoleId() == 5)
+					{
+						//for admin give only internal bank employee
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+							userList.add(tempUserList.get(i));
+					}
+					else
+					{
+						//only return if the user is external user for Manager and Regular
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
+							userList.add(tempUserList.get(i));
+					}
 				}
 			}
 		}else if(!Utils.isEmpty(formMap.get("lastName"))){
@@ -100,9 +123,18 @@ public class SearchUserController {
 				userList=new ArrayList<Users>();
 				for(int i=0; i<tempUserList.size(); i++)
 				{
-					//only return if the user is external user
-					if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
-						userList.add(tempUserList.get(i));
+					if(loginUser != null && loginUser.getRoleId() == 5)
+					{
+						//for admin give only internal bank employee
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+							userList.add(tempUserList.get(i));
+					}
+					else
+					{
+						//only return if the user is external user for Manager and Regular
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
+							userList.add(tempUserList.get(i));
+					}
 				}
 			}
 		}else if(!Utils.isEmpty(formMap.get("emailId"))){
@@ -111,9 +143,18 @@ public class SearchUserController {
 				userList=new ArrayList<Users>();
 				for(int i=0; i<tempUserList.size(); i++)
 				{
-					//only return if the user is external user
-					if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
-						userList.add(tempUserList.get(i));
+					if(loginUser != null && loginUser.getRoleId() == 5)
+					{
+						//for admin give only internal bank employee
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+							userList.add(tempUserList.get(i));
+					}
+					else
+					{
+						//only return if the user is external user for Manager and Regular
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
+							userList.add(tempUserList.get(i));
+					}
 				}
 			}
 		}else if(!Utils.isEmpty(formMap.get("phoneNumber"))){
@@ -122,9 +163,18 @@ public class SearchUserController {
 				userList=new ArrayList<Users>();
 				for(int i=0; i<tempUserList.size(); i++)
 				{
-					//only return if the user is external user
-					if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
-						userList.add(tempUserList.get(i));
+					if(loginUser != null && loginUser.getRoleId() == 5)
+					{
+						//for admin give only internal bank employee
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+							userList.add(tempUserList.get(i));
+					}
+					else
+					{
+						//only return if the user is external user for Manager and Regular
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
+							userList.add(tempUserList.get(i));
+					}
 				}
 			}
 		}
@@ -157,7 +207,7 @@ public class SearchUserController {
 		ModelAndView modelView = new ModelAndView();
 		modelView.addObject("message", "You are not allowed to raise request");
 		modelView.addObject("form", new Form());
-		
+
 
 		try{
 			Integer userId=Integer.parseInt((String)request.getSession(false).getAttribute("raiseInternalRequestuserId"));
