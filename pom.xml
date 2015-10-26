@@ -13,6 +13,7 @@
 		<hibernate.version>5.0.1.Final</hibernate.version>
 		<log4j.version>1.2.17</log4j.version>
 		<jdk.version>1.7</jdk.version>
+		<java.home>/usr/lib/jvm/default-java</java.home>
 		<context.path>SecureBankSystem</context.path>
 		<spring.security.version>4.0.2.RELEASE</spring.security.version>
 	</properties>
@@ -40,6 +41,10 @@
 				<configuration>
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
+					<compilerArgs>
+            <arg>-XDignore.symbol.file</arg>
+          </compilerArgs>
+          <fork>true</fork>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -118,6 +123,13 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.6</version>
+		</dependency>
+		<dependency>
+		  <groupId>sun.jdk</groupId>
+		  <artifactId>rt.jar</artifactId>
+		  <version>${jdk.version}</version>
+		  <scope>system</scope>
+		  <systemPath>${java.home}/lib/rt.jar</systemPath>
 		</dependency>
 
 
