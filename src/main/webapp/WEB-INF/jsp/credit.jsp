@@ -75,7 +75,7 @@ label {
 						<td style="white-space: nowrap"><form:label path="amount"
 								for="amount">Amount</form:label></td>
 						<td><form:input path="amount" data-parsley-required="true"
-								data-parsley-type="digits" data-parsley-length="[1, 5]"
+								data-parsley-type="number" data-parsley-length="[1, 5]" step="0.01"
 								data-parsley-length-message="Should be max 5 digits"
 								name="amount" /></td>
 						<td><form:errors class="alert alert-danger" path="amount" /></td>
@@ -88,7 +88,7 @@ label {
 								data-parsley-length="[1, 50]" /></td>
 					</tr>
 				</table>
-				<form:input type="hidden" path="transactionType" value="credit" />
+				<form:input type="hidden" path="transactionType" value="Credit" />
 				<input class="btn" type="submit" id="submit" value="Submit" /> <input
 					class="btn" type="submit" id="cancel" value="Cancel" />
 				<div>

@@ -12,42 +12,48 @@
 <link href="web_resources/theme/css/bootstrap-responsive.css"
 	rel="stylesheet">
 
-<title>Search Transactions</title>
+<title>Display Transactions</title>
+<style type="text/css">
+.wrapper {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto
+}
+
+label {
+	padding-left: 0 !important
+}
+
+.invalid-form-error-message {
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.invalid-form-error-message.filled {
+	border-left: 2px solid red;
+}
+
+.parsley-errors-list li {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border: 1px solid #EED3D7;
+	margin: 5px;
+}
+</style>
 <body>
 	<center>
 
 
-		<form class="form-horizontal" id="searchTransaction" method="post"
-			action="">
+		<form class="form-horizontal" name="searchTransaction"
+			id="searchTransaction" method="post">
 
 			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
-
-
-			<div class="control-group">
-				<form:label class="control-label" type="date" path="user.firstName">First Name</form:label>
-				<form:input class="controls" path="user.firstName" />
-				<form:errors class="alert alert-danger" path="user.firstName" />
-			</div>
-			<div class="control-group">
-				<form:label class="control-label" type="date"
-					path="account.accountNumber">Account Number</form:label>
-				<form:input class="controls" path="account.accountNumber" />
-				<form:errors class="alert alert-danger" path="account.accountNumber" />
-			</div>
-
-
-
-			<div class="control-group">
-				<div class="controls">
-					<input class="btn  btn-primary " type="submit" id="search"
-						value="Submit" /> <a class="btn  btn-primary " type="button">Cancel</a>
-				</div>
-			</div>
-
+				value="${_csrf.token}" /> <label for="transactionrecord"><b>Transaction
+					List</b></label>
 			<c:if test="${!empty transactions}">
 				<table class="table table-striped" style="width: auto;">
 					<tr>
+						<th>&nbsp;</th>
 						<th>AccountNumber</th>
 						<th>AccountCreation</th>
 						<th>TransactionType</th>
@@ -56,45 +62,70 @@
 					<c:forEach items="${transactions}" var="item">
 						<tr>
 							<td><form:radiobutton path="form.map['transactionId']"
+									name="transactionrecord" data-parsley-required="true"
 									value="${item.transactionId}" /></td>
-							<td width="30"><c:out value="${item.accountNumber}" /></td>
+							<td><c:out value="${item.accountNumber}" /></td>
 
-							<td width="80"><c:out value="${item.creationTimestamp}" /></td>
+							<td><c:out value="${item.creationTimestamp}" /></td>
 
-							<td width="30"><c:out value="${item.transactionType}" /></td>
+							<td><c:out value="${item.transactionType}" /></td>
 
 							<td><c:out value="${item.amount}" /></td>
-							<td><button type="button" id="deletetransaction" disabled>Delete</button>
-							</td>
 						</tr>
 					</c:forEach>
 
 				</table>
+				<input id="view" type="submit" class="btn" value="View" />
+				<input id="modify" type="submit" class="btn" value="Modify" />
+				<input id="delete" type="submit" class="btn btn-danger"
+					value="Delete" />
 			</c:if>
-			<input id="delete" type="submit" class="btn btn-danger"
-				value="delete" /> 
-			<input id="modify" type="submit"
-				class="btn btn-danger" value="Modify" />
-	</form>
+
+			<input id="cancel" type="submit" class="btn" value="Cancel" />
+		</form>
 	</center>
+
 
 	<!-- jQuery -->
 	<script src="web_resources/theme/js/jquery.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="web_resources/theme/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-		$('#search').click(function() {
-			$('#searchTransaction').attr("action", "searchTransactionform");
-		});
 
+	<script src="web_resources/theme/js/parsley.min.js"></script>
+	<script type="text/javascript">
 		$('#delete').click(function() {
-			$('#searchTransaction').attr("action", "deleteTransaction");
+			$('#searchTransaction').parsley().validate();
+			if (true == $('#searchTransaction').parsley().isValid()) {
+				$('#searchTransaction').parsley().destroy();
+				$('#searchTransaction').attr("action", "deleteTransaction");
+			} else {
+				return false;
+			}
 		});
 		$('#modify').click(function() {
-			$('#searchTransaction').attr("action", "modifyTransaction");
+			$('#searchTransaction').parsley().validate();
+			if (true == $('#searchTransaction').parsley().isValid()) {
+				$('#searchTransaction').parsley().destroy();
+				$('#searchTransaction').attr("action", "modifyTransaction");
+			} else {
+				return false;
+			}
+		});
+
+		$('#view').click(function() {
+			$('#searchTransaction').parsley().validate();
+			if (true == $('#searchTransaction').parsley().isValid()) {
+				$('#searchTransaction').parsley().destroy();
+				$('#searchTransaction').attr("action", "viewTransaction");
+			} else {
+				return false;
+			}
+		});
+		$('#cancel').click(function() {
+			$('#searchTransaction').parsley().destroy();
+			$('#searchTransaction').attr("action", "goBack");
 		});
 	</script>
-
 </body>
 </html>

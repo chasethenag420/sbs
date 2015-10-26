@@ -2,6 +2,7 @@ package com.asu.cse545.group12.dao;
 
 import java.util.List;
 
+import com.asu.cse545.group12.domain.AccessControl;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Users;
@@ -38,5 +39,27 @@ public interface AuthorizationDao {
 	public List<Authorization> getNotificationsForManager(Users user);
 	
 	public List<Authorization> getNotificationsForAdmin(Users user);
+
+	public List<Authorization> getApprovedPendingNotificationsForManager(Users user);
+
+	public List<Authorization> getApprovedPendingNotificationsForAdmin(Users user);
+
+	public List<Authorization> getApprovedPendingNotificationsForRegular(Users user);
+
+	public List<Authorization> getApprovedPendingNotificationsForMerchant(Users user);
+
+	public List<Authorization> getApprovedPendingNotificationsForExternal(Users user);
+	
+	public List<AccessControl> getAccessControlToView(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToModify(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToDelete(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToViewTransaction(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToModifyTransaction(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToDeleteTransaction(int touser, int roleID ) ;
 	
 }

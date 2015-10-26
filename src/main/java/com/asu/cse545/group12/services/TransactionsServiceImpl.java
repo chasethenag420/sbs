@@ -72,8 +72,9 @@ public class TransactionsServiceImpl implements TransactionsService {
 			authorization.setRequestDescription("Approval for amount credit");
 			authorization.setRequestType(Const.CREDIT_REQUEST);
 			
-			//SETTNG THE ROLE ID TO REGULAR USER 
-			int roleid = roleDao.getRoleid(Const.REGULARUSER);
+			
+			//SETTNG THE ROLE ID TO Manager
+			int roleid = roleDao.getRoleid(Const.MANAGER);
 			authorization.setAssignedToRole(roleid);
 			
 			authorization.setTransactionId(transactionId);
@@ -107,8 +108,9 @@ public class TransactionsServiceImpl implements TransactionsService {
 			authorization.setRequestDescription("Approval for amount debit");
 			authorization.setRequestType(Const.DEBIT_REQUEST);
 
+			
 			//SETTNG THE ROLE ID TO REGULAR USER 
-			int roleid = roleDao.getRoleid(Const.REGULARUSER);
+			int roleid = roleDao.getRoleid(Const.MANAGER);
 			authorization.setAssignedToRole(roleid);
 
 			authorization.setTransactionId(transactionId);
@@ -141,7 +143,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 
 
-	public int doTransfer(int fromAccountNumber, int toAccountNumber, int amount, String description) {
+	public int doTransfer(int fromAccountNumber, int toAccountNumber, double amount, String description) {
 		boolean debitStatus = false;
 		if (accountService.isValidAccountNumber(toAccountNumber)
 				&& accountService.isValidAccountNumber(fromAccountNumber)) {
@@ -216,8 +218,9 @@ public class TransactionsServiceImpl implements TransactionsService {
 					authorization.setRequestDescription("Approval for amount transfer");
 					authorization.setRequestType(Const.TRANSFER_REQUEST);
 					
+					
 					//SETTNG THE ROLE ID TO REGULAR USER 
-					int roleid = roleDao.getRoleid(Const.REGULARUSER);
+					int roleid = roleDao.getRoleid(Const.MANAGER);
 					authorization.setAssignedToRole(roleid);
 
 					authorization.setTransactionId(debitTransactionId);
@@ -269,14 +272,17 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 	@Override
 	public int deleteTransaction(int transactionId) {
-		
-		int result =transactionDao.deleteTransaction(transactionId);
-		
-		return result;
+		Transactions transaction = transactionDao.getTransactionByTransactionId(transactionId);
+		if(transaction!=null){
+			if(Const.PENDING.equals(transaction.getTransactionStatus())){
+				return transactionDao.deleteTransaction(transactionId);
+			}
+		}		
+		return -1;
 	}
 	
 	@Override
-	public int payMerchant(int fromAccountNumber, int toAccountNumber, int amount, String description, String customerDetails) 
+	public int payMerchant(int fromAccountNumber, int toAccountNumber, double amount, String description, String customerDetails) 
 	{
 		boolean debitStatus = false;
 		if (accountService.isValidAccountNumber(toAccountNumber)
@@ -332,7 +338,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				transactionDao.updateRow(debitTransaction);
 				transactionDao.updateRow(creditTransaction);
 
-				// create authorization for amount >1000. authorization has only
+				
 				// fromAccount information
 				
 					Authorization authorization = new Authorization();
@@ -343,7 +349,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 					authorization.setRequestDescription("Merchant Payment: Approval for amount transfer from the customer: "+customerDetails);
 					authorization.setRequestType(Const.TRANSFER_REQUEST);
 					authorization.setTransactionId(debitTransactionId);
-					authorization.setAssignedToRole(0);
+					authorization.setAssignedToRole(Const.NOROLEID);
 					authorizationDao.insertRow(authorization);
 					
 				

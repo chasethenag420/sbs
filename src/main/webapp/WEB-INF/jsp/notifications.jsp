@@ -49,14 +49,60 @@ label {
 			Notifications</div>
 
 		<br> <br> <br>
-		<form:form class="form-horizontal" id="notificationsForm" 
-			method="post" modelAttribute="form">
-			<c:if test="${!empty notificationRows}">
-				<label for="notification"><b>Notifications</b></label>
-				<p>
+
+		<h3>Notifications: Pending Approval</h3>
+				<br> <br>
+				<form:form class="form-horizontal" name="notificationsForm" id="notificationsForm"
+					method="post" modelAttribute="form">
+					<c:if test="${!empty notificationRows}">
+						<label for="notification"><b>Notifications</b></label>
+						<p>
+						<table class="table table-striped" style="width: auto;">
+							<tr>
+								<td><b>&nbsp;</b></td>
+								<td><b>Request Type</b></td>
+								<td><b>Request Description</b></td>
+								<td><b>Requested Date</b></td>
+								<td><b>Requester UserId</b></td>
+								<td><b>Request Status</b></td>
+								<td><b>Approver UserId</b></td>
+							</tr>
+							<c:forEach items="${notificationRows}" var="eachnotification">
+								<tr>
+									<td><form:radiobutton path="map['authorizationId']"
+											data-parsley-required="true" name="notification"
+											value="${eachnotification.authorizationId}" /></td>
+									<td><c:out value="${eachnotification.requestType}" /></td>
+									<td><c:out value="${eachnotification.requestDescription}" /></td>
+									<td><c:out
+											value="${eachnotification.requestCreationTimeStamp}" /></td>
+									<td><c:out value="${eachnotification.authorizedToUserId}" /></td>
+									<td><c:out value="${eachnotification.requestStatus}" /></td>
+									<td><c:out value="${eachnotification.authorizedByUserId}" /></td>
+								</tr>
+							</c:forEach>
+
+						</table>
+						</p>
+						<input id="approve" type="submit" class="btn btn-success"
+							value="Approve" />
+						<input id="reject" type="submit" class="btn btn-danger"
+							value="Reject" />
+					</c:if>
+					<c:if test="${empty notificationRows}">
+						<br>
+						<div>You do not have any Notifications to approve.</div>
+						<br>
+					</c:if>
+					<input class="btn" type="submit" id="cancel" value="Cancel" />
+				</form:form>
+
+				<br />
+				<br />
+				<br />
+				<h3>Notifications: Approved or Created by User</h3>
 				<table class="table table-striped" style="width: auto;">
 					<tr>
-						<td><b>&nbsp;</b></td>
 						<td><b>Request Type</b></td>
 						<td><b>Request Description</b></td>
 						<td><b>Requested Date</b></td>
@@ -64,11 +110,9 @@ label {
 						<td><b>Request Status</b></td>
 						<td><b>Approver UserId</b></td>
 					</tr>
-					<c:forEach items="${notificationRows}" var="eachnotification">
+					<c:forEach items="${approvedNotificationRows}" var="eachnotification">
 						<tr>
-							<td><form:radiobutton path="map['authorizationId']"
-									data-parsley-required="true" name="notification"
-									value="${eachnotification.authorizationId}" /></td>
+							
 							<td><c:out value="${eachnotification.requestType}" /></td>
 							<td><c:out value="${eachnotification.requestDescription}" /></td>
 							<td><c:out
@@ -82,22 +126,6 @@ label {
 					</c:forEach>
 
 				</table>
-				</p>
-				<input id="approve" type="submit" class="btn btn-success"
-					value="Approve" />
-				<input id="reject" type="submit" class="btn btn-danger"
-					value="Reject" />
-			</c:if>
-			<c:if test="${empty notificationRows}">
-				<br>
-				<h2>You do not have any Notifications</h2>
-				<br>
-			</c:if>
-			<input class="btn" type="submit" id="cancel" value="Cancel" />
-		</form:form>
-
-
-
 	</center>
 
 	<!-- jQuery -->
@@ -109,6 +137,7 @@ label {
 
 	<script type="text/javascript">
 		$('#approve').click(function() {
+			$('#notificationsForm').parsley().validate();
 			if (true == $('#notificationsForm').parsley().isValid()) {
 				$('#notificationsForm').parsley().destroy();
 				$('#notificationsForm').attr("action", "approvenotification");
@@ -118,6 +147,7 @@ label {
 
 		});
 		$('#reject').click(function() {
+			$('#notificationsForm').parsley().validate();
 			if (true == $('#notificationsForm').parsley().isValid()) {
 				$('#notificationsForm').parsley().destroy();
 				$('#notificationsForm').attr("action", "rejectnotification");

@@ -13,14 +13,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Secure Bank System | User List</title>
 
-<style>
-table tr td:empty {
-	width: 50px;
+<style type="text/css">
+.wrapper {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto
 }
 
-table tr td {
-	padding-top: 10px;
-	padding-bottom: 10px;
+label {
+	padding-left: 0 !important
+}
+
+.invalid-form-error-message {
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.invalid-form-error-message.filled {
+	border-left: 2px solid red;
+}
+
+.parsley-errors-list li {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border: 1px solid #EED3D7;
+	margin: 5px;
 }
 </style>
 
@@ -38,7 +55,7 @@ table tr td {
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 			<c:if test="${!empty userList}">
-
+		<label for="userrecord"><b>User List</b></label>
 				<table class="table table-striped" style="width: auto;">
 					<tr>
 						<td><b></b></td>
@@ -50,7 +67,7 @@ table tr td {
 					</tr>
 					<c:forEach items="${userList}" var="user">
 						<tr>
-							<td><form:radiobutton path="map['userId']"
+							<td><form:radiobutton path="map['userId']" name="userrecord" data-parsley-required="true"
 									value="${user.userId}" /></td>
 							<td><c:out value="${user.userName}" /></td>
 							<td><c:out value="${user.firstName}" /></td>
@@ -86,21 +103,48 @@ table tr td {
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="web_resources/theme/js/bootstrap.min.js"></script>
+	
+	<script src="web_resources/theme/js/parsley.min.js"></script>
 	<script type="text/javascript">
 		$('#viewUser').click(function() {
-			$('#displayUserList').attr("action", "viewExternalprofileform");
+			$('#displayUserList').parsley().validate();
+			if (true == $('#displayUserList').parsley().isValid()) {
+				$('#displayUserList').parsley().destroy();
+				$('#displayUserList').attr("action", "viewExternalprofileform");
+			} else {
+				return false;
+			}
 		});
 		$('#requestUser').click(function() {
-			$('#displayUserList').attr("action", "raiseInternalRequest");
+			$('#displayUserList').parsley().validate();
+			if (true == $('#displayUserList').parsley().isValid()) {
+				$('#displayUserList').parsley().destroy();
+				$('#displayUserList').attr("action", "raiseInternalRequest");
+			} else {
+				return false;
+			}
 		});
 		
 		$('#modifyUser').click(function() {
-			$('#displayUserList').attr("action", "modifyUserForm");
+			$('#displayUserList').parsley().validate();
+			if (true == $('#displayUserList').parsley().isValid()) {
+				$('#displayUserList').parsley().destroy();
+				$('#displayUserList').attr("action", "modifyUserForm");
+			} else {
+				return false;
+			}
 		});
 		$('#deleteUser').click(function() {
-			$('#displayUserList').attr("action", "deleteUser");
+			$('#displayUserList').parsley().validate();
+			if (true == $('#displayUserList').parsley().isValid()) {
+				$('#displayUserList').parsley().destroy();
+				$('#displayUserList').attr("action", "deleteUser");
+			} else {
+				return false;
+			}
 		});
 		$('#cancel').click(function() {
+			$('#displayUserList').parsley().destroy();
 			$('#displayUserList').attr("action", "goBack");
 		});
 	</script>

@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.UserDao;
+import com.asu.cse545.group12.domain.AccessControl;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.Users;
@@ -57,11 +58,13 @@ public class SearchUserController {
 	}
 
 	@RequestMapping(value = "/getuserlist",method=RequestMethod.POST)
-	public ModelAndView searchUser(@ModelAttribute("form") Form form) {
+	public ModelAndView searchUser(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		//logs debug message
 		if(logger.isDebugEnabled()){
 			logger.debug("Modify User data requested");
 		}
+
+		Users loginUser = userservice.getUserByUserName((String)request.getSession(false).getAttribute("username"));
 		Map<String, String> formMap=form.getMap();
 		List<Users> userList = null;
 		if(!Utils.isEmpty(formMap.get("accountNumber"))){
@@ -71,34 +74,108 @@ public class SearchUserController {
 				userList.add(user);
 			}
 		} else if(!Utils.isEmpty(formMap.get("userName"))){
+			//only get the external users
 			Users user = userservice.getUserByUserName(formMap.get("userName"));
-			if(user!=null){
+			if(user!=null)
+			{
 				userList=new ArrayList<Users>();
-				userList.add(user);
+				//only return if the user is external user
+				if(loginUser != null && loginUser.getRoleId() == 5)
+				{
+					//for admin give only internal bank employee
+					if(user.getRoleId() == 3 || user.getRoleId() == 4 || user.getRoleId() == 5)
+					{
+						userList.add(user);
+					}
+				}
+				//for manager and regular user, give external users only
+				else
+				{
+					if(user.getRoleId() == 1 || user.getRoleId() == 2)
+					{
+						userList.add(user);
+					}
+				}
 			}
 		}else if(!Utils.isEmpty(formMap.get("firstName"))){
 			List<Users> tempUserList = userservice.getUsersByFirstName(formMap.get("firstName"));
 			if(tempUserList!=null){
 				userList=new ArrayList<Users>();
-				userList.addAll(tempUserList);
+				for(int i=0; i<tempUserList.size(); i++)
+				{
+					if(loginUser != null && loginUser.getRoleId() == 5)
+					{
+						//for admin give only internal bank employee
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+							userList.add(tempUserList.get(i));
+					}
+					else
+					{
+						//only return if the user is external user for Manager and Regular
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
+							userList.add(tempUserList.get(i));
+					}
+				}
 			}
 		}else if(!Utils.isEmpty(formMap.get("lastName"))){
 			List<Users> tempUserList = userservice.getUsersByLastName(formMap.get("lastName"));
 			if(tempUserList!=null){
 				userList=new ArrayList<Users>();
-				userList.addAll(tempUserList);
+				for(int i=0; i<tempUserList.size(); i++)
+				{
+					if(loginUser != null && loginUser.getRoleId() == 5)
+					{
+						//for admin give only internal bank employee
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+							userList.add(tempUserList.get(i));
+					}
+					else
+					{
+						//only return if the user is external user for Manager and Regular
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
+							userList.add(tempUserList.get(i));
+					}
+				}
 			}
 		}else if(!Utils.isEmpty(formMap.get("emailId"))){
 			List<Users> tempUserList = userservice.getUsersByEmailId(formMap.get("emailId"));
 			if(tempUserList!=null){
 				userList=new ArrayList<Users>();
-				userList.addAll(tempUserList);
+				for(int i=0; i<tempUserList.size(); i++)
+				{
+					if(loginUser != null && loginUser.getRoleId() == 5)
+					{
+						//for admin give only internal bank employee
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+							userList.add(tempUserList.get(i));
+					}
+					else
+					{
+						//only return if the user is external user for Manager and Regular
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
+							userList.add(tempUserList.get(i));
+					}
+				}
 			}
 		}else if(!Utils.isEmpty(formMap.get("phoneNumber"))){
 			List<Users> tempUserList = userservice.getUsersByPhoneNumber(formMap.get("phoneNumber"));
 			if(tempUserList!=null){
 				userList=new ArrayList<Users>();
-				userList.addAll(tempUserList);
+				for(int i=0; i<tempUserList.size(); i++)
+				{
+					if(loginUser != null && loginUser.getRoleId() == 5)
+					{
+						//for admin give only internal bank employee
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+							userList.add(tempUserList.get(i));
+					}
+					else
+					{
+						//only return if the user is external user for Manager and Regular
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 1 || tempUserList.get(i).getRoleId() == 2))
+							userList.add(tempUserList.get(i));
+					}
+				}
 			}
 		}
 		ModelAndView modelView = new ModelAndView();
@@ -109,7 +186,7 @@ public class SearchUserController {
 		}
 		return modelView;
 	}
-	
+
 	@RequestMapping(value="raiseInternalRequest",method=RequestMethod.POST)
 	public ModelAndView getRaiseRequestForm(@ModelAttribute("form") Form form, HttpServletRequest request){
 		ModelAndView model = new ModelAndView();
@@ -120,7 +197,7 @@ public class SearchUserController {
 		model.setViewName("regularEmprequest");
 		return model;
 	}
-	
+
 
 	@RequestMapping(value = "regularrequest")
 	public ModelAndView getInteralEmplRequest(@ModelAttribute("authorization") Authorization authorization,HttpServletRequest request) {
@@ -128,67 +205,74 @@ public class SearchUserController {
 			logger.debug("create request");
 		}
 		ModelAndView modelView = new ModelAndView();
-		Integer userId=Integer.parseInt((String)request.getSession(false).getAttribute("raiseInternalRequestuserId"));
-		Users usermain = userservice.getUserByUserId(userId);
-		HttpSession session = request.getSession(false);
-		String reuqesterusername=(String) session.getAttribute("username");
-		Users requesteruser = userservice.getUserByUserName(reuqesterusername);
-		int requesteruserid = requesteruser.getUserId();
-		if(logger.isDebugEnabled()){
-			logger.debug("requesteruserid: "+requesteruserid);
-			logger.debug("requestedto: "+userId);
+		modelView.addObject("message", "You are not allowed to raise request");
+		modelView.addObject("form", new Form());
+
+
+		try{
+			Integer userId=Integer.parseInt((String)request.getSession(false).getAttribute("raiseInternalRequestuserId"));
+
+			HttpSession session = request.getSession(false);
+			String reuqesterusername=(String) session.getAttribute("username");
+			Users requesteruser = userservice.getUserByUserName(reuqesterusername);
+			int requesteruserid = requesteruser.getUserId();
+			if(logger.isDebugEnabled()){
+				logger.debug("requesteruserid: "+requesteruserid);
+				logger.debug("requestedto: "+userId);
+			}
+			authorization.setAuthorizedByUserId(userId);
+			authorization.setAuthorizedToUserId(requesteruserid);
+
+			//CHANGE THE ROLE ID TO 0 SO THAT ONLY THE USERS INVOLVED CAN SEE THE NOTIFICATIONS APART FROM MANAGER		
+			authorization.setAssignedToRole(Const.NOROLEID);
+
+			authorization.setRequestStatus(Const.PENDING);
+			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
+			authorizationService.regularEmpRequest(authorization);	
+			modelView.addObject("message", "Request created successfully");
+			modelView.setViewName(getViewName(reuqesterusername));
+			// need to write the message that request was successful.
+		}catch(Exception e){
+			e.printStackTrace();
+			modelView.setViewName("searchuser");
 		}
-		authorization.setAuthorizedByUserId(userId);
-		authorization.setAuthorizedToUserId(requesteruserid);
-
-		//CHANGE THE ROLE ID TO 0 SO THAT ONLY THE USERS INVOLVED CAN SEE THE NOTIFICATIONS APART FROM MANAGER		
-		authorization.setAssignedToRole(Const.NOROLEID);
-		
-		authorization.setRequestStatus(Const.PENDING);
-		authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
-		authorizationService.regularEmpRequest(authorization);	
-		// need to write the message that request was successful.
-		modelView.addObject("message", "Request created successfully");
-		modelView.setViewName(getViewName(reuqesterusername));
-
 		return modelView;
 
 	}
-	
+
 	@RequestMapping(value = "/viewExternalprofileform",method=RequestMethod.POST)
 	public ModelAndView getExternalprofile(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("viewExternalprofileform");
 		}
 		ModelAndView model = new ModelAndView();
-		HttpSession session = request.getSession(false);
-		String requesterusername=(String) session.getAttribute("username");
-		Map<String, String> formMap = form.getMap();
-		Integer userId= Integer.parseInt(formMap.get("userId"));
+		model.setViewName("searchuser");
+		model.addObject("message", "You are not authorized View. Raise a request");
+		model.addObject("form", new Form());
+		try{
+			Map<String, String> formMap = form.getMap();
+			Integer userId= Integer.parseInt(formMap.get("userId"));
+			Users user = userDao.getUserByUserId(userId);
+			int requesttoUserId=user.getUserId();
 
-		Users requestfromuser = userservice.getUserByUserName(requesterusername);				
-		int requesterUserId=requestfromuser.getUserId();
-		
-		Users requesttouser = userDao.getUserByUserId(userId);
-		int requesttoUserId=requesttouser.getUserId();
-
-		List<Authorization> authorizationList = authorizationService.getAuthorizedNotifications(requesterUserId, requesttoUserId, "VIEWPROFILE","APPROVED");
-		Authorization finalrequest = null;
-		
-		if(authorizationList!=null && !authorizationList.isEmpty()){
-			
-			finalrequest = authorizationList.get(0);
-			Users user = userservice.getUserByUserName(requestfromuser.getUserName());
-			finalrequest.setRequestStatus(Const.INACTIVE);
-			authorizationService.update(finalrequest);
-			model.addObject("user",user);
-		}else{
-			model.addObject("message", "You are not authorized View. Raise a request");
-			model.addObject("user",null);
+			//List<Authorization> authorizationList = authorizationService.getAuthorizedNotifications(requesterUserId, requesttoUserId, "VIEWPROFILE","APPROVED");
+			List<AccessControl> accessControl= authorizationService.getAccessControlToView(requesttoUserId,3); 
+			if(user!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			{
+				model.addObject("user",user);
+				model.setViewName("viewExternalprofile");
+			}else{
+				model.addObject("message", "You are not authorized View. Raise a request");
+				model.addObject("user",null);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-		
-		model.setViewName("viewExternalprofile");
+
+
 		return model;
+
+
 	}
 
 
@@ -198,13 +282,28 @@ public class SearchUserController {
 		if(logger.isDebugEnabled()){
 			logger.debug("Modify User data requested");
 		}
-		Map<String, String> formMap=form.getMap();
-		Users user= userDao.getUserByUserId(Integer.parseInt(formMap.get("userId")));
-		request.getSession(false).setAttribute("modifyuserId",formMap.get("userId") );
 		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("user", user);
-		modelView.addObject("message", "");
-		modelView.setViewName("modifyUser");
+		modelView.addObject("form", new Form());
+		modelView.setViewName("searchuser");
+		modelView.addObject("user",null);
+		modelView.addObject("message", "You are not authorized to Modify. Raise a request");
+		try{
+			Map<String, String> formMap=form.getMap();
+			int userId = Integer.parseInt(formMap.get("userId"));
+			Users user= userDao.getUserByUserId(userId);
+			List<AccessControl> accessControl= authorizationService.getAccessControlToModify(userId,3); 
+
+			if(user!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			{
+				request.getSession(false).setAttribute("modifyuserId",formMap.get("userId") );
+				modelView.addObject("user", user);
+				modelView.addObject("message", "");
+				modelView.setViewName("modifyUser");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
 		return modelView;
 	}
 
@@ -214,37 +313,43 @@ public class SearchUserController {
 		if(logger.isDebugEnabled()){
 			logger.debug("Modify User data update "+user.toString());
 		}
-		Integer userId=Integer.parseInt((String)request.getSession(false).getAttribute("modifyuserId"));
-		Users userDB = userDao.getUserByUserId(userId);
-
-		userDB.setFirstName(user.getFirstName());
-		userDB.setLastName(user.getLastName());
-		userDB.setMiddleName(user.getMiddleName());
-		userDB.setState(user.getState());
-		userDB.setAddress(user.getAddress());
-		userDB.setCity(user.getCity());
-		userDB.setCountry(user.getCountry());
-		userDB.setZipcode(user.getZipcode());
-		userDB.setPhoneNumber(user.getPhoneNumber());
-		userDB.setEmailId(user.getEmailId());
-		//TO Do validations
-		/*		if (result.hasErrors()) {
-			ModelAndView modelView = new ModelAndView();
-			modelView.addObject("user", user);
-			modelView.addObject("errorMessage", "There is something wrong with input");
-			modelView.setViewName("modifyUser");
-			return modelView;
-		} else {*/
-		int userID = userDao.updateRow(userDB);
-		if(logger.isDebugEnabled()){
-			logger.debug("Modify User ID "+userID);
-		}
 		ModelAndView modelView = new ModelAndView();
-		modelView.addObject("user", user);
-		modelView.addObject("message", "Updated SuccessFully");
-		modelView.setViewName("modifyUser");
+		modelView.addObject("form", new Form());
+		modelView.setViewName("searchuser");
+		modelView.addObject("user",null);
+		modelView.addObject("message", "You are not authorized to Modify. Raise a request");
+		try{
+			Integer userId=Integer.parseInt((String)request.getSession(false).getAttribute("modifyuserId"));
+
+			List<AccessControl> accessControl= authorizationService.getAccessControlToModify(userId,3); 
+			Users userDB = userDao.getUserByUserId(userId);		
+
+			if(userDB !=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			{
+
+				userDB.setFirstName(user.getFirstName());
+				userDB.setLastName(user.getLastName());
+				userDB.setMiddleName(user.getMiddleName());
+				userDB.setState(user.getState());
+				userDB.setAddress(user.getAddress());
+				userDB.setCity(user.getCity());
+				userDB.setCountry(user.getCountry());
+				userDB.setZipcode(user.getZipcode());
+				userDB.setPhoneNumber(user.getPhoneNumber());
+				userDB.setEmailId(user.getEmailId());
+				int userID = userDao.updateRow(userDB);
+				if(logger.isDebugEnabled()){
+					logger.debug("Modify User ID "+userID);
+				}
+				modelView.addObject("user", user);
+				modelView.addObject("message", "Updated SuccessFully");
+				modelView.setViewName("searchuser");					
+
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		return modelView;
-		//		}
 
 	}
 
@@ -254,18 +359,33 @@ public class SearchUserController {
 		if(logger.isDebugEnabled()){
 			logger.debug("Delete User data requested");
 		}
-		ModelAndView modelView = new ModelAndView();
 
-		HttpSession session = request.getSession(false);
-		String username=(String)session.getAttribute("username");
-		Map<String, String> formMap=form.getMap();
-		Integer userId= Integer.parseInt(formMap.get("userId"));	
-		userservice.deActivateUserByUserId(userId);
-		modelView.addObject("message", "Deleted SuccessFully");
+		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("form", new Form());
 		modelView.setViewName("searchuser");
+		modelView.addObject("message", "You are not authorized to Delete. Raise a request");
+		try{
+			HttpSession session = request.getSession(false);
+			String username=(String)session.getAttribute("username");
+			Map<String, String> formMap=form.getMap();
+			Integer userId= Integer.parseInt(formMap.get("userId"));
+			Users user= userDao.getUserByUserId(userId);
+			List<AccessControl> accessControl= authorizationService.getAccessControlToDelete(userId,3); 
+
+			if(user!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			{
+				request.getSession(false).setAttribute("modifyuserId",formMap.get("userId") );
+				userservice.deActivateUserByUserId(userId);
+				modelView.addObject("message", "Deleted SuccessFully");
+				modelView.setViewName("searchuser");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
 		return modelView;
 	}
-	
+
 	private String getViewName(String username){
 
 		int roleId = userDao.getUserByUserName(username).getRoleId();

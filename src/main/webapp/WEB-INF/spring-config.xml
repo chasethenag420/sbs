@@ -22,6 +22,7 @@
         <value>com.asu.cse545.group12.domain.Transfer</value>
         <value>com.asu.cse545.group12.domain.Form</value>
         <value>com.asu.cse545.group12.domain.SecurityQuestions</value>
+        <value>com.asu.cse545.group12.domain.AccessControl</value>
       </list>
     </property>
     <property name="hibernateProperties">
@@ -94,6 +95,8 @@
     <security:intercept-url pattern="/transfer*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
     <security:intercept-url pattern="/payMerchant*" access="hasAnyRole('INDIVIDUAL')" />
     <security:intercept-url pattern="/submitMerchantPayment*" access="hasAnyRole('INDIVIDUAL')" />
+    <security:intercept-url pattern="/merchantBulkDebit*" access="hasAnyRole('MERCHANT')" />
+    <security:intercept-url pattern="/bulkDebitAmount*" access="hasAnyRole('MERCHANT')" />
     <security:intercept-url pattern="/successfulSignUp*" access="permitAll" />
     <security:intercept-url pattern="/enterSignupOTP*" access="permitAll" />
     <security:intercept-url pattern="/notifications*" access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />
@@ -139,6 +142,7 @@
   <bean id="SecurityQuestionsDaoImpl" class="com.asu.cse545.group12.dao.SecurityQuestionsDaoImpl" />
   <bean id="TransactionInputValidator" class="com.asu.cse545.group12.validator.TransactionInputValidator" />
   <bean id="CreateExternalUserValidator" class="com.asu.cse545.group12.validator.CreateExternalUserValidator" />
+  <bean id="AccessControlDaoImpl" class="com.asu.cse545.group12.dao.AccessControlDaoImpl" />
   <bean id="authenticationProvider" class="com.asu.cse545.group12.authentication.LimitLoginAuthentication" >
     <property name="userDetailsService" ref="userDetailsService" />
     <property name="passwordEncoder" ref="encoder" />

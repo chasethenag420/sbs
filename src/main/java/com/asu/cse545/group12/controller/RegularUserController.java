@@ -39,7 +39,11 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.stereotype.Service;
 
+import com.asu.cse545.group12.constantfile.Const;
+import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.SecurityQuestionsDao;
+import com.asu.cse545.group12.dao.TransactionDao;
+import com.asu.cse545.group12.domain.AccessControl;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
@@ -47,6 +51,7 @@ import com.asu.cse545.group12.domain.SecurityQuestions;
 import com.asu.cse545.group12.domain.Transactions;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
+import com.asu.cse545.group12.services.AccountService;
 import com.asu.cse545.group12.services.AuthorizationService;
 import com.asu.cse545.group12.services.TransactionsService;
 import com.asu.cse545.group12.services.UserService;
@@ -54,7 +59,7 @@ import com.asu.cse545.group12.services.UserService;
 
 @Controller
 public class RegularUserController {
-	private static final Logger logger = Logger.getLogger(SignUpController.class);
+	private static final Logger logger = Logger.getLogger(RegularUserController.class);
 
 	@Autowired
 	UserService userService;
@@ -69,6 +74,15 @@ public class RegularUserController {
 
 	@Autowired
 	SecurityQuestionsDao securityQuestionsDao;
+
+	@Autowired
+	TransactionDao transactionDao;
+
+	@Autowired
+	AccountDao accountDao;
+
+	@Autowired
+	AccountService accountService;
 
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
 	public ModelAndView getProfile(HttpServletRequest request) {
@@ -95,9 +109,7 @@ public class RegularUserController {
 		}
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("searchTransaction");
-		modelView.addObject("form", new Form());
 		modelView.addObject("account", new Account());
-		modelView.addObject("user", new Users());
 		return modelView;
 	}
 
@@ -111,27 +123,23 @@ public class RegularUserController {
 		}
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("searchTransaction");
-		modelView.addObject("form", new Form());
+		modelView.addObject("account", new Account());
 		System.out.println("accountnum"+account.getAccountNumber());
 		transactionByAccNum=transactionService.searchTransactionByInternals(account.getAccountNumber());
 		System.out.println("transactions list"+transactionByAccNum);
-		ListIterator<Transactions> it = transactionByAccNum.listIterator();
-		while(it.hasNext())
-		{
-			if(logger.isDebugEnabled()){
-				logger.debug(it.next());
-			}
-
-
-		}
-
-		modelView.addObject("transactions", transactionByAccNum);
+		if(transactionByAccNum!=null && !transactionByAccNum.isEmpty()){
+			modelView.addObject("transactions", transactionByAccNum);
+			modelView.addObject("form", new Form());
+			modelView.setViewName("displayTransactionList");
+		}else{
+			modelView.addObject("message", "No transactions found");
+		}		
 		return modelView;
 
 	}
 
-	@RequestMapping(value="/deleteTransaction" ,method = RequestMethod.POST)
-	public ModelAndView approveTransactions(@ModelAttribute("form") Form form) {
+	@RequestMapping(value="/viewTransaction" ,method = RequestMethod.POST)
+	public ModelAndView viewTransactions(@ModelAttribute("form") Form form) {
 		if(logger.isDebugEnabled()){
 			logger.debug("aprove transactions:");
 		}
@@ -140,18 +148,126 @@ public class RegularUserController {
 		model.addObject("user", new Users());
 		model.addObject("account", new Account());
 		model.setViewName("searchTransaction");
-		Map<String, String> formMap = form.getMap();
-		Integer transactionId = Integer.parseInt(formMap.get("transactionId"));
-		System.out.println("delete transaction"+formMap.get("transactionId"));
-		int result =transactionService.deleteTransaction(transactionId);
-		System.out.println("result"+result);
-		if(result ==1)
-		{
-			model.addObject("msg", "successfully deleted the transaction");
+		model.addObject("message", "Cannot View transaction. You are not authorized. Please raise a request");
+		try{
+			Map<String, String> formMap = form.getMap();
+			Integer transactionId = Integer.parseInt(formMap.get("transactionId"));
+
+			Transactions transaction =  transactionDao.getTransactionByTransactionId(transactionId);
+			List<AccessControl> accessControl= authorizationService.getAccessControlToViewTransaction(transaction.getUserId(),3); 
+
+			if(transaction!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			{
+				model.addObject("transaction",transaction);
+				model.setViewName("viewTransaction");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		return model;
 	}
 
+	@RequestMapping(value="/deleteTransaction" ,method = RequestMethod.POST)
+	public ModelAndView deleteTransactions(@ModelAttribute("form") Form form) {
+		if(logger.isDebugEnabled()){
+			logger.debug("aprove transactions:");
+		}
+		ModelAndView model = new ModelAndView();
+		model.addObject("form", new Form());
+		model.addObject("user", new Users());
+		model.addObject("account", new Account());
+		model.setViewName("searchTransaction");
+		model.addObject("message", "Cannot delete transaction. You are not authorized.");
+		try{
+			Map<String, String> formMap = form.getMap();
+			Integer transactionId = Integer.parseInt(formMap.get("transactionId"));
+
+			Transactions transaction =  transactionDao.getTransactionByTransactionId(transactionId);
+			List<AccessControl> accessControl= authorizationService.getAccessControlToDeleteTransaction(transaction.getUserId(),3); 
+
+			if(transaction!=null && Const.PENDING.equals(transaction.getTransactionStatus()) && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			{	transaction.setTransactionStatus(Const.REJECT);
+				Authorization authorization=authorizationService.getAuthorizationByTransactionId(transactionId);
+				authorization.setRequestStatus(Const.REJECT);
+				transactionDao.updateRow(transaction);
+				authorizationService.update(authorization);
+				model.addObject("message", "Successfully deleted the transaction");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/modifyTransaction",method=RequestMethod.POST)
+	public ModelAndView modifyUser(@ModelAttribute("form") Form form,HttpServletRequest request) {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("Modify Transaction data requested");
+		}
+		ModelAndView model = new ModelAndView();
+		model.addObject("form", new Form());
+		model.addObject("user", new Users());
+		model.addObject("account", new Account());
+		model.setViewName("searchTransaction");
+		model.addObject("message", "Cannot Modiy transaction. You are not authorized.");
+		try{
+			Map<String, String> formMap=form.getMap();
+			Integer transactionId = Integer.parseInt(formMap.get("transactionId"));
+			Transactions transaction =  transactionDao.getTransactionByTransactionId(transactionId);
+			List<AccessControl> accessControl= authorizationService.getAccessControlToModifyTransaction(transaction.getUserId(),3); 
+			if( transaction!=null && Const.PENDING.equals(transaction.getTransactionStatus()) && transaction!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			{
+				request.getSession(false).setAttribute("modifytransactionId",formMap.get("transactionId") );
+				model.addObject("transaction", transaction);
+				model.addObject("message", "");
+				model.setViewName("modifyTransaction");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value="/modifyTransactionForm" ,method = RequestMethod.POST)
+	public ModelAndView modifyTransactions(@ModelAttribute("transaction") Transactions transaction, BindingResult result, HttpServletRequest request) {
+		if(logger.isDebugEnabled()){
+			logger.debug("Modify transactions:");
+		}
+		ModelAndView model = new ModelAndView();
+		model.addObject("form", new Form());
+		model.addObject("user", new Users());
+		model.addObject("account", new Account());
+		model.setViewName("searchTransaction");
+		model.addObject("message", "Cannot modify transaction. You are not authorized.");
+		try{
+			Integer transactionId = Integer.parseInt((String)request.getSession(false).getAttribute("modifytransactionId"));
+			Transactions transactionDB =  transactionDao.getTransactionByTransactionId(transactionId);
+			List<AccessControl> accessControl= authorizationService.getAccessControlToModifyTransaction(transactionDB.getUserId(),3); 
+			if(transactionDB!=null && Const.PENDING.equals(transactionDB.getTransactionStatus()) && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			{				
+				transactionDB.setAmount(transaction.getAmount());
+				String type="";
+				if(Const.CREDIT_REQUEST.equals(transactionDB.getTransactionType())){
+					type=Const.CREDIT_REQUEST;
+				}else{
+					type=Const.DEBIT_REQUEST;					
+				}
+				if(accountService.isBalanceValid(transactionDB.getAccountNumber(),transactionDB.getAmount(),type)){
+					transactionDao.updateRow(transactionDB);
+					model.addObject("transaction", transaction);
+					model.addObject("message", "Updated SuccessFully");
+				}else{
+					model.addObject("message", "Insufficient Balance");
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		return model;
+	}
 
 
 	@RequestMapping(value = "enterSecurityQuestions", method = RequestMethod.POST)

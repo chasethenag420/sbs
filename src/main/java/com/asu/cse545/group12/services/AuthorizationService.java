@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.asu.cse545.group12.domain.AccessControl;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Users;
@@ -30,10 +31,25 @@ public interface AuthorizationService {
 //	public List<Authorization> getNotifications();
 	
 	public int update(Authorization authorization);
+	public Authorization getAuthorizationByTransactionId(int transactionId);
 	
 	public List<Authorization> getAuthorizedNotifications(int fromusername,int tousername, String reqType, String requestStatus);
 	
 	public Authorization getAuthorizationByAuthorizationId(int authorizationId);
 	
 	public int approveTransferByMerchant(int authorizationId, String userName);
+	
+	public List<Authorization> getApprovedPendingNotifications(Users user);
+	
+	public List<AccessControl> getAccessControlToView(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToModify(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToDelete(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToViewTransaction(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToModifyTransaction(int touser, int roleID ) ;
+	
+	public List<AccessControl> getAccessControlToDeleteTransaction(int touser, int roleID ) ;
 }
