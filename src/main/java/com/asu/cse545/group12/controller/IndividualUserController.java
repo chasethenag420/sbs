@@ -67,8 +67,17 @@ public class IndividualUserController {
 		if(logger.isDebugEnabled()){
 			logger.debug("external user search!");
 		}
+
+		String username = (String) request.getSession().getAttribute("username");
+		Users user = userService.getUserByUserName(username);
+		List<String> accountNumbers = new ArrayList<String>();
+		for (Account account : accountService.getAccounts(user.getUserId())) {
+			accountNumbers.add(""+account.getAccountNumber());
+		}
+			
 		ModelAndView modelView = new ModelAndView();
 		modelView.addObject("form", new Searchform());
+		modelView.addObject("accounts",accountNumbers);
 		modelView.setViewName("externalsearchtrans");
 
 		return modelView;

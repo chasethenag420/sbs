@@ -54,8 +54,23 @@ label {
 				<br />
 				<br />
 				<table class="table table-striped" style="width: auto;">
-
 				<tr>
+						<td style="white-space: nowrap"><form:label path="accountNumber"
+								for="Account">To Account Number</form:label></td>
+
+
+						<td><form:select path="accountNumber" 
+								data-parsley-required="true" name="Account">
+								<form:option value="" label="--Select Account --" />
+								<form:options items="${accounts}" />
+							</form:select></td>
+							
+						<td><form:errors class="alert alert-danger" path="accountNumber" /></td>
+
+
+					</tr>
+
+				<!-- <tr>
 					<td><form:label path="accountNumber">Account Number</form:label></td>
 					<td><form:input path="accountNumber"
 							data-parsley-required="true" data-parsley-type="digits"
@@ -63,6 +78,7 @@ label {
 							data-parsley-length-message="Should be between 1 to 10 digits" />
 						<form:errors class="alert alert-danger" path="accountNumber" /></td>
 				</tr>
+				-->
 
 				<tr>
 					<td><form:label path="toDate" for="todate">To Date</form:label></td>

@@ -49,20 +49,16 @@
 	margin-left: auto;
 	margin-right: auto
 }
-
 label {
 	padding-left: 0 !important
 }
-
 .invalid-form-error-message {
 	margin-top: 10px;
 	padding: 5px;
 }
-
 .invalid-form-error-message.filled {
 	border-left: 2px solid red;
 }
-
 .parsley-errors-list {
 	color: #B94A48;
 	background-color: #F2DEDE;
@@ -90,14 +86,12 @@ label {
 	});
 	$('#submitbutton').on('click', function() {
 		$('#f').parsley().validate();
-
 		if (true != $('#f').parsley().isValid()) {
 			$('#f').parsley().destroy();			
 		}else{
 			$('#submitbutton').attr('disabled', 'disabled');
 		}
 	});
-
 	//Created / Generates the captcha function    
 	function DrawCaptcha() {
 		document.getElementById("txtCaptcha").readOnly = false;
@@ -115,9 +109,7 @@ label {
 		document.getElementById("txtCaptcha").readOnly = true;
 		document.getElementById("txtInput").value = '';
 	}
-
 	// Validate the Entered input aganist the generated security code function   
-
 	function ValidCaptcha() {
 		var str1 = removeSpaces(document.getElementById('txtCaptcha').value);
 		var str2 = removeSpaces(document.getElementById('txtInput').value);

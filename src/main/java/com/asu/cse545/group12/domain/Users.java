@@ -297,6 +297,3 @@ public class Users implements Serializable {
 	
 	
 }
-
-
-

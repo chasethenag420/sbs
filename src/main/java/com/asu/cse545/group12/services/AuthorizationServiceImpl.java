@@ -20,6 +20,7 @@ import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Transactions;
 import com.asu.cse545.group12.domain.Transfer;
 import com.asu.cse545.group12.domain.Users;
+import com.asu.cse545.group12.pki.CertificateGeneration;
 
 @Service
 public class AuthorizationServiceImpl implements AuthorizationService {
@@ -69,6 +70,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			requestor.setUserStatus(Const.ACTIVE);
 			userDao.updateRow(requestor);
+			CertificateGeneration certGen = new CertificateGeneration();
+			String attachments[] = certGen.certificateGeneration(userName);
+			certGen.sendNotificationEmail(userName, attachments);
 			// create an account for this user by default checkings
 			accountService.insertRow(requestor.getUserId());
 
