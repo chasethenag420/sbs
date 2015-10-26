@@ -91,12 +91,12 @@ public class Authorization{
 	public void setRequestStatus(String requestStatus) {
 		this.requestStatus = requestStatus;
 	}
-
+	
 	public int getAssignedToRole() {
 		return assignedToRole;
 	}
 	public void setAssignedToRole(int assignedToRole) {
-		this.assignedToRole = assignedToRole;
+		 this.assignedToRole = assignedToRole;
 	}
 	public String getRequestDescription() {
 		return requestDescription;
