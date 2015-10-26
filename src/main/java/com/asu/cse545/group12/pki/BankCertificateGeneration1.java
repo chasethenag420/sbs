@@ -6,6 +6,9 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.X509Certificate;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+
 import sun.security.tools.keytool.CertAndKeyGen;
 import sun.security.x509.X500Name;
 public class BankCertificateGeneration1 {
@@ -29,15 +32,18 @@ public class BankCertificateGeneration1 {
     
     public static void serializeSecurityobject(Object key){
         String fileName="";
+       
+        
         try{
         	if(key instanceof PrivateKey){
-        		fileName = "d:\\PrivateKey.ser";
+        		fileName = "/WEB-INF/keys/PrivateKey.ser";
         	}
         	else if(key instanceof PublicKey){
-        		fileName = "d:\\PublicKey.ser";
+        		fileName = "/WEB-INF/keys/PublicKey.ser";
         	}
+        	 
         	else if(key instanceof X509Certificate){
-        		fileName = "d:\\Certificate.ser";
+        		fileName = "/WEB-INF/keys/Certificate.ser";
         	}            
          FileOutputStream fout = new FileOutputStream(fileName);
          ObjectOutputStream oos = new ObjectOutputStream(fout);   

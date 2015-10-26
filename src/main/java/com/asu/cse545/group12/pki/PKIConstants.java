@@ -5,11 +5,11 @@ public class PKIConstants {
 	
 	public class PkiConstants {
 		
-		public static final String UserPublicKeyLocation = "C:\\";
-		public static final String UserPrivateKeyLocation = "C:\\";
-		public static final String UserCertificatePathLocation = "C:\\";
-		public static final String BankPrivateKeyLocation = "C:\\";
-		public static final String BankPublicKeyLocation = "C:\\";
+		public static final String UserPublicKeyLocation = "/sbs/src/main/webapp/WEB-INF/keys/";
+		public static final String UserPrivateKeyLocation = "/sbs/src/main/webapp/WEB-INF/keys/";
+		public static final String UserCertificatePathLocation = "/sbs/src/main/webapp/WEB-INF/keys/";
+		public static final String BankPrivateKeyLocation = "/sbs/src/main/webapp/WEB-INF/keys/";
+		public static final String BankPublicKeyLocation = "/sbs/src/main/webapp/WEB-INF/keys/";
 		public static final String BankPrivateKeyFileName="PrivateKey.ser";
 		public static final String BankPublicKeyFileName="PublicKey.ser";
 		public static final String UserFileExtensionPublic = "PublicKey.ser";
