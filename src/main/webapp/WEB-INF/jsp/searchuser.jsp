@@ -48,7 +48,7 @@ label {
 		<h2>${message}</h2>
 		<div style="color: teal; font-size: 30px">Search User</div>
 		<br>
-		<form:form id="searchUser" method="post" modelAttribute="form">
+		<form:form name="searchUser" id="searchUser" method="post" modelAttribute="form">
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 			<table class="table table-striped" style="width: auto;">
@@ -56,14 +56,14 @@ label {
 					<td style="white-space: nowrap"><form:label for="accountnum"
 							path="map['accountNumber']"> Account Number</form:label></td>
 					<td><form:input path="map['accountNumber']" name="accountnum"
-							data-parsley-length="[1,10]" data-parsley-required="true"
+							data-parsley-length="[1,10]" 
 							data-parsley-type="digits" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label
 							path="map['userName']" for="username">User Name</form:label></td>
 					<td><form:input path="map['userName']" name="username"
-							 data-parsley-required="true"
+							 
 							data-parsley-type="alphanum" data-parsley-length="[6, 15]"
 							data-parsley-length-message="Username should be between 6 to 15 characters" /></td>
 				</tr>
@@ -71,20 +71,20 @@ label {
 					<td style="white-space: nowrap"><form:label
 							path="map['firstName']" for="fname">First Name</form:label></td>
 					<td><form:input path="map['firstName']" name="fname"
-							data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+"
+							 data-parsley-pattern="[a-zA-Z ]+"
 							data-parsley-length="[1, 15]" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label
 							path="map['lastName']" for="lname">Last Name</form:label></td>
 					<td><form:input path="map['lastName']" name="lname"
-							data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+"
+							 data-parsley-pattern="[a-zA-Z ]+"
 							data-parsley-length="[1, 15]" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label
 							path="map['emailId']" for="email">Email Id</form:label></td>
-					<td><form:input path="map['emailId']" name="email" data-parsley-required="true"
+					<td><form:input path="map['emailId']" name="email" 
 							data-parsley-type="email" id="email"
 							data-parsley-length="[1, 25]" /></td>
 				</tr>
@@ -92,7 +92,7 @@ label {
 					<td style="white-space: nowrap"><form:label
 							path="map['phoneNumber']" for="phonenumber">Phone Number</form:label></td>
 					<td><form:input path="map['phoneNumber']" name="phonenumber"
-							data-parsley-required="true" data-parsley-type="digits"
+							 data-parsley-type="digits"
 							data-parsley-length="[10, 10]"
 							data-parsley-length-message="Should be 10 digits" /></td>
 				</tr>
@@ -115,7 +115,7 @@ label {
 			$('#searchUser').parsley().validate();
 			if (true == $('#searchUser').parsley().isValid()) {
 				$('#searchUser').parsley().destroy();
-				$$('#searchUser').attr("action", "getuserlist");
+				$('#searchUser').attr("action", "getuserlist");
 			} else {
 				return false;
 			}

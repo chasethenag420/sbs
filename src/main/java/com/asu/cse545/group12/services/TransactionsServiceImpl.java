@@ -72,10 +72,10 @@ public class TransactionsServiceImpl implements TransactionsService {
 			authorization.setRequestDescription("Approval for amount credit");
 			authorization.setRequestType(Const.CREDIT_REQUEST);
 			
-			//nothing will be assigned to regular user
-			//SETTNG THE ROLE ID TO REGULAR USER 
-			//int roleid = roleDao.getRoleid(Const.REGULARUSER);
-			//authorization.setAssignedToRole(roleid);
+			
+			//SETTNG THE ROLE ID TO Manager
+			int roleid = roleDao.getRoleid(Const.MANAGER);
+			authorization.setAssignedToRole(roleid);
 			
 			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
@@ -108,10 +108,10 @@ public class TransactionsServiceImpl implements TransactionsService {
 			authorization.setRequestDescription("Approval for amount debit");
 			authorization.setRequestType(Const.DEBIT_REQUEST);
 
-			//nothing will be assigned to regular user
+			
 			//SETTNG THE ROLE ID TO REGULAR USER 
-			//int roleid = roleDao.getRoleid(Const.REGULARUSER);
-			//authorization.setAssignedToRole(roleid);
+			int roleid = roleDao.getRoleid(Const.MANAGER);
+			authorization.setAssignedToRole(roleid);
 
 			authorization.setTransactionId(transactionId);
 			authorizationDao.insertRow(authorization);
@@ -143,7 +143,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 
 
-	public int doTransfer(int fromAccountNumber, int toAccountNumber, int amount, String description) {
+	public int doTransfer(int fromAccountNumber, int toAccountNumber, double amount, String description) {
 		boolean debitStatus = false;
 		if (accountService.isValidAccountNumber(toAccountNumber)
 				&& accountService.isValidAccountNumber(fromAccountNumber)) {
@@ -218,10 +218,10 @@ public class TransactionsServiceImpl implements TransactionsService {
 					authorization.setRequestDescription("Approval for amount transfer");
 					authorization.setRequestType(Const.TRANSFER_REQUEST);
 					
-					//nothing will be assigned to regular user
+					
 					//SETTNG THE ROLE ID TO REGULAR USER 
-					//int roleid = roleDao.getRoleid(Const.REGULARUSER);
-					//authorization.setAssignedToRole(roleid);
+					int roleid = roleDao.getRoleid(Const.MANAGER);
+					authorization.setAssignedToRole(roleid);
 
 					authorization.setTransactionId(debitTransactionId);
 					authorizationDao.insertRow(authorization);
@@ -279,7 +279,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 	}
 	
 	@Override
-	public int payMerchant(int fromAccountNumber, int toAccountNumber, int amount, String description, String customerDetails) 
+	public int payMerchant(int fromAccountNumber, int toAccountNumber, double amount, String description, String customerDetails) 
 	{
 		boolean debitStatus = false;
 		if (accountService.isValidAccountNumber(toAccountNumber)
@@ -335,7 +335,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				transactionDao.updateRow(debitTransaction);
 				transactionDao.updateRow(creditTransaction);
 
-				// create authorization for amount >1000. authorization has only
+				
 				// fromAccount information
 				
 					Authorization authorization = new Authorization();

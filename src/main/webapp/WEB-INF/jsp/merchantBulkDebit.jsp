@@ -13,7 +13,7 @@
 <link href="web_resources/theme/css/bootstrap.css" rel="stylesheet">
 <link href="web_resources/theme/css/bootstrap-responsive.css"
 	rel="stylesheet">
-<title><spring:message code="title.transfer"></spring:message></title>
+<title><spring:message code="title.debit"></spring:message></title>
 <style type="text/css">
 .wrapper {
 	width: 500px;
@@ -45,46 +45,45 @@ label {
 <body>
 	<center>
 		<br /> <br />
-		<div style="color: teal; font-size: 30px">Submit Merchant Payment</div>
+		<div style="color: teal; font-size: 30px">Multiple Debit</div>
 		<br /> <br />
-		<form:form name="payMerchantForm" id="payMerchantForm" method="post"
-			modelAttribute="form">
-			<c:if test="${!empty errorMessage}">
-				<div class="alert alert-danger">${errorMessage}</div>
-			</c:if>
+
+		<c:if test="${!empty errorMessage}">
+			<div class="alert alert-danger">${errorMessage}</div>
+		</c:if>
+		<form:form name="debitForm" id="debitForm" method="post" modelAttribute="form" >
 			<table class="table table-striped" style="width: auto;">
+				<tr></tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label for="fromAccount" path="fromAccount">From Account Number</form:label>
 					</td>
-					<td><form:select path="fromAccount" name="fromAccount" data-parsley-required="true">
+					<td><form:select path="fromAccount" data-parsley-required="true" name="fromAccount">
 							<form:option value="" label="--Select Account --" />
 							<form:options items="${accounts}" />
 						</form:select></td>
 					<td><form:errors class="alert alert-danger" path="fromAccount" /></td>
 				</tr>
 				<tr>
-					<td style="white-space: nowrap"><form:label for="toAccount" path="toAccount">To Account Number</form:label>
+					<td style="white-space: nowrap"><form:label  for="amount" path="amount">Amount</form:label>
 					</td>
-					<td><form:input path="toAccount" name="toAccount" data-parsley-length="[1,10]" data-parsley-required="true" data-parsley-type="digits"/></td>
-					<td><form:errors class="alert alert-danger" path="toAccount" /></td>
-				</tr>
-				<tr>
-					<td style="white-space: nowrap"><form:label for="amount" path="amount">Amount</form:label>
-					</td>
-					<td><form:input path="amount" name="amount" data-parsley-required="true" data-parsley-type="digits"/></td>
+					<td><form:input path="amount" data-parsley-required="true" data-parsley-type="digits"
+								data-parsley-length="[1, 5]"
+								data-parsley-length-message="Should be max 5 digits" 
+								name="amount" /></td>
 					<td><form:errors class="alert alert-danger" path="amount" /></td>
 				</tr>
 				<tr>
 					<td style="white-space: nowrap"><form:label for="description" path="description">Transfer Description</form:label>
 					</td>
-					<td><form:input path="description" data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+"
-								data-parsley-length="[1, 50]"/></td>
+					<td><form:input path="description" data-parsley-required="true" data-parsley-pattern="[a-z A-Z]+" data-parsley-length="[1, 50]"/></td>
 				</tr>
+
 			</table>
-			<form:input type="hidden" path="transactionType" value="Pay Merchant" />
+			<form:input type="hidden" path="transactionType" value="debit" />
+
 			<input type="submit" class="btn"
 				id="submit" value="Submit" />
-			<input class="btn" type="submit"
+			<input type="submit" class="btn"
 				id="cancel" value="Cancel" />
 			<div>
 				<h2>${successfulMessage}</h2>
@@ -93,28 +92,26 @@ label {
 				value="${_csrf.token}" />
 		</form:form>
 	</center>
-
 <script src="web_resources/theme/js/jquery.min.js"></script>
 	<script src="web_resources/theme/js/parsley.min.js"></script>
-
 	<script type="text/javascript">
+		
 		$('#submit').click(function() {
-			$('#payMerchantForm').parsley().validate();
-			if (true == $('#payMerchantForm').parsley().isValid()) {
-				$('#payMerchantForm').parsley().destroy();
-				$('#payMerchantForm').attr("action", "submitMerchantPayment");
+			$('#debitForm').parsley().validate();
+			if (true == $('#debitForm').parsley().isValid()) {
+				$('#debitForm').parsley().destroy();
+				$('#debitForm').attr("action", "debitAmount");
 			} else {
 				return false;
 			}
 		});
 
 		$('#cancel').click(function() {
-			$('#payMerchantForm').parsley().destroy();
-			$('#payMerchantForm').attr("action", "goBack");
+			$('#debitForm').parsley().destroy();
+			$('#debitForm').attr("action", "goBack");
 
 		});
 	</script>
-
 </body>
 </html>
 

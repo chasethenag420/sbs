@@ -88,7 +88,7 @@ label {
 								data-parsley-length="[1, 50]" /></td>
 					</tr>
 				</table>
-				<form:input type="hidden" path="transactionType" value="credit" />
+				<form:input type="hidden" path="transactionType" value="Credit" />
 				<input class="btn" type="submit" id="submit" value="Submit" /> <input
 					class="btn" type="submit" id="cancel" value="Cancel" />
 				<div>

@@ -45,6 +45,8 @@ label {
 		<br>
 		<div style="color: teal; font-size: 30px">Search Transactions</div>
 		<br>
+		
+		<h2>${message}</h2>
 
 		<form class="form-horizontal" name="searchTransaction"
 			id="searchTransaction" method="post">
