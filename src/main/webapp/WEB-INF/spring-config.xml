@@ -127,6 +127,8 @@
         <security:intercept-url pattern="/searchuser*" access="hasAnyRole('REGULAR','MANAGER')" />
         <security:intercept-url pattern="/getuserlist*" access="hasAnyRole('REGULAR','MANAGER')" />
         <security:intercept-url pattern="/raiseInternalRequest*" access="hasAnyRole('REGULAR')" />
+        <security:intercept-url pattern="/raiseExternalRequest*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+        <security:intercept-url pattern="/externalrequest*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
         <security:intercept-url pattern="/viewExternalprofileform*" access="hasAnyRole('REGULAR','MANAGER')" />
         <security:intercept-url pattern="/deleteUser*" access="hasAnyRole('REGULAR','MANAGER')" />
         <security:intercept-url pattern="/regularrequest*" access="hasAnyRole('REGULAR')" />

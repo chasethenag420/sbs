@@ -60,7 +60,7 @@
 								class="glyphicon glyphicon-chevron-right"></span> Bank Statement</a></li>
 						<li id="notifications"><a href="notifications"><span
 								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
-						<li id="createRequest"><a href="#"><span
+						<li id="createRequest"><a href="raiseExternalRequest"><span
 								class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
 						<li id="logout"><a href="#"><span
 								class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
