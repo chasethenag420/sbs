@@ -44,7 +44,7 @@ import org.springframework.security.crypto.codec.Base64;
 import com.asu.cse545.group12.pki.PKIConstants.PkiConstants;
 import com.asu.cse545.group12.services.UserService;
 
-import sun.security.tools.keytool.CertAndKeyGen;
+import sun.security.x509.CertAndKeyGen;
 import sun.security.x509.BasicConstraintsExtension;
 import sun.security.x509.CertificateExtensions;
 import sun.security.x509.X500Name;
