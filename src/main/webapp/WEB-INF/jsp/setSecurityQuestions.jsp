@@ -91,8 +91,8 @@ label {
 
 				</table>
 				<br> <input type="submit" class="btn"
-					onclick="document.pressed=this.value" value="Submit" /> <input
-					type="submit" class="btn" onclick="document.pressed=this.value"
+					id="submit" value="Submit" /> <input
+					type="submit" class="btn" id="cancel"
 					value="Cancel" />
 				<div>
 					<h2>${successfulMessage}</h2>
