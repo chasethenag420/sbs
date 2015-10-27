@@ -9,7 +9,7 @@ import java.security.cert.X509Certificate;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import sun.security.tools.keytool.CertAndKeyGen;
+import sun.security.x509.CertAndKeyGen;
 import sun.security.x509.X500Name;
 public class BankCertificateGeneration1 {
 
