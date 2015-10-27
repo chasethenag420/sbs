@@ -488,7 +488,7 @@ public class CreateExternalUserValidator implements Validator{
 				}
 				else
 				{
-					if(!role.matches("[3-5]"))
+					if(!role.matches("[3-6]"))
 					{
 						errors.rejectValue("roleId", "not-string", "Select valid Role");
 					}

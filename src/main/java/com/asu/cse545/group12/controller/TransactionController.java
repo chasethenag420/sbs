@@ -354,7 +354,9 @@ public class TransactionController {
 			return "manager";
 		} else if (roleId == 5) {
 			return "admin";
-		} else
+		}  else if (roleId == 6) {
+			return "government";
+		}else
 			return "404";
 	}
 
@@ -467,11 +469,11 @@ public class TransactionController {
 							}
 							else
 								messages = messages+"\n "+ "Successful! The transfer is done from account: "+debitTransaction.getAccountNumber()+" to account: "+creditTransaction.getAccountNumber();
-								
+
 						}
 					}
 					modelView.addObject("successfulMessage", messages);
-					
+
 				}
 				else
 				{

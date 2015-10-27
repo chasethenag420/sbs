@@ -3,6 +3,10 @@ package com.asu.cse545.group12.services;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.asu.cse545.group12.domain.AccessControl;
 import com.asu.cse545.group12.domain.Account;
@@ -52,4 +56,7 @@ public interface AuthorizationService {
 	public List<AccessControl> getAccessControlToModifyTransaction(int touser, int roleID ) ;
 	
 	public List<AccessControl> getAccessControlToDeleteTransaction(int touser, int roleID ) ;
+	
+	public int approvePIINotification(int authorizationId, String userName, HttpServletRequest request, HttpServletResponse response);
+	
 }

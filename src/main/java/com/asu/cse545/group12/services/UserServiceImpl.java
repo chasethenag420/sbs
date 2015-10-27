@@ -209,6 +209,11 @@ public class UserServiceImpl implements UserService {
 	public static void main(String[] args){
 		
 	}
+	
+	@Override
+	public List<Users> getAllExternalUsers(){
+		return userDao.getAllExternalUsers();
+	}
 
 }
 

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <beans
     xmlns="http://www.springframework.org/schema/beans"
     xmlns:aop="http://www.springframework.org/schema/aop"
@@ -105,6 +106,9 @@
         <security:intercept-url pattern="/regular*" access="hasAnyRole('REGULAR')" />
         <security:intercept-url pattern="/manager*" access="hasAnyRole('MANAGER')" />
         <security:intercept-url pattern="/admin*" access="hasAnyRole('ADMIN')" />
+        <security:intercept-url pattern="/government*" access="hasAnyRole('GOVERNMENT')" />
+    	<security:intercept-url pattern="/demandPIIInformation*" access="hasAnyRole('GOVERNMENT')" />
+    	<security:intercept-url pattern="/createPIIInformationRequest*" access="hasAnyRole('GOVERNMENT')" />
         <security:intercept-url pattern="/profile*" access="isAuthenticated()" />
         <security:intercept-url pattern="/bankStatement*" access="hasAnyRole('ADMIN')" />
         <security:intercept-url pattern="/payMerchant*" access="hasRole('INDIVIDUAL')" />
@@ -180,6 +184,7 @@
     <bean id="TransactionInputValidator" class="com.asu.cse545.group12.validator.TransactionInputValidator" />
     <bean id="CreateExternalUserValidator" class="com.asu.cse545.group12.validator.CreateExternalUserValidator" />
     <bean id="AccessControlDaoImpl" class="com.asu.cse545.group12.dao.AccessControlDaoImpl" />
+    <bean id="CreatePDFForPIIInformation" class="com.asu.cse545.group12.pdf.CreatePDFForPIIInformation" />
     <bean id="authenticationProvider" class="com.asu.cse545.group12.authentication.LimitLoginAuthentication" >
         <property name="userDetailsService" ref="userDetailsService" />
         <property name="passwordEncoder" ref="encoder" />
@@ -188,4 +193,5 @@
         <constructor-arg name="strength" value="10" />
     </bean>
     <bean id="hashGenerator" class="com.asu.cse545.group12.hashing.HashGenerator" />
+
 </beans>

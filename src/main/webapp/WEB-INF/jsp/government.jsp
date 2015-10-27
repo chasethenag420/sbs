@@ -26,7 +26,7 @@
 	<div class="container">
 
 		<div class="jumbotron">
-			<h1>Admin User</h1>
+			<h1>Government Agency</h1>
 			<p>Welcome to Bank of Tempe!</p>
 		</div>
 		<center>
@@ -34,24 +34,15 @@
 			<h2>${message}</h2>
 		</center>
 
-		<form:form class="form-horizontal" id='adminForm' method='POST'>
+		<form:form class="form-horizontal" id='governmentForm' method='POST'>
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 			<div class="row">
 				<div class="col-md-3 column margintop20">
 					<ul class="nav nav-pills nav-stacked">
-						<li id="home" class="active"><a , href="#"><span
-								class="glyphicon glyphicon-chevron-right"></span> Home</a></li>
-						<li id="userProfile"><a href="profile"><span
-								class="glyphicon glyphicon-chevron-right"></span> User Profile</a></li>
-						<li id="createEmployee"><a href="createEmployee"><span
-								class="glyphicon glyphicon-chevron-right"></span> Create Employee</a></li>
-						<li id="searchuser"><a href="searchuser"><span
-								class="glyphicon glyphicon-chevron-right"></span> Search Employee</a></li>
-						<li id="systemLog"><a href="#"><span
-								class="glyphicon glyphicon-chevron-right"></span> System Log</a></li>
-						<li id="notifications"><a href="notifications"><span
-								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
+						
+						<li id="DemandPIIInformation"><a href="demandPIIInformation"><span
+								class="glyphicon glyphicon-chevron-right"></span> Demand PII Information</a></li>
 						<li id="logout"><a href="#"><span
 								class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
 					</ul>
@@ -71,7 +62,7 @@
 	<!-- Menu Toggle Script -->
 	<script>
 		$('#logout').click(function() {
-			$('#adminForm').attr("action", "logout").submit()
+			$('#governmentForm').attr("action", "logout").submit()
 		});
 	</script>
 </body>

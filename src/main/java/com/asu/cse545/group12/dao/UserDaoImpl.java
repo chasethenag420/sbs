@@ -151,6 +151,17 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
+	
+	@Override
+	
+	public List<Users> getAllExternalUsers()
+	{
+		Session session = sessionfactory.openSession();
+		Query query = session.createQuery("from user where ROLEID=1 or ROLEID=2 ");
+		List<Users> results = query.list();
+		session.close();
+		return results;
+	}
 		
 
 }
