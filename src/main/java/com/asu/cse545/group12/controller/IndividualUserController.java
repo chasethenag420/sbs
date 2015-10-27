@@ -1,6 +1,7 @@
 package com.asu.cse545.group12.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -32,6 +33,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.stereotype.Service;
 
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
@@ -59,6 +61,10 @@ public class IndividualUserController {
 	UserService userService;
 	@Autowired
 	AccountService accountService;
+	
+	@Autowired
+	AuthorizationService authorizationService;
+	
 	List<Transactions> transactionsList = new ArrayList<Transactions>();
 
 	@RequestMapping(value = "/externalsearchtrans")
@@ -104,6 +110,68 @@ public class IndividualUserController {
 		}
 		return modelView;
 	}
+	
+	
+	@RequestMapping(value="raiseExternalRequest")
+	public ModelAndView raiseExternalRequest(@ModelAttribute("form") Form form, HttpServletRequest request){
+		ModelAndView model = new ModelAndView();
+		model.addObject("authorization", new Authorization());
+		model.setViewName("raiseExternalRequest");
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "externalrequest")
+	public ModelAndView getInteralEmplRequest(@ModelAttribute("authorization") Authorization authorization,HttpServletRequest request) {
+		if(logger.isDebugEnabled()){
+			logger.debug("create request");
+		}
+		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("message", "You are not allowed to raise request");
+
+		HttpSession session = request.getSession(false);
+		String requesterusername=(String) session.getAttribute("username");
+		
+		try{
+			
+
+			
+			Users requesteruser = userService.getUserByUserName(requesterusername);
+			int requesteruserid = requesteruser.getUserId();
+			if(logger.isDebugEnabled()){
+				logger.debug("requesteruserid: "+requesteruserid);
+			}
+			//set the request to Manager and if the regular has necessary permission he can see it also
+			authorization.setAssignedToRole(4);;
+			authorization.setAuthorizedToUserId(requesteruserid);
+
+			authorization.setRequestStatus(Const.PENDING);
+			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
+			authorizationService.regularEmpRequest(authorization);	
+			modelView.addObject("message", "Request created successfully");
+			modelView.setViewName(getViewName(requesterusername));
+			// need to write the message that request was successful.
+		}catch(Exception e){
+			e.printStackTrace();
+			modelView.setViewName(getViewName(requesterusername));
+		}
+		return modelView;
+
+	}
+	
+	
+	private String getViewName(String username){
+
+		int roleId = userService.getUserByUserName(username).getRoleId();
+		// for individual and Merchant user
+		if (roleId == 1) {
+			return "individual";
+		} else if (roleId == 2) {
+			return "merchant";
+		} else
+			return "404";
+	}
+
 
 }
 

@@ -401,6 +401,17 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				transactionDao.updateRow(creditTransaction);
 			}
 		}
+		else if (Const.VIEW_TRANSACTION_REQUEST.equals(authorization.getRequestType()) || Const.MODIFY_TRANSACTIONS_REQUEST.equals(authorization.getRequestType()) || Const.CANCEL_TRANSACTION_REQUEST.equals(authorization.getRequestType()) || Const.VIEW_PROFILE.equals(authorization.getRequestType()) || Const.UPDATE_USERINFO_REQUEST.equals(authorization.getRequestType()) || Const.DELETE_EXTERNAL_REQUEST.equals(authorization.getRequestType()))
+		{
+			Users approver = userDao.getUserByUserName(userName);
+			authorization.setAuthorizedByUserId(approver.getUserId());
+			authorization.setRequestStatus(Const.REJECT);
+			authorization.setAssignedToRole(approver.getRoleId());
+			//*************************************************************************************************************/
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			authorizationDao.updateRow(authorization);
+			//*************************************************************************************************************/
+		}
 		//return authorizationDao.reject(authorization);
 		return 0;
 	}
@@ -663,6 +674,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 
 
-	
+
 }
 
