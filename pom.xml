@@ -125,15 +125,6 @@
 			<version>5.1.6</version>
 		</dependency>
 		<dependency>
-		  <groupId>sun.jdk</groupId>
-		  <artifactId>rt.jar</artifactId>
-		  <version>${jdk.version}</version>
-		  <scope>system</scope>
-		  <systemPath>${jre.home}/lib/rt.jar</systemPath>
-		</dependency>
-
-
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>

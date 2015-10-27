@@ -37,6 +37,7 @@ import com.asu.cse545.group12.domain.Transactions;
 import com.asu.cse545.group12.domain.Transfer;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.pki.CertificateGeneration;
+import com.asu.cse545.group12.email.EmailSender;
 import com.asu.cse545.group12.email.EmailSenderAPI;
 import com.asu.cse545.group12.hashing.HashGenerator;
 import com.asu.cse545.group12.pdf.CreatePDFForPIIInformation;
@@ -640,7 +641,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 						//FileInputStream inputStream = new FileInputStream(temperotyFilePath+"\\"+fileName);
 
 						FileSystemResource file = new FileSystemResource(temperotyFilePath+"\\"+fileName);
-						sendPIIEmail(governmentUser, foundUser, file);	
+						EmailSender.sendPIIEmail(governmentUser, foundUser, file);	
+					}
+					else
+					{
+						EmailSender.sendPIIEmail(governmentUser, "There is no account holder with this SSN: "+authorization.getRequestDescription());
 					}
 				}
 			}
@@ -648,7 +653,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			{
 				e.printStackTrace();
 			}
-			
+
 		} 
 
 		return authorizationId;
@@ -656,31 +661,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 
+
+
 	
-
-	//sent the OTP to user email
-	@Override
-	public void sendPIIEmail(Users governmentUser, Users piiUser, FileSystemResource file )
-	{
-
-		String configFile = "com/asu/cse545/group12/email/mail-config.xml";
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(configFile);
-
-		// @Service("emailService") <-- same annotation you specified in crunchifyEmailAPI.java
-		EmailSenderAPI emailAPI = (EmailSenderAPI) context.getBean("emailSenderService");
-		String toAddr = governmentUser.getEmailId();
-
-		// email subject
-		String subject = "PII Information of "+piiUser.getFirstName()+" "+piiUser.getLastName();
-		String attachmentName = ""+piiUser.getFirstName()+"-"+piiUser.getLastName()+"-PII.pdf";
-		// email body
-		String body = "Dear "+governmentUser.getFirstName()+" "+governmentUser.getLastName()+",\n\n Please find attached PDF. \n Have a good day!";
-
-		emailAPI.setToEmailAddress(toAddr);
-		emailAPI.setBody(body);
-		emailAPI.setSubject(subject);
-		emailAPI.sendEmail(attachmentName, file);
-		context.close();
-	}
 }
 

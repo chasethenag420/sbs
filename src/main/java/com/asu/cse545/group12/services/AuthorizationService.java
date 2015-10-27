@@ -59,5 +59,4 @@ public interface AuthorizationService {
 	
 	public int approvePIINotification(int authorizationId, String userName, HttpServletRequest request, HttpServletResponse response);
 	
-	public void  sendPIIEmail(Users governmentUser, Users piiUser, FileSystemResource file );
 }
