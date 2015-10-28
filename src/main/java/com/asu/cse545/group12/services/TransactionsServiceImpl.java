@@ -161,9 +161,9 @@ public class TransactionsServiceImpl implements TransactionsService {
 					debitTransaction.setTransactionStatus(Const.SUBMITTED);
 					debitTransaction.setSeverity("critical");
 				} else {
-					debitTransaction.setTransactionStatus(Const.APPROVED);
+					debitTransaction.setTransactionStatus(Const.SUBMITTED);
 					debitTransaction.setSeverity("non-critical");
-					accountService.doDebit(fromAccountNumber, amount);
+					//accountService.doDebit(fromAccountNumber, amount);
 				}
 				debitTransaction.setUserId(fromAccount.getUserId());
 				debitTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
@@ -182,8 +182,8 @@ public class TransactionsServiceImpl implements TransactionsService {
 					creditTransaction.setTransactionStatus(Const.SUBMITTED);
 				} else {
 					creditTransaction.setSeverity("non-critical");
-					creditTransaction.setTransactionStatus(Const.APPROVED);
-					accountService.doCredit(toAccountNumber, amount);
+					creditTransaction.setTransactionStatus(Const.SUBMITTED);
+					//accountService.doCredit(toAccountNumber, amount);
 				}
 				creditTransaction.setUserId(toAccount.getUserId());
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
