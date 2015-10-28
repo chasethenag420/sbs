@@ -168,7 +168,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				debitTransaction.setUserId(fromAccount.getUserId());
 				debitTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				debitTransaction.setTransactionType(Const.DEBIT_REQUEST);
-				debitTransaction.setTransactionDescription(description+"\n Transfer to "+toAccountNumber);
+				debitTransaction.setTransactionDescription(description+" \nTransfer to account nunmber "+toAccountNumber);
 				int debitTransactionId = transactionDao.insertRow(debitTransaction);
 
 
@@ -188,7 +188,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				creditTransaction.setUserId(toAccount.getUserId());
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				creditTransaction.setTransactionType(Const.CREDIT_REQUEST);
-				creditTransaction.setTransactionDescription("\n Transfer from "+fromAccountNumber);
+				creditTransaction.setTransactionDescription(" \nTransfer from account number"+fromAccountNumber);
 				int creditTransactionId = transactionDao.insertRow(creditTransaction);
 
 				// create transfer
@@ -304,7 +304,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				debitTransaction.setUserId(fromAccount.getUserId());
 				debitTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				debitTransaction.setTransactionType(Const.DEBIT_REQUEST);
-				debitTransaction.setTransactionDescription(description+"\n Transfer to "+toAccountNumber);
+				debitTransaction.setTransactionDescription(description+" \nTransfer to account number "+toAccountNumber);
 				int debitTransactionId = transactionDao.insertRow(debitTransaction);
 
 
@@ -320,7 +320,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 				creditTransaction.setUserId(toAccount.getUserId());
 				creditTransaction.setModifiedTimestamp(Calendar.getInstance().getTime());
 				creditTransaction.setTransactionType(Const.CREDIT_REQUEST);
-				creditTransaction.setTransactionDescription("\n Transfer from "+fromAccountNumber);
+				creditTransaction.setTransactionDescription(" \nTransfer from account number "+fromAccountNumber);
 				int creditTransactionId = transactionDao.insertRow(creditTransaction);
 
 				// create transfer

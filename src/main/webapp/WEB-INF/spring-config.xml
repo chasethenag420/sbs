@@ -115,7 +115,8 @@
         <security:intercept-url pattern="/merchantBulkDebit*" access="hasAnyRole('MERCHANT')" />
         <security:intercept-url pattern="/bulkDebitAmount*" access="hasAnyRole('MERCHANT')" />
         <security:intercept-url pattern="/submitMerchantPayment*" access="hasRole('INDIVIDUAL')" />
-        <security:intercept-url pattern="/bankStatement*" access="hasAnyRole('downloadPDF')" />
+        <security:intercept-url pattern="/bankStatement*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
+        <security:intercept-url pattern="/downloadPDF*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
         <security:intercept-url pattern="/searchTransaction*" access="hasAnyRole('REGULAR','MANAGER')" />
         <security:intercept-url pattern="/viewTransaction*" access="hasAnyRole('REGULAR','MANAGER')" />
         <security:intercept-url pattern="/deleteTransaction*" access="hasAnyRole('REGULAR','MANAGER')" />

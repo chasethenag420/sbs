@@ -1,4 +1,5 @@
 package com.asu.cse545.group12.validator;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
@@ -77,36 +78,107 @@ public class SearchFormValidator implements Validator{
 					logger.debug("****************SearchForm: Exception\n+"+e.getStackTrace() );
 				}
 				errors.rejectValue("accountNumber", "not-integer", "Account Number must be number");
-			
+
 			}
-			
+
 
 			try
 			{
-				if(form.getFromDate()!= null)
+				if("".equals(form.getFromDate()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromDate","not-Date", "Date cannot be empty");
 				else
 				{
-				
-						Date frmDate = form.getFromDate();
+					if(!(form.getFromDate().length()== 10 && form.getFromDate().contains("/") && form.getFromDate().matches("[0-9//]+")))
+					{
+						if (logger.isDebugEnabled()) {
+							logger.debug("****************SearchForm: Illegale date format\n+"+ form.getFromDate());
+						}
+						errors.rejectValue("fromDate", "not-Date", "Illegale Date Format (MM/dd/yyyy)");
 					}
+					else
+					{
+						String [] dateParts = form.getFromDate().split("/");
+						if(dateParts.length == 3)
+						{
+							Integer month = Integer.parseInt(dateParts[0]);
+							Integer day = Integer.parseInt(dateParts[1]);
+							Integer year = Integer.parseInt(dateParts[2]);
+							if(month>0 && month<13 && day>0 && day<32 && year>1990)
+							{
+								if (logger.isDebugEnabled()) {
+									for(String a: dateParts)
+										logger.debug("****************SearchForm: date partst+"+ a);
+								}
+
+
+								SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+								Date frmDate = format.parse(form.getFromDate());
+
+							}
+							else
+							{
+								errors.rejectValue("fromDate", "not-Date", "Illegale Date Format (MM/dd/yyyy)");
+							}
+						}
+						else
+						{
+							errors.rejectValue("fromDate", "not-Date", "Illegale Date Format (MM/dd/yyyy)");
+						}
+					}
+				}
 			}
 			catch(Exception e)
 			{
 				if (logger.isDebugEnabled()) {
 					logger.debug("****************SearchForm: Exception\n+"+e.getStackTrace() );
 				}
-				errors.rejectValue("accountNumber", "not-integer", "Account Number must be number");
-			
+				e.printStackTrace();
+				errors.rejectValue("fromDate", "not-Date", "Illegale Date Format (MM/dd/yyyy)");
 			}
 
 			try
 			{
-				if(form.getToDate()!= null )
+				if("".equals(form.getToDate()))
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "toDate","not-Date", "Date cannot be empty");
 				else
 				{
-						Date toDate = form.getToDate();
+					if(!(form.getToDate().length()== 10 && form.getToDate().contains("/") && form.getToDate().matches("[0-9//]+")))
+					{
+						if (logger.isDebugEnabled()) {
+							logger.debug("****************SearchForm: Illegale date format\n+"+ form.getToDate());
+						}
+						errors.rejectValue("toDate", "not-Date", "Illegale Date Format (MM/dd/yyyy)");
+					}
+					else
+					{
+						String [] dateParts = form.getToDate().split("/");
+						if(dateParts.length == 3)
+						{
+							Integer month = Integer.parseInt(dateParts[0]);
+							Integer day = Integer.parseInt(dateParts[1]);
+							Integer year = Integer.parseInt(dateParts[2]);
+							if(month>0 && month<13 && day>0 && day<32 && year>1990)
+							{
+								if (logger.isDebugEnabled()) {
+									for(String a: dateParts)
+										logger.debug("****************SearchForm: date partst+"+ a);
+								}
+
+
+								SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+								Date frmDate = format.parse(form.getToDate());
+
+							}
+							else
+							{
+								errors.rejectValue("toDate", "not-Date", "Illegale Date Format (MM/dd/yyyy)");
+							}
+						}
+						else
+						{
+							errors.rejectValue("toDate", "not-Date", "Illegale Date Format (MM/dd/yyyy)");
+						}
+					}
 				}
 			}
 			catch(Exception e)
@@ -114,9 +186,10 @@ public class SearchFormValidator implements Validator{
 				if (logger.isDebugEnabled()) {
 					logger.debug("****************SearchForm: Exception\n+"+e.getStackTrace() );
 				}
-				errors.rejectValue("accountNumber", "not-integer", "Account Number must be number");
-			
+				e.printStackTrace();
+				errors.rejectValue("toDate", "not-Date", "Illegale Date Format (MM/dd/yyyy)");
 			}
+
 
 
 		}
