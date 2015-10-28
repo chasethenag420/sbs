@@ -307,7 +307,7 @@ public class TransactionInputValidator implements Validator{
 						if(!(form.getFromDate().length()== 10 && form.getFromDate().contains("/") && form.getFromDate().matches("[0-9//]+")))
 						{
 							if (logger.isDebugEnabled()) {
-								logger.debug("****************SearchForm: Illegale date format\n+"+ form.getFromDate());
+								logger.debug("****************bankStatement: Illegale date format\n+"+ form.getFromDate());
 							}
 							errors.rejectValue("fromDate", "not-Date", "Illegale Date Format (MM/dd/yyyy)");
 						}
@@ -323,7 +323,7 @@ public class TransactionInputValidator implements Validator{
 								{
 									if (logger.isDebugEnabled()) {
 										for(String a: dateParts)
-											logger.debug("****************SearchForm: date partst+"+ a);
+											logger.debug("****************bankStatement: date partst+"+ a);
 									}
 									SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 									Date frmDate = format.parse(form.getFromDate());
@@ -355,7 +355,7 @@ public class TransactionInputValidator implements Validator{
 						if(!(form.getToDate().length()== 10 && form.getToDate().contains("/") && form.getToDate().matches("[0-9//]+")))
 						{
 							if (logger.isDebugEnabled()) {
-								logger.debug("****************SearchForm: Illegale date format\n+"+ form.getToDate());
+								logger.debug("****************bankStatement: Illegale date format\n+"+ form.getToDate());
 							}
 							errors.rejectValue("toDate", "not-Date", "Illegale Date Format (MM/dd/yyyy)");
 						}
@@ -371,7 +371,7 @@ public class TransactionInputValidator implements Validator{
 								{
 									if (logger.isDebugEnabled()) {
 										for(String a: dateParts)
-											logger.debug("****************SearchForm: date partst+"+ a);
+											logger.debug("****************bankStatement: date partst+"+ a);
 									}
 
 									SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
