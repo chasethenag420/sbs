@@ -468,7 +468,18 @@ public class TransactionController {
 								messages = messages+"\n "+ "Successful! The transfer request is sent to bank official. Wait for approval.";
 							}
 							else
+							{
+								if(("non-critical").equalsIgnoreCase(debitTransaction.getSeverity()) && ("non-critical").equalsIgnoreCase(creditTransaction.getSeverity()))
+								{
+									debitTransaction.setTransactionStatus(Const.APPROVED);
+									creditTransaction.setTransactionStatus(Const.APPROVED);
+									transactionDao.updateRow(debitTransaction);
+									transactionDao.updateRow(creditTransaction);
+									accountService.doDebit(debitTransaction.getAccountNumber(), debitTransaction.getAmount());
+									accountService.doCredit(creditTransaction.getAccountNumber(), creditTransaction.getAmount());
+								}
 								messages = messages+"\n "+ "Successful! The transfer is done from account: "+debitTransaction.getAccountNumber()+" to account: "+creditTransaction.getAccountNumber();
+							}
 
 						}
 					}
