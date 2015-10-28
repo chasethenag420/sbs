@@ -182,6 +182,7 @@
     <bean id="userDetailsService" class="com.asu.cse545.group12.services.SbsUserDetailsService" />
     <bean id="SecurityQuestionsDaoImpl" class="com.asu.cse545.group12.dao.SecurityQuestionsDaoImpl" />
     <bean id="TransactionInputValidator" class="com.asu.cse545.group12.validator.TransactionInputValidator" />
+    <bean id="SearchFormValidator" class="com.asu.cse545.group12.validator.SearchFormValidator" />
     <bean id="CreateExternalUserValidator" class="com.asu.cse545.group12.validator.CreateExternalUserValidator" />
     <bean id="AccessControlDaoImpl" class="com.asu.cse545.group12.dao.AccessControlDaoImpl" />
     <bean id="CreatePDFForPIIInformation" class="com.asu.cse545.group12.pdf.CreatePDFForPIIInformation" />

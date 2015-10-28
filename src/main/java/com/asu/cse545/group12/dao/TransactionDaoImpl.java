@@ -132,7 +132,9 @@ public class TransactionDaoImpl implements TransactionDao {
 	public List<Transactions> getTransactionsByDate(Integer accountNumber,Date toDate , Date fromDate) {
 		// TODO Auto-generated method stub
 		Session session = sessionfactory.openSession();
-		
+		if(logger.isDebugEnabled()){
+			logger.debug("***************************** Transactions between dates getTransactionsByDate : ");
+		}
 		Query query = session.createQuery("from transaction where accountNumber =:accountNumber and creationTimestamp <=:toDate and creationTimestamp >=:fromDate");
 		query.setParameter("accountNumber", accountNumber);
 		query.setParameter("toDate", toDate);
@@ -140,6 +142,9 @@ public class TransactionDaoImpl implements TransactionDao {
 		@SuppressWarnings("unchecked")
 		List<Transactions> results = query.list();
 		System.out.println(results);
+		if(logger.isDebugEnabled()){
+			logger.debug("***************************** Transactions between dates getTransactionsByDate : "+results.size());
+		}
 		session.close();
 		return results;
 		

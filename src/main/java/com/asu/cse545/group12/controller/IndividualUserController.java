@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.Searchform;
+import com.asu.cse545.group12.domain.TransactionForm;
 import com.asu.cse545.group12.domain.Transactions;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
@@ -45,6 +47,8 @@ import com.asu.cse545.group12.services.AuthorizationService;
 import com.asu.cse545.group12.services.TransactionsService;
 import com.asu.cse545.group12.services.UserService;
 import com.asu.cse545.group12.validator.CreateExternalUserValidator;
+import com.asu.cse545.group12.validator.SearchFormValidator;
+import com.asu.cse545.group12.validator.TransactionInputValidator;
 
 
 @Controller
@@ -59,6 +63,11 @@ public class IndividualUserController {
 	UserService userService;
 	@Autowired
 	AccountService accountService;
+	
+	@Autowired
+	SearchFormValidator searchformValidator;
+	
+	
 	List<Transactions> transactionsList = new ArrayList<Transactions>();
 
 	@RequestMapping(value = "/externalsearchtrans")
@@ -84,12 +93,30 @@ public class IndividualUserController {
 	}
 
 	@RequestMapping(value="externalsearchtransform")
-	public ModelAndView creditAmount(@ModelAttribute("searchform") Searchform searchform) {
+	public ModelAndView creditAmount(@Valid @ModelAttribute("searchform") Searchform searchform, BindingResult result, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("External User search:");
 		}
 		ModelAndView modelView = new ModelAndView();
+		
 		//validate the input data
+		searchformValidator.setRequest(request);
+		searchformValidator.validate(searchform, result);
+		
+		
+		String username = (String) request.getSession().getAttribute("username");
+		Users user = userService.getUserByUserName(username);
+		List<String> accountNumbers = new ArrayList<String>();
+		for (Account account : accountService.getAccounts(user.getUserId())) {
+			accountNumbers.add(""+account.getAccountNumber());
+		}
+		if (result.hasErrors()) {
+			modelView.addObject("form", searchform);
+			   modelView.addObject("accounts", accountNumbers);
+			modelView.setViewName("externalsearchtrans");
+			return modelView;
+		}
+
 		Integer accountNum=searchform.getAccountNumber();
 		Date toDate = searchform.getToDate();
 		Date fromDate = searchform.getFromDate();
