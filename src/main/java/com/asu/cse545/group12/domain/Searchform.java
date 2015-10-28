@@ -5,18 +5,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Searchform {
-	Date toDate, fromDate;
+	String toDate, fromDate;
 	Integer accountNumber;
-	public Date getToDate() {
+	
+	
+	public String getToDate() {
 		return toDate;
 	}
-	public void setToDate(Date toDate) {
+	public void setToDate(String toDate) {
 		this.toDate = toDate;
 	}
-	public Date getFromDate() {
+	public String getFromDate() {
 		return fromDate;
 	}
-	public void setFromDate(Date fromDate) {
+	public void setFromDate(String fromDate) {
 		this.fromDate = fromDate;
 	}
 	public Integer getAccountNumber() {

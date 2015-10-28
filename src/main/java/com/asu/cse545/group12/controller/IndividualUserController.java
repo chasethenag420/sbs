@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.stereotype.Service;
 
 import com.asu.cse545.group12.constantfile.Const;
+import com.asu.cse545.group12.dao.TransactionDao;
 import com.asu.cse545.group12.dao.UserDao;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
@@ -71,7 +72,8 @@ public class IndividualUserController {
 	@Autowired
 	AuthorizationService authorizationService;
 	
-	List<Transactions> transactionsList = new ArrayList<Transactions>();
+	@Autowired
+	TransactionDao transactionDao;
 
 	@RequestMapping(value = "/externalsearchtrans")
 	public ModelAndView getsearchForm(HttpServletRequest request) {
@@ -96,7 +98,7 @@ public class IndividualUserController {
 	}
 
 	@RequestMapping(value="externalsearchtransform")
-	public ModelAndView creditAmount(@Valid @ModelAttribute("searchform") Searchform searchform, BindingResult result, HttpServletRequest request) {
+	public ModelAndView externalsearchtransform(@Valid @ModelAttribute("form") Searchform searchform, BindingResult result, HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("External User search:");
 		}
@@ -121,13 +123,13 @@ public class IndividualUserController {
 		}
 
 		Integer accountNum=searchform.getAccountNumber();
-		Date toDate = searchform.getToDate();
-		Date fromDate = searchform.getFromDate();
-		transactionsList=transactionService.searchTransactionByExternals(accountNum, toDate, fromDate);
-		modelView.addObject("transactions", transactionsList);
+		List<Transactions> transactions = transactionDao.getTransactionsBetweenDates(searchform.getAccountNumber(), searchform.getFromDate(), searchform.getToDate());
+		//transactionsList=transactionService.searchTransactionByExternals(accountNum, toDate, fromDate);
+		modelView.addObject("transactions", transactions);
+		modelView.addObject("accounts", accountNumbers);
 		modelView.addObject("form", new Searchform());
 		modelView.setViewName("externalsearchtrans");
-		Iterator it =transactionsList.listIterator();
+		Iterator it =transactions.listIterator();
 		while(it.hasNext())
 		{
 			System.out.println("transactionlist"+it.next());

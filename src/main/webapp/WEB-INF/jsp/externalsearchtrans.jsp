@@ -43,10 +43,8 @@ label {
 <body>
 	<center>
 		<br /> <br />
-		<div style="color: teal; font-size: 30px">
+		<div style="color: teal; font-size: 15px">
 			Search Transactions
-			</td>
-			</tr>
 			<form:form name="externalsearchtrans" id="externalsearchtrans"
 				modelAttribute="form" method="post">
 				<input type="hidden" name="${_csrf.parameterName}"
@@ -54,23 +52,24 @@ label {
 				<br />
 				<br />
 				<table class="table table-striped" style="width: auto;">
-				<tr>
-						<td style="white-space: nowrap"><form:label path="accountNumber"
-								for="Account">To Account Number</form:label></td>
+					<tr>
+						<td style="white-space: nowrap"><form:label
+								path="accountNumber" for="Account">To Account Number</form:label></td>
 
 
-						<td><form:select path="accountNumber" 
+						<td><form:select path="accountNumber"
 								data-parsley-required="true" name="Account">
 								<form:option value="" label="--Select Account --" />
 								<form:options items="${accounts}" />
 							</form:select></td>
-							
-						<td><form:errors class="alert alert-danger" path="accountNumber" /></td>
+
+						<td><form:errors class="alert alert-danger"
+								path="accountNumber" /></td>
 
 
 					</tr>
 
-				<!-- <tr>
+					<!-- <tr>
 					<td><form:label path="accountNumber">Account Number</form:label></td>
 					<td><form:input path="accountNumber"
 							data-parsley-required="true" data-parsley-type="digits"
@@ -80,27 +79,28 @@ label {
 				</tr>
 				-->
 
-				<tr>
-					<td><form:label path="toDate" for="todate">To Date</form:label></td>
-					<td><form:input path="toDate" name="todate"
-							data-parsley-trigger="change" placeholder="MM/DD/YYYY"
-							data-date-format="MM/DD/YYYY" data-date-minDate="01/01/1900"
-							data-parsley-mindate="01/01/1900" data-parsley-required="true" />
-						<form:errors class="alert alert-danger" path="toDate" /></td>
-				</tr>
-				<tr>
-					<td><form:label path="fromDate" for="fromdate">From Date</form:label></td>
-					<td><form:input path="fromDate" name="fromdate"
-							data-parsley-trigger="change" placeholder="MM/DD/YYYY"
-							data-date-format="MM/DD/YYYY" data-date-minDate="01/01/1900"
-							data-parsley-mindate="01/01/1900" data-parsley-required="true" />
-						<form:errors class="alert alert-danger" path="fromDate" /></td>
-				</tr>
-				<tr>
-					<td colspan="2"><input class="btn" type="submit" id="submit"
-						value="Submit" /> <input class="btn" type="submit" id="cancel"
-						value="Cancel" /></td>
-				</tr>
+					<tr>
+						<td><form:label path="fromDate" for="fromdate">From Date</form:label></td>
+						<td><form:input path="fromDate" name="fromdate"
+								data-parsley-trigger="change" placeholder="MM/DD/YYYY"
+								data-date-format="MM/DD/YYYY" data-date-minDate="01/01/1900"
+								data-parsley-mindate="01/01/1900" data-parsley-required="true" />
+							<form:errors class="alert alert-danger" path="fromDate" /></td>
+					</tr>
+					<tr>
+						<td><form:label path="toDate" for="todate">To Date</form:label></td>
+						<td><form:input path="toDate" name="todate"
+								data-parsley-trigger="change" placeholder="MM/DD/YYYY"
+								data-date-format="MM/DD/YYYY" data-date-minDate="01/01/1900"
+								data-parsley-mindate="01/01/1900" data-parsley-required="true" />
+							<form:errors class="alert alert-danger" path="toDate" /></td>
+					</tr>
+
+					<tr>
+						<td colspan="2"><input class="btn" type="submit" id="submit"
+							value="Submit" /> <input class="btn" type="submit" id="cancel"
+							value="Cancel" /></td>
+					</tr>
 				</table>
 
 
@@ -125,6 +125,7 @@ label {
 				</table>
 
 			</form:form>
+		</div>
 	</center>
 	<script src="web_resources/theme/js/jquery.min.js"></script>
 	<script src="web_resources/theme/js/jquery-ui.min.js"></script>

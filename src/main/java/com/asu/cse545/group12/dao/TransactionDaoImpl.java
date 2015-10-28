@@ -109,7 +109,7 @@ public class TransactionDaoImpl implements TransactionDao {
 			
 
 			Session session = sessionfactory.openSession();
-			Query query = session.createQuery("from transaction where accountNumber =:accountNumber and (TRANSACTION_STATUS ='"+Const.PENDING+"' or TRANSACTION_STATUS= '"+Const.APPROVED+"' or TRANSACTION_STATUS= '"+Const.REJECT+"') and CREATION_TIMESTAMP BETWEEN  :stDate AND :edDate");
+			Query query = session.createQuery("from transaction where accountNum =:accountNumber and (TRANSACTION_STATUS ='"+Const.PENDING+"' or TRANSACTION_STATUS= '"+Const.APPROVED+"' or TRANSACTION_STATUS= '"+Const.REJECT+"') and CREATION_TIMESTAMP BETWEEN  :stDate AND :edDate");
 			query.setParameter("stDate", frmDate);
 			query.setParameter("edDate", enDate);
 			query.setParameter("accountNumber", accountNum);
@@ -135,10 +135,10 @@ public class TransactionDaoImpl implements TransactionDao {
 		if(logger.isDebugEnabled()){
 			logger.debug("***************************** Transactions between dates getTransactionsByDate : ");
 		}
-		Query query = session.createQuery("from transaction where accountNumber =:accountNumber and creationTimestamp <=:toDate and creationTimestamp >=:fromDate");
+		Query query = session.createQuery("from transaction where accountNumber =:accountNumber and CREATION_TIMESTAMP BETWEEN  :stDate AND :edDate");
 		query.setParameter("accountNumber", accountNumber);
-		query.setParameter("toDate", toDate);
-		query.setParameter("fromDate", fromDate);
+		query.setParameter("stDate", fromDate);
+		query.setParameter("edDate", toDate);
 		@SuppressWarnings("unchecked")
 		List<Transactions> results = query.list();
 		System.out.println(results);
