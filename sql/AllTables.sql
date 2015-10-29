@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS account cascade;
 DROP TABLE IF EXISTS `user` cascade;
 DROP TABLE IF EXISTS accesscontrol cascade;
 DROP TABLE IF EXISTS securityquestions cascade;
+DROP TABLE IF EXISTS systemaccess cascade;
 
 CREATE TABLE `accesscontrol` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -21,6 +22,16 @@ CREATE TABLE `accesscontrol` (
   UNIQUE KEY `USERID_UNIQUE` (`USERID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `systemaccess`(
+`ID` int(20) NOT NULL AUTO_INCREMENT,
+`USERNAME` varchar(30) DEFAULT NULL,
+`IPADDRESS` varchar(30) DEFAULT NULL,
+`ACTION` varchar(30) DEFAULT NULL,
+`REQUESTURL` varchar(255) DEFAULT NULL,
+`SESSIONID` varchar(255) DEFAULT NULL,
+`TIME`  date DEFAULT NULL,
+PRIMARY KEY (`Id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user` (
   `USERID` int(20) NOT NULL AUTO_INCREMENT,
