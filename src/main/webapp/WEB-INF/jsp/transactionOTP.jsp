@@ -52,7 +52,9 @@ label {
   <br/><br/>
   <form:form name = "transactionOTP" id="transactionOTP"  modelAttribute="form" method="post">
    <center>
-   <div style="white-space: nowrap" ><b>An OTP is sent to your email : ${form.map.email}</b></div><br/><br/>
+   <div style="white-space: nowrap" ><b>An OTP is sent to your email : ${form.map.email}</b></div><br/>
+   <div><a href="downloadDecoder">Download Decoder</a></div>
+   <br/>
    <table  class="table table-striped" style="width: auto;">
    <tr></tr>
    

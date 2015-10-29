@@ -158,6 +158,7 @@
         <security:intercept-url pattern="/addSecurityQuestions*" access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />
         <security:intercept-url pattern="/enterSecurityQuestions*" access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />
         <security:intercept-url pattern="/setNewPassword*" access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />
+        <security:intercept-url pattern="/downloadDecoder*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
         <security:intercept-url pattern="/changePassword*" access="hasAnyRole('REGULAR','MANAGER','ADMIN','INDIVIDUAL','MERCHANT')" />
         <security:intercept-url pattern="/forgetPassword*" access="permitAll" />
         <security:intercept-url pattern="/securityQuestions*" access="permitAll" />

@@ -2,6 +2,10 @@ package com.asu.cse545.group12.controller;
 
 import org.apache.log4j.Logger;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,7 +13,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -825,6 +831,53 @@ public class TransactionController {
 			return modelView;
 
 		}
+	}
+
+	@RequestMapping(value = "downloadDecoder")
+	public ModelAndView downloadDecoder(@ModelAttribute("form") Form form, HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession(false);
+		String username = (String) session.getAttribute("username");
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("moving to back!");
+		}
+
+		try
+		{
+			response.setContentType("application/jar");
+			//File file = new File("/com/asu/cse545/group12/jar/Dec-runable.jar");
+			//byte[] b = new byte[(int)file.length()];
+			InputStream inputStream = TransactionController.class.getResourceAsStream("/com/asu/cse545/group12/jar/Dec-runable.jar");
+			//FileInputStream inputStream = new FileInputStream(file);
+			
+			response.setHeader("Content-disposition", "attachment; filename=decoder.jar");
+			OutputStream outputStream = response.getOutputStream();
+			
+			
+			int read =0;
+			byte[] bytes = new byte[600000];
+			
+			while((read = inputStream.read(bytes)) != -1){
+				outputStream.write(bytes,0,read);
+			 
+			}
+			//outputStream.write(b);
+			outputStream.flush();
+		}
+		catch(Exception e)
+		{
+			if(logger.isDebugEnabled()){
+				logger.debug("***************download decoder");
+			}
+
+			e.printStackTrace();
+		}
+
+		ModelAndView modelView = new ModelAndView();
+		modelView.addObject("form", form);
+		modelView.setViewName("transactionOTP");
+		return modelView;
 	}
 
 }
