@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
@@ -55,7 +56,7 @@ public class AuthorizationController {
 		Date curdate = new Date();
 		authorization.setRequestCreationTimeStamp(curdate);  // TO FORMAT CAN COME
 		
-		user.setUserStatus("Inactive");
+		user.setUserStatus(Const.INACTIVE);
 		java.util.Date date = Calendar.getInstance().getTime();
 		user.setLastModifieddate(date);
 		user.setRegistrationDate(date);
