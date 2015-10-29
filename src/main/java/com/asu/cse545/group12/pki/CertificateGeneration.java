@@ -319,7 +319,7 @@ public class CertificateGeneration {
 	private static void writeCertificate(String userName, String certificate){        
 	     
 	    System.out.println(certificate);
-	        String filename = "d:\\" + userName + "_Certificate.txt";
+	        String filename = "/home/ubuntu/sbskeys1/allkeys/" + userName + "_Certificate.txt";
 	       
 	        try {
 	            FileWriter fileWriter = new FileWriter(filename);
