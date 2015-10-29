@@ -20,13 +20,24 @@
 <body>
 	<div class="container">
 
-		<div class="jumbotron">
-			<h1>Individual User</h1>
-			<p>Welcome to Bank of Tempe!</p>
-		</div>
+		<table width="100%">
+		<tr>
+		<td>
+			<div class="jumbotron col-md-6">
+				<h1>Individual User</h1>
+				<p>Welcome to Bank of Tempe!</p>
+			</div>
+			</td>
+			<td align="right">
+			<div>
+				<font color="red"><b>User: ${userinformation}</b></font>
+			</div>
+			</td>
+			</tr>
+		</table>
 		<center>
-		<br>
-		<h2>${message}</h2>
+			<br>
+			<h2>${message}</h2>
 		</center>
 		<form:form class="form-horizontal" id='individualForm' method='POST'>
 			<input type="hidden" name="${_csrf.parameterName}"
@@ -56,7 +67,7 @@
 								class="glyphicon glyphicon-chevron-right"></span> Create Request</a></li>
 						<li id="logout"><a href="#"><span
 								class="glyphicon glyphicon-chevron-right"></span> Logout</a></li>
-								
+
 					</ul>
 				</div>
 				<div id="content" class="col-md-9 column margintop20">
