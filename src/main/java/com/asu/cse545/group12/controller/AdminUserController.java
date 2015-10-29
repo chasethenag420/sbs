@@ -30,9 +30,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.AuthorizationDao;
+import com.asu.cse545.group12.dao.SystemAccessDao;
 import com.asu.cse545.group12.domain.Account;
 import com.asu.cse545.group12.domain.Authorization;
 import com.asu.cse545.group12.domain.Form;
+import com.asu.cse545.group12.domain.SystemAccess;
 import com.asu.cse545.group12.domain.TransactionForm;
 import com.asu.cse545.group12.domain.UserPII;
 import com.asu.cse545.group12.domain.Users;
@@ -45,16 +47,19 @@ import com.asu.cse545.group12.validator.CreateExternalUserValidator;
 @Controller
 public class AdminUserController {
 	private static final Logger logger = Logger.getLogger(AdminUserController.class);
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	AuthorizationDao  authorizationDao;
-	
+
 	@Autowired
 	CreateExternalUserValidator validator;
-	
+	@Autowired
+	SystemAccessDao systemAccessDao;
+
+
 	@RequestMapping(value = "/createEmployee", method = RequestMethod.GET)
 	public ModelAndView getSignUpForm(@ModelAttribute("userpii") UserPII userpii,@Valid  @ModelAttribute("user") Users user,BindingResult result) {
 		//logs debug message
@@ -62,14 +67,26 @@ public class AdminUserController {
 			logger.debug("create employee form");
 		}
 		ModelAndView modelView = new ModelAndView();
-		logger.debug("userpii "+userpii.toString());
-		logger.debug("user "+user.toString());
 		modelView.addObject("user", new Users());
 		modelView.setViewName("createEmployee");
 
 		return modelView;
 	} 
-	
+
+	@RequestMapping(value = "/systemAccess", method = RequestMethod.GET)
+	public ModelAndView getSystemAccess() {
+		//logs debug message
+		if(logger.isDebugEnabled()){
+			logger.debug("System Access Log requested");
+		}
+		ModelAndView modelView = new ModelAndView();
+		List<SystemAccess> systemAccessList= systemAccessDao.getAllSystemAccess();
+		modelView.addObject("systemAccessList", systemAccessList);
+		modelView.setViewName("systemAccess");
+
+		return modelView;
+	} 
+
 	@RequestMapping( value= "createEmployeeUser", method = RequestMethod.POST)
 	public ModelAndView registerEmployee(@ModelAttribute("userpii") UserPII userpii, @Valid @ModelAttribute("user") Users user, BindingResult result, Model model, HttpServletRequest request) {
 
@@ -78,14 +95,15 @@ public class AdminUserController {
 		map.put("user", user);
 		map.put("type", "createEmployee");
 		validator.validate(map, result);
-		
+
 		logger.debug("******************************createEmployeeUser: ");
 		if (result.hasErrors()) {
 			logger.debug("******************************createEmployeeUser errored: ");
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
 			modelView.setViewName("createEmployee");
-			//modelView.addObject("message", result.toString());
+			logger.debug(result.toString());
+			modelView.addObject("message", "There are some errors in the input");
 			return modelView;
 		} else {		
 
@@ -109,8 +127,8 @@ public class AdminUserController {
 				if(existingUser == null)
 				{
 					//set same username to username and password
-					
-					
+
+
 					user.setUserName(username);
 					user.setPassword(username);
 					userpii.setUser(user);
@@ -138,35 +156,35 @@ public class AdminUserController {
 			return modelView;
 		}
 	}
-	
+
 	public void sendEmailToEmployee(Users user)
 	{
-				// Spring Bean file you specified in /src/main/resources folder
-				String configFile = "com/asu/cse545/group12/email/mail-config.xml";
-				ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(configFile);
-		 
-				// @Service("emailService") <-- same annotation you specified in crunchifyEmailAPI.java
-				EmailSenderAPI emailAPI = (EmailSenderAPI) context.getBean("emailSenderService");
-				String toAddr = user.getEmailId();
-		 
-				// email subject
-				String subject = "Successful Registration";
-		 
-				// email body
-				String body = "Dear "+user.getFirstName()+" "+user.getLastName()+",\n You are online employee profile is created. Use following credentials to login:\n Username: "+user.getUserName()+"\n Password: "+user.getPassword()+"\n Have a good day!";
-				
-				emailAPI.setToEmailAddress(toAddr);
-				emailAPI.setBody(body);
-				emailAPI.setSubject(subject);
-				emailAPI.sendEmail();
-				context.close();
+		// Spring Bean file you specified in /src/main/resources folder
+		String configFile = "com/asu/cse545/group12/email/mail-config.xml";
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(configFile);
+
+		// @Service("emailService") <-- same annotation you specified in crunchifyEmailAPI.java
+		EmailSenderAPI emailAPI = (EmailSenderAPI) context.getBean("emailSenderService");
+		String toAddr = user.getEmailId();
+
+		// email subject
+		String subject = "Successful Registration";
+
+		// email body
+		String body = "Dear "+user.getFirstName()+" "+user.getLastName()+",\n You are online employee profile is created. Use following credentials to login:\n Username: "+user.getUserName()+"\n Password: "+user.getPassword()+"\n Have a good day!";
+
+		emailAPI.setToEmailAddress(toAddr);
+		emailAPI.setBody(body);
+		emailAPI.setSubject(subject);
+		emailAPI.sendEmail();
+		context.close();
 	}
-	
-	
+
+
 	@RequestMapping(value = "/demandPIIInformation", method = RequestMethod.GET)
 	public ModelAndView getCreditForm(HttpServletRequest request) {
 
-		
+
 		//logs debug message
 		if(logger.isDebugEnabled()){
 			logger.debug("demandPIIInformation Screen is executed!");
@@ -183,7 +201,7 @@ public class AdminUserController {
 		if(logger.isDebugEnabled()){
 			logger.debug("creditPIIInformationRequest:");
 		}
-		
+
 		Map<String, String> formMap = form.getMap();
 		String ssn = formMap.get("ssn");
 		if(logger.isDebugEnabled()){
@@ -193,7 +211,7 @@ public class AdminUserController {
 		Integer SSN1;
 		try
 		{
-			 SSN1= Integer.parseInt(ssn);
+			SSN1= Integer.parseInt(ssn);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -202,7 +220,7 @@ public class AdminUserController {
 			modelView.setViewName("demandPIIInformation");
 			return modelView;
 		}
-		
+
 		Users user = userService.getUserByUserName(username);
 		if(user != null)
 		{
@@ -215,7 +233,7 @@ public class AdminUserController {
 			authorization.setRequestStatus(Const.PENDING);
 			authorization.setTransactionId(0);
 			authorizationDao.insertRow(authorization);
-			
+
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("form", new Form());
 			modelView.setViewName("demandPIIInformation");
@@ -228,10 +246,10 @@ public class AdminUserController {
 			modelView.setViewName("login");
 			return modelView;
 		}
-		
+
 
 	}
-	
+
 
 }
 

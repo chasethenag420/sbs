@@ -58,6 +58,7 @@ label {
 						<th>AccountCreation</th>
 						<th>TransactionType</th>
 						<th>Amount</th>
+						<th>Status</th>
 					</tr>
 					<c:forEach items="${transactions}" var="item">
 						<tr>
@@ -71,6 +72,7 @@ label {
 							<td><c:out value="${item.transactionType}" /></td>
 
 							<td><c:out value="${item.amount}" /></td>
+							<td><c:out value="${item.transactionStatus}" /></td>
 						</tr>
 					</c:forEach>
 

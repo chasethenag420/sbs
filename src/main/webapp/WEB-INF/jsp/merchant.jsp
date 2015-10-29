@@ -22,10 +22,21 @@
 <body>
 	<div class="container">
 
-		<div class="jumbotron">
-			<h1>Merchant</h1>
-			<p>Welcome to Bank of Tempe!</p>
-		</div>
+		<table width="100%">
+		<tr>
+		<td>
+			<div class="jumbotron col-md-6">
+				<h1>Merchant User</h1>
+				<p>Welcome to Bank of Tempe!</p>
+			</div>
+			</td>
+			<td align="right">
+			<div>
+				<b>User: ${userinformation}</b>
+			</div>
+			</td>
+			</tr>
+		</table>
 		<br>
 		<center>
 		<h2>${message}</h2>

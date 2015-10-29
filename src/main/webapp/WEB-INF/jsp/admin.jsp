@@ -25,10 +25,21 @@
 
 	<div class="container">
 
-		<div class="jumbotron">
-			<h1>Admin User</h1>
-			<p>Welcome to Bank of Tempe!</p>
-		</div>
+		<table width="100%">
+		<tr>
+		<td>
+			<div class="jumbotron col-md-6">
+				<h1>Admin User</h1>
+				<p>Welcome to Bank of Tempe!</p>
+			</div>
+			</td>
+			<td align="right">
+			<div>
+				<font color="red"><b>User: ${userinformation}</b></font>
+			</div>
+			</td>
+			</tr>
+		</table>
 		<center>
 			<br>
 			<h2>${message}</h2>
@@ -48,7 +59,7 @@
 								class="glyphicon glyphicon-chevron-right"></span> Create Employee</a></li>
 						<li id="searchuser"><a href="searchuser"><span
 								class="glyphicon glyphicon-chevron-right"></span> Search Employee</a></li>
-						<li id="systemLog"><a href="#"><span
+						<li id="systemAccess"><a href="systemAccess"><span
 								class="glyphicon glyphicon-chevron-right"></span> System Log</a></li>
 						<li id="notifications"><a href="notifications"><span
 								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>

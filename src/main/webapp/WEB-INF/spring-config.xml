@@ -18,6 +18,13 @@
         <property name="username" value="${database.user}" />
         <property name="password" value="${database.password}" />
     </bean>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <bean class="com.asu.cse545.group12.interceptors.RequestProcessingInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+ 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="annotatedClasses">
@@ -32,6 +39,7 @@
                 <value>com.asu.cse545.group12.domain.Form</value>
                 <value>com.asu.cse545.group12.domain.SecurityQuestions</value>
                 <value>com.asu.cse545.group12.domain.AccessControl</value>
+                <value>com.asu.cse545.group12.domain.SystemAccess</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -157,6 +165,7 @@
         <security:intercept-url pattern="/addUserAccount*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
         <security:intercept-url pattern="/regularEmprequest*" access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
         <security:intercept-url pattern="/regularrequest*" access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+        <security:intercept-url pattern="/systemAccess*" access="hasAnyRole('ADMIN')" />
         <security:intercept-url pattern="/changeUserPassword*" access="isAuthenticated()" />
         <security:intercept-url pattern="/validateSecurityQuestions*" access="permitAll" />
         <security:intercept-url pattern="/setForgetPassword*" access="permitAll" />
@@ -189,7 +198,8 @@
     <bean id="CreateExternalUserValidator" class="com.asu.cse545.group12.validator.CreateExternalUserValidator" />
     <bean id="AccessControlDaoImpl" class="com.asu.cse545.group12.dao.AccessControlDaoImpl" />
 	<bean id="CertificateGeneration" class="com.asu.cse545.group12.pki.CertificateGeneration" />
-	<bean id="CreatePDFForPIIInformation" class="com.asu.cse545.group12.pdf.CreatePDFForPIIInformation" />
+    <bean id="SystemAccessDaoImpl" class="com.asu.cse545.group12.dao.SystemAccessDaoImpl" />
+    <bean id="CreatePDFForPIIInformation" class="com.asu.cse545.group12.pdf.CreatePDFForPIIInformation" />
     <bean id="authenticationProvider" class="com.asu.cse545.group12.authentication.LimitLoginAuthentication" >
         <property name="userDetailsService" ref="userDetailsService" />
         <property name="passwordEncoder" ref="encoder" />

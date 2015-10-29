@@ -336,6 +336,8 @@ public class TransactionController {
 		}
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName(getViewName(username));
+		Users user = userService.getUserByUserName(username);
+		modelView.addObject("userinformation", user.getFirstName()+" "+user.getLastName());
 		return modelView;
 	}
 
