@@ -122,7 +122,7 @@ label {
 								path="user.address">Address</form:label></td>
 						<td><form:textarea rows="3" cols="30" name="address"
 								path="user.address" id="address" data-parsley-required="true"
-								data-parsley-type="[a-zA-Z0-9 #]+" data-parsley-length="[5, 50]"
+								data-parsley-pattern="[a-zA-Z0-9 #]+" data-parsley-length="[5, 50]"
 								data-parsley-length-message="Address should be between 5 to 50 characters" />
 							<form:errors class="alert alert-danger" path="user.address" /></td>
 					</tr>
