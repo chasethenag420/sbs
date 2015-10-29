@@ -237,7 +237,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 	@Override
 	public void sendOTPviaEmail(Users user)
 	{
-		String keypath = "/home/ubuntu/sbskeys1/allkeys/";
+		String keypath = "G:\\keys\\";
 		Encryption encrypt = new Encryption();
 		String OTP = generateOTP();
 		String userName=user.getUserName();

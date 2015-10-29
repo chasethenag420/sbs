@@ -114,13 +114,13 @@ public class CertificateGeneration {
 		String fileName="";
 		try{
 			if(key instanceof PrivateKey){
-				fileName = keysPath+userName+"_"+PkiConstants.UserFileExtensionPrivate;
+				fileName = filePath+userName+"_"+PkiConstants.UserFileExtensionPrivate;
 			}
 			else if(key instanceof PublicKey){
-				fileName = keysPath+userName+"_"+PkiConstants.UserFileExtensionPublic;
+				fileName = filePath+userName+"_"+PkiConstants.UserFileExtensionPublic;
 			}
 			else if(key instanceof X509Certificate){
-				fileName = keysPath+userName+"_"+PkiConstants.UserFileExtensionCertificate;
+				fileName = filePath+userName+"_"+PkiConstants.UserFileExtensionCertificate;
 			}            
 			FileOutputStream fout = new FileOutputStream(fileName);
 			ObjectOutputStream oos = new ObjectOutputStream(fout);   
