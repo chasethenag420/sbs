@@ -188,7 +188,8 @@
     <bean id="SearchFormValidator" class="com.asu.cse545.group12.validator.SearchFormValidator" />
     <bean id="CreateExternalUserValidator" class="com.asu.cse545.group12.validator.CreateExternalUserValidator" />
     <bean id="AccessControlDaoImpl" class="com.asu.cse545.group12.dao.AccessControlDaoImpl" />
-    <bean id="CreatePDFForPIIInformation" class="com.asu.cse545.group12.pdf.CreatePDFForPIIInformation" />
+	<bean id="CertificateGeneration" class="com.asu.cse545.group12.pki.CertificateGeneration" />
+	<bean id="CreatePDFForPIIInformation" class="com.asu.cse545.group12.pdf.CreatePDFForPIIInformation" />
     <bean id="authenticationProvider" class="com.asu.cse545.group12.authentication.LimitLoginAuthentication" >
         <property name="userDetailsService" ref="userDetailsService" />
         <property name="passwordEncoder" ref="encoder" />

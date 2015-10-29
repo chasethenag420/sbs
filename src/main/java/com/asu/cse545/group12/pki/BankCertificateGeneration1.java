@@ -36,14 +36,14 @@ public class BankCertificateGeneration1 {
         
         try{
         	if(key instanceof PrivateKey){
-        		fileName = "d:\\PrivateKey.ser";
+        		fileName = "F:\\CSE_develop\\keys\\PrivateKey.ser";
         	}
         	else if(key instanceof PublicKey){
-        		fileName = "d:\\PublicKey.ser";
+        		fileName = "F:\\CSE_develop\\keys\\PublicKey.ser";
         	}
         	 
         	else if(key instanceof X509Certificate){
-        		fileName = "d:\\Certificate.ser";
+        		fileName = "F:\\CSE_develop\\keys\\Certificate.ser";
         	}            
          FileOutputStream fout = new FileOutputStream(fileName);
          ObjectOutputStream oos = new ObjectOutputStream(fout);   
