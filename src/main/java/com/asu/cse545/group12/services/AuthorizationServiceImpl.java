@@ -84,13 +84,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		// based on type of transaction trigger relevant action
 		if (Const.SIGNUP_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
-			
+
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			String requesterUsername = requestor.getUserName();
 			CertificateGeneration certGen = new CertificateGeneration();
 			String attachments[] = certGen.certificateGeneration(requesterUsername);
 			certGen.sendNotificationEmail(requestor, attachments);
-			
+
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus(Const.APPROVED);
 			authorization.setAssignedToRole(approver.getRoleId());
@@ -103,7 +103,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			//*************************************************************************************************************/
 			requestor.setUserStatus(Const.ACTIVE);
 			userDao.updateRow(requestor);
-			
+
 			// create an account for this user by default checkings
 			accountService.insertRow(requestor.getUserId());
 
@@ -124,7 +124,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			authorization.setRequestStatus(Const.APPROVED);
 			authorization.setAssignedToRole(approver.getRoleId());
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
@@ -152,7 +152,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			authorization.setRequestStatus(Const.APPROVED);
 			authorization.setAssignedToRole(approver.getRoleId());
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 
@@ -175,7 +175,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			authorization.setRequestStatus(Const.APPROVED);
 			authorization.setAssignedToRole(approver.getRoleId());
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 
@@ -220,7 +220,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			authorization.setRequestStatus(Const.APPROVED);
 			authorization.setAssignedToRole(approver.getRoleId());
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 			int approvedToUserId = authorization.getAuthorizedToUserId();
@@ -269,7 +269,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public List<Authorization> getNotifications(Users user) {
-		// TODO Auto-generated method stub 
+		// TODO Auto-generated method stub
 		logger.debug("INSIDE THE GET NOTIF WITH USER:" + user.getRoleId());
 		if("1".equals(user.getRoleId().toString()))
 		{
@@ -311,7 +311,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			authorization.setRequestStatus(Const.REJECT);
 			authorization.setAssignedToRole(approver.getRoleId());
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 
@@ -321,10 +321,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		} else if (Const.CREDIT_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
 			authorization.setAuthorizedByUserId(approver.getUserId());
-			authorization.setRequestStatus(Const.REJECT);			
+			authorization.setRequestStatus(Const.REJECT);
 			authorization.setAssignedToRole(approver.getRoleId());
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 
@@ -348,7 +348,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			authorization.setRequestStatus(Const.REJECT);
 			authorization.setAssignedToRole(approver.getRoleId());
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 
@@ -370,7 +370,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			authorization.setRequestStatus(Const.REJECT);
 			authorization.setAssignedToRole(approver.getRoleId());
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 
@@ -412,7 +412,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			authorization.setRequestStatus(Const.REJECT);
 			authorization.setAssignedToRole(approver.getRoleId());
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 		}
@@ -458,7 +458,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		authorizationRequest.setRequestDescription("Approval for account creation");
 		authorizationRequest.setRequestType(Const.SIGNUP_REQUEST);
 
-		//SETTNG THE ROLE ID TO MANAGER 
+		//SETTNG THE ROLE ID TO MANAGER
 		int roleid = 4;//roleDao.getRoleid(Const.MANAGER);
 		authorizationRequest.setAssignedToRole(roleid);
 
@@ -516,7 +516,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			newAuthorization.setRequestType(Const.TRANSFER_REQUEST);
 			newAuthorization.setRequestStatus(Const.PENDING);
 
-			//SETTNG THE ROLE ID TO Manager USER 
+			//SETTNG THE ROLE ID TO Manager USER
 			int roleid = roleDao.getRoleid(Const.MANAGER);
 			newAuthorization.setAssignedToRole(roleid);
 
@@ -525,7 +525,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 
 			//*************************************************************************************************************/
-			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database 
+			//ADDED THIS CODE TO MAKE THE ABOVE UPDATES IN THE authorization object reflect in the database
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
 
@@ -541,7 +541,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public List<Authorization> getApprovedPendingNotifications(Users user)
 	{
 
-		// TODO Auto-generated method stub 
+		// TODO Auto-generated method stub
 		logger.debug("INSIDE THE GET NOTIF WITH USER:" + user.getRoleId());
 		if("1".equals(user.getRoleId().toString()))
 		{
@@ -574,7 +574,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		return authorizationDao.getAccessControlToView(touser, roleID);
 	}
 
-	public List<AccessControl> getAccessControlToModify(int touser, int roleID ) 
+	public List<AccessControl> getAccessControlToModify(int touser, int roleID )
 	{
 		return authorizationDao.getAccessControlToModify(touser, roleID);
 	}
@@ -630,13 +630,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 					{
 						for(Users user: tempUserList)
 						{
-							logger.debug("****************approvePIINotification: SSN "+user.getUserpii().getSsn() );
-							if(passwordEncoder.matches(hashedSSN, user.getUserpii().getSsn()))
-							{
-								foundUser = user;
-								logger.debug("****************approvePIINotification: Found user" );
-								break;
-							}
+						if(user.getUserpii()!=null && passwordEncoder.matches(hashedSSN, user.getUserpii().getSsn()))
+						{
+							foundUser = user;
+							break;
+						}
 						}
 					}
 					if(foundUser != null)
@@ -656,7 +654,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 						//FileInputStream inputStream = new FileInputStream(temperotyFilePath+"\\"+fileName);
 
 						FileSystemResource file = new FileSystemResource(temperotyFilePath+"\\"+fileName);
-						EmailSender.sendPIIEmail(governmentUser, foundUser, file);	
+						EmailSender.sendPIIEmail(governmentUser, foundUser, file);
 					}
 					else
 					{
@@ -669,7 +667,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				e.printStackTrace();
 			}
 
-		} 
+		}
 
 		return authorizationId;
 

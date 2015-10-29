@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.domain.Users;
 
 public class UserloginDetailsDaoImpl implements UserloginDetailsDao{
@@ -32,7 +33,7 @@ public class UserloginDetailsDaoImpl implements UserloginDetailsDao{
 		 }
 		 else
 		 {
-			 user.setUserStatus("inactive");
+			 user.setUserStatus(Const.INACTIVE);
 			 session.update(user);
 			 Transaction tx = session.beginTransaction();
 			 tx.commit();
