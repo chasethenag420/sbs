@@ -93,13 +93,23 @@ public class RegularUserController {
 		modelView.setViewName("profile");
 		HttpSession session = request.getSession(false);
 		String username=(String)session.getAttribute("username");
-		Users user = new Users();
-		user=userService.getUserByUserName(username);
-		System.out.println(user.getUserName());
-		modelView.addObject("user", user);
+		if(username == null || username.equals(""))
+		{
+			//ModelAndView modelView= new ModelAndView();
+			modelView.addObject("error", "User does not exit. Enter valid username");
 
-		//validate the input data
-		return modelView;
+			modelView.setViewName("login");
+			return modelView;
+		}
+		else{
+			Users user = new Users();
+			user=userService.getUserByUserName(username);
+			System.out.println(user.getUserName());
+			modelView.addObject("user", user);
+	
+			//validate the input data
+			return modelView;
+		}
 	}
 
 	@RequestMapping(value="/searchTransaction")

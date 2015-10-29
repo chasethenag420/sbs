@@ -47,19 +47,28 @@ public class NotificationController {
 
 		HttpSession session = request.getSession(false);
 		String username=(String)session.getAttribute("username");
+		if(username == null || username.equals(""))
+		{
+			ModelAndView modelView= new ModelAndView();
+			modelView.addObject("error", "User does not exit. Enter valid username");
 
-		Users user = new Users();
-		user=userService.getUserByUserName(username);
-
-		ModelAndView notificationView = new ModelAndView();
-
-		notificationView.addObject("form", new Form());
-		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
-
-		logger.debug("**********************************Authorizations: "+authorizationService.getNotifications(user));
-		notificationView.addObject("approvedNotificationRows", authorizationService.getApprovedPendingNotifications(user));
-		notificationView.setViewName("notifications");
-		return notificationView;
+			modelView.setViewName("login");
+			return modelView;
+		}
+		else{
+			Users user = new Users();
+			user=userService.getUserByUserName(username);
+	
+			ModelAndView notificationView = new ModelAndView();
+	
+			notificationView.addObject("form", new Form());
+			notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
+	
+			logger.debug("**********************************Authorizations: "+authorizationService.getNotifications(user));
+			notificationView.addObject("approvedNotificationRows", authorizationService.getApprovedPendingNotifications(user));
+			notificationView.setViewName("notifications");
+			return notificationView;
+		}
 	}
 
 	@RequestMapping(value = "approvenotification", method = RequestMethod.POST)
@@ -69,85 +78,103 @@ public class NotificationController {
 		}
 		HttpSession session = request.getSession(false);
 		String username=(String)session.getAttribute("username");
-
-		Users user = new Users();
-		user=userService.getUserByUserName(username);
-
-		Map<String, String> formMap=form.getMap();
-		if(logger.isDebugEnabled()){
-			logger.debug("***************************************************authorizationId in notifications: "+ formMap.get("authorizationId"));
-		}
-		Integer authorizationId= Integer.parseInt(formMap.get("authorizationId"));
-		if(logger.isDebugEnabled()){
-			logger.debug("***************************************************username in notifications: "+ username);
-		}
-		ModelAndView notificationView = new ModelAndView();
-
-		//Integer authorizationId= Integer.parseInt((String)modelMap.get("authorizationId"));
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("Request Approved by:"+ username);
-			logger.debug("Authorization Request Number is:"+ username);
-		}
-
-		/*
-		 * If the approver is Merchant and authorization is for transfer i.e. merchant payment from customer.
-		 * Then handle the approving differently than usual.
-		 */
-		Authorization authorization =  authorizationService.getAuthorizationByAuthorizationId(authorizationId);
-		if(authorization != null && user.getRoleId() == 2 && authorization.getRequestType().equals(Const.TRANSFER_REQUEST) )
+		if(username == null || username.equals(""))
 		{
-			authorizationService.approveTransferByMerchant(authorizationId, username);
+			ModelAndView modelView= new ModelAndView();
+			modelView.addObject("error", "User does not exit. Enter valid username");
 
+			modelView.setViewName("login");
+			return modelView;
 		}
-		else
-		{
-			// ********************************************************************************
-			// Have to get the Internal User Who clicked on the APPROVE button along
-			// with authorization Object()
-			// ********************************************************************************
-			
-			if(user != null && user.getRoleId()==5 && authorization != null && authorization.getRequestType().equalsIgnoreCase(Const.PII_ACCESS))
+		else{
+			Users user = new Users();
+			user=userService.getUserByUserName(username);
+	
+			Map<String, String> formMap=form.getMap();
+			if(logger.isDebugEnabled()){
+				logger.debug("***************************************************authorizationId in notifications: "+ formMap.get("authorizationId"));
+			}
+			Integer authorizationId= Integer.parseInt(formMap.get("authorizationId"));
+			if(logger.isDebugEnabled()){
+				logger.debug("***************************************************username in notifications: "+ username);
+			}
+			ModelAndView notificationView = new ModelAndView();
+	
+			//Integer authorizationId= Integer.parseInt((String)modelMap.get("authorizationId"));
+			//logs debug message
+			if(logger.isDebugEnabled()){
+				logger.debug("Request Approved by:"+ username);
+				logger.debug("Authorization Request Number is:"+ username);
+			}
+	
+			/*
+			 * If the approver is Merchant and authorization is for transfer i.e. merchant payment from customer.
+			 * Then handle the approving differently than usual.
+			 */
+			Authorization authorization =  authorizationService.getAuthorizationByAuthorizationId(authorizationId);
+			if(authorization != null && user.getRoleId() == 2 && authorization.getRequestType().equals(Const.TRANSFER_REQUEST) )
 			{
-				authorizationService.approvePIINotification(authorizationId, username, request, response);
+				authorizationService.approveTransferByMerchant(authorizationId, username);
+	
 			}
 			else
 			{
-				authorizationService.approve(authorizationId, username);
+				// ********************************************************************************
+				// Have to get the Internal User Who clicked on the APPROVE button along
+				// with authorization Object()
+				// ********************************************************************************
+				
+				if(user != null && user.getRoleId()==5 && authorization != null && authorization.getRequestType().equalsIgnoreCase(Const.PII_ACCESS))
+				{
+					authorizationService.approvePIINotification(authorizationId, username, request, response);
+				}
+				else
+				{
+					authorizationService.approve(authorizationId, username);
+				}
 			}
-		}
-		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
-		notificationView.addObject("authorizationId", new Integer(0));
-		notificationView.setViewName(getViewName(username));
+			notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
+			notificationView.addObject("authorizationId", new Integer(0));
+			notificationView.setViewName(getViewName(username));
 
 		return notificationView;
+		}
 	}
 
 	@RequestMapping(value = "rejectnotification", method = RequestMethod.POST)
 	public ModelAndView rejectRequest(@ModelAttribute("form") Form form, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
+		if(username == null || username.equals(""))
+		{
+			ModelAndView modelView= new ModelAndView();
+			modelView.addObject("error", "User does not exit. Enter valid username");
 
-		Users user = new Users();
-		user=userService.getUserByUserName(username);
-
-		// logs debug message
-		if (logger.isDebugEnabled()) {
-			logger.debug("Notificatio Reject page is requested");
+			modelView.setViewName("login");
+			return modelView;
 		}
-		Map<String, String> formMap = form.getMap();
-		Integer authorizationId = Integer.parseInt(formMap.get("authorizationId"));
-
-		ModelAndView notificationView = new ModelAndView();
-		// ********************************************************************************
-		// GET THE VALUES FROM THE getNotifications() method from the
-		// AuthorizationDao
-		// ********************************************************************************
-		authorizationService.reject(authorizationId, username);
-		notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
-		//authorizationService.reject(authorizationId, username);
-		notificationView.setViewName(getViewName(username));
-		return notificationView;
+		else{
+			Users user = new Users();
+			user=userService.getUserByUserName(username);
+	
+			// logs debug message
+			if (logger.isDebugEnabled()) {
+				logger.debug("Notificatio Reject page is requested");
+			}
+			Map<String, String> formMap = form.getMap();
+			Integer authorizationId = Integer.parseInt(formMap.get("authorizationId"));
+	
+			ModelAndView notificationView = new ModelAndView();
+			// ********************************************************************************
+			// GET THE VALUES FROM THE getNotifications() method from the
+			// AuthorizationDao
+			// ********************************************************************************
+			authorizationService.reject(authorizationId, username);
+			notificationView.addObject("notificationRows", authorizationService.getNotifications(user));
+			//authorizationService.reject(authorizationId, username);
+			notificationView.setViewName(getViewName(username));
+			return notificationView;
+		}
 	}
 
 /*	@RequestMapping(value = "forwardnotification", method = RequestMethod.POST)

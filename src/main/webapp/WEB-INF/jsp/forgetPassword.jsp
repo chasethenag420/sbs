@@ -71,7 +71,7 @@ label {
 						<td style="white-space: nowrap"><form:label for="email"
 								path="map['email']">Registered Email</form:label></td>
 						<td><form:input type="email" path="map['email']" name="email"
-								data-parsley-type="email" id="email"
+								data-parsley-required="true" data-parsley-type="email" id="email"
 								data-parsley-length="[1, 25]" /></td>
 					</tr>
 					<tr>

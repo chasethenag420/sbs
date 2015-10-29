@@ -83,6 +83,15 @@ public class IndividualUserController {
 		}
 
 		String username = (String) request.getSession().getAttribute("username");
+		if(username == null || username.equals(""))
+		{
+			ModelAndView modelView = new ModelAndView();
+			//modelView.addObject("form", new Form());
+			modelView.addObject("error", "User does not exit. Enter valid username");
+
+			modelView.setViewName("login");
+			return modelView;
+		}
 		Users user = userService.getUserByUserName(username);
 		List<String> accountNumbers = new ArrayList<String>();
 		for (Account account : accountService.getAccounts(user.getUserId())) {
@@ -110,31 +119,42 @@ public class IndividualUserController {
 		
 		
 		String username = (String) request.getSession().getAttribute("username");
-		Users user = userService.getUserByUserName(username);
-		List<String> accountNumbers = new ArrayList<String>();
-		for (Account account : accountService.getAccounts(user.getUserId())) {
-			accountNumbers.add(""+account.getAccountNumber());
-		}
-		if (result.hasErrors()) {
-			modelView.addObject("form", searchform);
-			   modelView.addObject("accounts", accountNumbers);
-			modelView.setViewName("externalsearchtrans");
+		if(username == null || username.equals(""))
+		{
+			//ModelAndView modelView = new ModelAndView();
+			//modelView.addObject("form", new Form());
+			modelView.addObject("error", "User does not exit. Enter valid username");
+
+			modelView.setViewName("login");
 			return modelView;
 		}
-
-		Integer accountNum=searchform.getAccountNumber();
-		List<Transactions> transactions = transactionDao.getTransactionsBetweenDates(searchform.getAccountNumber(), searchform.getFromDate(), searchform.getToDate());
-		//transactionsList=transactionService.searchTransactionByExternals(accountNum, toDate, fromDate);
-		modelView.addObject("transactions", transactions);
-		modelView.addObject("accounts", accountNumbers);
-		modelView.addObject("form", new Searchform());
-		modelView.setViewName("externalsearchtrans");
-		Iterator it =transactions.listIterator();
-		while(it.hasNext())
-		{
-			System.out.println("transactionlist"+it.next());
+		else{
+			Users user = userService.getUserByUserName(username);
+			List<String> accountNumbers = new ArrayList<String>();
+			for (Account account : accountService.getAccounts(user.getUserId())) {
+				accountNumbers.add(""+account.getAccountNumber());
+			}
+			if (result.hasErrors()) {
+				modelView.addObject("form", searchform);
+				   modelView.addObject("accounts", accountNumbers);
+				modelView.setViewName("externalsearchtrans");
+				return modelView;
+			}
+	
+			Integer accountNum=searchform.getAccountNumber();
+			List<Transactions> transactions = transactionDao.getTransactionsBetweenDates(searchform.getAccountNumber(), searchform.getFromDate(), searchform.getToDate());
+			//transactionsList=transactionService.searchTransactionByExternals(accountNum, toDate, fromDate);
+			modelView.addObject("transactions", transactions);
+			modelView.addObject("accounts", accountNumbers);
+			modelView.addObject("form", new Searchform());
+			modelView.setViewName("externalsearchtrans");
+			Iterator it =transactions.listIterator();
+			while(it.hasNext())
+			{
+				System.out.println("transactionlist"+it.next());
+			}
+			return modelView;
 		}
-		return modelView;
 	}
 	
 	
@@ -157,31 +177,41 @@ public class IndividualUserController {
 
 		HttpSession session = request.getSession(false);
 		String requesterusername=(String) session.getAttribute("username");
-		
-		try{
-			
+		if(requesterusername == null || requesterusername.equals(""))
+		{
+			//ModelAndView modelView = new ModelAndView();
+			//modelView.addObject("form", new Form());
+			modelView.addObject("error", "User does not exit. Enter valid username");
 
-			
-			Users requesteruser = userService.getUserByUserName(requesterusername);
-			int requesteruserid = requesteruser.getUserId();
-			if(logger.isDebugEnabled()){
-				logger.debug("requesteruserid: "+requesteruserid);
-			}
-			//set the request to Manager and if the regular has necessary permission he can see it also
-			authorization.setAssignedToRole(4);;
-			authorization.setAuthorizedToUserId(requesteruserid);
-
-			authorization.setRequestStatus(Const.PENDING);
-			authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
-			authorizationService.regularEmpRequest(authorization);	
-			modelView.addObject("message", "Request created successfully");
-			modelView.setViewName(getViewName(requesterusername));
-			// need to write the message that request was successful.
-		}catch(Exception e){
-			e.printStackTrace();
-			modelView.setViewName(getViewName(requesterusername));
+			modelView.setViewName("login");
+			return modelView;
 		}
-		return modelView;
+		else{
+			try{
+				
+	
+				
+				Users requesteruser = userService.getUserByUserName(requesterusername);
+				int requesteruserid = requesteruser.getUserId();
+				if(logger.isDebugEnabled()){
+					logger.debug("requesteruserid: "+requesteruserid);
+				}
+				//set the request to Manager and if the regular has necessary permission he can see it also
+				authorization.setAssignedToRole(4);;
+				authorization.setAuthorizedToUserId(requesteruserid);
+	
+				authorization.setRequestStatus(Const.PENDING);
+				authorization.setRequestCreationTimeStamp(Calendar.getInstance().getTime());
+				authorizationService.regularEmpRequest(authorization);	
+				modelView.addObject("message", "Request created successfully");
+				modelView.setViewName(getViewName(requesterusername));
+				// need to write the message that request was successful.
+			}catch(Exception e){
+				e.printStackTrace();
+				modelView.setViewName(getViewName(requesterusername));
+			}
+			return modelView;
+		}
 
 	}
 	
