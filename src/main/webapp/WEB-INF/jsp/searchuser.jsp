@@ -4,6 +4,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <fmt:setBundle basename="messages" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -52,6 +53,7 @@ label {
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 			<table class="table table-striped" style="width: auto;">
+			<sec:authorize access="hasAnyRole('REGULAR','MANAGER')">
 				<tr>
 					<td style="white-space: nowrap"><form:label for="accountnum"
 							path="map['accountNumber']"> Account Number</form:label></td>
@@ -59,6 +61,7 @@ label {
 							data-parsley-length="[1,10]" 
 							data-parsley-type="digits" /></td>
 				</tr>
+				</sec:authorize>
 				<tr>
 					<td style="white-space: nowrap"><form:label
 							path="map['userName']" for="username">User Name</form:label></td>

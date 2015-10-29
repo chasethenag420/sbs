@@ -139,7 +139,7 @@ public class RegularUserController {
 	}
 
 	@RequestMapping(value="/viewTransaction" ,method = RequestMethod.POST)
-	public ModelAndView viewTransactions(@ModelAttribute("form") Form form) {
+	public ModelAndView viewTransactions(@ModelAttribute("form") Form form,HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("aprove transactions:");
 		}
@@ -156,7 +156,7 @@ public class RegularUserController {
 			Transactions transaction =  transactionDao.getTransactionByTransactionId(transactionId);
 			List<AccessControl> accessControl= authorizationService.getAccessControlToViewTransaction(transaction.getUserId(),3);
 
-			if(transaction!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			if(isManager( request) || transaction!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{
 				model.addObject("transaction",transaction);
 				model.setViewName("viewTransaction");
@@ -168,7 +168,7 @@ public class RegularUserController {
 	}
 
 	@RequestMapping(value="/deleteTransaction" ,method = RequestMethod.POST)
-	public ModelAndView deleteTransactions(@ModelAttribute("form") Form form) {
+	public ModelAndView deleteTransactions(@ModelAttribute("form") Form form,HttpServletRequest request) {
 		if(logger.isDebugEnabled()){
 			logger.debug("aprove transactions:");
 		}
@@ -185,7 +185,7 @@ public class RegularUserController {
 			Transactions transaction =  transactionDao.getTransactionByTransactionId(transactionId);
 			List<AccessControl> accessControl= authorizationService.getAccessControlToDeleteTransaction(transaction.getUserId(),3);
 
-			if(transaction!=null && Const.PENDING.equals(transaction.getTransactionStatus()) && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			if(isManager( request) ||transaction!=null && Const.PENDING.equals(transaction.getTransactionStatus()) && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{	transaction.setTransactionStatus(Const.REJECT);
 				Authorization authorization=authorizationService.getAuthorizationByTransactionId(transactionId);
 				authorization.setRequestStatus(Const.REJECT);
@@ -216,7 +216,7 @@ public class RegularUserController {
 			Integer transactionId = Integer.parseInt(formMap.get("transactionId"));
 			Transactions transaction =  transactionDao.getTransactionByTransactionId(transactionId);
 			List<AccessControl> accessControl= authorizationService.getAccessControlToModifyTransaction(transaction.getUserId(),3);
-			if( transaction!=null && Const.PENDING.equals(transaction.getTransactionStatus()) && transaction!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			if( isManager( request) || transaction!=null && Const.PENDING.equals(transaction.getTransactionStatus()) && transaction!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{
 				request.getSession(false).setAttribute("modifytransactionId",formMap.get("transactionId") );
 				model.addObject("transaction", transaction);
@@ -245,7 +245,7 @@ public class RegularUserController {
 			Integer transactionId = Integer.parseInt((String)request.getSession(false).getAttribute("modifytransactionId"));
 			Transactions transactionDB =  transactionDao.getTransactionByTransactionId(transactionId);
 			List<AccessControl> accessControl= authorizationService.getAccessControlToModifyTransaction(transactionDB.getUserId(),3);
-			if(transactionDB!=null && Const.PENDING.equals(transactionDB.getTransactionStatus()) && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			if(isManager( request) || transactionDB!=null && Const.PENDING.equals(transactionDB.getTransactionStatus()) && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{
 				transactionDB.setAmount(transaction.getAmount());
 				String type="";
@@ -388,6 +388,16 @@ public class RegularUserController {
 		return modelView;
 
 
+	}
+	
+	private boolean isManager(HttpServletRequest request){
+		Users loginUser = userService.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+		if(loginUser != null && loginUser.getRoleId() == 4)
+		{			
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 

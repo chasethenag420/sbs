@@ -59,7 +59,7 @@ label {
 						<td style="white-space: nowrap"><form:label for="fname"
 								path="user.firstName">First Name</form:label></td>
 						<td><form:input path="user.firstName" id="fname" name="fname"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+"
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+"
 								data-parsley-length="[1, 15]" /> <form:errors
 								class="alert alert-danger" path="user.firstName" /></td>
 					</tr>
@@ -67,14 +67,14 @@ label {
 						<td style="white-space: nowrap"><form:label for="mname"
 								path="user.middleName">Middle(M I)</form:label></td>
 						<td><form:input path="user.middleName" id="mname"
-								name="mname" data-parsley-pattern="[a-zA-Z]*"
+								name="mname" data-parsley-pattern="[a-zA-Z ]*"
 								data-parsley-length="[0, 15]" /></td>
 					</tr>
 					<tr>
 						<td style="white-space: nowrap"><form:label
 								path="user.lastName">Last Name</form:label></td>
 						<td><form:input path="user.lastName" id="lname"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+" />
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+" />
 							<form:errors class="alert alert-danger" path="user.lastName"
 								data-parsley-length="[1, 15]" /></td>
 					</tr>
@@ -84,7 +84,7 @@ label {
 								path="user.address">Address</form:label></td>
 						<td><form:textarea rows="3" cols="30" name="address"
 								path="user.address" id="address" data-parsley-required="true"
-								data-parsley-type="alphanum" data-parsley-length="[5, 50]"
+								data-parsley-pattern="[a-zA-Z0-9 #]+" data-parsley-length="[5, 50]"
 								data-parsley-length-message="Address should be between 5 to 50 characters" />
 							<form:errors class="alert alert-danger" path="user.address" /></td>
 					</tr>
@@ -93,7 +93,7 @@ label {
 						<td style="white-space: nowrap"><form:label for="city"
 								path="user.city">City</form:label></td>
 						<td><form:input path="user.city" id="city" name="city"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+"
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+"
 								data-parsley-length="[1, 15]"/> <form:errors
 								class="alert alert-danger" path="user.city" /></td>
 					</tr>
@@ -102,7 +102,7 @@ label {
 						<td style="white-space: nowrap"><form:label for="state"
 								path="user.state">State</form:label></td>
 						<td><form:input name="state" path="user.state" id="state"
-								data-parsley-required="true" data-parsley-pattern="[a-zA-Z]+"
+								data-parsley-required="true" data-parsley-pattern="[a-zA-Z ]+"
 								data-parsley-length="[1, 15]" /> <form:errors
 								class="alert alert-danger" path="user.state" /></td>
 					</tr>
@@ -112,7 +112,7 @@ label {
 								path="user.country">Country</form:label></td>
 						<td><form:input name="country" path="user.country"
 								id="country" data-parsley-required="true"
-								data-parsley-pattern="[a-zA-Z]+" data-parsley-length="[1, 15]"/>
+								data-parsley-pattern="[a-zA-Z ]+" data-parsley-length="[1, 15]"/>
 							<form:errors class="alert alert-danger" path="user.country" /></td>
 					</tr>
 					<tr>
@@ -162,6 +162,7 @@ label {
 	<script src="web_resources/theme/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		$('#update').click(function() {
+			$('#modifyUserForm').parsley().validate();
 			if (true == $('#modifyUserForm').parsley().isValid()) {
 				$('#modifyUserForm').parsley().destroy();
 				$('#modifyUserForm').attr("action", "modifyUserFormDetails");

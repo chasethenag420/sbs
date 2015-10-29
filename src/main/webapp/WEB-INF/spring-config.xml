@@ -131,17 +131,17 @@
         <security:intercept-url pattern="/searchTransactionform*" access="hasAnyRole('REGULAR','MANAGER')" />
         <security:intercept-url pattern="/modifyTransaction*" access="hasAnyRole('REGULAR','MANAGER')" />
         <security:intercept-url pattern="/modifyTransactionForm*" access="hasAnyRole('REGULAR','MANAGER')" />
-        <security:intercept-url pattern="/modifyUserForm*" access="hasAnyRole('REGULAR','MANAGER')" />
-        <security:intercept-url pattern="/modifyUserFormDetails*" access="hasAnyRole('REGULAR','MANAGER')" />
-        <security:intercept-url pattern="/searchuser*" access="hasAnyRole('REGULAR','MANAGER')" />
-        <security:intercept-url pattern="/getuserlist*" access="hasAnyRole('REGULAR','MANAGER')" />
+        <security:intercept-url pattern="/modifyUserForm*" access="hasAnyRole('REGULAR','MANAGER','ADMIN')" />
+        <security:intercept-url pattern="/modifyUserFormDetails*" access="hasAnyRole('REGULAR','MANAGER','ADMIN')" />
+        <security:intercept-url pattern="/searchuser*" access="hasAnyRole('REGULAR','MANAGER','ADMIN')" />
+        <security:intercept-url pattern="/getuserlist*" access="hasAnyRole('REGULAR','MANAGER','ADMIN')" />
         <security:intercept-url pattern="/raiseInternalRequest*" access="hasAnyRole('REGULAR')" />
         <security:intercept-url pattern="/raiseExternalRequest*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
         <security:intercept-url pattern="/externalrequest*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
-        <security:intercept-url pattern="/viewExternalprofileform*" access="hasAnyRole('REGULAR','MANAGER')" />
-        <security:intercept-url pattern="/deleteUser*" access="hasAnyRole('REGULAR','MANAGER')" />
+        <security:intercept-url pattern="/viewExternalprofileform*" access="hasAnyRole('REGULAR','MANAGER','ADMIN')" />
+        
+        <security:intercept-url pattern="/deleteUser*" access="hasAnyRole('REGULAR','MANAGER','ADMIN')" />
         <security:intercept-url pattern="/regularrequest*" access="hasAnyRole('REGULAR')" />
-        <security:intercept-url pattern="/getmodifyuserview*" access="hasAnyRole('MANAGER')" />
         <security:intercept-url pattern="/searchUser*" access="hasAnyRole('REGULAR','MANAGER','ADMIN')" />
         <security:intercept-url pattern="/signUpOTP*" access="permitAll" />
         <security:intercept-url pattern="/transfer*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />

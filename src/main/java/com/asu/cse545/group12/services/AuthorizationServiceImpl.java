@@ -84,7 +84,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		// based on type of transaction trigger relevant action
 		if (Const.SIGNUP_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
-				
+
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus(Const.APPROVED);
 			authorization.setAssignedToRole(approver.getRoleId());
@@ -627,14 +627,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 					if(tempUserList!=null)
 					{
 						for(Users user: tempUserList)
+						{	
+						if(user.getUserpii()!=null && passwordEncoder.matches(hashedSSN, user.getUserpii().getSsn()))
 						{
-							logger.debug("****************approvePIINotification: SSN "+user.getUserpii().getSsn() );
-							if(passwordEncoder.matches(hashedSSN, user.getUserpii().getSsn()))
-							{
-								foundUser = user;
-								logger.debug("****************approvePIINotification: Found user" );
-								break;
-							}
+							foundUser = user;
+							break;
+						}
 						}
 					}
 					if(foundUser != null)

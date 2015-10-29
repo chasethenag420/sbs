@@ -83,7 +83,7 @@ public class SearchUserController {
 				if(loginUser != null && loginUser.getRoleId() == 5)
 				{
 					//for admin give only internal bank employee
-					if(user.getRoleId() == 3 || user.getRoleId() == 4 || user.getRoleId() == 5)
+					if(user.getRoleId() == 3 || user.getRoleId() == 4 || user.getRoleId() == 5 || user.getRoleId() == 6)
 					{
 						userList.add(user);
 					}
@@ -106,7 +106,7 @@ public class SearchUserController {
 					if(loginUser != null && loginUser.getRoleId() == 5)
 					{
 						//for admin give only internal bank employee
-						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5 || tempUserList.get(i).getRoleId() == 6))
 							userList.add(tempUserList.get(i));
 					}
 					else
@@ -126,7 +126,7 @@ public class SearchUserController {
 					if(loginUser != null && loginUser.getRoleId() == 5)
 					{
 						//for admin give only internal bank employee
-						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5|| tempUserList.get(i).getRoleId() == 6))
 							userList.add(tempUserList.get(i));
 					}
 					else
@@ -146,7 +146,7 @@ public class SearchUserController {
 					if(loginUser != null && loginUser.getRoleId() == 5)
 					{
 						//for admin give only internal bank employee
-						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5|| tempUserList.get(i).getRoleId() == 6))
 							userList.add(tempUserList.get(i));
 					}
 					else
@@ -166,7 +166,7 @@ public class SearchUserController {
 					if(loginUser != null && loginUser.getRoleId() == 5)
 					{
 						//for admin give only internal bank employee
-						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5))
+						if(tempUserList.get(i)!= null && (tempUserList.get(i).getRoleId() == 3 || tempUserList.get(i).getRoleId() == 4 || tempUserList.get(i).getRoleId() == 5|| tempUserList.get(i).getRoleId() == 6))
 							userList.add(tempUserList.get(i));
 					}
 					else
@@ -257,7 +257,7 @@ public class SearchUserController {
 
 			//List<Authorization> authorizationList = authorizationService.getAuthorizedNotifications(requesterUserId, requesttoUserId, "VIEWPROFILE","APPROVED");
 			List<AccessControl> accessControl= authorizationService.getAccessControlToView(requesttoUserId,3); 
-			if(user!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			if(isAdmin(request) || isManager(request)||user!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{
 				model.addObject("user",user);
 				model.setViewName("viewExternalprofile");
@@ -293,7 +293,7 @@ public class SearchUserController {
 			Users user= userDao.getUserByUserId(userId);
 			List<AccessControl> accessControl= authorizationService.getAccessControlToModify(userId,3); 
 
-			if(user!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			if(isAdmin(request) ||isManager(request)|| user!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{
 				request.getSession(false).setAttribute("modifyuserId",formMap.get("userId") );
 				modelView.addObject("user", user);
@@ -324,7 +324,7 @@ public class SearchUserController {
 			List<AccessControl> accessControl= authorizationService.getAccessControlToModify(userId,3); 
 			Users userDB = userDao.getUserByUserId(userId);		
 
-			if(userDB !=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			if(isAdmin(request) || isManager(request)||userDB !=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{
 
 				userDB.setFirstName(user.getFirstName());
@@ -372,7 +372,7 @@ public class SearchUserController {
 			Users user= userDao.getUserByUserId(userId);
 			List<AccessControl> accessControl= authorizationService.getAccessControlToDelete(userId,3); 
 
-			if(user!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
+			if(isAdmin(request) || isManager(request)|| user!=null && accessControl != null && !accessControl.isEmpty() && accessControl.size()==1)
 			{
 				request.getSession(false).setAttribute("modifyuserId",formMap.get("userId") );
 				userservice.deActivateUserByUserId(userId);
@@ -402,6 +402,24 @@ public class SearchUserController {
 			return "admin";
 		} else
 			return "404";
+	}
+	private boolean isAdmin(HttpServletRequest request){
+		Users loginUser = userservice.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+		if(loginUser != null && loginUser.getRoleId() == 5)
+		{			
+			return true;
+		}else{
+			return false;
+		}
+	}
+	private boolean isManager(HttpServletRequest request){
+		Users loginUser = userservice.getUserByUserName((String)request.getSession(false).getAttribute("username"));
+		if(loginUser != null && loginUser.getRoleId() == 4)
+		{			
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 }
