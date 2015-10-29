@@ -237,10 +237,14 @@ public class TransactionsServiceImpl implements TransactionsService {
 	@Override
 	public void sendOTPviaEmail(Users user)
 	{
+		String keypath = "G:\\keys\\";
 		Encryption encrypt = new Encryption();
 		String OTP = generateOTP();
 		String userName=user.getUserName();
-		String encryptedOTP=encrypt.doEncrypt(OTP, "d:\\"+userName+"PublicKey.ser");
+		String encryptedOTP=encrypt.doEncrypt(OTP, keypath+userName+"_PublicKey.ser");
+		if(logger.isDebugEnabled()){
+			logger.debug("*********************************** Encrypted OTP:"+encryptedOTP);
+		}
 		user.setOTP(OTP);
 		userDao.updateRow(user);
 		
