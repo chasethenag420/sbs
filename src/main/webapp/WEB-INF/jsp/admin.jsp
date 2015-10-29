@@ -48,7 +48,7 @@
 								class="glyphicon glyphicon-chevron-right"></span> Create Employee</a></li>
 						<li id="searchuser"><a href="searchuser"><span
 								class="glyphicon glyphicon-chevron-right"></span> Search Employee</a></li>
-						<li id="systemLog"><a href="#"><span
+						<li id="systemAccess"><a href="systemAccess"><span
 								class="glyphicon glyphicon-chevron-right"></span> System Log</a></li>
 						<li id="notifications"><a href="notifications"><span
 								class="glyphicon glyphicon-chevron-right"></span> Notifications</a></li>
