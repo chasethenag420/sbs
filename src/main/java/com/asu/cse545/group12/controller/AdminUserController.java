@@ -102,7 +102,7 @@ public class AdminUserController {
 			ModelAndView modelView = new ModelAndView();
 			modelView.addObject("user", user);
 			modelView.setViewName("createEmployee");
-			//modelView.addObject("message", result.toString());
+			modelView.addObject("message", "There are some errors in the input");
 			return modelView;
 		} else {		
 
