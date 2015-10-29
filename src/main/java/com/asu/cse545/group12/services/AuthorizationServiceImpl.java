@@ -84,7 +84,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		// based on type of transaction trigger relevant action
 		if (Const.SIGNUP_REQUEST.equals(authorization.getRequestType())) {
 			Users approver = userDao.getUserByUserName(userName);
-				
+			
+			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
+			String requesterUsername = requestor.getUserName();
+			CertificateGeneration certGen = new CertificateGeneration();
+			String attachments[] = certGen.certificateGeneration(requesterUsername);
+			certGen.sendNotificationEmail(requestor, attachments);
+			
 			authorization.setAuthorizedByUserId(approver.getUserId());
 			authorization.setRequestStatus(Const.APPROVED);
 			authorization.setAssignedToRole(approver.getRoleId());
@@ -95,13 +101,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			authorizationDao.updateRow(authorization);
 			//*************************************************************************************************************/
-			Users requestor = userDao.getUserByUserId(authorization.getAuthorizedToUserId());
 			requestor.setUserStatus(Const.ACTIVE);
 			userDao.updateRow(requestor);
-			String requesterUsername = requestor.getUserName();
-			CertificateGeneration certGen = new CertificateGeneration();
-			String attachments[] = certGen.certificateGeneration(requesterUsername);
-			certGen.sendNotificationEmail(userName, attachments);
+			
 			// create an account for this user by default checkings
 			accountService.insertRow(requestor.getUserId());
 

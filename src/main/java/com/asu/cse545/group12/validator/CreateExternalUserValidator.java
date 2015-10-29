@@ -177,15 +177,18 @@ public class CreateExternalUserValidator implements Validator{
 		{
 			String middleName = user.getMiddleName();
 
-			if(middleName!=null && !middleName.matches("[A-Za-z ]+"))
+			if(middleName!=null && !"".equals(middleName)&& !middleName.matches("[A-Za-z ]+"))
 			{
-				errors.rejectValue("middleName", "not-string", "Enter only alphabetic Middle Name");
-			}
-			else
-			{
-				if(middleName!=null && !(middleName.length()>=0 && middleName.length()<16))
+				if(middleName!=null && !middleName.matches("[A-Za-z ]+"))
 				{
-					errors.rejectValue("middleName", "not-string", "Length of Middle Name must be between 0 and 15");
+					errors.rejectValue("middleName", "not-string", "Enter only alphabetic Middle Name");
+				}
+				else
+				{
+					if(middleName!=null && !(middleName.length()>=0 && middleName.length()<16))
+					{
+						errors.rejectValue("middleName", "not-string", "Length of Middle Name must be between 0 and 15");
+					}
 				}
 			}
 

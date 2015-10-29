@@ -39,6 +39,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.codec.Base64;
 
+import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.pki.PKIConstants.PkiConstants;
 import com.asu.cse545.group12.services.UserService;
 
@@ -60,10 +61,10 @@ public class CertificateGeneration {
 		private List<JavaMailSender> mailSenderList;
 		public static String[] attachments= new String[3];
 		public static int i=0;
-	    public String decryptCustomerMessage(String message){
+	    public String decryptCustomerMessage(Users user, String message){
 	    	String text="";
 	    	try{
-	    		String filePath = "src/main/webapp/WEB-INF/keys/PrivateKey.ser";
+	    		String filePath = "/home/ubuntu/sbskeys1/allkeys/"+user.getUserName()+"_"+"PrivateKey.ser";
 	    		PrivateKey privateKey = (PrivateKey)deserializeSecurityObject(filePath);
 	    		text=decrypt(message,privateKey);    	}
 	    	catch(Exception ex){
@@ -72,10 +73,10 @@ public class CertificateGeneration {
 	    	return text;    	
 	    }
 	    
-	    public String ecryptCustomerMessage(String userName, String message){
+	    public String ecryptCustomerMessage(Users user, String message){
 	    	String text="";    	
 	    	try{
-	    		String filePath = "d:\\"+userName+"PublicKey.ser"; 
+	    		String filePath = "/home/ubuntu/sbskeys1/allkeys/"+user.getUserName()+"_"+"PublicKey.ser"; 
 	    		PublicKey publicKey = (PublicKey)deserializeSecurityObject(filePath);
 	    		text = encrypt(message,publicKey);
 	    	}
@@ -87,7 +88,7 @@ public class CertificateGeneration {
 	    
 	    public static String[] certificateGeneration(String userName){
 	    	try{       	
-	       X509Certificate bankCertificate = (X509Certificate)deserializeSecurityObject("d:\\Certificate.ser");      
+	       X509Certificate bankCertificate = (X509Certificate)deserializeSecurityObject("/home/ubuntu/sbskeys1/allkeys/Certificate.ser");      
 	       CertAndKeyGen keyGen=new CertAndKeyGen("RSA","SHA1WithRSA",null);
 	       keyGen.generate(1024);
 	       PrivateKey userPrivateKey=keyGen.getPrivateKey();      
@@ -111,13 +112,13 @@ public class CertificateGeneration {
 	        String fileName="";
 	        try{
 	        	if(key instanceof PrivateKey){
-	        		fileName = "d:\\"+userName+PkiConstants.UserFileExtensionPrivate;
+	        		fileName = "/home/ubuntu/sbskeys1/allkeys/"+userName+"_"+PkiConstants.UserFileExtensionPrivate;
 	        	}
 	        	else if(key instanceof PublicKey){
-	        		fileName = "d:\\"+userName+PkiConstants.UserFileExtensionPublic;
+	        		fileName = "/home/ubuntu/sbskeys1/allkeys/"+userName+"_"+PkiConstants.UserFileExtensionPublic;
 	        	}
 	        	else if(key instanceof X509Certificate){
-	        		fileName = "d:\\"+userName+PkiConstants.UserFileExtensionCertificate;
+	        		fileName = "/home/ubuntu/sbskeys1/allkeys/"+userName+"_"+PkiConstants.UserFileExtensionCertificate;
 	        	}            
 	         FileOutputStream fout = new FileOutputStream(fileName);
 	         ObjectOutputStream oos = new ObjectOutputStream(fout);   
@@ -184,17 +185,26 @@ public class CertificateGeneration {
 	        return null;
 	    }
 	   
-	    public  void sendNotificationEmail(String userName, String attachments[]){
+	    public  void sendNotificationEmail(Users requester, String attachments[])
+	    {
 	    	String host = "smtp.gmail.com";
 	        String port = "587";
 	        String mailFrom = "	bankoftempe@gmail.com";
 	        String password = "bankoftempe12";
 	        //String email 
 	        // message info
-	        String mailTo = "jvankine@asu.edu";
-	        String subject = "hello";
-	        String message = "I have some attachments for you.";
-	         
+	        String mailTo = requester.getUserName();
+	        String subject = "Account Creation Success - Secure your Key File in a safe location";
+	        String message = "Dear "+ requester.getFirstName() + "\n\n Your Account has been created. \n\nSave the attached file at a secure location. This file is needed to decrypt the OTP during login";
+
+	        String usageInstr1 = "\n1.Download and save the file in some location.(File name will be of the format USERNAME_PrivateKey.ser";
+	        String usageInstr2 = "\n2.While doing Transactions(Credit,Debit,Transfer,Pay Merchant etc) an OTP will be sent in an encrypted Format.";
+	        String usageInstr3 = "\n3.ON the OTP page a downloadable executable(Download Decoder) is present which will be downloaded on clicking it.";
+	        String usageInstr4 = "\n4.Copy paste the encrypted OTP tab and also give full path of the KeyFile along with the KeyFile name";
+	        String usageInstr5 = "\n5.On clicking Decrypt, you will get plain text OTP, use it to validate the OTP";
+	        String usageInstr6 = "\n\n\n Regards,\nBankofTempe";
+	        	        
+	        message = message+usageInstr1+usageInstr2+usageInstr3+usageInstr4+usageInstr5+usageInstr6;
 	      //   String[] attachFiles= new String[2];
 	         
 	         
