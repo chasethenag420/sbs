@@ -165,6 +165,7 @@
         <security:intercept-url pattern="/addUserAccount*" access="hasAnyRole('INDIVIDUAL','MERCHANT')" />
         <security:intercept-url pattern="/regularEmprequest*" access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
         <security:intercept-url pattern="/regularrequest*" access="hasAnyRole('REGULAR,MANAGER,ADMIN')" />
+        <security:intercept-url pattern="/systemAccess*" access="hasAnyRole('ADMIN')" />
         <security:intercept-url pattern="/changeUserPassword*" access="isAuthenticated()" />
         <security:intercept-url pattern="/validateSecurityQuestions*" access="permitAll" />
         <security:intercept-url pattern="/setForgetPassword*" access="permitAll" />
