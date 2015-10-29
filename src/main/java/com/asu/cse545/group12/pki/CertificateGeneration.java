@@ -139,7 +139,7 @@ public class CertificateGeneration {
 	              
 	            byte[] inCertBytes = certificate.getTBSCertificate();
 	            X509CertInfo info = new X509CertInfo(inCertBytes);
-	            info.set(X509CertInfo.ISSUER, (X500Name) issuer);              
+	            info.set(X509CertInfo.ISSUER, issuer);              
 	            if(!certificate.getSubjectDN().getName().equals("CN=BankOfTempe")){
 	                CertificateExtensions exts=new CertificateExtensions();
 	                BasicConstraintsExtension bce = new BasicConstraintsExtension(true, -1);
@@ -319,7 +319,7 @@ public class CertificateGeneration {
 	private static void writeCertificate(String userName, String certificate){        
 	     
 	    System.out.println(certificate);
-	        String filename = "d:\\" + userName + "_Certificate.txt";
+	        String filename = "/home/ubuntu/sbskeys1/allkeys/" + userName + "_Certificate.txt";
 	       
 	        try {
 	            FileWriter fileWriter = new FileWriter(filename);
