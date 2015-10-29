@@ -58,7 +58,7 @@ public class CertificateGeneration {
 	@Autowired
 	UserService  userService;
 
-	String keysPath="/home/ubuntu/sbskeys1/allkeys/";
+	private static String keysPath="/home/ubuntu/sbskeys1/allkeys/";
 
 	private List<JavaMailSender> mailSenderList;
 	public static String[] attachments= new String[3];
