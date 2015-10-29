@@ -19,9 +19,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
+
 import javax.crypto.Cipher;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -65,7 +63,7 @@ public class CertificateGeneration {
 	    public String decryptCustomerMessage(String message){
 	    	String text="";
 	    	try{
-	    		String filePath = "/sbs/src/main/webapp/WEB-INF/keys/PrivateKey.ser";
+	    		String filePath = "src/main/webapp/WEB-INF/keys/PrivateKey.ser";
 	    		PrivateKey privateKey = (PrivateKey)deserializeSecurityObject(filePath);
 	    		text=decrypt(message,privateKey);    	}
 	    	catch(Exception ex){
@@ -77,7 +75,7 @@ public class CertificateGeneration {
 	    public String ecryptCustomerMessage(String userName, String message){
 	    	String text="";    	
 	    	try{
-	    		String filePath = "/sbs/src/main/webapp/WEB-INF/keys/"+userName+"PublicKey.ser"; 
+	    		String filePath = "d:\\"+userName+"PublicKey.ser"; 
 	    		PublicKey publicKey = (PublicKey)deserializeSecurityObject(filePath);
 	    		text = encrypt(message,publicKey);
 	    	}
@@ -89,7 +87,7 @@ public class CertificateGeneration {
 	    
 	    public static String[] certificateGeneration(String userName){
 	    	try{       	
-	       X509Certificate bankCertificate = (X509Certificate)deserializeSecurityObject("/sbs/src/main/webapp/WEB-INF/keys/Certificate.ser");      
+	       X509Certificate bankCertificate = (X509Certificate)deserializeSecurityObject("d:\\Certificate.ser");      
 	       CertAndKeyGen keyGen=new CertAndKeyGen("RSA","SHA1WithRSA",null);
 	       keyGen.generate(1024);
 	       PrivateKey userPrivateKey=keyGen.getPrivateKey();      
@@ -113,13 +111,13 @@ public class CertificateGeneration {
 	        String fileName="";
 	        try{
 	        	if(key instanceof PrivateKey){
-	        		fileName = "/sbs/src/main/webapp/WEB-INF/keys/"+userName+PkiConstants.UserFileExtensionPrivate;
+	        		fileName = "d:\\"+userName+PkiConstants.UserFileExtensionPrivate;
 	        	}
 	        	else if(key instanceof PublicKey){
-	        		fileName = "/sbs/src/main/webapp/WEB-INF/keys/"+userName+PkiConstants.UserFileExtensionPublic;
+	        		fileName = "d:\\"+userName+PkiConstants.UserFileExtensionPublic;
 	        	}
 	        	else if(key instanceof X509Certificate){
-	        		fileName = "/sbs/src/main/webapp/WEB-INF/keys/"+userName+PkiConstants.UserFileExtensionCertificate;
+	        		fileName = "d:\\"+userName+PkiConstants.UserFileExtensionCertificate;
 	        	}            
 	         FileOutputStream fout = new FileOutputStream(fileName);
 	         ObjectOutputStream oos = new ObjectOutputStream(fout);   
@@ -222,8 +220,8 @@ public class CertificateGeneration {
 	        properties.put("mail.smtp.port", port);
 	        properties.put("mail.smtp.auth", "true");
 	        properties.put("mail.smtp.starttls.enable", "true");
-	        properties.put("mail.user", "vankineni.jaswitha@gmail.com");
-	        properties.put("mail.password", "Mahendra123");
+	        properties.put("mail.user", mailFrom);
+	        properties.put("mail.password", password);
 	        
 	        // creates a new session with an authenticator
 	    /*  Authenticator auth = new Authenticator() {
@@ -311,7 +309,7 @@ public class CertificateGeneration {
 	private static void writeCertificate(String userName, String certificate){        
 	     
 	    System.out.println(certificate);
-	        String filename = "/sbs/src/main/webapp/WEB-INF/keys/" + userName + "_Certificate.txt";
+	        String filename = "d:\\" + userName + "_Certificate.txt";
 	       
 	        try {
 	            FileWriter fileWriter = new FileWriter(filename);

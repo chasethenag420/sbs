@@ -12,6 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.asu.cse545.group12.hashing.HashGenerator;
+import com.asu.cse545.group12.pki.Encryption;
 import com.asu.cse545.group12.constantfile.Const;
 import com.asu.cse545.group12.dao.AccountDao;
 import com.asu.cse545.group12.dao.AuthorizationDao;
@@ -236,7 +237,10 @@ public class TransactionsServiceImpl implements TransactionsService {
 	@Override
 	public void sendOTPviaEmail(Users user)
 	{
+		Encryption encrypt = new Encryption();
 		String OTP = generateOTP();
+		String userName=user.getUserName();
+		String encryptedOTP=encrypt.doEncrypt(OTP, "d:\\"+userName+"PublicKey.ser");
 		user.setOTP(OTP);
 		userDao.updateRow(user);
 		
@@ -251,7 +255,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 		String subject = "OTP for Successful Transaction";
 
 		// email body
-		String body = "Dear "+user.getFirstName()+" "+user.getLastName()+",\n\n One Time Password for your transaction. \n\n OTP: "+user.getOTP()+"\n\n You need to input the OTP in the prompt for processing transaction. \n Have a good day!";
+		String body = "Dear "+user.getFirstName()+" "+user.getLastName()+",\n\n One Time Password for your transaction. \n\n OTP: "+encryptedOTP+"\n\n You need to input the OTP in the prompt for processing transaction. \n Have a good day!";
 
 		emailAPI.setToEmailAddress(toAddr);
 		emailAPI.setBody(body);

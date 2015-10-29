@@ -10,6 +10,7 @@ public class Check {
 		attachments=certGen.certificateGeneration("srikanth");
 		
 		certGen.sendNotificationEmail("srikanth", attachments);
+		
 	}
 
 }
