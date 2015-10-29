@@ -139,7 +139,7 @@ public class CertificateGeneration {
 	              
 	            byte[] inCertBytes = certificate.getTBSCertificate();
 	            X509CertInfo info = new X509CertInfo(inCertBytes);
-	            info.set(X509CertInfo.ISSUER, issuer);              
+	            info.set(X509CertInfo.ISSUER, (X500Name) issuer);              
 	            if(!certificate.getSubjectDN().getName().equals("CN=BankOfTempe")){
 	                CertificateExtensions exts=new CertificateExtensions();
 	                BasicConstraintsExtension bce = new BasicConstraintsExtension(true, -1);
