@@ -14,13 +14,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="web_resources/theme/css/main.css" rel="stylesheet">
 
-<!--<link href="web_resources/theme/css/bootstrap.min.css" rel="stylesheet"> -->
-<link
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- jQuery library -->
-
-
 <link href="web_resources/theme/css/bootstrap.min.css" rel="stylesheet">
 
 
