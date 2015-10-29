@@ -177,7 +177,7 @@ public class CreateExternalUserValidator implements Validator{
 		{
 			String middleName = user.getMiddleName();
 
-			if(middleName!=null && !middleName.matches("[A-Za-z ]+"))
+			if(middleName!=null && !"".equals(middleName)&& !middleName.matches("[A-Za-z ]+"))
 			{
 				errors.rejectValue("middleName", "not-string", "Enter only alphabetic Middle Name");
 			}
