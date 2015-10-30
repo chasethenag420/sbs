@@ -496,7 +496,8 @@ public class TransactionController {
 				}
 				else
 				{
-
+					String messages="Successful"+"\n";
+					
 					//update transaction
 					Transactions debitTransaction = transactionDao.getTransactionByTransactionId(Integer.parseInt(transactionID));
 					debitTransaction.setTransactionStatus(Const.PENDING);
@@ -524,11 +525,21 @@ public class TransactionController {
 							Authorization authorization = authorizationDao.getAuthorizationByTransactionId(Integer.parseInt(transactionID));
 							authorization.setRequestStatus(Const.PENDING);
 							authorizationDao.updateRow(authorization);
-
-							modelView.addObject("successfulMessage", "Successful! The transfer request is sent to bank official. Wait for approval.");
+							messages = messages+"\n "+ "Successful! The transfer request is sent to bank official. Wait for approval.";
 						}
 						else
-							modelView.addObject("successfulMessage", "Successful! The transfer is done from account: "+debitTransaction.getAccountNumber()+" to account: "+creditTransaction.getAccountNumber());
+						{
+							if(("non-critical").equalsIgnoreCase(debitTransaction.getSeverity()) && ("non-critical").equalsIgnoreCase(creditTransaction.getSeverity()))
+							{
+								debitTransaction.setTransactionStatus(Const.APPROVED);
+								creditTransaction.setTransactionStatus(Const.APPROVED);
+								transactionDao.updateRow(debitTransaction);
+								transactionDao.updateRow(creditTransaction);
+								accountService.doDebit(debitTransaction.getAccountNumber(), debitTransaction.getAmount());
+								accountService.doCredit(creditTransaction.getAccountNumber(), creditTransaction.getAmount());
+							}
+							messages = messages+"\n "+ "Successful! The transfer is done from account: "+debitTransaction.getAccountNumber()+" to account: "+creditTransaction.getAccountNumber();
+						}
 					}
 					//don't check amount for payMerchant
 					else if (transactionType.equals(Const.PAY_MERCHANT_REQUEST))
