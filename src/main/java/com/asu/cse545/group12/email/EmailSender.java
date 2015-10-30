@@ -5,31 +5,37 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 
 import com.asu.cse545.group12.domain.Users;
+import com.asu.cse545.group12.pki.CertificateGeneration;
 
 public class EmailSender {
 
 	//send the PII attachment to government agency
-		public static void sendPIIEmail(Users governmentUser, Users piiUser, FileSystemResource file )
+		public static void sendPIIEmail(Users governmentUser, Users piiUser, String [] attachments )
 		{
 
-			String configFile = "com/asu/cse545/group12/email/mail-config.xml";
-			ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(configFile);
+			
 
-			// @Service("emailService") <-- same annotation you specified in crunchifyEmailAPI.java
-			EmailSenderAPI emailAPI = (EmailSenderAPI) context.getBean("emailSenderService");
-			String toAddr = governmentUser.getEmailId();
-
-			// email subject
+			String host = "smtp.gmail.com";
+			String port = "587";
+			String mailFrom = "	bankoftempe@gmail.com";
+			String password = "bankoftempe12";
+			//String email 
+			// message info
+			String mailTo = governmentUser.getEmailId();
 			String subject = "PII Information of "+piiUser.getFirstName()+" "+piiUser.getLastName();
-			String attachmentName = ""+piiUser.getFirstName()+"-"+piiUser.getLastName()+"-PII.pdf";
-			// email body
-			String body = "Dear "+governmentUser.getFirstName()+" "+governmentUser.getLastName()+",\n\n Please find attached PDF. \n Have a good day!";
+			String message = "Dear "+governmentUser.getFirstName()+" "+governmentUser.getLastName()+",<br/><br/> Please find attached PDF. <br/> Have a good day!";
 
-			emailAPI.setToEmailAddress(toAddr);
-			emailAPI.setBody(body);
-			emailAPI.setSubject(subject);
-			emailAPI.sendEmail(attachmentName, file);
-			context.close();
+			
+
+			try {
+				CertificateGeneration certificateGeneration = new CertificateGeneration();
+				certificateGeneration.sendEmailWithAttachments(host, port, mailFrom, password, mailTo,
+						subject, message, attachments);
+				System.out.println("Email sent.");
+			} catch (Exception ex) {
+				System.out.println("Could not send email.");
+				ex.printStackTrace();
+			}
 		}
 
 
@@ -54,7 +60,9 @@ public class EmailSender {
 			emailAPI.setToEmailAddress(toAddr);
 			emailAPI.setBody(body);
 			emailAPI.setSubject(subject);
+			System.out.println("******hello");
 			emailAPI.sendEmail();
+			System.out.println("*****bye");
 			context.close();
 		}
 }
