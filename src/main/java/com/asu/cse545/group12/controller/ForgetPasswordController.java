@@ -250,6 +250,7 @@ public class ForgetPasswordController {
 			emailAPI.setBody(body);
 			emailAPI.setSubject(subject);
 			emailAPI.sendEmail();
+			context.close();
 		}
 		
 		

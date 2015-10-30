@@ -639,6 +639,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 					}
 					if(foundUser != null)
 					{
+						System.out.println("insided *");
 						final ServletContext servletContext = request.getSession().getServletContext();
 						final File tempDirectory = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
 						final String temperotyFilePath = tempDirectory.getAbsolutePath();
@@ -654,10 +655,16 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 						//FileInputStream inputStream = new FileInputStream(temperotyFilePath+"\\"+fileName);
 
 						FileSystemResource file = new FileSystemResource(temperotyFilePath+"\\"+fileName);
-						EmailSender.sendPIIEmail(governmentUser, foundUser, file);
+						System.out.println("Authorization impl "+temperotyFilePath+"\\"+fileName);
+						CertificateGeneration certificateGeneration = new CertificateGeneration();
+						String [] files = {temperotyFilePath+"\\"+fileName};
+						//certificateGeneration.sendNotificationEmail(governmentUser, files);
+						EmailSender.sendPIIEmail(governmentUser, foundUser, files);
+						System.out.println("Authorization impl 660"+temperotyFilePath+"\\"+fileName);
 					}
 					else
 					{
+						System.out.println("****");
 						EmailSender.sendPIIEmail(governmentUser, "There is no account holder with this SSN: "+authorization.getRequestDescription());
 					}
 				}
