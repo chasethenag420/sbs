@@ -76,9 +76,11 @@ label {
 					</tr>
 					<tr>
 
-						<td colspan="2"><input class="btn" type="submit" id="submit"
-							value="Submit" /> &nbsp; &nbsp; <input class="btn" type="submit"
-							id="cancel" value="Cancel" /></td>
+						<td colspan="2"><input class="btn" type="submit" id="submit" 
+							value="Submit" /> &nbsp; &nbsp; 
+						<a href="login">Cancel</a>
+							
+							</td>
 					</tr>
 				</table>
 				<div>
@@ -101,11 +103,11 @@ label {
 			}
 		});
 
-		$('#cancel').click(function() {
+	<!--	$('#cancel').click(function() {
 			$('#forgetPasswordForm').parsley().destroy();
-			$('#forgetPasswordForm').attr("action", "goBack");
+			$('#forgetPasswordForm').attr("action", "login");
 
-		});
+		});-->
 	</script>
 
 </body>
