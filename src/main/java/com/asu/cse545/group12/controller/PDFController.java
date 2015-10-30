@@ -62,6 +62,14 @@ public class PDFController {
 	public ModelAndView getCreditForm(HttpServletRequest request) {
 
 		String username = (String) request.getSession().getAttribute("username");
+		if(username == null || username.equals(""))
+		{
+			ModelAndView modelView= new ModelAndView();
+			modelView.addObject("error", "User does not exit. Enter valid username");
+
+			modelView.setViewName("login");
+			return modelView;
+		}
 		Users user = userDao.getUserByUserName(username);
 		List<String> accountNumbers = new ArrayList<String>();
 		for (Account account : accountService.getAccounts(user.getUserId())) {

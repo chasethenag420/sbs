@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -75,18 +77,44 @@ public class ForgetPasswordController {
 		Map<String, String> formMap = form.getMap();
 		String username = formMap.get("username");
 		String email = formMap.get("email");
+		if(username == null || username.equals("") || email == null || email.equals("") || !username.matches("[a-zA-Z0-9]+"))
+		{
+				ModelAndView modelView = new ModelAndView();
+				modelView.addObject("form", new Form());
+				modelView.addObject("errorMessage", "Username and/or email is not in correct format");
+
+				modelView.setViewName("forgetPassword");
+				return modelView;
+		}
+			
+			else
+			{
+				Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+				Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
+				if(!matcher.find())
+				{
+					ModelAndView modelView = new ModelAndView();
+					modelView.addObject("form", new Form());
+					modelView.addObject("errorMessage", "Username and/or email is not in correct format");
+
+					modelView.setViewName("forgetPassword");
+					return modelView;
+				}
+			}
+			
+		
 
 		Users user = userDao.getUserByUserName(username);
 		if(user == null)
 		{
-			ModelAndView modelView = new ModelAndView();
-			modelView.addObject("form", new Form());
-			modelView.addObject("errorMessage", "User does not exit. Enter valid username and email.");
+				ModelAndView modelView = new ModelAndView();
+				modelView.addObject("form", new Form());
+				modelView.addObject("errorMessage", "User does not exist");
 
-			modelView.setViewName("forgetPassword");
-			return modelView;
+				modelView.setViewName("forgetPassword");
+				return modelView;
 		}
-
+		
 		SecurityQuestions securityQuestions = securityQuestionsDao.getSecurityQuestionsByUserId(user.getUserId());
 		if(securityQuestions == null)
 		{
@@ -129,7 +157,7 @@ public class ForgetPasswordController {
 		String answer3 = formMap.get("answer3");
 		String email = formMap.get("email");
 		String username = formMap.get("username");
-
+		//username = null; //testing
 		Users user = userDao.getUserByUserName(username);
 		if(user == null)
 		{

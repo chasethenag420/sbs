@@ -138,6 +138,14 @@ public class SignUpController {
 
 		Map<String, String> formMap = form.getMap();
 		String username = formMap.get("username");
+		if(username == null || username.equals(""))
+		{
+			//ModelAndView modelView= new ModelAndView();
+			modelView.addObject("error", "User does not exit. Enter valid username");
+
+			modelView.setViewName("login");
+			return modelView;
+		}
 		Users user = userService.getUserByUserName(username);
 
 		userService.updateRowForOTP(user);

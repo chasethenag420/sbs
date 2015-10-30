@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.asu.cse545.group12.domain.Form;
 import com.asu.cse545.group12.domain.Users;
 import com.asu.cse545.group12.services.AccountService;
 import com.asu.cse545.group12.services.AuthorizationService;
@@ -46,9 +47,20 @@ public class HomePageController {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("individual");
 		String username = (String) request.getSession(false).getAttribute("username");
-		Users user = userService.getUserByUserName(username);
-		modelView.addObject("userinformation", user.getFirstName()+" "+user.getLastName());
-		return modelView;
+		//username = null; //testing
+		if(username == null || username.equals(""))
+		{
+			
+			modelView.addObject("error", "User does not exit. Enter valid username");
+
+			modelView.setViewName("login");
+			return modelView;
+		}
+		else{
+			Users user = userService.getUserByUserName(username);
+			modelView.addObject("userinformation", user.getFirstName()+" "+user.getLastName());
+			return modelView;
+		}
 	}
 	
 	@RequestMapping(value = "/accountDetails", method = RequestMethod.GET)
@@ -61,8 +73,19 @@ public class HomePageController {
 		modelView.setViewName("accountDetails");
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
-		modelView.addObject("accountsRows", accountService.getAccounts(userService.getUserByUserName(username).getUserId()));
-		return modelView;
+		//username = ""; //testing
+		if(username == null || username.equals(""))
+		{
+			
+			modelView.addObject("error", "User does not exit. Enter valid username");
+
+			modelView.setViewName("login");
+			return modelView;
+		}
+		else{
+			modelView.addObject("accountsRows", accountService.getAccounts(userService.getUserByUserName(username).getUserId()));
+			return modelView;
+		}
 	}
 	
 	
@@ -75,9 +98,20 @@ public class HomePageController {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("admin");
 		String username = (String) request.getSession(false).getAttribute("username");
+		
+		if(username == null || username.equals(""))
+		{
+			
+			modelView.addObject("error", "User does not exit. Enter valid username");
+
+			modelView.setViewName("login");
+			return modelView;
+		}
+		else{
 		Users user = userService.getUserByUserName(username);
 		modelView.addObject("userinformation", user.getFirstName()+" "+user.getLastName());
 		return modelView;
+		}
 	}
 	@RequestMapping(value = "/manager", method = RequestMethod.GET)
 	public ModelAndView getManagerHomePage(HttpServletRequest request) {
@@ -88,9 +122,19 @@ public class HomePageController {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("manager");
 		String username = (String) request.getSession(false).getAttribute("username");
+		if(username == null || username.equals(""))
+		{
+			
+			modelView.addObject("error", "User does not exit. Enter valid username");
+
+			modelView.setViewName("login");
+			return modelView;
+		}
+		else{
 		Users user = userService.getUserByUserName(username);
 		modelView.addObject("userinformation", user.getFirstName()+" "+user.getLastName());
 		return modelView;
+		}
 	}
 	@RequestMapping(value = "/regular", method = RequestMethod.GET)
 	public ModelAndView getRegularHomePage(HttpServletRequest request) {
@@ -101,9 +145,20 @@ public class HomePageController {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("regular");
 		String username = (String) request.getSession(false).getAttribute("username");
+		if(username == null || username.equals(""))
+		{
+			//ModelAndView modelView = new ModelAndView();
+			//modelView.addObject("form", new Form());
+			modelView.addObject("error", "User does not exit. Enter valid username");
+
+			modelView.setViewName("login");
+			return modelView;
+		}
+		else{
 		Users user = userService.getUserByUserName(username);
 		modelView.addObject("userinformation", user.getFirstName()+" "+user.getLastName());
 		return modelView;
+		}
 	}
 	@RequestMapping(value = "/merchant", method = RequestMethod.GET)
 	public ModelAndView getMerchantHomePage(HttpServletRequest request) {
@@ -114,9 +169,20 @@ public class HomePageController {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("merchant");
 		String username = (String) request.getSession(false).getAttribute("username");
-		Users user = userService.getUserByUserName(username);
-		modelView.addObject("userinformation", user.getFirstName()+" "+user.getLastName());
-		return modelView;
+		if(username == null || username.equals(""))
+		{
+			//ModelAndView modelView = new ModelAndView();
+			//modelView.addObject("form", new Form());
+			modelView.addObject("error", "User does not exit.");
+
+			modelView.setViewName("login");
+			return modelView;
+		}
+		else{
+			Users user = userService.getUserByUserName(username);
+			modelView.addObject("userinformation", user.getFirstName()+" "+user.getLastName());
+			return modelView;
+		}
 	}
 	
 	@RequestMapping(value = "/government", method = RequestMethod.GET)
@@ -128,8 +194,19 @@ public class HomePageController {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("government");
 		String username = (String) request.getSession(false).getAttribute("username");
+		if(username == null || username.equals(""))
+		{
+			//ModelAndView modelView = new ModelAndView();
+			//modelView.addObject("form", new Form());
+			modelView.addObject("error", "User does not exit. Enter valid username");
+
+			modelView.setViewName("login");
+			return modelView;
+		}
+		else{
 		Users user = userService.getUserByUserName(username);
 		modelView.addObject("userinformation", user.getFirstName()+" "+user.getLastName());
 		return modelView;
+		}
 	}
 }
