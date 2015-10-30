@@ -93,7 +93,7 @@
         <security:intercept-url pattern="/signup*" access="isAnonymous()" />
         <security:intercept-url pattern="/signUp*" access="isAnonymous()" />
         <security:intercept-url pattern="/404*" access="permitAll" />
-        <security:intercept-url pattern="/forgetPassword*" access="permitAll" />
+        <security:intercept-url pattern="/forgetPassword*" access="isAnonymous()" />
         <security:intercept-url pattern="/notifications*" access="isAuthenticated()" />
         <security:intercept-url pattern="/enterTransactionOTP*" access="isAuthenticated()" />
         <security:intercept-url pattern="/authorizationEntry*" access="isAuthenticated()" />

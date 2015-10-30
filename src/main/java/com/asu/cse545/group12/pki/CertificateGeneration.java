@@ -224,7 +224,7 @@ public class CertificateGeneration {
 
 
 
-	private void sendEmailWithAttachments(String host, String port,
+	public void sendEmailWithAttachments(String host, String port,
 			final String mailFrom, final String password, String mailTo, String subject,
 			String message, String[] attachFiles) throws AddressException, MessagingException, IOException {
 		Properties properties = new Properties();
@@ -326,7 +326,7 @@ public class CertificateGeneration {
 	private static void writeCertificate(String userName, String certificate){        
 
 		System.out.println(certificate);
-		String filename = "G:\\keys\\" + userName + "_Certificate.txt";
+		String filename = keysPath + userName + "_Certificate.txt";
 
 		try {
 			FileWriter fileWriter = new FileWriter(filename);
